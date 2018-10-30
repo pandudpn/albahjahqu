@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /application/
+Disallow: /assets/
+Disallow: /docs/
+Disallow: /engines/
+Disallow: /logs/
+Disallow: /maintenance/
+Disallow: /modules/
+Disallow: /single-page/
+Disallow: /sql/
+Disallow: /system/
+Disallow: /themes/
+Disallow: /uploads/
+
+Sitemap: http://sitename.com/sitemap.xml
