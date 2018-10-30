@@ -39,22 +39,7 @@
 */
 
 //variables in (:num), (:any), ([a-zA-Z_-]+)
-if($_SERVER['SERVER_NAME'] == 'admin.sinergi46.com' || $_SERVER['SERVER_NAME'] == 'localhost'){
-    $route['default_controller']  = 'home';
-    $route['category/(:num)']     = 'category/index/$1';
-    $route['tag/(:num)']          = 'tag/index/$1';
-    $route['promo/(:num)']        = 'promo/index/$1';
-    $route['product/(:num)']      = 'product/index/$1';
-    $route['gallery/(:num)']      = 'gallery/index/$1';
-    $route['gallery/image/(:num)']      = 'gallery/image/index/$1';
-    $route['gallery/image/(:num)/(:num)']      = 'gallery/image/index/$1/$2';
-    $route['user/admin/(:num)']   = 'user/admin/index/$1';
-    $route['facebook']            = 'references/facebook_connect';
-    $route['google']              = 'references/google_connect';
-}elseif($_SERVER['SERVER_NAME'] == 'article.sinergi46.com'){
-    $route['default_controller']  = 'front';
-    $route['(:any)']              = 'front/index/$1';
-}   
+$route['default_controller']  = 'home';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
