@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Denom</h4>
+            <h4 class="page-title float-left">Customers</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -24,17 +24,13 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Provider</th>
-                    <th>Description</th>
-                    <th>Dealer</th>
-                    <th>Biller</th>
-                    <th>Type</th>
-                    <th>Base Price</th>
-                    <th>Dealer Fee</th>
-                    <th>Dekape Fee</th>
-                    <th>Biller Fee</th>
-                    <!-- <th>Partner Fee</th> -->
-                    <th>User Fee</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Dealer Name</th>
+                    <th>Balance</th>
+                    <th>Account Status</th>
+                    <th>KYC Status</th>
                     <!-- <th style="width: 120px;">
                     	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
 					</th> -->
@@ -78,7 +74,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('prices/denom/datatables')?>",
+                "url": "<?php echo site_url('customers/datatables')?>",
                 "type": "POST"
             },
 
@@ -88,34 +84,6 @@
                 "targets": [ 0 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
-                { 
-                "targets": [ 5 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 6 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 7 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 8 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 9 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 10 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                // { 
-                // "targets": [ 11 ], //last column / new item column
-                // "orderable": false, //set not orderable
-                // }
             ]
         });
     });

@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class denom extends Admin_Controller {
+class kycs extends Admin_Controller {
 	
 	public function __construct() {
         parent::__construct();
-        $this->load->model('prices/denom_model', 'denom');
+        $this->load->model('customers/kyc_model', 'kyc');
 
         $this->load->helper('text');
 
@@ -14,12 +14,12 @@ class denom extends Admin_Controller {
     public function index()
     {
     	$this->template->set('alert', $this->session->flashdata('alert'))
-    					->build('denom/index');
+    					->build('kycs/index');
     }
 
     public function datatables()
     {
-        $list = $this->denom->get_datatables();
+        $list = $this->kyc->get_datatables();
         $data = array();
         $no   = $_POST['start'];
 
@@ -27,17 +27,15 @@ class denom extends Admin_Controller {
             $no++;
             $row   = array();
             $row[] = $no;
-            $row[] = $l->provider_name;
-            $row[] = $l->description;
-            $row[] = $l->dealer_name;
-            $row[] = $l->biller_code;
-            $row[] = $l->type;
-            $row[] = number_format($l->base_price);
-            $row[] = number_format($l->dealer_fee);
-            $row[] = number_format($l->dekape_fee);
-            $row[] = number_format($l->biller_fee);
-            // $row[] = $l->partner_fee;
-            $row[] = number_format($l->user_fee);
+            $row[] = $l->cus_name;
+            $row[] = $l->cus_phone;
+            $row[] = $l->cus_ktp;
+            $row[] = $l->cus_mother;
+            $row[] = $l->cus_job;
+            $row[] = '<a onclick="showimg(\''.$l->ktp_image.'\')" href="javascript:;">show image</a>';
+            $row[] = '<a onclick="showimg(\''.$l->selfie_image.'\')" href="javascript:;">show image</a>';
+            $row[] = $l->decision;
+            $row[] = $l->remarks;
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
             //             <i class="fa fa-pencil"></i>
@@ -54,8 +52,8 @@ class denom extends Admin_Controller {
  
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->denom->count_all(),
-            "recordsFiltered"   => $this->denom->count_filtered(),
+            "recordsTotal"      => $this->kyc->count_all(),
+            "recordsFiltered"   => $this->kyc->count_filtered(),
             "data"              => $data,
         );
         //output to json format

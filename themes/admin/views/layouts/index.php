@@ -185,20 +185,8 @@
                             </li>
 
                             <li>
-                                <a href="#" class="waves-effect">
+                                <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="<?php echo site_url('dealers'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-store"></i><span> Dealers </span> 
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="<?php echo site_url('billers'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-library"></i><span> Billers </span> 
                                 </a>
                             </li>
 
@@ -221,12 +209,6 @@
                                 </a>
                             </li>
 
-                            <li>
-                                <a href="<?php echo site_url('partners'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-label"></i><span> Partners </span> 
-                                </a>
-                            </li>
-
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect">
                                     <i class="zmdi zmdi-accounts"></i><span> Customers </span> 
@@ -234,9 +216,27 @@
                                 </a>
 
                                 <ul class="list-unstyled">
-                                    <li><a href="#">Customers</a></li>
-                                    <li><a href="#">KYC</a></li>
+                                    <li><a href="<?php echo site_url('customers'); ?>">Customers</a></li>
+                                    <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC</a></li>
                                 </ul>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo site_url('dealers'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-store"></i><span> Dealers </span> 
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo site_url('billers'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-library"></i><span> Billers </span> 
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo site_url('partners'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-label"></i><span> Partners </span> 
+                                </a>
                             </li>
 
                         </ul>
@@ -277,7 +277,7 @@
             <!-- ============================================================== -->
 
             <footer class="footer text-right">
-                <?php echo date('Y') ?> © sinergi46 admin.
+                <?php echo date('Y') ?> © okbabe admin.
             </footer>
 
 

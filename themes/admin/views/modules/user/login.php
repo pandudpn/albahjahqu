@@ -11,7 +11,7 @@
         <link rel="shortcut icon" href="<?php echo $this->template->get_theme_path();?>assets/images/favicon_bni.ico">
 
         <!-- App title -->
-        <title>Sinergi46 Admin - Login </title>
+        <title>Okbabe Admin - Login </title>
 
         <!-- Bootstrap CSS -->
         <link href="<?php echo $this->template->get_theme_path();?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />

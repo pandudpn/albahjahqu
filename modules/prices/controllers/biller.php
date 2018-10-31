@@ -30,10 +30,10 @@ class biller extends Admin_Controller {
             $row[] = $l->provider_name;
             $row[] = $l->remarks;
             $row[] = $l->biller_name;
-            $row[] = $l->dealer_fee;
-            $row[] = $l->dekape_fee;
-            $row[] = $l->biller_fee;
-            $row[] = $l->user_fee;
+            $row[] = number_format($l->dealer_fee);
+            $row[] = number_format($l->dekape_fee);
+            $row[] = number_format($l->biller_fee);
+            $row[] = number_format($l->user_fee);
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
             //             <i class="fa fa-pencil"></i>

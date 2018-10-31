@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Denom</h4>
+            <h4 class="page-title float-left">KYCs</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -19,22 +19,20 @@
                 </button>
 	    		<?php echo $alert['msg']; ?>
 	    	</div>
-	    	<?php } ?> 
+	    	<?php } ?>
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Provider</th>
-                    <th>Description</th>
-                    <th>Dealer</th>
-                    <th>Biller</th>
-                    <th>Type</th>
-                    <th>Base Price</th>
-                    <th>Dealer Fee</th>
-                    <th>Dekape Fee</th>
-                    <th>Biller Fee</th>
-                    <!-- <th>Partner Fee</th> -->
-                    <th>User Fee</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>KTP</th>
+                    <th>Mother</th>
+                    <th>Job</th>
+                    <th>KTP Image</th>
+                    <th>Selfie Image</th>
+                    <th>Decision</th>
+                    <th>Remarks</th>
                     <!-- <th style="width: 120px;">
                     	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
 					</th> -->
@@ -68,6 +66,25 @@
     </div>
 </div>
 
+<!-- Modal IMG-->
+<div class="modal fade bs-example-modal-sm" id="modal-img" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" class="img-fluid" id="image-src">
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#datatable').DataTable({ 
@@ -78,7 +95,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('prices/denom/datatables')?>",
+                "url": "<?php echo site_url('customers/kycs/datatables')?>",
                 "type": "POST"
             },
 
@@ -88,34 +105,6 @@
                 "targets": [ 0 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
-                { 
-                "targets": [ 5 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 6 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 7 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 8 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 9 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 10 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                // { 
-                // "targets": [ 11 ], //last column / new item column
-                // "orderable": false, //set not orderable
-                // }
             ]
         });
     });
@@ -124,5 +113,13 @@
     {
         $("#confirm").attr('href', url)
         $("#modal-alert").modal('show')
+    }
+
+    function showimg(url)
+    {
+        $("#image-src").attr('src', '');
+        $("#image-src").attr('src', url);
+
+        $("#modal-img").modal('show');
     }
 </script>

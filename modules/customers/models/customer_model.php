@@ -1,16 +1,15 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class post_model extends MY_Model {
+class customer_model extends MY_Model {
 
-	protected $table        = 'posts';
-    protected $key          = 'id';
-    protected $date_format  = 'datetime';
-    protected $set_created  = true;
-    protected $soft_deleted = true;
+	protected $table         	= 'customers';
+    protected $key           	= 'id';
+    protected $date_format   	= 'datetime';
+    protected $set_created   	= true;
 
-    protected $column_order  = array(null,'title','author_name','category_name','view','status','created_on'); //set column field database for datatable orderable
-    protected $column_search = array('title','author_name','category_name','status'); //set column field database for datatable searchable 
-    protected $order 		 = array('id' => 'desc'); // default order 
+    protected $column_order  = array(null, 'name', 'phone', 'email', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable orderable
+    protected $column_search = array('name', 'phone', 'email', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable searchable 
+    protected $order 		 = array('customers.name' => 'asc'); // default order 
 
     public function __construct()
     {
@@ -19,9 +18,8 @@ class post_model extends MY_Model {
 
     public function _get_datatables_query()
     {
-         
         $this->db->from($this->table);
- 
+        
         $i = 0;
      
         foreach ($this->column_search as $item) // loop column 
@@ -42,11 +40,11 @@ class post_model extends MY_Model {
                 if(count($this->column_search) - 1 == $i) //last loop
                     $this->db->close_bracket(); //close bracket
             }
+
             $i++;
         }
 
-        //deleted = 0
-        $this->db->where('deleted', '0');
+        $this->db->where($this->table.'.deleted', '0');
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -82,39 +80,4 @@ class post_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
-    public function related($id)
-    {
-        $tags = $this->db->select('tag_name');
-        $tags = $this->db->from('post_tags');
-        $tags = $this->db->where('post_id', $id);
-        $tags = $this->db->where('deleted', '0');
-        $tags = $this->db->where('tag_name <>', 'NULL');
-        $tags = $this->db->get()->result();
-
-        if(!empty($tags))
-        {
-            $news = $this->db->distinct();
-            $news = $this->db->select('post_id, title, slug, intro, content, featured_image, featured_video, posts.created_on');
-            $news = $this->db->from($this->table);
-            $news = $this->db->join('post_tags', 'post_tags.post_id = posts.id');
-            $news = $this->db->where('post_id <>', $id);
-            $news = $this->db->where('posts.deleted', '0');
-            $news = $this->db->where('post_tags.deleted', '0');
-
-            foreach ($tags as $key => $t) {
-                $tag .= 'tag_name like \'%'.$t->tag_name. '%\' OR ';
-            }
-
-            $tag  = rtrim($tag, ' OR ');
-
-            if(!empty($tag))
-            {
-                $news = $this->db->where('('.$tag.')');
-            }
-
-            $news = $this->db->get()->result();
-
-            return $news;
-        }
-    }
 }

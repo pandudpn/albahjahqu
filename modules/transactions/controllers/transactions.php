@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class denom extends Admin_Controller {
+class transactions extends Admin_Controller {
 	
 	public function __construct() {
         parent::__construct();
-        $this->load->model('prices/denom_model', 'denom');
+        $this->load->model('transactions/transaction_model', 'transaction');
 
         $this->load->helper('text');
 
@@ -14,12 +14,12 @@ class denom extends Admin_Controller {
     public function index()
     {
     	$this->template->set('alert', $this->session->flashdata('alert'))
-    					->build('denom/index');
+    					->build('index');
     }
 
     public function datatables()
     {
-        $list = $this->denom->get_datatables();
+        $list = $this->transaction->get_datatables();
         $data = array();
         $no   = $_POST['start'];
 
@@ -27,17 +27,12 @@ class denom extends Admin_Controller {
             $no++;
             $row   = array();
             $row[] = $no;
-            $row[] = $l->provider_name;
-            $row[] = $l->description;
-            $row[] = $l->dealer_name;
-            $row[] = $l->biller_code;
-            $row[] = $l->type;
-            $row[] = number_format($l->base_price);
-            $row[] = number_format($l->dealer_fee);
-            $row[] = number_format($l->dekape_fee);
-            $row[] = number_format($l->biller_fee);
-            // $row[] = $l->partner_fee;
-            $row[] = number_format($l->user_fee);
+            $row[] = $l->trx_code;
+            $row[] = $l->remarks;
+            $row[] = $l->destination_no;
+            $row[] = 'Rp. '.number_format($l->selling_price);
+            $row[] = $l->status;
+            $row[] = $l->created_on;
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
             //             <i class="fa fa-pencil"></i>
@@ -54,8 +49,8 @@ class denom extends Admin_Controller {
  
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->denom->count_all(),
-            "recordsFiltered"   => $this->denom->count_filtered(),
+            "recordsTotal"      => $this->transaction->count_all(),
+            "recordsFiltered"   => $this->transaction->count_filtered(),
             "data"              => $data,
         );
         //output to json format
