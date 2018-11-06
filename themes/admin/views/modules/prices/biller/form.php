@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-xl-12">
+        <div class="page-title-box">
+            <h4 class="page-title float-left"><?php echo $title; ?></h4>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
+        	<?php if($alert){ ?>
+	    	<div class="alert alert-<?php echo $alert['type']; ?>">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+	    		<?php echo $alert['msg']; ?>
+	    	</div>
+	    	<?php } ?> 
+            
+            <div class="row">
+                <div class="col-6">
+                    <form method="post" action="<?php echo site_url('prices/biller/save'); ?>">
+                    <input type="hidden" value="<?php echo $biller->id; ?>" name="id">
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Biller</label>
+                            <div class="col-9">
+                                <select class="form-control select2" name="biller">
+                                    <?php foreach($ref_biller as $bill){ 
+                                            if($bill->id == $biller->biller_id){
+                                                echo "<option selected value='$bill->id'> $bill->name </option>";
+                                            }else{
+                                                echo "<option value='$bill->id'> $bill->name </option>";
+                                            }
+                                        } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Service</label>
+                            <div class="col-9">
+                                <select class="form-control select2" name="service">
+                                    <?php foreach($service_code as $serv){ 
+                                            if($serv->id == $biller->service_id){
+                                                echo "<option selected value='$serv->id'> $serv->remarks </option>";
+                                            }else{
+                                                echo "<option value='$serv->id'> $serv->remarks </option>";
+                                            }
+                                        } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Provider Code</label>
+                            <div class="col-9">
+                                <input class="form-control" type="text" name="provider_code" value="<?php echo $biller->provider_code; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Base Price</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="base_price" value="<?php echo $biller->base_price; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Biller Fee</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="biller_fee" value="<?php echo $biller->biller_fee; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Dekape Fee</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="dekape_fee" value="<?php echo $biller->dekape_fee; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Dealer Fee</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="dealer_fee" value="<?php echo $biller->dealer_fee; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Partner Fee</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="partner_fee" value="<?php echo $biller->partner_fee; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">User Fee</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="user_fee" value="<?php echo $biller->user_fee; ?>">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div> <!-- end row -->

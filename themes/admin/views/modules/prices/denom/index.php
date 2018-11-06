@@ -11,6 +11,11 @@
 
 <div class="row">
     <div class="col-12">
+        <div class="p-20">
+            <a href="<?php echo site_url('prices/denom/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Add Denom</button>
+            </a>
+        </div>
         <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
@@ -33,11 +38,8 @@
                     <th>Dealer Fee</th>
                     <th>Dekape Fee</th>
                     <th>Biller Fee</th>
-                    <!-- <th>Partner Fee</th> -->
                     <th>User Fee</th>
-                    <!-- <th style="width: 120px;">
-                    	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
-					</th> -->
+                    <th style="width:80px;">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -111,7 +113,7 @@
                 { 
                 "targets": [ 10 ], //last column / new item column
                 "orderable": false, //set not orderable
-                },
+                }
                 // { 
                 // "targets": [ 11 ], //last column / new item column
                 // "orderable": false, //set not orderable

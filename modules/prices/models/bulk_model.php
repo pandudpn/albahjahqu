@@ -9,6 +9,7 @@ class bulk_model extends MY_Model {
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
+    protected $soft_deletes     = true;
 
     protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_bulk_prices.description', 'prepaid_bulk_prices.dealer_name'); //set column field database for datatable orderable
     protected $column_search = array('ref_service_providers.name', 'prepaid_bulk_prices.description', 'prepaid_bulk_prices.dealer_name'); //set column field database for datatable searchable 
@@ -21,7 +22,7 @@ class bulk_model extends MY_Model {
 
     public function _get_datatables_query()
     {
-         
+        $this->db->select($this->table.'.id', false);
         $this->db->select($this->table_provider.'.name as provider_name', false);
         $this->db->select($this->table.'.description', false);
         $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
