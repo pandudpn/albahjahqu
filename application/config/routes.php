@@ -41,5 +41,17 @@
 //variables in (:num), (:any), ([a-zA-Z_-]+)
 $route['default_controller']  = 'home';
 
+$route['dealers/boxes']               = 'dealers/boxes/main';
+$route['dealers/boxes/add']           = 'dealers/boxes/main/add';
+$route['dealers/boxes/edit/(:num)']   = 'dealers/boxes/main/edit/$1';
+$route['dealers/boxes/save']          = 'dealers/boxes/main/save';
+$route['dealers/boxes/delete/(:num)'] = 'dealers/boxes/main/delete/$1';
+$route['dealers/boxes/datatables']    = 'dealers/boxes/main/datatables';
+
+$route['dealers/boxes/(:num)/service']             = 'dealers/boxes/service/index/$1';
+$route['dealers/boxes/(:num)/service/add']         = 'dealers/boxes/service/add/$1';
+$route['dealers/boxes/(:num)/service/edit/(:num)'] = 'dealers/boxes/service/edit/$1/$2';
+$route['dealers/boxes/(:num)/service/datatables']  = 'dealers/boxes/service/datatables/$1';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

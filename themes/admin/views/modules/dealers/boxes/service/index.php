@@ -1,19 +1,25 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left"><?php echo $title; ?></h4>
+            <h4 class="page-title float-left">Box Services</h4>
 
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
-<!-- end row -->
+<div class="row">
+    <div class="col-12">
+        <div class="card-box">
 
+        </div> 
+    </div>
+</div>
+</div>
 <div class="row">
     <div class="col-12">
         <div class="p-20">
-            <a href="<?php echo site_url('prices/biller/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Add Biller Price </button>
+            <a href="<?php echo site_url('dealers/boxes/'.$box_id.'/service/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Add Box Service </button>
             </a>
         </div>
         <div class="card-box table-responsive" style="overflow-x: auto;">
@@ -29,13 +35,16 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Provider</th>
-                    <th>Description</th>
-                    <th>Biller</th>
-                    <th>Dealer Fee</th>
-                    <th>Dekape Fee</th>
-                    <th>Biller Fee</th>
-                    <th>User Fee</th>
+                    <th>Dealer</th>
+                    <th>IP Box</th>
+                    <th>Type</th>
+                    <th>Slot</th>
+                    <th>Operator</th>
+                    <th>Service</th>
+                    <th>Coverage</th>
+                    <th>MSISDN</th>
+                    <th>PINSIM</th>
+                    <th>Status</th>
                     <th width="90">Action</th>
                 </tr>
                 </thead>
@@ -44,7 +53,7 @@
             </table>
         </div>
     </div>
-</div> <!-- end row -->
+</div> 
 
 <!-- Modal Alert Delete-->
 <div class="modal fade bs-example-modal-sm" id="modal-alert" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -77,7 +86,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('prices/biller/datatables')?>",
+                "url": "<?php echo site_url('dealers/boxes/'.$box_id.'/service/datatables')?>",
                 "type": "POST"
             },
 
@@ -87,22 +96,6 @@
                 "targets": [ 0 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
-                { 
-                "targets": [ 4 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 5 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 6 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 7 ], //last column / new item column
-                "orderable": false, //set not orderable
-                }
             ]
         });
     });

@@ -15,8 +15,10 @@ class biller extends Admin_Controller {
 
     public function index()
     {
-    	$this->template->set('alert', $this->session->flashdata('alert'))
-    					->build('biller/index');
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Biller Price')
+            ->build('biller/index');
     }
 
     public function add()
@@ -26,6 +28,7 @@ class biller extends Admin_Controller {
         
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Add Biller Price')
             ->set('ref_biller', $ref_biller)
             ->set('service_code', $service_code)
     		->build('biller/form');
@@ -43,7 +46,7 @@ class biller extends Admin_Controller {
             
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
-                ->set('title', 'Edit Biller')
+                ->set('title', 'Edit Biller Price')
                 ->set('ref_biller', $ref_biller)
                 ->set('service_code', $service_code)
                 ->set('biller', $biller_data)
