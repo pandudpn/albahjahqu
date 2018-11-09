@@ -121,6 +121,7 @@ class Main extends Admin_Controller {
                 $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'NAP', $slot_max);
             }
 
+            $this->generate_box_stock($dealer_id, $dealer_name, $ipbox, $slot_max);
 
             redirect(site_url('dealers/boxes'), 'refresh');
         }else{
@@ -152,6 +153,25 @@ class Main extends Admin_Controller {
         return true;
     }
 
+    private function generate_box_stock($dealer_id, $dealer_name, $ipbox, $maxslot){
+        $data = array();
+
+        for($i=1;$i<=$maxslot; $i++){
+            $stock = array(
+                'dealer_id' => $dealer_id,
+                'dealer_name' => $dealer_name,
+                'ipbox' => $ipbox,
+                'slot' => $i
+            );
+
+            array_push($data, $stock);
+        }
+
+        $this->db->insert_batch('dealer_box_stocks', $data);
+
+        return true;
+    }
+
     public function delete($id)
     {
         $delete = $this->dealer_boxes->delete($id);
@@ -176,11 +196,15 @@ class Main extends Admin_Controller {
             $row[] = $l->status;
             // $row[] = $l->partner_fee;
 
-            $btn   = '<a href="'.site_url('dealers/boxes/'.$l->id.'/service').'" class="btn btn-primary btn-sm">
-                        <i class="fa fa-eye"></i>
+            $detail   = '<a href="'.site_url('dealers/boxes/'.$l->id.'/service').'" title="Service" class="btn btn-primary btn-sm">
+                        <i class="fa fa-sitemap"></i>
                       </a> &nbsp;';
 
-            $btn   .= '<a href="'.site_url('dealers/boxes/edit/'.$l->id).'" class="btn btn-success btn-sm">
+            $detail   .= '<a href="'.site_url('dealers/boxes/'.$l->id.'/stock').'" title="Stock" class="btn btn-primary btn-sm">
+                        <i class="fa fa-bar-chart-o"></i>
+                      </a> &nbsp;';
+
+            $btn   = '<a href="'.site_url('dealers/boxes/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>
                       </a> &nbsp;';
 
@@ -188,6 +212,7 @@ class Main extends Admin_Controller {
                         <i class="fa fa-trash"></i>
                       </a>';
 
+            $row[]  = $detail;
             $row[]  = $btn;
 
             $data[] = $row;

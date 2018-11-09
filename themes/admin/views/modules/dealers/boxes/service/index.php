@@ -43,7 +43,6 @@
                     <th>Service</th>
                     <th>Coverage</th>
                     <th>MSISDN</th>
-                    <th>PINSIM</th>
                     <th>Status</th>
                     <th width="90">Action</th>
                 </tr>

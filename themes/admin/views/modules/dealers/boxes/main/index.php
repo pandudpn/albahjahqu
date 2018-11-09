@@ -33,7 +33,8 @@
                     <th>Type</th>
                     <th>Slot Max</th>
                     <th>Status</th>
-                    <th width="90">Action</th>
+                    <th width="60">Detail</th>
+                    <th width="60">Action</th>
                 </tr>
                 </thead>
                 <tbody>

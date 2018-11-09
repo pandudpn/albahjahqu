@@ -17,11 +17,12 @@ class dealer_box_services_model extends MY_Model {
         parent::__construct();
     }
 
-    public function _get_datatables_query()
+    public function _get_datatables_query($ip_box)
     {
          
         $this->db->select('*');
         $this->db->from($this->table);
+        $this->db->where('ipbox', $ip_box);
         
         $i = 0;
      
@@ -60,27 +61,42 @@ class dealer_box_services_model extends MY_Model {
         }
     }
  
-    public function get_datatables()
+    public function get_datatables($ip_box)
     {
-        $this->_get_datatables_query();
+        $this->_get_datatables_query($ip_box);
         if($_POST['length'] != -1)
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }
  
-    public function count_filtered()
+    public function count_filtered($ip_box)
     {
-        $this->_get_datatables_query();
+        $this->_get_datatables_query($ip_box);
         $query = $this->db->get();
         return $query->num_rows();
     }
  
-    public function count_all()
+    public function count_all($ip_box)
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
+        $this->db->where('ipbox', $ip_box);
+        
         return $this->db->count_all_results();
+    }
+
+    public function max_slot($ip_box, $service_type)
+    {
+        $this->db->select_max('slot');
+        $this->db->from($this->table);
+        $this->db->where('ipbox', $ip_box);
+        $this->db->where('service_type', $service_type);
+        $this->db->where('deleted', '0');
+        
+        $query = $this->db->get();
+        
+        return $query->result();
     }
 
 }

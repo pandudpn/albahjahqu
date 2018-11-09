@@ -48,10 +48,19 @@ $route['dealers/boxes/save']          = 'dealers/boxes/main/save';
 $route['dealers/boxes/delete/(:num)'] = 'dealers/boxes/main/delete/$1';
 $route['dealers/boxes/datatables']    = 'dealers/boxes/main/datatables';
 
-$route['dealers/boxes/(:num)/service']             = 'dealers/boxes/service/index/$1';
-$route['dealers/boxes/(:num)/service/add']         = 'dealers/boxes/service/add/$1';
-$route['dealers/boxes/(:num)/service/edit/(:num)'] = 'dealers/boxes/service/edit/$1/$2';
-$route['dealers/boxes/(:num)/service/datatables']  = 'dealers/boxes/service/datatables/$1';
+$route['dealers/boxes/(:num)/service']               = 'dealers/boxes/service/index/$1';
+$route['dealers/boxes/(:num)/service/add']           = 'dealers/boxes/service/add/$1';
+$route['dealers/boxes/(:num)/service/edit/(:num)']   = 'dealers/boxes/service/edit/$1/$2';
+$route['dealers/boxes/(:num)/service/delete/(:num)'] = 'dealers/boxes/service/delete/$1/$2';
+$route['dealers/boxes/service/save']                 = 'dealers/boxes/service/save';
+$route['dealers/boxes/(:num)/service/datatables']    = 'dealers/boxes/service/datatables/$1';
+
+$route['dealers/boxes/(:num)/stock']               = 'dealers/boxes/stock/index/$1';
+$route['dealers/boxes/(:num)/stock/add']           = 'dealers/boxes/stock/add/$1';
+$route['dealers/boxes/(:num)/stock/edit/(:num)']   = 'dealers/boxes/stock/edit/$1/$2';
+$route['dealers/boxes/(:num)/stock/delete/(:num)'] = 'dealers/boxes/stock/delete/$1/$2';
+$route['dealers/boxes/stock/save']                 = 'dealers/boxes/stock/save';
+$route['dealers/boxes/(:num)/stock/datatables']    = 'dealers/boxes/stock/datatables/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

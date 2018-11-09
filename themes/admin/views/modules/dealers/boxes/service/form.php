@@ -22,105 +22,85 @@
             
             <div class="row">
                 <div class="col-6">
-                    <form method="post" action="<?php echo site_url('dealers/boxes/main/save'); ?>">
+                    <form method="post" action="<?php echo site_url('dealers/boxes/service/save'); ?>">
                         
-                        <input type="hidden" value="<?php echo $boxes->id; ?>" name="id">
+                        <input type="hidden" value="<?php echo $boxes->id; ?>" name="box_id">
+                        <input type="hidden" value="<?php echo $service_boxes->id; ?>" name="id">
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Dealer</label>
-                            <div class="col-9">
-                                <select class="form-control select2" name="dealer">
-                                    <?php foreach($dealer as $deal){ 
-                                            if($deal->id == $boxes->dealer_id){
-                                                echo "<option selected value='$deal->id'> $deal->name </option>";
-                                            }else{
-                                                echo "<option value='$deal->id'> $deal->name </option>";
-                                            }
-                                        } ?>
-                                </select>
+                            <label for="" class="col-3 col-form-label">Dealer Name</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="dealer_name" value="<?php echo $boxes->dealer_name; ?>" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">IP Box</label>
                             <div class="col-7">
-                                <input class="form-control" type="text" name="ipbox" value="<?php echo $boxes->ipbox; ?>">
+                                <input class="form-control" type="text" name="ipbox" value="<?php echo $boxes->ipbox; ?>" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Type</label>
                             <div class="col-7">
-                                <select class="form-control select2" name="type">
-                                    <option <?php if($boxes->type == 'new'){ echo 'selected'; } ?> value='new'>New</option>
-                                    <option <?php if($boxes->type == 'old'){ echo 'selected'; } ?> value='old'>Old</option>
+                                <input class="form-control" type="text" name="type" value="<?php echo $boxes->type; ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Operator</label>
+                            <div class="col-9">
+                                <select class="form-control select2" name="operator">
+                                    <?php foreach($provider as $prov){ 
+                                        if($prov->alias == $service_boxes->operator){
+                                            echo "<option selected='selected' value='$prov->alias'>$prov->name ($prov->alias)</option>";
+                                        }else{
+                                            echo "<option value='$prov->alias'>$prov->name ($prov->alias)</option>";
+                                        }
+                                        } ?>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Slot Max</label>
-                            <div class="col-7">
-                                <input class="form-control" type="text" name="slot_max" value="<?php echo $boxes->slot_max; ?>">
+                            <label for="" class="col-3 col-form-label">Service Type</label>
+                            <div class="col-9">
+                                <select class="form-control" name="service_type">
+                                    <option <?php if($service_boxes->category == 'REG'){ echo 'selected'; } ?> value='REG'>REG</option>
+                                    <option <?php if($service_boxes->category == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
+                                    <option <?php if($service_boxes->category == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
+                                    <option <?php if($service_boxes->category == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
+                                    <option <?php if($service_boxes->category == 'BLK'){ echo 'selected'; } ?> value='BLK'>BLK</option>
+                                    <option <?php if($service_boxes->category == 'DLK'){ echo 'selected'; } ?> value='DLK'>DLK</option>
+                                    <option <?php if($service_boxes->category == 'TLK'){ echo 'selected'; } ?> value='TLK'>TLK</option>
+                                    <option <?php if($service_boxes->category == 'NAP'){ echo 'selected'; } ?> value='NAP'>NAP</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-3">Service</label>
+                            <label for="" class="col-3 col-form-label">Coverage</label>
                             <div class="col-9">
-                                <div class="checkbox checkbox-primary">
-                                    <input id="serv_reg" name="serv_reg" type="checkbox">
-                                    <label for="serv_reg">
-                                        REG
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-primary">
-                                    <input id="serv_dat" name="serv_dat" type="checkbox">
-                                    <label for="serv_dat">
-                                        DAT
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-primary">
-                                    <input id="serv_pkd" name="serv_pkd" type="checkbox">
-                                    <label for="serv_pkd">
-                                        PKD
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-primary">
-                                    <input id="serv_pkt" name="serv_pkt" type="checkbox">
-                                    <label for="serv_pkt">
-                                        PKT
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-primary">
-                                    <input id="serv_blk" name="serv_blk" type="checkbox">
-                                    <label for="serv_blk">
-                                        BLK
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-primary">
-                                    <input id="serv_dlk" name="serv_dlk" type="checkbox">
-                                    <label for="serv_dlk">
-                                        DLK
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-primary">
-                                    <input id="serv_tlk" name="serv_tlk" type="checkbox">
-                                    <label for="serv_tlk">
-                                        TLK
-                                    </label>
-                                </div>
-                                <div class="checkbox checkbox-primary">
-                                    <input id="serv_nap" name="serv_nap" type="checkbox">
-                                    <label for="serv_nap">
-                                        NAP
-                                    </label>
-                                </div>
+                                <select class="form-control" name="service_coverage">
+                                    <option <?php if($service_boxes->category == 'inner'){ echo 'selected'; } ?> value='inner'>Inner</option>
+                                    <option <?php if($service_boxes->category == 'outer'){ echo 'selected'; } ?> value='outer'>Outer</option>
+                                </select>
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">MSISDN</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="msisdn" value="<?php echo $service_boxes->msisdn; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">PIN SIM</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="pinsim" value="<?php echo $service_boxes->pinsim; ?>">
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Status</label>
                             <div class="col-7">
                                 <select class="form-control select2" name="status">
-                                    <option <?php if($boxes->status == 'active'){ echo 'selected'; } ?> value='active'>Active</option>
-                                    <option <?php if($boxes->status == 'inactive'){ echo 'selected'; } ?> value='inactive'>Inactive</option>
+                                    <option <?php if($service_boxes->status == 'active'){ echo 'selected'; } ?> value='active'>Active</option>
+                                    <option <?php if($service_boxes->status == 'inactive'){ echo 'selected'; } ?> value='inactive'>Inactive</option>
                                 </select>
                             </div>
                         </div>
