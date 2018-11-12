@@ -2,7 +2,6 @@
     <div class="col-xl-12">
         <div class="page-title-box">
             <h4 class="page-title float-left">Box Services</h4>
-
             <div class="clearfix"></div>
         </div>
     </div>
@@ -10,14 +9,29 @@
 <div class="row">
     <div class="col-12">
         <div class="card-box">
-
-        </div> 
+            <div class="row">
+                <div class="col-sm-3">
+                    <p><strong>Dealer Name: </strong> <?php echo $boxes->dealer_name; ?></p>
+                </div>
+                <div class="col-sm-3">
+                    <p><strong>IP Box: </strong> <?php echo $boxes->ipbox; ?></p>
+                </div>
+                <div class="col-sm-3">
+                    <p><strong>Type: </strong> <?php echo $boxes->type; ?></p>
+                </div>
+                <div class="col-sm-3">
+                    <p><strong>Slot Max: </strong> <?php echo $boxes->slot_max; ?></p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 </div>
 <div class="row">
     <div class="col-12">
         <div class="p-20">
+            <a href="<?php echo site_url('dealers/boxes'); ?>" class="btn btn-sm btn-danger waves-effect waves-light">
+                <i class="zmdi zmdi-chevron-left"></i> Back 
+            </a>
             <a href="<?php echo site_url('dealers/boxes/'.$box_id.'/service/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
                 <i class="zmdi zmdi-collection-plus"></i> Add Box Service </button>
             </a>

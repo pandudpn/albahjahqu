@@ -20,8 +20,11 @@ class Service extends Admin_Controller {
 
     public function index($box_id)
     {  
+        $boxes = $this->dealer_boxes->find($box_id);
+
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
+            ->set('boxes', $boxes)
             ->set('box_id', $box_id)
     		->build('boxes/service/index');
     }

@@ -30,7 +30,8 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Operator</label>
                                 <div class="col-9">
-                                    <select class="form-control select2" name="operator">
+                                    <select class="form-control select2" name="operator" id="operator">
+                                        <option value="">-- Operator --</option>
                                         <?php foreach($provider as $prov){ 
                                             if($prov->alias == $denom->operator){
                                                 echo "<option selected='selected' value='$prov->alias'>$prov->name ($prov->alias)</option>";
@@ -80,9 +81,21 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Category</label>
+                                <div class="col-9">
+                                    <select class="form-control" name="category" id="category">
+                                        <option <?php if($denom->category == 'REG'){ echo 'selected'; } ?> value='REG'>REG</option>
+                                        <option <?php if($denom->category == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
+                                        <option <?php if($denom->category == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
+                                        <option <?php if($denom->category == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
+                                        <option <?php if($denom->category == 'NAP'){ echo 'selected'; } ?> value='NAP'>NAP</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Service</label>
                                 <div class="col-9">
-                                    <select class="form-control select2" name="service">
+                                    <select class="form-control select2" name="service" id="service">
                                         <?php foreach($service_code as $service){ 
                                             if($service->id == $denom->service_id){
                                                 echo "<option selected value='$service->id'> $service->remarks </option>";
@@ -90,17 +103,6 @@
                                                 echo "<option value='$service->id'> $service->remarks </option>";
                                             }
                                         }  ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="" class="col-3 col-form-label">Category</label>
-                                <div class="col-9">
-                                    <select class="form-control" name="category">
-                                        <option <?php if($denom->category == 'REG'){ echo 'selected'; } ?> value='REG'>REG</option>
-                                        <option <?php if($denom->category == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
-                                        <option <?php if($denom->category == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
-                                        <option <?php if($denom->category == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
                                     </select>
                                 </div>
                             </div>
@@ -117,12 +119,12 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Denom</label>
                                 <div class="col-9">
-                                    <select class="form-control select2" name="denom">
+                                    <select class="form-control select2" name="denom" id="denom">
                                         <?php foreach($ref_denom as $refd){ 
                                             if($refd->id == $denom->denom_id){
-                                                echo "<option selected value='$refd->id'> $refd->service | $refd->provider | $refd->type | $refd->value </option>";
+                                                echo "<option selected value='$refd->id'> ".strtoupper($refd->service)." | $refd->provider | $refd->type | $refd->value </option>";
                                             }else{
-                                                echo "<option value='$refd->id'> $refd->service | $refd->provider | $refd->type | $refd->value </option>";
+                                                echo "<option value='$refd->id'> ".strtoupper($refd->service)." | $refd->provider | $refd->type | $refd->value </option>";
                                             }
                                         }  ?>
                                     </select>
@@ -203,4 +205,41 @@
             $("#container-dealer").show();
         }
     });
+
+    $("#operator").on('change', function(){
+        var source = $('#operator').val();
+        var service = $("#service");
+        var denom = $("#denom");
+
+        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + source, function (data, status) {
+            service.html('');
+            var obj = JSON.parse(data);
+            $.each(obj, function (idx, val) {
+                service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+            });
+        });
+        
+        $.get("<?php echo site_url().'references/data/denom/'; ?>" + source, function (data, status) {
+            denom.html('');
+            var obj = JSON.parse(data);
+            $.each(obj, function (idx, val) {
+                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + "</li>");
+            });
+        });
+    });
+
+    $("#category").on('change', function(){
+        var source   = $('#category').val();
+        var operator = $('#operator').val();
+        var target   = $("#service");
+
+        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/"+ source, function (data, status) {
+            target.html('');
+            var obj = JSON.parse(data);
+            $.each(obj, function (idx, val) {
+                target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+            });
+        });
+    });
+
 </script>

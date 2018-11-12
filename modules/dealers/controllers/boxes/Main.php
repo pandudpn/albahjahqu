@@ -86,42 +86,47 @@ class Main extends Admin_Controller {
             );
 
         if(!$id){
-            $insert = $this->dealer_boxes->insert($data);
 
-            // PREPARE DATA SERVICE BOX
-            if($serv_reg == 'on'){
-                $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'REG', $slot_max);
-            }
-
-            if($serv_dat == 'on'){
-                $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'DAT', $slot_max);
-            }
+            $ipbox_is_exist = $this->dealer_boxes->find_by(array('ipbox' => $ipbox));
             
-            if($serv_pkd == 'on'){
-                $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'PKD', $slot_max);
-            }
+            if(!$ipbox_is_exist){
+                $insert = $this->dealer_boxes->insert($data);
 
-            if($serv_pkt == 'on'){
-                $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'PKT', $slot_max);
-            }
+                // PREPARE DATA SERVICE BOX
+                if($serv_reg == 'on'){
+                    $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'REG', $slot_max);
+                }
 
-            if($serv_blk == 'on'){
-                $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'BLK', $slot_max);
-            }
+                if($serv_dat == 'on'){
+                    $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'DAT', $slot_max);
+                }
+                
+                if($serv_pkd == 'on'){
+                    $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'PKD', $slot_max);
+                }
 
-            if($serv_dlk == 'on'){
-                $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'DLK', $slot_max);
-            }
+                if($serv_pkt == 'on'){
+                    $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'PKT', $slot_max);
+                }
 
-            if($serv_tlk == 'on'){
-                $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'TLK', $slot_max);
-            }
+                if($serv_blk == 'on'){
+                    $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'BLK', $slot_max);
+                }
 
-            if($serv_nap == 'on'){
-                $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'NAP', $slot_max);
-            }
+                if($serv_dlk == 'on'){
+                    $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'DLK', $slot_max);
+                }
 
-            $this->generate_box_stock($dealer_id, $dealer_name, $ipbox, $slot_max);
+                if($serv_tlk == 'on'){
+                    $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'TLK', $slot_max);
+                }
+
+                if($serv_nap == 'on'){
+                    $this->generate_box_service($dealer_id, $dealer_name, $ipbox, $type, 'NAP', $slot_max);
+                }
+
+                $this->generate_box_stock($dealer_id, $dealer_name, $ipbox, $slot_max);
+            }
 
             redirect(site_url('dealers/boxes'), 'refresh');
         }else{

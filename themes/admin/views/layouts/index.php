@@ -228,6 +228,12 @@
                             </li>
 
                             <li>
+                                <a href="<?php echo site_url('dealers/boxes'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
+                                </a>
+                            </li>
+
+                            <li>
                                 <a href="<?php echo site_url('billers'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-library"></i><span> Billers </span> 
                                 </a>
