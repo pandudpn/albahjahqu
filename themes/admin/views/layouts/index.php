@@ -176,7 +176,7 @@
                     <!--- Sidemenu -->
                     <div id="sidebar-menu">
                         <ul>
-                            <li class="text-muted menu-title">Navigation</li>
+                            <li class="text-muted menu-title">General</li>
 
                             <li>
                                 <a href="<?php echo site_url(); ?>" class="waves-effect">
@@ -185,30 +185,13 @@
                             </li>
 
                             <li>
-                                <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
-                                </a>
-                            </li>
-
-                            <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="zmdi zmdi-money"></i><span> Prices </span> 
-                                    <span class="menu-arrow"></span>
-                                </a>
-
-                                <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
-                                    <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
-                                    <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
-                                </ul>
-                            </li>
-
-                            <li>
                                 <a href="<?php echo site_url('services'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-card-sd"></i><span> Services </span> 
                                 </a>
                             </li>
 
+                            <li class="text-muted menu-title">Users</li>
+                            
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect">
                                     <i class="zmdi zmdi-accounts"></i><span> Customers </span> 
@@ -228,12 +211,6 @@
                             </li>
 
                             <li>
-                                <a href="<?php echo site_url('dealers/boxes'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
-                                </a>
-                            </li>
-
-                            <li>
                                 <a href="<?php echo site_url('billers'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-library"></i><span> Billers </span> 
                                 </a>
@@ -242,6 +219,33 @@
                             <li>
                                 <a href="<?php echo site_url('partners'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-label"></i><span> Partners </span> 
+                                </a>
+                            </li>
+
+                            <li class="text-muted menu-title">Transaction</li>
+
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="zmdi zmdi-money"></i><span> Prices </span> 
+                                    <span class="menu-arrow"></span>
+                                </a>
+
+                                <ul class="list-unstyled">
+                                    <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
+                                    <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
+                                    <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
+                                </ul>
+                            </li>
+                            
+                            <li>
+                                <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo site_url('dealers/boxes'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
                                 </a>
                             </li>
 

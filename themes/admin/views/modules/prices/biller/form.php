@@ -96,6 +96,9 @@
                         </div>
                         
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                        <a href="<?php echo site_url('prices/biller'); ?>" class="btn btn-danger waves-effect waves-light">
+                             Cancel 
+                        </a>
                     </form>
                 </div>
             </div>

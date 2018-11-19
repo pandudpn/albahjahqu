@@ -13,8 +13,72 @@ class billers extends Admin_Controller {
 
     public function index()
     {
-    	$this->template->set('alert', $this->session->flashdata('alert'))
-    					->build('index');
+        $this->template
+             ->set('alert', $this->session->flashdata('alert'))
+    		 ->build('index');
+    }
+
+    public function add()
+    {
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Add Biller')
+            ->build('form');
+    }
+
+    public function edit($id)
+    {
+        $is_exist = $this->biller->find($id);
+
+        if($is_exist){
+            $biller = $is_exist;
+            
+            $this->template
+                ->set('alert', $this->session->flashdata('alert'))
+                ->set('title', 'Edit Biller')
+                ->set('data', $biller)
+                ->build('form');
+        }
+    }
+
+    public function save()
+    {
+        $id       = $this->input->post('id');
+
+        $name          = $this->input->post('name');
+        $code          = $this->input->post('code');
+        $pic           = $this->input->post('pic');
+        $pic_phone     = $this->input->post('pic_phone');
+        $pic_email = $this->input->post('pic_email');
+
+        $data = array(
+                'name'          => $name,
+                'code'          => $code,
+                'pic'           => $pic,
+                'pic_email'     => $pic_email,
+                'pic_phone'     => $pic_phone
+            );
+        
+        if(!$id){
+            
+            $last_id = $this->biller->last_id()->id;
+            $leftPad = str_pad(intval($last_id + 1), 4, "0", STR_PAD_LEFT);
+            
+            $data['eva'] = 'B'.$leftPad.str_replace(' ', '', strtoupper($code));
+            
+            $insert = $this->biller->insert($data);
+            redirect(site_url('billers'), 'refresh');
+        }else{
+            $update = $this->biller->update($id, $data);
+            redirect(site_url('billers'), 'refresh');
+        }
+    }
+
+    public function delete($id)
+    {
+        $delete = $this->biller->delete($id);
+
+        redirect(site_url('billers'), 'refresh');
     }
 
     public function datatables()
@@ -32,13 +96,13 @@ class billers extends Admin_Controller {
             $row[] = $l->pic_phone;
             $row[] = $l->pic_email;
 
-            // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
-            //             <i class="fa fa-pencil"></i>
-            //           </a> &nbsp;';
+            $btn   = '<a href="'.site_url('billers/edit/'.$l->id).'" class="btn btn-success btn-sm">
+                        <i class="fa fa-pencil"></i>
+                      </a> &nbsp;';
 
-            // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-            //             <i class="fa fa-trash"></i>
-            //           </a>';
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('billers/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                      </a>';
 
             $row[]  = $btn;
 

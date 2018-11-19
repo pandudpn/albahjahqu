@@ -11,6 +11,12 @@
 
 <div class="row">
     <div class="col-12">
+        <div class="p-20">
+            <a href="<?php echo site_url('billers/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Add Biller </button>
+            </a>
+        </div>
+        
         <div class="card-box table-responsive" style="overflow-x: auto;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
@@ -28,9 +34,7 @@
                     <th>PIC Name</th>
                     <th>PIC Phone</th>
                     <th>PIC Email</th>
-                    <!-- <th style="width: 120px;">
-                    	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
-					</th> -->
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -6,6 +6,9 @@ class services extends Admin_Controller {
         parent::__construct();
         $this->load->model('services/service_model', 'service');
 
+        $this->load->model('references/billers_model', 'biller');
+        $this->load->model('references/ref_service_providers_model', 'service_provider');
+
         $this->load->helper('text');
 
         $this->check_login();
@@ -15,6 +18,77 @@ class services extends Admin_Controller {
     {
     	$this->template->set('alert', $this->session->flashdata('alert'))
     					->build('index');
+    }
+
+    public function add()
+    {
+        $biller   = $this->biller->get_all();
+        $provider = $this->service_provider->get_all();
+        
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Add Service')
+            ->set('biller', $biller)
+            ->set('provider', $provider)
+    		->build('form');
+    }
+
+    public function edit($id)
+    {
+        $is_exist = $this->service->find($id);
+
+        if($is_exist){
+            $service = $is_exist;
+            
+            $biller   = $this->biller->get_all();
+            $provider = $this->service_provider->get_all();
+
+            $this->template
+                ->set('alert', $this->session->flashdata('alert'))
+                ->set('title', 'Edit Service')
+                ->set('biller', $biller)
+                ->set('provider', $provider)
+                ->set('data', $service)
+                ->build('form');
+        }
+    }
+
+    public function save()
+    {
+        $id   = $this->input->post('id');
+
+        $service     = $this->input->post('service');
+        $provider    = $this->input->post('provider');
+        $prepaid     = $this->input->post('prepaid');
+        $type        = $this->input->post('type');
+        $by          = $this->input->post('by');
+        $biller_code = $this->input->post('biller_code');
+        $remarks     = $this->input->post('remarks');
+        
+        $data = array(
+                'service'     => $service,
+                'provider'    => $provider,
+                'prepaid'     => $prepaid,
+                'by'          => $by,
+                'type'        => $type,
+                'biller_code' => $biller_code,
+                'remarks'     => $remarks
+            );
+        
+        if(!$id){
+            $insert = $this->service->insert($data);
+            redirect(site_url('services'), 'refresh');
+        }else{
+            $update = $this->service->update($id, $data);
+            redirect(site_url('services'), 'refresh');
+        }
+    }
+
+    public function delete($id)
+    {
+        $delete = $this->service->delete($id);
+
+        redirect(site_url('services'), 'refresh');
     }
 
     public function datatables()
@@ -31,13 +105,13 @@ class services extends Admin_Controller {
             $row[] = $l->remarks;
             $row[] = $l->biller_name;
 
-            // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
-            //             <i class="fa fa-pencil"></i>
-            //           </a> &nbsp;';
+            $btn   = '<a href="'.site_url('services/edit/'.$l->id).'" class="btn btn-success btn-sm">
+                        <i class="fa fa-pencil"></i>
+                      </a> &nbsp;';
 
-            // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-            //             <i class="fa fa-trash"></i>
-            //           </a>';
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('services/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                      </a>';
 
             $row[]  = $btn;
 

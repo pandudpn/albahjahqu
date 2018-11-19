@@ -185,6 +185,9 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                            <a href="<?php echo site_url('prices/denom'); ?>" class="btn btn-danger waves-effect waves-light">
+                             Cancel 
+                        </a>
                         </div>
                     </form>
                 </div>

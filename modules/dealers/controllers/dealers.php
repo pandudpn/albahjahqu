@@ -6,6 +6,10 @@ class dealers extends Admin_Controller {
         parent::__construct();
         $this->load->model('dealers/dealer_model', 'dealer');
 
+        $this->load->model('references/geo_cities_model', 'city');
+        $this->load->model('references/geo_provinces_model', 'province');
+        $this->load->model('references/ref_service_providers_model', 'service_provider');
+
         $this->load->helper('text');
 
         $this->check_login();
@@ -15,6 +19,91 @@ class dealers extends Admin_Controller {
     {
     	$this->template->set('alert', $this->session->flashdata('alert'))
     					->build('index');
+    }
+
+    public function add()
+    {
+        $cities           = $this->city->get_all();
+        $province         = $this->province->get_all();
+        $service_provider = $this->service_provider->get_all();
+
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Add Dealer')
+            ->set('cities', $cities)
+            ->set('province', $province)
+            ->set('provider', $service_provider)
+    		->build('form');
+    }
+
+    public function edit($id)
+    {
+        $is_exist = $this->dealer->find($id);
+
+        if($is_exist){
+            $dealer = $is_exist;
+            
+            $cities           = $this->city->get_all();
+            $province         = $this->province->get_all();
+            $service_provider = $this->service_provider->get_all();
+
+            $this->template
+                ->set('alert', $this->session->flashdata('alert'))
+                ->set('title', 'Edit Dealer')
+                ->set('cities', $cities)
+                ->set('province', $province)
+                ->set('provider', $service_provider)
+                ->set('data', $dealer)
+                ->build('form');
+        }
+    }
+
+    public function save()
+    {
+        $id       = $this->input->post('id');
+
+        $name     = $this->input->post('name');
+        $address  = $this->input->post('address');
+        $city     = $this->input->post('city');
+        $province = $this->input->post('province');
+        $zipcode  = $this->input->post('zipcode');
+        $phone    = $this->input->post('phone');
+        $email    = $this->input->post('email');
+        $fax      = $this->input->post('fax');
+        $operator = $this->input->post('operator');
+
+        $data = array(
+                'name'     => $name,
+                'address'  => $address,
+                'city'     => $city,
+                'zipcode'  => $zipcode,
+                'province' => $province,
+                'phone'    => $phone,
+                'email'    => $email,
+                'fax'      => $fax,
+                'operator' => $operator
+            );
+        
+        if(!$id){
+            
+            $last_id = $this->dealer->last_id()->id;
+            $leftPad = str_pad(intval($last_id + 1), 4, "0", STR_PAD_LEFT);
+            
+            $data['eva'] = 'D'.$leftPad.str_replace(' ', '', strtoupper($name));
+            
+            $insert = $this->dealer->insert($data);
+            redirect(site_url('dealers'), 'refresh');
+        }else{
+            $update = $this->dealer->update($id, $data);
+            redirect(site_url('dealers'), 'refresh');
+        }
+    }
+
+    public function delete($id)
+    {
+        $delete = $this->dealer->delete($id);
+
+        redirect(site_url('dealers'), 'refresh');
     }
 
     public function datatables()
@@ -31,13 +120,13 @@ class dealers extends Admin_Controller {
             $row[] = $l->phone;
             $row[] = $l->email;
 
-            // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
-            //             <i class="fa fa-pencil"></i>
-            //           </a> &nbsp;';
+            $btn   = '<a href="'.site_url('dealers/edit/'.$l->id).'" class="btn btn-success btn-sm">
+                        <i class="fa fa-pencil"></i>
+                      </a> &nbsp;';
 
-            // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-            //             <i class="fa fa-trash"></i>
-            //           </a>';
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('dealers/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                      </a>';
 
             $row[]  = $btn;
 

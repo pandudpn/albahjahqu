@@ -11,6 +11,12 @@
 
 <div class="row">
     <div class="col-12">
+        <div class="p-20">
+            <a href="<?php echo site_url('services/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Add Service </button>
+            </a>
+        </div>
+        
         <div class="card-box table-responsive">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
@@ -28,9 +34,7 @@
                     <th>Provider</th>
                     <th>Remarks</th>
                     <th>Biller</th>
-                    <!-- <th style="width: 120px;">
-                    	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
-					</th> -->
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>

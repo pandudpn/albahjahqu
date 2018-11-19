@@ -81,4 +81,13 @@ class partner_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
+    public function last_id()
+    {
+        $this->db->select_max('id');
+        $this->db->from($this->table);
+        $query = $this->db->get();
+        
+        return $query->row();
+    }
+
 }

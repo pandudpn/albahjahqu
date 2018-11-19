@@ -20,7 +20,7 @@ class service_model extends MY_Model {
 
     public function _get_datatables_query()
     {
-         
+        $this->db->select($this->table.'.id', false);
         $this->db->select($this->table_provider.'.name as provider_name', false);
         $this->db->select($this->table.'.remarks', false);
         $this->db->select("IFNULL(".$this->table_biller.".name, '-') as biller_name", false);
