@@ -13,8 +13,25 @@ class customers extends Admin_Controller {
 
     public function index()
     {
-    	$this->template->set('alert', $this->session->flashdata('alert'))
-    					->build('index');
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+    		->build('index');
+    }
+
+    public function status($status, $id)
+    {
+        $arr = array();
+        if($status == 'active'){
+            $arr = array('account_status' => 'active');
+        }else if($status == 'suspend'){
+            $arr = array('account_status' => 'suspended');
+        }else if($status == 'block'){
+            $arr = array('account_status' => 'blocked');
+        }
+
+        $update = $this->customer->update($id, $arr);
+
+        redirect(site_url('customers'), 'refresh');
     }
 
     public function datatables()
@@ -42,6 +59,28 @@ class customers extends Admin_Controller {
             // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
             //             <i class="fa fa-trash"></i>
             //           </a>';
+
+            $btn = '<div class="btn-group">
+                        <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Change Status <span class="caret"></span></button>
+                        <div class="dropdown-menu">';
+            
+            if($l->account_status != 'active'){
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/active/'.$l->id).'\')">Active</a>
+                            <div class="dropdown-divider"></div>';
+            }
+
+            if($l->account_status != 'suspended'){
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/suspend/'.$l->id).'\')">Suspend</a>
+                                <div class="dropdown-divider"></div>';
+            }
+
+            if($l->account_status != 'blocked'){
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/block/'.$l->id).'\')">Block!</a>
+                                <div class="dropdown-divider"></div>';
+            }
+
+            $btn .= '</div>
+                    </div>';
 
             $row[]  = $btn;
 

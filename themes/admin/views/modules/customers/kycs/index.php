@@ -33,9 +33,7 @@
                     <th>Selfie Image</th>
                     <th>Decision</th>
                     <th>Remarks</th>
-                    <!-- <th style="width: 120px;">
-                    	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
-					</th> -->
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,10 +54,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure want to delete this item?</p>
+                <p>Are you sure want to do this?</p>
             </div>
             <div class="modal-footer">
-                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes, Delete it</a>
+                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes</a>
                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
@@ -109,7 +107,7 @@
         });
     });
 
-    function alert_delete(url)
+    function alert(url)
     {
         $("#confirm").attr('href', url)
         $("#modal-alert").modal('show')

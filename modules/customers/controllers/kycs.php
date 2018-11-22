@@ -17,6 +17,20 @@ class kycs extends Admin_Controller {
     					->build('kycs/index');
     }
 
+    public function status($status, $id)
+    {
+        $arr = array();
+        if($status == 'approve'){
+            $arr = array('decision' => 'approved', 'remarks' => 'Pengajuan KYC Berhasil');
+        }else if($status == 'reject'){
+            $arr = array('decision' => 'rejected', 'remarks' => 'Pengajuan KYC Gagal, Harap ulangi');
+        }
+
+        $update = $this->kyc->update($id, $arr);
+
+        redirect(site_url('customers/kycs'), 'refresh');
+    }
+
     public function datatables()
     {
         $list = $this->kyc->get_datatables();
@@ -44,6 +58,23 @@ class kycs extends Admin_Controller {
             // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
             //             <i class="fa fa-trash"></i>
             //           </a>';
+
+            $btn = '<div class="btn-group">
+                        <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Change Status <span class="caret"></span></button>
+                        <div class="dropdown-menu">';
+            
+            if($l->decision != 'approved'){
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/kycs/status/approve/'.$l->id).'\')">Approve</a>
+                            <div class="dropdown-divider"></div>';
+            }
+
+            if($l->decision != 'rejected'){
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/kycs/status/reject/'.$l->id).'\')">Reject</a>
+                                <div class="dropdown-divider"></div>';
+            }
+
+            $btn .= '</div>
+                    </div>';
 
             $row[]  = $btn;
 
