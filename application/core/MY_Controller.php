@@ -175,11 +175,11 @@ class Admin_Controller extends Base_Controller{
         
         if(!$this->session->userdata('admin_logged_in')){
 
-            // $error = 'Error: please login first';
-            // $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $error));
-            // $this->template->set('alert', $this->session->flashdata('alert'));
+            $error = 'Error: please login first';
+            $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $error));
+            $this->template->set('alert', $this->session->flashdata('alert'));
 
-            // redirect('user/login', 'refresh');
+            redirect('login', 'refresh');
         }
     }
 

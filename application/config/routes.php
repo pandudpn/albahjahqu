@@ -40,6 +40,7 @@
 
 //variables in (:num), (:any), ([a-zA-Z_-]+)
 $route['default_controller']  = 'home';
+$route['login']               = 'user/login';
 
 $route['dealers/boxes']               = 'dealers/boxes/main';
 $route['dealers/boxes/add']           = 'dealers/boxes/main/add';

@@ -49,7 +49,7 @@ class billers extends Admin_Controller {
         $code          = $this->input->post('code');
         $pic           = $this->input->post('pic');
         $pic_phone     = $this->input->post('pic_phone');
-        $pic_email = $this->input->post('pic_email');
+        $pic_email     = $this->input->post('pic_email');
 
         $data = array(
                 'name'          => $name,

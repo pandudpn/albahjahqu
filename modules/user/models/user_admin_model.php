@@ -2,13 +2,13 @@
 
 class user_admin_model extends MY_Model {
 
-	protected $table         = 'user_admins';
+	protected $table         = 'admins';
     protected $key           = 'id';
     protected $date_format   = 'datetime';
     protected $set_created   = true;
 
-    protected $column_order  = array(null,'name', 'username', 'email'); //set column field database for datatable orderable
-    protected $column_search = array('name', 'username', 'email'); //set column field database for datatable searchable 
+    protected $column_order  = array(null,'name', 'email'); //set column field database for datatable orderable
+    protected $column_search = array('name', 'email'); //set column field database for datatable searchable 
     protected $order 		 = array('name' => 'asc'); // default order 
 
     public function __construct()

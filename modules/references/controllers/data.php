@@ -13,6 +13,13 @@ class data extends Admin_Controller {
         $this->check_login();
     }
 
+    public function services($biller='')
+    {
+        $data = $this->service_code->find_all_by(array('by' => $biller, 'deleted' => 0));
+
+        echo json_encode($data);
+    }
+
     public function service_code($alias='', $category='REG')
     {
         if($category == ''){

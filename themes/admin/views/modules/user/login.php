@@ -37,7 +37,7 @@
                         <a href="index.html" class="logo">
                             <!-- <i class="zmdi zmdi-group-work icon-c-logo"></i>
                             <span>Uplon</span> -->
-                            <img src="<?php echo $this->template->get_theme_path();?>assets/images/icon/BNI_logo.svg" height="40">
+                            <!-- <img src="<?php echo $this->template->get_theme_path();?>assets/images/icon/BNI_logo.svg" height="40"> -->
                         </a>
                     </div>
                     <div class="m-t-10 p-20">
@@ -46,7 +46,7 @@
                                 <h6 class="text-muted text-uppercase m-b-0 m-t-0">Sign In</h6>
                             </div>
                         </div>
-                        <form class="m-t-20" method="post">
+                        <form class="m-t-20" method="post" action="<?php echo site_url('login'); ?>">
 
                             <div class="form-group row">
                                 <div class="col-12">
@@ -60,7 +60,7 @@
 
                             <div class="form-group row">
                                 <div class="col-12">
-                                    <input class="form-control" name="username" type="text" required="" placeholder="Username">
+                                    <input class="form-control" name="email" type="email" required="" placeholder="Email">
                                 </div>
                             </div>
 

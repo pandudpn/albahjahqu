@@ -12,11 +12,11 @@ class login extends Admin_Controller {
 
     	if($this->input->post())
     	{
-    		$username 	    = ($this->input->post('username') != '') ? $this->input->post('username') : NULL;
-    		$password 	    = ($this->input->post('password') != '') ? $this->input->post('password') : NULL;
+    		$email 	    = ($this->input->post('email') != '') ? $this->input->post('email') : NULL;
+    		$password 	= ($this->input->post('password') != '') ? $this->input->post('password') : NULL;
 
     		$data = array(
-    			'username' 	=> strtolower($username),
+    			'email' 	=> strtolower($email),
     			'password' 	=> sha1($password.$this->config->item('password_salt'))
     		);
 
@@ -31,7 +31,7 @@ class login extends Admin_Controller {
     		}
     		else
     		{
-    			$error = 'Error: username or password incorrect';
+    			$error = 'Error: email or password incorrect';
         		$this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $error));
 
         		redirect(site_url('user/login'), 'refresh');

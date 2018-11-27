@@ -27,7 +27,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Biller</label>
                             <div class="col-9">
-                                <select class="form-control select2" name="biller">
+                                <select class="form-control select2" name="biller" id="biller">
                                     <?php foreach($ref_biller as $bill){ 
                                             if($bill->id == $biller->biller_id){
                                                 echo "<option selected value='$bill->id'> $bill->name </option>";
@@ -41,7 +41,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Service</label>
                             <div class="col-9">
-                                <select class="form-control select2" name="service">
+                                <select class="form-control select2" name="service" id="service">
                                     <?php foreach($service_code as $serv){ 
                                             if($serv->id == $biller->service_id){
                                                 echo "<option selected value='$serv->id'> $serv->remarks </option>";
@@ -106,3 +106,19 @@
         </div>
     </div>
 </div> <!-- end row -->
+
+<script>
+
+    $("#biller").on('change', function(){
+        var source   = $('#biller').val();
+        var target   = $("#service");
+        $.get("<?php echo site_url().'references/data/services/'; ?>" + source, function (data, status) {
+            target.html('');
+            var obj = JSON.parse(data);
+            $.each(obj, function (idx, val) {
+                target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+            });
+        });
+    });
+
+</script>
