@@ -11,8 +11,8 @@ class denom_model extends MY_Model {
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code'); //set column field database for datatable orderable
-    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code'); //set column field database for datatable orderable
+    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code'); //set column field database for datatable searchable 
     protected $order 		 = array('prepaid_denom_prices.id' => 'asc'); // default order 
 
     public function __construct()
