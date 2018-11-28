@@ -137,43 +137,43 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Base Price</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="base_price" value="<?php echo $denom->base_price; ?>">
+                                    <input class="form-control" type="text" name="base_price" value="<?php echo $denom->base_price; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Dealer Fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="dealer_fee" value="<?php echo $denom->dealer_fee; ?>">
+                                    <input class="form-control" type="text" name="dealer_fee" value="<?php echo $denom->dealer_fee; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Dekape Fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo $denom->dekape_fee; ?>">
+                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo $denom->dekape_fee; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Biller Fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo $denom->biller_fee; ?>">
+                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo $denom->biller_fee; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Partner fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo $denom->partner_fee; ?>">
+                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo $denom->partner_fee; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">User fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="user_fee" value="<?php echo $denom->user_fee; ?>">
+                                    <input class="form-control" type="text" name="user_fee" value="<?php echo $denom->user_fee; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Description</label>
                                 <div class="col-9">
-                                    <input class="form-control" type="text" name="description" value="<?php echo $denom->description; ?>">
+                                    <input class="form-control" type="text" name="description" value="<?php echo $denom->description; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">

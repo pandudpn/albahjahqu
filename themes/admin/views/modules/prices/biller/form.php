@@ -55,43 +55,43 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Provider Code</label>
                             <div class="col-9">
-                                <input class="form-control" type="text" name="provider_code" value="<?php echo $biller->provider_code; ?>">
+                                <input class="form-control" type="text" name="provider_code" value="<?php echo $biller->provider_code; ?>" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Base Price</label>
                             <div class="col-7">
-                                <input class="form-control" type="text" name="base_price" value="<?php echo $biller->base_price; ?>">
+                                <input class="form-control" type="text" name="base_price" value="<?php echo $biller->base_price; ?>" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Biller Fee</label>
                             <div class="col-7">
-                                <input class="form-control" type="text" name="biller_fee" value="<?php echo $biller->biller_fee; ?>">
+                                <input class="form-control" type="text" name="biller_fee" value="<?php echo $biller->biller_fee; ?>" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Dekape Fee</label>
                             <div class="col-7">
-                                <input class="form-control" type="text" name="dekape_fee" value="<?php echo $biller->dekape_fee; ?>">
+                                <input class="form-control" type="text" name="dekape_fee" value="<?php echo $biller->dekape_fee; ?>" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Dealer Fee</label>
                             <div class="col-7">
-                                <input class="form-control" type="text" name="dealer_fee" value="<?php echo $biller->dealer_fee; ?>">
+                                <input class="form-control" type="text" name="dealer_fee" value="<?php echo $biller->dealer_fee; ?>" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Partner Fee</label>
                             <div class="col-7">
-                                <input class="form-control" type="text" name="partner_fee" value="<?php echo $biller->partner_fee; ?>">
+                                <input class="form-control" type="text" name="partner_fee" value="<?php echo $biller->partner_fee; ?>" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">User Fee</label>
                             <div class="col-7">
-                                <input class="form-control" type="text" name="user_fee" value="<?php echo $biller->user_fee; ?>">
+                                <input class="form-control" type="text" name="user_fee" value="<?php echo $biller->user_fee; ?>" required>
                             </div>
                         </div>
                         

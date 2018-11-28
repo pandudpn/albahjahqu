@@ -121,43 +121,43 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Margin dealer (%)</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="margin_dealer" value="<?php echo $bulk->margin_dealer; ?>">
+                                    <input class="form-control" type="text" name="margin_dealer" value="<?php echo $bulk->margin_dealer; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Margin reseller user (%)</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="margin_reseller_user" value="<?php echo $bulk->margin_reseller_user; ?>">
+                                    <input class="form-control" type="text" name="margin_reseller_user" value="<?php echo $bulk->margin_reseller_user; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Margin end-user (%)</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="margin_end_user" value="<?php echo $bulk->margin_end_user; ?>">
+                                    <input class="form-control" type="text" name="margin_end_user" value="<?php echo $bulk->margin_end_user; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Dekape fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo $bulk->dekape_fee; ?>">
+                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo $bulk->dekape_fee; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Biller fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo $bulk->biller_fee; ?>">
+                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo $bulk->biller_fee; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Partner fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo $bulk->partner_fee; ?>">
+                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo $bulk->partner_fee; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Description</label>
                                 <div class="col-9">
-                                    <input class="form-control" type="text" name="description" value="<?php echo $bulk->description; ?>">
+                                    <input class="form-control" type="text" name="description" value="<?php echo $bulk->description; ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
