@@ -94,7 +94,7 @@ class denom extends Admin_Controller {
                 'dealership'  => $dealership,
                 'service_id'  => $service_id,
                 'category'    => $category,
-                'type'        => $type,
+                'type'        => $type == '' ? NULL : $type,
                 'denom_id'    => $denom,
                 'base_price'  => $base_price,
                 'dealer_fee'  => $dealer_fee,

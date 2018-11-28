@@ -88,7 +88,7 @@ class bulk extends Admin_Controller {
                 'dealership' => $dealership,
                 'service_id' => $service_id,
                 'category' => $category,
-                'type' => $type,
+                'type' => $type == '' ? NULL : $type,
                 'margin_dealer' => $margin_dealer,
                 'margin_reseller_user' => $margin_reseller_user,
                 'margin_end_user' => $margin_end_user,

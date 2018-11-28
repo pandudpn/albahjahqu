@@ -109,6 +109,7 @@
                                 <label for="" class="col-3 col-form-label">Type</label>
                                 <div class="col-9">
                                     <select class="form-control" name="type">
+                                        <option <?php if($bulk->type == NULL){ echo 'selected'; } ?> value=''>-</option>
                                         <option <?php if($bulk->type == 'inner'){ echo 'selected'; } ?> value='inner'>Inner</option>
                                         <option <?php if($bulk->type == 'outer'){ echo 'selected'; } ?> value='outer'>Outer</option>
                                     </select>
