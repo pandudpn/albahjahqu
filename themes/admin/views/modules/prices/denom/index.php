@@ -95,10 +95,6 @@
                 "orderable": false, //set not orderable
                 },
                 { 
-                "targets": [ 6 ], //last column / new item column
-                "orderable": false, //set not orderable
-                },
-                { 
                 "targets": [ 7 ], //last column / new item column
                 "orderable": false, //set not orderable
                 },
