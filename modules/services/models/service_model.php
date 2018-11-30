@@ -8,6 +8,7 @@ class service_model extends MY_Model {
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
+    protected $soft_deletes     = true;
 
     protected $column_order  = array(null, 'ref_service_providers.name', 'ref_service_codes.remarks', 'billers.name'); //set column field database for datatable orderable
     protected $column_search = array('ref_service_providers.name', 'ref_service_codes.remarks', 'billers.name'); //set column field database for datatable searchable 

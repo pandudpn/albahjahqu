@@ -6,6 +6,7 @@ class biller_model extends MY_Model {
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
+    protected $soft_deletes     = true;
 
     protected $column_order  = array(null, 'name', 'pic', 'pic_phone', 'pic_email'); //set column field database for datatable orderable
     protected $column_search = array('name', 'pic', 'pic_phone', 'pic_email'); //set column field database for datatable searchable 

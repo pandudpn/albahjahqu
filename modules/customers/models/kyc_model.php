@@ -6,6 +6,7 @@ class kyc_model extends MY_Model {
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
+    protected $soft_deletes     = true;
 
     protected $column_order  = array(null, 'cus_name', 'cus_phone', 'cus_ktp', 'cus_mother', 'cus_job', 'ktp_image', 'selfie_image', 'decision', 'remarks'); //set column field database for datatable orderable
     protected $column_search = array('cus_name', 'cus_phone', 'cus_ktp', 'cus_mother', 'cus_job', 'ktp_image', 'selfie_image', 'decision', 'remarks'); //set column field database for datatable searchable 

@@ -6,6 +6,7 @@ class customer_model extends MY_Model {
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
+    protected $soft_deletes     = true;
 
     protected $column_order  = array(null, 'name', 'phone', 'email', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable orderable
     protected $column_search = array('name', 'phone', 'email', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable searchable 
