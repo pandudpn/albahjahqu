@@ -1,19 +1,18 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class denom_model extends MY_Model {
+class denoms_model extends MY_Model {
 
-	protected $table         	= 'prepaid_denom_prices';
+	protected $table         	= 'ref_denoms';
 	protected $table_provider 	= 'ref_service_providers';
 	protected $table_biller   	= 'billers';
-	protected $table_dealer   	= 'dealers';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'prepaid_denom_prices.type'); //set column field database for datatable orderable
-    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code'); //set column field database for datatable searchable 
-    protected $order 		 = array('prepaid_denom_prices.id' => 'asc'); // default order 
+    protected $column_order  = array(null, 'ref_service_providers.name'); //set column field database for datatable orderable
+    protected $column_search = array('ref_service_providers.name'); //set column field database for datatable searchable 
+    protected $order 		 = array('ref_denoms.id' => 'asc'); // default order 
 
     public function __construct()
     {
@@ -23,14 +22,17 @@ class denom_model extends MY_Model {
     public function _get_datatables_query()
     {
         $this->db->select($this->table.'.id');
+        $this->db->select($this->table.'.service', false);
         $this->db->select($this->table_provider.'.name as provider_name', false);
-        $this->db->select($this->table.'.description', false);
-        $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
-        $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
+        $this->db->select($this->table.'.supplier', false);
+        $this->db->select($this->table_biller.'.name as biller_name', false);
+        $this->db->select($this->table.'.supplier_code', false);
         $this->db->select($this->table.'.type', false);
-        $this->db->select('prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
+        $this->db->select($this->table.'.code', false);
+        $this->db->select($this->table.'.value', false);
         $this->db->from($this->table);
-        $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
+        $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.provider', 'left');
+        $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.supplier_id', 'left');
  
         $i = 0;
      
