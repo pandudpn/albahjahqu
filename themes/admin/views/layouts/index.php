@@ -183,11 +183,13 @@
                                 </a>
                             </li>
 
+                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                             <li>
                                 <a href="<?php echo site_url('services'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-card-sd"></i><span> Services </span> 
                                 </a>
                             </li>
+                            <?php } ?>
 
                             <li class="text-muted menu-title">Users</li>
                             
@@ -199,10 +201,13 @@
 
                                 <ul class="list-unstyled">
                                     <li><a href="<?php echo site_url('customers'); ?>">Customers</a></li>
+                                    <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                     <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC</a></li>
+                                    <?php } ?>
                                 </ul>
                             </li>
 
+                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                             <li>
                                 <a href="<?php echo site_url('dealers'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-store"></i><span> Dealers </span> 
@@ -220,6 +225,7 @@
                                     <i class="zmdi zmdi-label"></i><span> Partners </span> 
                                 </a>
                             </li>
+                            <?php } ?>
 
                             <li class="text-muted menu-title">Transaction</li>
 
@@ -232,7 +238,9 @@
                                 <ul class="list-unstyled">
                                     <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
                                     <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
+                                    <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                     <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
+                                    <?php } ?>
                                 </ul>
                             </li>
                             
@@ -242,6 +250,7 @@
                                 </a>
                             </li>
 
+                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                             <li class="text-muted menu-title">Modem Pool</li>
 
                             <li>
@@ -257,6 +266,7 @@
                                     <i class="zmdi zmdi-account"></i><span> Admin Users </span> 
                                 </a>
                             </li>
+                            <?php } ?>
 
                         </ul>
                         <div class="clearfix"></div>

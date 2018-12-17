@@ -12,7 +12,7 @@ class home extends Admin_Controller {
     }
 
     public function index(){
-
+        // var_dump($this->session->userdata('user'));die;
     	$this->template->build('index');
     }
 

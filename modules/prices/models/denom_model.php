@@ -57,6 +57,11 @@ class denom_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
+
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -89,6 +94,12 @@ class denom_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
+
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+        
         return $this->db->count_all_results();
     }
 

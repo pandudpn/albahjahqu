@@ -46,7 +46,12 @@ class customer_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
-         
+
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+                 
         if(isset($_POST['order'])) // here order processing
         {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -78,6 +83,12 @@ class customer_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
+        
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
         return $this->db->count_all_results();
     }
 
