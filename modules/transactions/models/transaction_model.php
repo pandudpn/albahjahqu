@@ -59,6 +59,7 @@ class transaction_model extends MY_Model {
         if($type == 'pending')
         {
             $this->db->where("(status_provider = '68' OR status_provider = '82' OR status_provider = '96')");
+            $this->db->where($this->table.'.created_on >= DATE_ADD(NOW(), INTERVAL -1 WEEK)');
         }
          
         if(isset($_POST['order'])) // here order processing
