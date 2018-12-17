@@ -97,7 +97,6 @@
         <!-- Validation js (Parsleyjs) -->
         <script type="text/javascript" src="<?php echo $this->template->get_theme_path();?>assets/plugins/parsleyjs/parsley.min.js"></script>
 
-
         <!--CKEDITOR-->
         <script src="<?php echo $this->template->get_theme_path();?>assets/tinymce/js/tinymce/tinymce.min.js"></script>
         <style type="text/css">
@@ -243,9 +242,19 @@
                                 </a>
                             </li>
 
+                            <li class="text-muted menu-title">Modem Pool</li>
+
                             <li>
                                 <a href="<?php echo site_url('dealers/boxes'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
+                                </a>
+                            </li>
+
+                            <li class="text-muted menu-title">Management</li>
+
+                            <li>
+                                <a href="<?php echo site_url('user/admin'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-account"></i><span> Admin Users </span> 
                                 </a>
                             </li>
 
@@ -290,13 +299,10 @@
                 <?php echo date('Y') ?> © okbabe admin.
             </footer>
 
+             <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.core.js"></script>
+            <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.app.js"></script>
 
         </div>
-        <!-- END wrapper -->
-
-        <!-- App js -->
-        <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.core.js"></script>
-        <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.app.js"></script>
 
     </body>
 </html>

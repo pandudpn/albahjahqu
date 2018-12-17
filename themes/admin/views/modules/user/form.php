@@ -3,113 +3,84 @@
         <div class="page-title-box">
             <h4 class="page-title float-left"><?php echo $title; ?></h4>
 
-            <ol class="breadcrumb float-right">
-                <li class="breadcrumb-item"><a href="<?php echo site_url('post'); ?>">Users</a></li>
-                <li class="breadcrumb-item active"><?php echo $title; ?></li>
-            </ol>
-
-
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
-<!-- end row -->
 
-<!-- end row -->
-<form method="post" enctype="multipart/form-data">
 <div class="row">
-    <div class="col-lg-8">
-        <div class="card-box">
+    <div class="col-12">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
             <?php if($alert){ ?>
             <div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
                 <?php echo $alert['msg']; ?>
             </div>
-            <?php } ?>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Name</label>
-                <div class="col-lg-9">
-                    <input class="form-control" id="name" type="text" value="<?php echo $d->name; ?>" name="name" required>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label">NPP</label>
-                <div class="col-lg-9">
-                    <input class="form-control" id="npp" type="text" value="<?php echo $d->npp; ?>" name="npp" required>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Group</label>
-                <div class="col-lg-9">
-                    <select class="form-control" id="work_group" name="work_group" required>
-                        <option value="">Choose Work Group</option>
-                        <?php foreach ($work_groups as $key => $g) {
-                            if($d->group == $g->id)
-                            {
-                                $selected = 'selected';
-                            }
-                            else
-                            {
-                                $selected = '';
-                            }
+            <?php } ?> 
+            
+            <div class="row">
+                <div class="col-6">
+                    <form method="post" action="<?php echo site_url('user/admin/save'); ?>">
+                        <input type="hidden" value="<?php echo $data->id; ?>" name="id">
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Name</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="name" value="<?php echo $data->name; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Email</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="email" value="<?php echo $data->email; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Phone</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="phone" value="<?php echo $data->phone; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Password</label>
+                            <div class="col-7">
+                                <input class="form-control" type="password" name="password">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Role</label>
+                            <div class="col-7">
+                                <select name="role" class="form-control">
+                                    <option value="dekape" <?php if($data->role == 'dekape') { echo "selected"; } ?>>Dekape</option>
+                                    <option value="dealer" <?php if($data->role == 'dealer') { echo "selected"; } ?>>Dealer</option>
+                                </select>
+                            </div>
+                        </div>
 
-                            echo '<option value="'.$g->code.'" work_group_id="'.$g->id.'" '.$selected.'>'.$g->name.'</option>';
-                        } ?>
-                    </select>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Dealer (optional)</label>
+                            <div class="col-7">
+                                <select name="dealer_id" class="form-control">
+                                    <option value="">Pilih Dealer</option>
+                                    <?php foreach ($dealers as $key => $d) { ?>
+                                        <option value="<?php echo $d->id; ?>" 
+                                            <?php if($data->dealer_id == $d->id) { echo "selected"; } else { echo ""; }  ?>>
+                                            <?php echo $d->name; ?>        
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                        <a href="<?php echo site_url('user/admin'); ?>" class="btn btn-danger waves-effect waves-light">
+                             Cancel 
+                        </a>
+                    </form>
                 </div>
             </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Work Unit</label>
-                <div class="col-lg-9">
-                    <select class="form-control" id="work_unit" name="uker" required>
-                        <option value="">Choose Work Unit</option>
-                        <?php foreach ($work_units as $key => $u) {
-                            if($d->uker == $u->id)
-                            {
-                                $selected = 'selected';
-                            }
-                            else
-                            {
-                                $selected = '';
-                            }
-                            echo '<option value="'.$u->id.'" data-chained="'.$u->group.'" '.$selected.'>'.$u->unit.'</option>';
-                        } ?>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Email</label>
-                <div class="col-lg-9">
-                    <input class="form-control" id="email" type="text" value="<?php echo $d->email; ?>" name="email" required>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Password</label>
-                <div class="col-lg-9">
-                    <input class="form-control" id="password" type="password" name="password">
-                </div>
-            </div>
-            <div class="form-group text-right m-b-0">
-                <input class="form-control" id="work_group_id" type="hidden" name="group" value="<?php echo $d->group; ?>" required>
-                <button class="btn btn-primary waves-effect waves-light" type="submit">
-                    Submit
-                </button>
-                <a href="<?php echo site_url('user'); ?>" class="btn btn-secondary waves-effect m-l-5">
-                    Cancel
-                </a>
-            </div>
+            
         </div>
     </div>
-</div>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#work_unit").chained("#work_group"); 
-
-        $("#work_group").on('change', function(e){
-            var work_group_id = $("#work_group option:selected").attr("work_group_id");
-            $("#work_group_id").val(work_group_id);
-        });
-    });
-</script>
+</div> <!-- end row -->

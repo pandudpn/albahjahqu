@@ -10,52 +10,13 @@
 <!-- end row -->
 
 <div class="row">
-    <div class="col-lg-4">
-        <div class="card-box">
-            <form id="form" method="post" enctype="multipart/form-data">
-                <strong><?php echo $title; ?></strong><br><br>
-                <div class="form-group row">
-                    <label class="col-12 col-form-label">Name</label>
-                    <div class="col-12">
-                        <input class="form-control" type="text" value="<?php echo $d->name; ?>" name="name" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-12 col-form-label">Username</label>
-                    <div class="col-12">
-                        <input class="form-control" type="text" value="<?php echo $d->username; ?>" name="username" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-12 col-form-label">Email</label>
-                    <div class="col-12">
-                        <input class="form-control" type="email" value="<?php echo $d->email; ?>" name="email" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-12 col-form-label">Password</label>
-                    <div class="col-12">
-                        <input class="form-control" id="password" type="password" value="" name="password" <?php if(empty($d)) { echo 'required'; } ?>>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-12 col-form-label">Confirm Password</label>
-                    <div class="col-12">
-                        <input class="form-control" type="password" value="" name="password_retype" data-parsley-equalto="#password" <?php if(empty($d)) { echo 'required'; } ?>>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-12">
-                        <div class="text-right">
-                            <a href="<?php echo site_url('user/admin'); ?>" class="btn btn-secondary">Reset</a>
-                            <button class="btn btn-primary">Save</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
+    <div class="col-lg-12">
+        <div class="p-20">
+            <a href="<?php echo site_url('user/admin/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Add Admin User </button>
+            </a>
         </div>
-    </div>
-    <div class="col-lg-8">
+
         <div class="card-box table-responsive">
             <?php if($alert){ ?>
             <div class="alert alert-<?php echo $alert['type']; ?>">
@@ -71,7 +32,6 @@
                 <tr>
                     <th width="10%">No</th>
                     <th>Name</th>
-                    <th>Username</th>
                     <th>Email</th>
                     <th width="20%"></th>
                 </tr>
@@ -125,7 +85,7 @@
                 "orderable": false, //set not orderable
                 },
                 { 
-                "targets": [ 4 ], //first column / numbering column
+                "targets": [ 3 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 }
             ]
