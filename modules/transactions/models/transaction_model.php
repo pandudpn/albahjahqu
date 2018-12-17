@@ -17,9 +17,9 @@ class transaction_model extends MY_Model {
         parent::__construct();
     }
 
-    public function _get_datatables_query()
+    public function _get_datatables_query($type=null)
     {
-        $this->db->select('trx_code, destination_no, selling_price, status');
+        $this->db->select('trx_code, destination_no, selling_price, status, status_provider');
         $this->db->select($this->table.'.created_on');
         $this->db->select($this->table_code.'.remarks');
         $this->db->from($this->table);
@@ -55,6 +55,11 @@ class transaction_model extends MY_Model {
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
+
+        if($type == 'pending')
+        {
+            $this->db->where("(status_provider = '68' OR status_provider = '82' OR status_provider = '96')");
+        }
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -67,23 +72,23 @@ class transaction_model extends MY_Model {
         }
     }
  
-    public function get_datatables()
+    public function get_datatables($type=null)
     {
-        $this->_get_datatables_query();
+        $this->_get_datatables_query($type);
         if($_POST['length'] != -1)
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }
  
-    public function count_filtered()
+    public function count_filtered($type=null)
     {
-        $this->_get_datatables_query();
+        $this->_get_datatables_query($type);
         $query = $this->db->get();
         return $query->num_rows();
     }
  
-    public function count_all()
+    public function count_all($type=null)
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
@@ -91,6 +96,11 @@ class transaction_model extends MY_Model {
         if($this->session->userdata('user')->role == 'dealer') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        if($type == 'pending')
+        {
+            $this->db->where("(status_provider = '68' OR status_provider = '82' OR status_provider = '96')");
         }
         
         return $this->db->count_all_results();
