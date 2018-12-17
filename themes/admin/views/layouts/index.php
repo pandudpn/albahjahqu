@@ -251,6 +251,14 @@
                             </li>
 
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                            <li>
+                                <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                </a>
+                            </li>
+                            <?php } ?>
+
+                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                             <li class="text-muted menu-title">Modem Pool</li>
 
                             <li>
