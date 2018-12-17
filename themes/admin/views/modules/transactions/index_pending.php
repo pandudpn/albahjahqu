@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -31,6 +31,7 @@
                     <th>Status</th>
                     <th>Status Provider</th>
                     <th>Time</th>
+                    <th></th>
                     <!-- <th style="width: 120px;">
                     	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
 					</th> -->
@@ -54,10 +55,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure want to delete this item?</p>
+                <p>Are you sure want to do this?</p>
             </div>
             <div class="modal-footer">
-                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes, Delete it</a>
+                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes</a>
                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
@@ -88,7 +89,7 @@
         });
     });
 
-    function alert_delete(url)
+    function alert(url)
     {
         $("#confirm").attr('href', url)
         $("#modal-alert").modal('show')

@@ -19,7 +19,7 @@ class transaction_model extends MY_Model {
 
     public function _get_datatables_query($type=null)
     {
-        $this->db->select('trx_code, destination_no, selling_price, status, status_provider');
+        $this->db->select('transactions.id, trx_code, destination_no, selling_price, status, status_provider');
         $this->db->select($this->table.'.created_on');
         $this->db->select($this->table_code.'.remarks');
         $this->db->from($this->table);
