@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Dashboard: Desember</h4>
+            <h4 class="page-title float-left">Dashboard: <?php echo date('F'); ?></h4>
 
             <div class="clearfix"></div>
         </div>
@@ -16,9 +16,20 @@
     	<div class="card-box">
 	        <div class="row">
 	            <div class="col-sm-12 col-xs-12 col-md-12">
-	                <h4 class="header-title m-t-0">Transaksi</h4>
+	                <h4 class="header-title m-t-0">Jumlah Transaksi</h4>
 	                <p class="text-muted font-13 m-b-30"> </p>
 	                <div id="trx-chart" style="height: 400px;"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="col-12">
+    	<div class="card-box">
+	        <div class="row">
+	            <div class="col-sm-12 col-xs-12 col-md-12">
+	                <h4 class="header-title m-t-0">Total Transaksi</h4>
+	                <p class="text-muted font-13 m-b-30"> </p>
+	                <div id="trx-total-chart" style="height: 400px;"></div>
 	            </div>
 	        </div>
 	    </div>
@@ -61,6 +72,9 @@ $(document).ready(function(){
 	google.charts.setOnLoadCallback(drawtrxchart);
 
 	google.charts.load('current', {packages: ['corechart', 'bar']});
+	google.charts.setOnLoadCallback(drawtrxtotalchart);
+
+	google.charts.load('current', {packages: ['corechart', 'bar']});
 	google.charts.setOnLoadCallback(drawdealerchart);
 
 	google.charts.load('current', {packages: ['corechart', 'bar']});
@@ -71,48 +85,18 @@ $(document).ready(function(){
 
 	function drawtrxchart() {
 
-		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'Tanggal');
-      	data.addColumn('number', 'Total Transaksi');
-
-      	data.addRows([
-			['1 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['2 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['3 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['4 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['5 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['6 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['7 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['8 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['9 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['10 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['11 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['12 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['13 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['14 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['15 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['16 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['17 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['18 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['19 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['20 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['21 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['22 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['23 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['24 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['25 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['26 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['27 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['28 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['29 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['30 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000],
-			['31 Desember', Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000]
-		]);
-
+		var jsonData = $.ajax({
+			url: "<?php echo site_url('home/trx_chart'); ?>",
+			dataType: "json",
+			async: false
+        }).responseText;
+          
+      	var data = new google.visualization.DataTable(jsonData);
+		
 		var options = {
-		title: 'Transaksi Bulan Desember',
+		title: 'Jumlah Transaksi Bulan Desember',
 			vAxis: {
-			  title: 'Total Transaksi'
+			  title: ''
 			},
 			hAxis:{
 				format: 'decimal',
@@ -121,6 +105,32 @@ $(document).ready(function(){
 
 		var chart = new google.visualization.ColumnChart(
 		document.getElementById('trx-chart'));
+
+		chart.draw(data, options);
+    }
+
+    function drawtrxtotalchart() {
+
+		var jsonData = $.ajax({
+			url: "<?php echo site_url('home/trx_total_chart'); ?>",
+			dataType: "json",
+			async: false
+        }).responseText;
+          
+      	var data = new google.visualization.DataTable(jsonData);
+
+		var options = {
+		title: 'Total Transaksi Bulan Desember',
+			vAxis: {
+			  title: ''
+			},
+			hAxis:{
+				format: 'decimal',
+			}
+		};
+
+		var chart = new google.visualization.ColumnChart(
+		document.getElementById('trx-total-chart'));
 
 		chart.draw(data, options);
     }
