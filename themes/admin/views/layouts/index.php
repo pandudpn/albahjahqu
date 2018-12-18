@@ -258,7 +258,6 @@
                             </li>
                             <?php } ?>
 
-                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                             <li class="text-muted menu-title">Modem Pool</li>
 
                             <li>
@@ -267,6 +266,8 @@
                                 </a>
                             </li>
 
+                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                            
                             <li class="text-muted menu-title">Management</li>
 
                             <li>

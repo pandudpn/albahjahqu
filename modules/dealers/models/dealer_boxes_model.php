@@ -47,6 +47,11 @@ class dealer_boxes_model extends MY_Model {
             $i++;
         }
 
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
         $this->db->where($this->table.'.deleted', '0');
          
         if(isset($_POST['order'])) // here order processing
