@@ -94,7 +94,7 @@ $(document).ready(function(){
       	var data = new google.visualization.DataTable(jsonData);
 		
 		var options = {
-		title: 'Jumlah Transaksi Bulan Desember',
+		title: 'Jumlah Transaksi Bulan <?php echo date('F'); ?>',
 			vAxis: {
 			  title: ''
 			},
@@ -120,7 +120,7 @@ $(document).ready(function(){
       	var data = new google.visualization.DataTable(jsonData);
 
 		var options = {
-		title: 'Total Transaksi Bulan Desember',
+		title: 'Total Transaksi Bulan <?php echo date('F'); ?>',
 			vAxis: {
 			  title: ''
 			},
@@ -136,18 +136,13 @@ $(document).ready(function(){
     }
 
     function drawdealerchart() {
-      var data = google.visualization.arrayToDataTable([
-			['Dealer', 'Sales'],
-			['OKBABE', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000],
-			['BANGGAI', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000],
-			['ARDAN', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000],
-			['SINARTELEKOM', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000],
-			['GRATIKA', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000],
-			['WIDODO', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000],
-			['DISACITRA', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000],
-			['CITRAINDAH', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000],
-			['DEKAPE', Math.floor(Math.random() * (100000000 - 100000 + 1)) + 100000]
-      ]);
+      	var jsonData = $.ajax({
+			url: "<?php echo site_url('home/dealer_chart'); ?>",
+			dataType: "json",
+			async: false
+        }).responseText;
+          
+      	var data = new google.visualization.DataTable(jsonData);
 
       var options = {
         title: 'Dealer Sales',
@@ -167,14 +162,13 @@ $(document).ready(function(){
 
     function drawtopupchart() {
 
-		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'Keterangan');
-      	data.addColumn('number', 'Jumlah');
-
-      	data.addRows([
-			['Topup', Math.floor(Math.random() * (100000000 - 10000000 + 1)) + 10000000],
-			['Sales', Math.floor(Math.random() * (100000000 - 10000000 + 1)) + 10000000]
-		]);
+		var jsonData = $.ajax({
+			url: "<?php echo site_url('home/topup_chart'); ?>",
+			dataType: "json",
+			async: false
+        }).responseText;
+          
+      	var data = new google.visualization.DataTable(jsonData);
 
 		var options = {
 		title: 'Topup dan Sales',
@@ -194,22 +188,13 @@ $(document).ready(function(){
 
     function drawproductsales() {
 
-        var data = google.visualization.arrayToDataTable([
-          ['Product', 'Total'],
-          ['PLN', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Cable Tv', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Insurance', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Pajak', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Multi Finance ', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Voucher Game', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Zakat', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Internet', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Pulsa', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Pulsa Postpaid', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['Fixedline', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['PDAM', Math.floor(Math.random() * (10000 - 1 + 1)) + 1],
-          ['PBB', Math.floor(Math.random() * (10000 - 1 + 1)) + 1]
-        ]);
+        var jsonData = $.ajax({
+			url: "<?php echo site_url('home/product_sales_chart'); ?>",
+			dataType: "json",
+			async: false
+        }).responseText;
+         
+      	var data = new google.visualization.DataTable(jsonData);
 
         var options = {
           title: 'Product Sales'
