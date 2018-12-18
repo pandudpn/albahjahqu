@@ -101,6 +101,7 @@ class denom extends Admin_Controller {
                 'dekape_fee'  => $dekape_fee,
                 'biller_fee'  => $biller_fee,
                 'partner_fee' => $partner_fee,
+                'user_fee'    => $user_fee,
                 'description' => $description,
                 'status'      => $status
             );
