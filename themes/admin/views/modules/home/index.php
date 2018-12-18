@@ -94,7 +94,7 @@ $(document).ready(function(){
       	var data = new google.visualization.DataTable(jsonData);
 		
 		var options = {
-		title: 'Jumlah Transaksi Bulan <?php echo date('F'); ?>',
+		title: 'Jumlah Transaksi',
 			vAxis: {
 			  title: ''
 			},
@@ -120,7 +120,7 @@ $(document).ready(function(){
       	var data = new google.visualization.DataTable(jsonData);
 
 		var options = {
-		title: 'Total Transaksi Bulan <?php echo date('F'); ?>',
+		title: 'Total Transaksi',
 			vAxis: {
 			  title: ''
 			},
