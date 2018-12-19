@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Service extends Admin_Controller {
+class stock extends Admin_Controller {
 	
 	public function __construct() {
         parent::__construct();
@@ -21,12 +21,11 @@ class Service extends Admin_Controller {
     public function index($box_id)
     {  
         $boxes = $this->dealer_boxes->find($box_id);
-
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('boxes', $boxes)
             ->set('box_id', $box_id)
-    		->build('boxes/service/index');
+    		->build('boxes/stock/index');
     }
 
     public function add($box_id)
@@ -39,23 +38,21 @@ class Service extends Admin_Controller {
         
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
-            ->set('title', 'Add Box Service')
+            ->set('title', 'Add Stock')
             ->set('dealer', $dealer)
             ->set('boxes', $boxes)
             ->set('provider', $provider)
-        	->build('boxes/service/form');
+        	->build('boxes/stock/form');
     }
 
-    public function edit($box_id, $servbox_id)
+    public function edit($box_id, $stock_id)
     {
-        $is_exist = $this->dealer_box_services->find($servbox_id);
+        $is_exist = $this->dealer_box_stocks->find($stock_id);
 
         if($is_exist){
 
-            $dealer_box_services_data = $is_exist;
+            $dealer_box_stocks_data = $is_exist;
 
-            $dealer   = $this->dealer->get_all();
-            $biller   = $this->biller->get_all();
             $provider = $this->service_provider->get_all();
 
             $boxes = $this->dealer_boxes->find($box_id);
@@ -63,11 +60,10 @@ class Service extends Admin_Controller {
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
                 ->set('title', 'Edit Box Service')
-                ->set('dealer', $dealer)
-                ->set('service_boxes', $dealer_box_services_data)
+                ->set('stock', $dealer_box_stocks_data)
                 ->set('boxes', $boxes)
                 ->set('provider', $provider)
-                ->build('boxes/service/form');
+                ->build('boxes/stock/form');
         }
     }
 
@@ -76,16 +72,22 @@ class Service extends Admin_Controller {
         $box_id = $this->input->post('box_id');
         $id     = $this->input->post('id');
         
-        $operator         = $this->input->post('operator');
-        $service_type     = $this->input->post('service_type');
-        $service_coverage = $this->input->post('service_coverage');
-        $msisdn           = $this->input->post('msisdn');
-        $pinsim           = $this->input->post('pinsim');
-        $status           = $this->input->post('status');
+        $v1   = $this->input->post('v1');
+        $v5   = $this->input->post('v5');
+        $v10  = $this->input->post('v10');
+        $v15  = $this->input->post('v15');
+        $v20  = $this->input->post('v20');
+        $v25  = $this->input->post('v25');
+        $v40  = $this->input->post('v40');
+        $v50  = $this->input->post('v50');
+        $v80  = $this->input->post('v80');
+        $v100 = $this->input->post('v100');
+        $v200 = $this->input->post('v200');
+        $v300 = $this->input->post('v300');
         
         $dealer_box = $this->dealer_boxes->find($box_id);
 
-        $max_slot = $this->dealer_box_services->max_slot($dealer_box->ipbox, $service_type);
+        $max_slot = $this->dealer_box_stocks->max_slot($dealer_box->ipbox);
         $slot = $max_slot[0]->slot;
         
         if(empty($slot)){
@@ -93,41 +95,45 @@ class Service extends Admin_Controller {
         }
 
         $data = array(
-            'dealer_id'        => $dealer_box->dealer_id,
-            'dealer_name'      => $dealer_box->dealer_name,
-            'ipbox'            => $dealer_box->ipbox,
-            'type'             => $dealer_box->type,
-            'operator'         => $operator,
-            'service_type'     => $service_type,
-            'service_coverage' => $service_coverage,
-            'msisdn'           => $msisdn,
-            'pinsim'           => $pinsim,
-            'status'           => $status
+            'dealer_id'   => $dealer_box->dealer_id,
+            'dealer_name' => $dealer_box->dealer_name,
+            'ipbox'       => $dealer_box->ipbox,
+            'v1'          => $v1,
+            'v5'          => $v5,
+            'v10'         => $v10,
+            'v15'         => $v15,
+            'v20'         => $v20,
+            'v25'         => $v25,
+            'v40'         => $v40,
+            'v50'         => $v50,
+            'v80'         => $v80,
+            'v100'        => $v100,
+            'v200'        => $v200,
+            'v300'        => $v300
         );
 
         if(!$id){
             $data['slot'] = $slot + 1;
-            
-            $insert = $this->dealer_box_services->insert($data);
-            redirect(site_url('dealers/boxes/'.$box_id.'/service'), 'refresh');
+            $insert = $this->dealer_box_stocks->insert($data);
+            redirect(site_url('dealers/boxes/'.$box_id.'/stock'), 'refresh');
         }else{
-            $update = $this->dealer_box_services->update($id, $data);
-            redirect(site_url('dealers/boxes/'.$box_id.'/service'), 'refresh');
+            $update = $this->dealer_box_stocks->update($id, $data);
+            redirect(site_url('dealers/boxes/'.$box_id.'/stock'), 'refresh');
         }
 
     }
 
     public function delete($box_id, $id)
     {
-        $delete = $this->dealer_box_services->delete($id);
+        $delete = $this->dealer_box_stocks->delete($id);
 
-        redirect(site_url('dealers/boxes/'.$box_id.'/service'), 'refresh');
+        redirect(site_url('dealers/boxes/'.$box_id.'/stock'), 'refresh');
     }
 
     public function datatables($box_id)
     {
         $ip_box = $this->dealer_boxes->find($box_id)->ipbox;
-        $list   = $this->dealer_box_services->get_datatables($ip_box);
+        $list   = $this->dealer_box_stocks->get_datatables($ip_box);
         
         $data = array();
         $no   = $_POST['start'];
@@ -138,20 +144,25 @@ class Service extends Admin_Controller {
             $row[] = $no;
             $row[] = $l->dealer_name;
             $row[] = $l->ipbox;
-            $row[] = $l->type;
             $row[] = $l->slot;
-            $row[] = $l->operator;
-            $row[] = $l->service_type;
-            $row[] = $l->service_coverage;
-            $row[] = $l->msisdn;
-            $row[] = $l->status;
-            // $row[] = $l->partner_fee;
+            $row[] = $l->v1;
+            $row[] = $l->v5;
+            $row[] = $l->v10;
+            $row[] = $l->v15;
+            $row[] = $l->v20;
+            $row[] = $l->v25;
+            $row[] = $l->v40;
+            $row[] = $l->v50;
+            $row[] = $l->v80;
+            $row[] = $l->v100;
+            $row[] = $l->v200;
+            $row[] = $l->v300;
 
-            $btn  = '<a href="'.site_url('dealers/boxes/'.$box_id.'/service/edit/'.$l->id).'" class="btn btn-success btn-sm">
+            $btn  = '<a href="'.site_url('dealers/boxes/'.$box_id.'/stock/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>
                       </a> &nbsp;';
 
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('dealers/boxes/'.$box_id.'/service/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('dealers/boxes/'.$box_id.'/stock/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                       </a>';
 
@@ -162,8 +173,8 @@ class Service extends Admin_Controller {
  
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->dealer_box_services->count_all($ip_box),
-            "recordsFiltered"   => $this->dealer_box_services->count_filtered($ip_box),
+            "recordsTotal"      => $this->dealer_box_stocks->count_all($ip_box),
+            "recordsFiltered"   => $this->dealer_box_stocks->count_filtered($ip_box),
             "data"              => $data,
         );
         //output to json format

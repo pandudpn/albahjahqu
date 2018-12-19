@@ -82,6 +82,7 @@
                             <label for="" class="col-3 col-form-label">Biller</label>
                             <div class="col-6">
                                 <select class="form-control select2" name="by">
+                                    <option value="">Choose Biller</option>
                                     <?php foreach($biller as $bill){ 
                                             if($bill->id == $data->by){
                                                 echo "<option selected value='$bill->id'> $bill->name </option>";
@@ -102,6 +103,15 @@
                             <label for="" class="col-3 col-form-label">Remarks</label>
                             <div class="col-7">
                                 <input class="form-control" type="text" name="remarks" value="<?php echo $data->remarks; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Status</label>
+                            <div class="col-7">
+                                <select class="form-control" name="status" id="status">
+                                    <option value="0" <?php if($data->deleted == '0') { echo 'selected'; } ?>>Active</option>
+                                    <option value="1" <?php if($data->deleted == '1') { echo 'selected'; } ?>>Non active</option>
+                                </select>
                             </div>
                         </div>
                         

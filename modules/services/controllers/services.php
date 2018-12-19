@@ -64,16 +64,22 @@ class services extends Admin_Controller {
         $by          = $this->input->post('by');
         $biller_code = $this->input->post('biller_code');
         $remarks     = $this->input->post('remarks');
+        $status      = $this->input->post('status');
         
         $data = array(
-                'service'     => $service,
-                'provider'    => $provider,
-                'prepaid'     => $prepaid,
-                'by'          => $by,
-                'type'        => $type,
-                'biller_code' => $biller_code,
-                'remarks'     => $remarks
-            );
+            'service'     => $service,
+            'provider'    => $provider,
+            'prepaid'     => $prepaid,
+            'type'        => $type,
+            'biller_code' => $biller_code,
+            'remarks'     => $remarks,
+            'deleted'     => $status
+        );
+
+        if(!empty($by))
+        {
+            $data['by'] = $by;
+        }
         
         if(!$id){
             $insert = $this->service->insert($data);
@@ -86,6 +92,7 @@ class services extends Admin_Controller {
 
     public function delete($id)
     {
+        $delete = $this->service->set_soft_deletes(FALSE);
         $delete = $this->service->delete($id);
 
         redirect(site_url('services'), 'refresh');
@@ -104,6 +111,16 @@ class services extends Admin_Controller {
             $row[] = $l->provider_name;
             $row[] = $l->remarks;
             $row[] = $l->biller_name;
+
+            if($l->deleted == '0')
+            {
+                $row[] = 'active';
+            }
+            else if($l->deleted == '1')
+            {
+                $row[] = 'non active';
+            }
+            
 
             $btn   = '<a href="'.site_url('services/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>

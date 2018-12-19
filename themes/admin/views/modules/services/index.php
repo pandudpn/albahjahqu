@@ -34,6 +34,7 @@
                     <th>Provider</th>
                     <th>Remarks</th>
                     <th>Biller</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -83,6 +84,10 @@
             "columnDefs": [
                 { 
                 "targets": [ 0 ], //first column / numbering column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 5 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 }
                 // { 

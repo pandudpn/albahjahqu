@@ -24,6 +24,7 @@ class service_model extends MY_Model {
         $this->db->select($this->table.'.id', false);
         $this->db->select($this->table_provider.'.name as provider_name', false);
         $this->db->select($this->table.'.remarks', false);
+        $this->db->select($this->table.'.deleted', false);
         $this->db->select("IFNULL(".$this->table_biller.".name, '-') as biller_name", false);
         $this->db->from($this->table);
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.provider', 'left');
@@ -53,7 +54,7 @@ class service_model extends MY_Model {
             $i++;
         }
 
-        $this->db->where($this->table.'.deleted', '0');
+        // $this->db->where($this->table.'.deleted', '0');
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -85,7 +86,7 @@ class service_model extends MY_Model {
     public function count_all()
     {
         $this->db->from($this->table);
-        $this->db->where('deleted', '0');
+        // $this->db->where('deleted', '0');
         return $this->db->count_all_results();
     }
 
