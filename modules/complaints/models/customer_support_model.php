@@ -1,29 +1,25 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class transaction_model extends MY_Model {
+class customer_support_model extends MY_Model {
 
-	protected $table         	= 'transactions';
-	protected $table_code       = 'ref_service_codes';
+	protected $table         	= 'customer_supports';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
+    protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'trx_code', 'destination_no', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks'); //set column field database for datatable orderable
-    protected $column_search = array('trx_code', 'destination_no', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks'); //set column field database for datatable searchable 
-    protected $order 		 = array('transactions.id' => 'desc'); // default order 
+    protected $column_order  = array(null, 'ticket', 'cus_name', 'status', 'subject', 'created_on'); //set column field database for datatable orderable
+    protected $column_search = array('ticket', 'cus_name', 'status', 'subject', 'created_on'); //set column field database for datatable searchable 
+    protected $order 		 = array('created_on' => 'desc'); // default order 
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function _get_datatables_query($type=null)
+    public function _get_datatables_query($type)
     {
-        $this->db->select('transactions.id, trx_code, destination_no, selling_price, status, status_provider');
-        $this->db->select($this->table.'.created_on');
-        $this->db->select($this->table_code.'.remarks');
         $this->db->from($this->table);
-        $this->db->join($this->table_code, $this->table_code.'.id = '.$this->table.'.service_id', 'left');
         
         $i = 0;
      
@@ -50,19 +46,22 @@ class transaction_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
-        $this->db->where($this->table.'.status <>', 'inquiry');
+
+        if($type == 'report')
+        {
+            $this->db->where($this->table.'.type', 'laporan');    
+        }
+        else if($type == 'help')
+        {
+            $this->db->where($this->table.'.type', 'bantuan');    
+        }
+        
 
         if($this->session->userdata('user')->role == 'dealer') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
-
-        if($type == 'pending')
-        {
-            $this->db->where("(status_provider = '68' OR status_provider = '82' OR status_provider = '96')");
-            $this->db->where($this->table.'.created_on >= DATE_ADD(NOW(), INTERVAL -1 WEEK)');
-        }
-         
+                 
         if(isset($_POST['order'])) // here order processing
         {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -74,7 +73,7 @@ class transaction_model extends MY_Model {
         }
     }
  
-    public function get_datatables($type=null)
+    public function get_datatables($type)
     {
         $this->_get_datatables_query($type);
         if($_POST['length'] != -1)
@@ -83,28 +82,33 @@ class transaction_model extends MY_Model {
         return $query->result();
     }
  
-    public function count_filtered($type=null)
+    public function count_filtered($type)
     {
         $this->_get_datatables_query($type);
         $query = $this->db->get();
         return $query->num_rows();
     }
  
-    public function count_all($type=null)
+    public function count_all($type)
     {
         $this->db->from($this->table);
-        $this->db->where('deleted', '0');
+        
+        if($type == 'report')
+        {
+            $this->db->where($this->table.'.type', 'laporan');    
+        }
+        else if($type == 'help')
+        {
+            $this->db->where($this->table.'.type', 'bantuan');    
+        }
 
+        $this->db->where('deleted', '0');
+        
         if($this->session->userdata('user')->role == 'dealer') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
 
-        if($type == 'pending')
-        {
-            $this->db->where("(status_provider = '68' OR status_provider = '82' OR status_provider = '96')");
-        }
-        
         return $this->db->count_all_results();
     }
 

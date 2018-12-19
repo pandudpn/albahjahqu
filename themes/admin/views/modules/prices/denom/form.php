@@ -232,7 +232,8 @@
             service.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
-                service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                console.log(obj);
+                service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</li>");
             });
         });
         
@@ -240,7 +241,7 @@
             denom.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
-                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + "</li>");
+                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + obj[idx].biller.name +"</li>");
             });
         });
     });

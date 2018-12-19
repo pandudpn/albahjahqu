@@ -150,6 +150,7 @@ class denom extends Admin_Controller {
             $row[] = $l->dealer_name;
             $row[] = $l->biller_code;
             $row[] = $l->type;
+            $row[] = number_format(($l->base_price + $l->dealer_fee + $l->dekape_fee + $l->biller_fee + $l->user_fee));
             $row[] = number_format($l->base_price);
             $row[] = number_format($l->dealer_fee);
             $row[] = number_format($l->dekape_fee);
@@ -157,9 +158,9 @@ class denom extends Admin_Controller {
             // $row[] = $l->partner_fee;
             $row[] = number_format($l->user_fee);
 
-            $btn   = '<a href="'.site_url('prices/denom/edit/'.$l->id).'" class="btn btn-success btn-sm">
+            $btn   = '<a href="'.site_url('prices/denom/edit/'.$l->id).'" class="btn btn-success btn-sm" style="margin-bottom: 5px;">
                         <i class="fa fa-pencil"></i>
-                      </a> &nbsp;';
+                      </a>';
 
             $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('prices/denom/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>

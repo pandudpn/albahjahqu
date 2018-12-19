@@ -27,7 +27,22 @@ class data extends Admin_Controller {
         }else{
             $param = array('provider' => $alias, 'type' => $category);
         }
+
         $data = $this->service_code->find_all_by($param);
+
+        foreach ($data as $key => $d) 
+        {
+            $data[$key]->biller = $this->ref_biller->find($d->by);
+
+            if(!$data[$key]->biller)
+            {
+                $data[$key]->biller->name = '';
+            }
+            else
+            {
+                $data[$key]->biller->name = ' | '.$data[$key]->biller->name;
+            }
+        }
 
         echo json_encode($data);
     }
@@ -40,6 +55,20 @@ class data extends Admin_Controller {
             $param = array('provider' => $alias, 'type' => $category);
         }
         $data = $this->ref_denom->find_all_by($param);
+
+        foreach ($data as $key => $d) 
+        {
+            $data[$key]->biller = $this->ref_biller->find($d->supplier_id);
+
+            if(!$data[$key]->biller)
+            {
+                $data[$key]->biller->name = '';
+            }
+            else
+            {
+                $data[$key]->biller->name = ' | '.$data[$key]->biller->name;
+            }
+        }
 
         echo json_encode($data);
     }

@@ -16,7 +16,7 @@
                 <i class="zmdi zmdi-collection-plus"></i> Add Denom</button>
             </a>
         </div>
-        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -34,12 +34,13 @@
                     <th>Dealer</th>
                     <th>Biller</th>
                     <th>Type</th>
+                    <th>Selling Price</th>
                     <th>Base Price</th>
                     <th>Dealer Fee</th>
                     <th>Dekape Fee</th>
                     <th>Biller Fee</th>
                     <th>User Fee</th>
-                    <th style="width:80px;">Action</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -91,6 +92,10 @@
                 "orderable": false, //set not orderable
                 },
                 { 
+                "targets": [ 6 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
                 "targets": [ 7 ], //last column / new item column
                 "orderable": false, //set not orderable
                 },
@@ -104,6 +109,10 @@
                 },
                 { 
                 "targets": [ 10 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 12 ], //last column / new item column
                 "orderable": false, //set not orderable
                 }
                 // { 

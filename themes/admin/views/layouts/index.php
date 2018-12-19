@@ -207,7 +207,20 @@
                                 </ul>
                             </li>
 
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="zmdi zmdi-email-open"></i><span> Complaints </span> 
+                                    <span class="menu-arrow"></span>
+                                </a>
+
+                                <ul class="list-unstyled">
+                                    <li><a href="<?php echo site_url('complaints/report'); ?>">Report</a></li>
+                                    <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
+                                </ul>
+                            </li>
+
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+
                             <li>
                                 <a href="<?php echo site_url('dealers'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-store"></i><span> Dealers </span> 
