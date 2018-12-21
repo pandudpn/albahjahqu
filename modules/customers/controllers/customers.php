@@ -5,6 +5,13 @@ class customers extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('customers/customer_model', 'customer');
+        $this->load->model('user/eva_customer_model', 'eva_customer');
+        $this->load->model('references/geo_cities_model', 'geo_city');
+        $this->load->model('references/geo_provinces_model', 'geo_province');
+        $this->load->model('references/geo_districts_model', 'geo_district');
+        $this->load->model('references/geo_villages_model', 'geo_village');
+        $this->load->model('dealers/dealer_model', 'dealer');
+        $this->load->model('dealers/dealer_cluster_model', 'dealer_cluster');
 
         $this->load->helper('text');
 
@@ -13,9 +20,86 @@ class customers extends Admin_Controller {
 
     public function index()
     {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
+            ->set('from', $from)
+            ->set('to', $to)
     		->build('index');
+    }
+
+    public function outlet($id)
+    {
+        if($this->input->post())
+        {
+            $data = array(
+                'outlet_number' => $this->input->post('outlet_number'),
+                'outlet_name' => $this->input->post('outlet_name')
+            );
+
+            $update = $this->customer->update($id, $data);
+
+            if($update)
+            {
+                redirect(site_url('customers'), 'refresh');
+            }
+        }
+
+        $data = $this->customer->find($id);
+
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Edit Outlet for '.$data->name)
+            ->set('data', $data)
+            ->build('outlet');
+    }
+
+    public function geography($id)
+    {
+        if($this->input->post())
+        {
+            $data = array(
+                'village'       => $this->input->post('village'),
+                'district'      => $this->input->post('district'),
+                'cluster'       => $this->input->post('cluster'),
+                'city'          => $this->input->post('city'),
+                'dealer_id'     => $this->input->post('dealer_id'),
+                'dealer_name'   => $this->dealer->find($this->input->post('dealer_id'))->name,
+                'dealership'    => $this->input->post('dealership')
+            );
+
+            $update = $this->customer->update($id, $data);
+
+            if($update)
+            {
+                redirect(site_url('customers'), 'refresh');
+            }
+        }
+
+        $data = $this->customer->find($id);
+        $city = $this->geo_city->find($data->city);
+
+        $provinces  = $this->geo_province->find_all();
+        $cities     = $this->geo_city->find_all_by(array('province_id' => $city->province_id));
+        $districts  = $this->geo_district->find_all_by(array('city_id' => $data->city));
+        $villages   = $this->geo_village->find_all_by(array('district_id' => $data->district));
+        $dealers    = $this->dealer->find_all();
+        $dealer_clusters    = $this->dealer_cluster->find_all_by(array('dealer_id' => $data->dealer_id));
+
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Edit Geography for '.$data->name)
+            ->set('data', $data)
+            ->set('city', $city)
+            ->set('provinces', $provinces)
+            ->set('cities', $cities)
+            ->set('districts', $districts)
+            ->set('villages', $villages)
+            ->set('dealers', $dealers)
+            ->set('dealer_clusters', $dealer_clusters)
+            ->build('dealer');
     }
 
     public function status($status, $id)
@@ -45,10 +129,29 @@ class customers extends Admin_Controller {
             $row   = array();
             $row[] = $no;
             $row[] = $l->name;
-            $row[] = $l->phone;
-            $row[] = $l->email;
+            $row[] = $l->phone. ' / '.$l->email;
+
+            if(empty($l->outlet_name))
+            {
+                $outlet_name = ' NULL ';
+            }
+            else
+            {
+                $outlet_name = $l->outlet_name;
+            }
+
+            if(empty($l->outlet_number))
+            {
+                $outlet_number = ' NULL ';
+            }
+            else
+            {
+                $outlet_number = $l->outlet_number;
+            }
+
+            $row[] = $outlet_name . ' / '.$outlet_number;
             $row[] = $l->dealer_name;
-            $row[] = 'Rp. '.number_format($l->balance);
+            $row[] = 'Rp.' .number_format($this->eva_customer->find_by(array('account_user' => $l->id))->account_balance);
             $row[] = $l->account_status;
             $row[] = $l->kyc_status;
 
@@ -61,7 +164,7 @@ class customers extends Admin_Controller {
             //           </a>';
 
             $btn = '<div class="btn-group">
-                        <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Change Status <span class="caret"></span></button>
+                        <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
                         <div class="dropdown-menu">';
             
             if($l->account_status != 'active'){
@@ -79,6 +182,12 @@ class customers extends Admin_Controller {
                                 <div class="dropdown-divider"></div>';
             }
 
+            $btn .= '<a class="dropdown-item" href="'.site_url('customers/geography/'.$l->id).'" >Edit Geography</a>
+                                <div class="dropdown-divider"></div>';
+
+            $btn .= '<a class="dropdown-item" href="'.site_url('customers/outlet/'.$l->id).'" >Edit Outlet</a>
+                                <div class="dropdown-divider"></div>';
+
             $btn .= '</div>
                     </div>';
 
@@ -95,5 +204,37 @@ class customers extends Admin_Controller {
         );
         //output to json format
         echo json_encode($output);
+    }
+
+    public function lists_city($id)
+    {
+        $data  = $this->geo_city->find_all_by(array('province_id' => $id));
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+
+    public function lists_district($id)
+    {
+        $data  = $this->geo_district->find_all_by(array('city_id' => $id));
+        
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+
+    public function lists_village($id)
+    {
+        $data  = $this->geo_village->find_all_by(array('district_id' => $id));
+        
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
+
+    public function lists_cluster($id)
+    {
+        $data  = $this->dealer_cluster->find_all_by(array('dealer_id' => $id));
+        
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 }

@@ -10,6 +10,7 @@ class denom extends Admin_Controller {
         $this->load->model('references/billers_model', 'biller');
         $this->load->model('references/ref_service_codes_model', 'service_code');
         $this->load->model('references/ref_denoms_model', 'ref_denom');
+        $this->load->model('prices/price_log_model', 'price_log');
 
         $this->load->helper('text');
 
@@ -18,7 +19,7 @@ class denom extends Admin_Controller {
 
     public function index()
     {
-    	$this->template->set('alert', $this->session->flashdata('alert'))
+        $this->template->set('alert', $this->session->flashdata('alert'))
     					->build('denom/index');
     }
 
@@ -117,11 +118,13 @@ class denom extends Admin_Controller {
         if(!$id){
 
             $insert = $this->denom->insert($data);
+            $this->price_log_insert('create', 'denom', $description, $insert, $data);
 
             redirect(site_url('prices/denom'), 'refresh');
         }else{
 
             $update = $this->denom->update($id, $data);
+            $this->price_log_insert('edit', 'denom', $description, $id, $data);
 
             redirect(site_url('prices/denom'), 'refresh');
         }
@@ -131,8 +134,29 @@ class denom extends Admin_Controller {
     public function delete($id)
     {
         $delete = $this->denom->delete($id);
+        $denom = $this->denom->find($id);
+
+        $this->price_log_insert('delete', 'denom', $denom->description, $id, $data);
 
         redirect(site_url('prices/denom'), 'refresh');
+    }
+
+    public function price_log_insert($action, $type, $remarks, $price_id, $json_data)
+    {
+        $admin_id   = $this->session->userdata('user')->id;
+        $admin_name = $this->session->userdata('user')->name;
+
+        $data = array(
+            'admin_id'      => $admin_id,
+            'admin_name'    => $admin_name,
+            'action'        => $action,
+            'type'          => $type,
+            'remarks'       => $remarks,
+            'price_id'      => $price_id,
+            'data'          => json_encode($json_data)
+        );
+
+        $this->price_log->insert($data);
     }
 
     public function datatables()

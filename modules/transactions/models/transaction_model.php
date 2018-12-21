@@ -2,14 +2,16 @@
 
 class transaction_model extends MY_Model {
 
-	protected $table         	= 'transactions';
+    protected $table            = 'transactions';
+    protected $table_biller     = 'billers';
+	protected $table_customer   = 'customers';
 	protected $table_code       = 'ref_service_codes';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
 
-    protected $column_order  = array(null, 'trx_code', 'destination_no', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks'); //set column field database for datatable orderable
-    protected $column_search = array('trx_code', 'destination_no', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'trx_code', 'destination_no', 'token_code', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks'); //set column field database for datatable orderable
+    protected $column_search = array('trx_code', 'destination_no', 'token_code', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.id' => 'desc'); // default order 
 
     public function __construct()
@@ -19,11 +21,18 @@ class transaction_model extends MY_Model {
 
     public function _get_datatables_query($type=null)
     {
-        $this->db->select('transactions.id, trx_code, destination_no, selling_price, status, status_provider');
+        $this->db->select('transactions.id, ref_code, trx_code, destination_no, token_code, selling_price, status, status_provider');
         $this->db->select($this->table.'.created_on');
+        $this->db->select($this->table.'.dealer_fee');
+        $this->db->select($this->table.'.biller_fee');
         $this->db->select($this->table_code.'.remarks');
+        $this->db->select($this->table_customer.'.name as cus_name');
+        $this->db->select($this->table_customer.'.phone as cus_phone');
+        $this->db->select($this->table_biller.'.name as biller_name');
         $this->db->from($this->table);
         $this->db->join($this->table_code, $this->table_code.'.id = '.$this->table.'.service_id', 'left');
+        $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.biller_id', 'left');
+        $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
         
         $i = 0;
      
@@ -51,6 +60,15 @@ class transaction_model extends MY_Model {
 
         $this->db->where($this->table.'.deleted', '0');
         $this->db->where($this->table.'.status <>', 'inquiry');
+
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        if(!empty($from) && !empty($to))
+        {
+            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
+            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
 
         if($this->session->userdata('user')->role == 'dealer') 
         {
@@ -94,6 +112,15 @@ class transaction_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
+
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        if(!empty($from) && !empty($to))
+        {
+            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
+            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
 
         if($this->session->userdata('user')->role == 'dealer') 
         {

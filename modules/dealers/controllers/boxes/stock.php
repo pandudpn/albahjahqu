@@ -84,6 +84,7 @@ class stock extends Admin_Controller {
         $v100 = $this->input->post('v100');
         $v200 = $this->input->post('v200');
         $v300 = $this->input->post('v300');
+        $bulk = $this->input->post('bulk');
         
         $dealer_box = $this->dealer_boxes->find($box_id);
 
@@ -109,7 +110,8 @@ class stock extends Admin_Controller {
             'v80'         => $v80,
             'v100'        => $v100,
             'v200'        => $v200,
-            'v300'        => $v300
+            'v300'        => $v300,
+            'bulk'        => $bulk
         );
 
         if(!$id){
@@ -157,6 +159,7 @@ class stock extends Admin_Controller {
             $row[] = $l->v100;
             $row[] = $l->v200;
             $row[] = $l->v300;
+            $row[] = 'Rp. '.number_format($l->bulk);
 
             $btn  = '<a href="'.site_url('dealers/boxes/'.$box_id.'/stock/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>

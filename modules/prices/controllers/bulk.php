@@ -9,6 +9,7 @@ class bulk extends Admin_Controller {
         $this->load->model('references/dealers_model', 'dealer');
         $this->load->model('references/billers_model', 'biller');
         $this->load->model('references/ref_service_codes_model', 'service_code');
+        $this->load->model('prices/price_log_model', 'price_log');
         
         $this->load->helper('text');
 
@@ -110,11 +111,13 @@ class bulk extends Admin_Controller {
         if(!$id){
 
             $insert = $this->bulk->insert($data);
+            $this->price_log_insert('create', 'bulk', $description, $insert, $data);
 
             redirect(site_url('prices/bulk'), 'refresh');
         }else{
 
             $update = $this->bulk->update($id, $data);
+            $this->price_log_insert('edit', 'bulk', $description, $id, $data);
 
             redirect(site_url('prices/bulk'), 'refresh');
         }
@@ -124,8 +127,29 @@ class bulk extends Admin_Controller {
     public function delete($id)
     {
         $delete = $this->bulk->delete($id);
+        $bulk = $this->bulk->find($id);
+        
+        $this->price_log_insert('delete', 'bulk', $bulk->description, $id, $data);
 
         redirect(site_url('prices/bulk'), 'refresh');
+    }
+
+    public function price_log_insert($action, $type, $remarks, $price_id, $json_data)
+    {
+        $admin_id   = $this->session->userdata('user')->id;
+        $admin_name = $this->session->userdata('user')->name;
+
+        $data = array(
+            'admin_id'      => $admin_id,
+            'admin_name'    => $admin_name,
+            'action'        => $action,
+            'type'          => $type,
+            'remarks'       => $remarks,
+            'price_id'      => $price_id,
+            'data'          => json_encode($json_data)
+        );
+
+        $this->price_log->insert($data);
     }
 
     public function datatables()

@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Transactions</h4>
+            <h4 class="page-title float-left">Transactions Pending</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -12,29 +12,40 @@
 <div class="row">
     <div class="col-12">
         <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
-        	<?php if($alert){ ?>
-	    	<div class="alert alert-<?php echo $alert['type']; ?>">
+            <?php if($alert){ ?>
+            <div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-	    		<?php echo $alert['msg']; ?>
-	    	</div>
-	    	<?php } ?> 
+                <?php echo $alert['msg']; ?>
+            </div>
+            <?php } ?> 
+            <form method="get">
+                <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
+                    <div class="col-12">Filter : </div>
+                    <div class="col-3"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
+                    <div class="col-3"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
+                    <div class="col-3"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('transactions/pending'); ?>" class="btn btn-secondary">Reset</a></div>
+                </div>
+            </form>
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>
                     <th>No</th>
                     <th>TRX Code</th>
                     <th>Product</th>
+                    <th>Biller</th>
+                    <th>SN / Token</th>
+                    <th>Customer</th>
                     <th>Destination Number</th>
                     <th>Selling Price</th>
+                    <th>Dealer Fee</th>
+                    <th>Biller Fee</th>
                     <th>Status</th>
-                    <th>Status Provider</th>
                     <th>Time</th>
-                    <th></th>
                     <!-- <th style="width: 120px;">
-                    	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
-					</th> -->
+                        <a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
+                    </th> -->
                 </tr>
                 </thead>
                 <tbody>
@@ -55,10 +66,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure want to do this?</p>
+                <p>Are you sure want to delete this item?</p>
             </div>
             <div class="modal-footer">
-                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes</a>
+                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes, Delete it</a>
                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
@@ -75,7 +86,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('transactions/pending/datatables')?>",
+                "url": "<?php echo site_url('transactions/pending/datatables?from='.$from.'&to='.$to)?>",
                 "type": "POST"
             },
 
@@ -87,9 +98,14 @@
                 },
             ]
         });
+
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
     });
 
-    function alert(url)
+    function alert_delete(url)
     {
         $("#confirm").attr('href', url)
         $("#modal-alert").modal('show')

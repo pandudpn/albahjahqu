@@ -1,16 +1,16 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class customer_model extends MY_Model {
+class dealer_cluster_model extends MY_Model {
 
-	protected $table         	= 'customers';
-    protected $key           	= 'id';
-    protected $date_format   	= 'datetime';
-    protected $set_created   	= true;
-    protected $soft_deletes     = true;
+	protected $table        = 'dealer_clusters';
+    protected $key          = 'id';
+    protected $date_format  = 'datetime';
+    protected $set_created  = true;
+    protected $soft_deleted = true;
 
-    protected $column_order  = array(null, 'name', 'phone', 'email', 'outlet_number', 'outlet_name', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable orderable
-    protected $column_search = array('name', 'phone', 'email', 'outlet_number', 'outlet_name', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable searchable 
-    protected $order 		 = array('customers.name' => 'asc'); // default order 
+    protected $column_order  = array(null, 'name', 'alias', 'area', 'dealer_id', 'dealer_name'); //set column field database for datatable orderable
+    protected $column_search = array('name', 'alias', 'area', 'dealer_id', 'dealer_name'); //set column field database for datatable searchable 
+    protected $order 		 = array('dealer_name' => 'asc'); // default order 
 
     public function __construct()
     {
@@ -46,21 +46,7 @@ class customer_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
-
-        $from   = $this->input->get('from');
-        $to     = $this->input->get('to');
-
-        if(!empty($from) && !empty($to))
-        {
-            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
-            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
-        }
-
-        if($this->session->userdata('user')->role == 'dealer') 
-        {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
-        }
-                 
+         
         if(isset($_POST['order'])) // here order processing
         {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -92,21 +78,6 @@ class customer_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
-
-        $from   = $this->input->get('from');
-        $to     = $this->input->get('to');
-
-        if(!empty($from) && !empty($to))
-        {
-            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
-            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
-        }
-        
-        if($this->session->userdata('user')->role == 'dealer') 
-        {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
-        }
-
         return $this->db->count_all_results();
     }
 

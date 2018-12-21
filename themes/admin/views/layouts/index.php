@@ -136,7 +136,7 @@
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
                                 <!-- item-->
                                 <div class="dropdown-item noti-title">
-                                    <h5 class="text-overflow"><small>Welcome ! Admin</small> </h5>
+                                    <h5><small><?php echo $this->session->userdata('user')->name; ?></small> </h5>
                                 </div>
 
                                 <!-- item-->
@@ -253,6 +253,7 @@
                                     <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
                                     <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                     <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
+                                    <li><a href="<?php echo site_url('prices/logs'); ?>">Logs</a></li>
                                     <?php } ?>
                                 </ul>
                             </li>
@@ -278,6 +279,22 @@
                                     <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
                                 </a>
                             </li>
+
+                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                            
+                            <li class="text-muted menu-title">Clusters</li>
+
+                            <li>
+                                <a href="<?php echo site_url('dealers/clusters'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-layers"></i><span> Clusters </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('dealers/clustermaps'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-map"></i><span> Cluster Maps </span> 
+                                </a>
+                            </li>
+                            <?php } ?>
 
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                             

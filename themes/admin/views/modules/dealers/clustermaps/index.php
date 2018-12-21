@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Customers</h4>
+            <h4 class="page-title float-left">Dealer Cluster Maps</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -11,7 +11,13 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
+        <div class="p-20">
+            <a href="<?php echo site_url('dealers/clustermaps/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Add Cluster Map </button>
+            </a>
+        </div>
+        
+        <div class="card-box table-responsive" style="overflow-x: auto;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -20,26 +26,14 @@
 	    		<?php echo $alert['msg']; ?>
 	    	</div>
 	    	<?php } ?> 
-            <form method="get">
-                <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
-                    <div class="col-12">Filter : </div>
-                    <div class="col-3"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
-                    <div class="col-3"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
-                    <div class="col-3"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('customers'); ?>" class="btn btn-secondary">Reset</a></div>
-                </div>
-            </form>
-
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Name</th>
-                    <th>Phone / Email</th>
-                    <th>Outlet</th>
-                    <th>Dealer Name</th>
-                    <th>Balance</th>
-                    <th>Account Status</th>
-                    <th>KYC Status</th>
+                    <th>Dealer</th>
+                    <th>Cluster</th>
+                    <th>City</th>
+                    <th>District</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -61,10 +55,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure want to do this?</p>
+                <p>Are you sure want to delete this item?</p>
             </div>
             <div class="modal-footer">
-                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes</a>
+                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes, Delete it</a>
                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
@@ -81,7 +75,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('customers/datatables?from='.$from.'&to='.$to)?>",
+                "url": "<?php echo site_url('dealers/clustermaps/datatables')?>",
                 "type": "POST"
             },
 
@@ -91,16 +85,15 @@
                 "targets": [ 0 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
+                { 
+                "targets": [ 5 ], //first column / numbering column
+                "orderable": false, //set not orderable
+                },
             ]
-        });
-
-        $('.datepicker').datepicker({
-            autoclose: true,
-            format: 'yyyy-mm-dd'
         });
     });
 
-    function alert(url)
+    function alert_delete(url)
     {
         $("#confirm").attr('href', url)
         $("#modal-alert").modal('show')

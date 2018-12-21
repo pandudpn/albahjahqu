@@ -65,6 +65,7 @@
                     <th>V100</th>
                     <th>V200</th>
                     <th>V300</th>
+                    <th>Bulk</th>
                     <th width="90">Action</th>
                 </tr>
                 </thead>

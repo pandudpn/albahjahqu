@@ -88,11 +88,13 @@ class biller extends Admin_Controller {
         if(!$id){
 
             $insert = $this->biller->insert($data);
+            $this->price_log_insert('create', 'biller', $service_code, $insert, $data);
 
             redirect(site_url('prices/biller'), 'refresh');
         }else{
 
             $update = $this->biller->update($id, $data);
+            $this->price_log_insert('edit', 'biller', $service_code, $id, $data);
 
             redirect(site_url('prices/biller'), 'refresh');
         }
@@ -102,8 +104,29 @@ class biller extends Admin_Controller {
     public function delete($id)
     {
         $delete = $this->biller->delete($id);
+        $biller = $this->biller->find($id);
+        
+        $this->price_log_insert('delete', 'biller', $biller->service_code, $id, $data);
 
         redirect(site_url('prices/biller'), 'refresh');
+    }
+
+    public function price_log_insert($action, $type, $remarks, $price_id, $json_data)
+    {
+        $admin_id   = $this->session->userdata('user')->id;
+        $admin_name = $this->session->userdata('user')->name;
+
+        $data = array(
+            'admin_id'      => $admin_id,
+            'admin_name'    => $admin_name,
+            'action'        => $action,
+            'type'          => $type,
+            'remarks'       => $remarks,
+            'price_id'      => $price_id,
+            'data'          => json_encode($json_data)
+        );
+
+        $this->price_log->insert($data);
     }
 
     public function datatables()

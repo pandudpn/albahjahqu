@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Customers</h4>
+            <h4 class="page-title float-left">Price Logs</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -34,13 +34,10 @@
                 <tr>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Phone / Email</th>
-                    <th>Outlet</th>
-                    <th>Dealer Name</th>
-                    <th>Balance</th>
-                    <th>Account Status</th>
-                    <th>KYC Status</th>
+                    <th>Type</th>
                     <th>Action</th>
+                    <th>Remarks</th>
+                    <th>Time</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,7 +78,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('customers/datatables?from='.$from.'&to='.$to)?>",
+                "url": "<?php echo site_url('prices/logs/datatables?from='.$from.'&to='.$to)?>",
                 "type": "POST"
             },
 

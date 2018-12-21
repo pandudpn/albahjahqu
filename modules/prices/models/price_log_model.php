@@ -1,16 +1,16 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class customer_model extends MY_Model {
+class price_log_model extends MY_Model {
 
-	protected $table         	= 'customers';
+	protected $table         	= 'price_logs';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'name', 'phone', 'email', 'outlet_number', 'outlet_name', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable orderable
-    protected $column_search = array('name', 'phone', 'email', 'outlet_number', 'outlet_name', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable searchable 
-    protected $order 		 = array('customers.name' => 'asc'); // default order 
+    protected $column_order  = array(null, 'admin_name', 'type', 'action', 'remarks'); //set column field database for datatable orderable
+    protected $column_search = array('admin_name', 'type', 'action', 'remarks'); //set column field database for datatable searchable 
+    protected $order 		 = array('id' => 'desc'); // default order 
 
     public function __construct()
     {
@@ -55,11 +55,6 @@ class customer_model extends MY_Model {
             $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
-
-        if($this->session->userdata('user')->role == 'dealer') 
-        {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
-        }
                  
         if(isset($_POST['order'])) // here order processing
         {
@@ -100,11 +95,6 @@ class customer_model extends MY_Model {
         {
             $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
-        }
-        
-        if($this->session->userdata('user')->role == 'dealer') 
-        {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
 
         return $this->db->count_all_results();

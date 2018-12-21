@@ -20,7 +20,12 @@ class pending extends Admin_Controller {
 
     public function index()
     {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
     	$this->template->set('alert', $this->session->flashdata('alert'))
+                        ->set('from', $from)
+                        ->set('to', $to)
     					->build('index_pending');
     }
 
@@ -115,10 +120,42 @@ class pending extends Admin_Controller {
             $row[] = $no;
             $row[] = $l->trx_code;
             $row[] = $l->remarks;
+
+            if(empty($l->biller_name))
+            {
+                $row[] = '-';
+            }
+            else
+            {
+                $row[] = $l->biller_name;
+            }
+
+            $row[] = $ref_code.' / '.$token;
+            $row[] = $l->cus_phone;
             $row[] = $l->destination_no;
+
+            if(empty($l->token_code))
+            {
+                $token = '-';
+            }
+            else
+            {
+                $token = $l->token_code;
+            }
+
+            if(empty($l->ref_code))
+            {
+                $ref_code = '-';
+            }
+            else
+            {
+                $ref_code = $l->ref_code;
+            }
+
             $row[] = 'Rp. '.number_format($l->selling_price);
+            $row[] = 'Rp. '.number_format($l->dealer_fee);
+            $row[] = 'Rp. '.number_format($l->biller_fee);
             $row[] = $l->status;
-            $row[] = $l->status_provider;
             $row[] = $l->created_on;
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
@@ -128,23 +165,6 @@ class pending extends Admin_Controller {
             // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
             //             <i class="fa fa-trash"></i>
             //           </a>';
-
-            $btn = '<div class="btn-group">
-                        <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Change Status <span class="caret"></span></button>
-                        <div class="dropdown-menu">';
-            
-            if($l->status != 'approved'){
-                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')">Approve</a>
-                    <div class="dropdown-divider"></div>';
-            }
-
-            if($l->status != 'rejected'){
-                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')">Reject</a>
-                    <div class="dropdown-divider"></div>';
-            }
-
-            $btn .= '</div>
-                    </div>';
 
             $row[]  = $btn;
 

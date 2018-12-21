@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -20,14 +20,27 @@
 	    		<?php echo $alert['msg']; ?>
 	    	</div>
 	    	<?php } ?> 
+            <form method="get">
+                <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
+                    <div class="col-12">Filter : </div>
+                    <div class="col-3"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
+                    <div class="col-3"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
+                    <div class="col-3"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('transactions'); ?>" class="btn btn-secondary">Reset</a></div>
+                </div>
+            </form>
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>
                     <th>No</th>
                     <th>TRX Code</th>
                     <th>Product</th>
+                    <th>Biller</th>
+                    <th>SN / Token</th>
+                    <th>Customer</th>
                     <th>Destination Number</th>
                     <th>Selling Price</th>
+                    <th>Dealer Fee</th>
+                    <th>Biller Fee</th>
                     <th>Status</th>
                     <th>Time</th>
                     <!-- <th style="width: 120px;">
@@ -73,7 +86,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('transactions/datatables')?>",
+                "url": "<?php echo site_url('transactions/datatables?from='.$from.'&to='.$to)?>",
                 "type": "POST"
             },
 
@@ -84,6 +97,11 @@
                 "orderable": false, //set not orderable
                 },
             ]
+        });
+
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
         });
     });
 
