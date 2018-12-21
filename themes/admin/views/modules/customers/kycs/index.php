@@ -48,16 +48,23 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mySmallModalLabel">Alert</h5>
+                <h5 class="modal-title" id="mySmallModalLabel">Are you sure want to do this?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure want to do this?</p>
+                <input type="hidden" id="kyc_id" name="kyc_id">
+                <input type="hidden" id="kyc_status" name="kyc_status">
+                <div class="form-group row">
+                    <label for="media" class="col-3 col-form-label">Reason</label>
+                    <div class="col-9">
+                        <textarea class="form-control form-control-sm" rows="4" style="width:100%" name="kyc_remarks"></textarea>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes</a>
+                <a id="confirm_status" href="javascript:;" class="btn btn-danger">Yes</a>
                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
@@ -107,11 +114,30 @@
         });
     });
 
-    function alert(url)
+    function alert(status, id)
     {
-        $("#confirm").attr('href', url)
-        $("#modal-alert").modal('show')
+        //$("#confirm").attr('href', url)
+        $("#kyc_id").val(id);
+        $("#kyc_status").val(status);
+        $("#modal-alert").modal('show');
+
     }
+
+    $("#confirm_status").on('click', function(e){
+        var kyc_id      = $('[name="kyc_id"]').val();
+        var kyc_remarks = $('[name="kyc_remarks"]').val();
+        var kyc_status  = $('[name="kyc_status"]').val();
+
+        $.ajax({
+            type: "POST",
+            url: '<?php echo site_url().'customers/kycs/status'; ?>',
+            data: { kyc_id:kyc_id, kyc_remarks:kyc_remarks, kyc_status:kyc_status },
+            success: function (res) {
+                console.log(res);
+                location.reload();
+            }
+        });
+    });
 
     function showimg(url)
     {
