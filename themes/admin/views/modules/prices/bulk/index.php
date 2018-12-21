@@ -107,6 +107,7 @@
                 { 
                 "targets": [ 8 ], //last column / new item column
                 "orderable": false, //set not orderable
+                "visible": <?php echo ($this->session->userdata('user')->role == 'dekape' ? 'true':'false'); ?>,
                 },
                 { 
                 "targets": [ 9 ], //last column / new item column

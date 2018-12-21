@@ -4,7 +4,9 @@ class kycs extends Admin_Controller {
 	
 	public function __construct() {
         parent::__construct();
+
         $this->load->model('customers/kyc_model', 'kyc');
+        $this->load->model('customers/customer_model', 'customer');
 
         $this->load->helper('text');
 
@@ -17,18 +19,35 @@ class kycs extends Admin_Controller {
     					->build('kycs/index');
     }
 
-    public function status($status, $id)
+    public function status()
     {
-        $arr = array();
-        if($status == 'approve'){
-            $arr = array('decision' => 'approved', 'remarks' => 'Pengajuan KYC Berhasil');
-        }else if($status == 'reject'){
-            $arr = array('decision' => 'rejected', 'remarks' => 'Pengajuan KYC Gagal, Harap ulangi');
+        $kyc_id  = $this->input->post('kyc_id');
+        $status  = $this->input->post('kyc_status');
+        $remarks = $this->input->post('kyc_remarks');
+
+        $is_exist = $this->kyc->find($kyc_id);
+
+        if($is_exist){
+            $update_remark = $is_exist->remarks." -> ".$remarks;
+
+            $arr = array();
+            if($status == 'approve'){
+                $arr = array('decision' => 'approved', 'remarks' => $update_remark);
+                $kyc = array('kyc_status' => 'approved');
+            }else if($status == 'reject'){
+                $arr = array('decision' => 'rejected', 'remarks' => $update_remark);
+                $kyc = array('kyc_status' => 'rejected');
+            }
+
+            $update = $this->kyc->update($kyc_id, $arr);
+
+            $cust_id = $this->kyc->find($kyc_id)->cus_id;
+            $this->customer->update($cust_id, $kyc);
+
+            echo 'success';
         }
 
-        $update = $this->kyc->update($id, $arr);
-
-        redirect(site_url('customers/kycs'), 'refresh');
+        //redirect(site_url('customers/kycs'), 'refresh');
     }
 
     public function datatables()
@@ -64,12 +83,12 @@ class kycs extends Admin_Controller {
                         <div class="dropdown-menu">';
             
             if($l->decision != 'approved'){
-                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/kycs/status/approve/'.$l->id).'\')">Approve</a>
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\'approve\',\''.$l->id.'\')">Approve</a>
                             <div class="dropdown-divider"></div>';
             }
 
             if($l->decision != 'rejected'){
-                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/kycs/status/reject/'.$l->id).'\')">Reject</a>
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\'reject\',\''.$l->id.'\')">Reject</a>
                                 <div class="dropdown-divider"></div>';
             }
 

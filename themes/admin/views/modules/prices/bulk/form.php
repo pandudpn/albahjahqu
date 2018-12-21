@@ -58,7 +58,7 @@
                                     <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                     <select class="form-control select2" name="dealer">
                                         <?php foreach($dealer as $deal){
-                                            if($deal->id == $denom->dealer_id){
+                                            if($deal->id == $bulk->dealer_id){
                                                 echo "<option selected value='$deal->id'> $deal->name </option>";
                                             }else{
                                                 echo "<option value='$deal->id'> $deal->name </option>";
@@ -68,10 +68,14 @@
                                     <?php }else{ ?>
                                         <select class="form-control select2" disabled>
                                             <?php foreach($dealer as $deal){
-                                                if($deal->id == $this->session->userdata('user')->dealer_id){
-                                                    echo "<option selected value='$deal->id'> $deal->name </option>";
-                                                }else{
-                                                    echo "<option value='$deal->id'> $deal->name </option>";
+                                                if($deal->id == 1){
+                                                    continue;
+                                                }else {
+                                                    if($deal->id == $this->session->userdata('user')->dealer_id){
+                                                        echo "<option selected value='$deal->id'> $deal->name </option>";
+                                                    }else{
+                                                        echo "<option value='$deal->id'> $deal->name </option>";
+                                                    }
                                                 }
                                             } ?>
                                         </select>
@@ -138,7 +142,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="" class="col-3 col-form-label">Margin reseller user (%)</label>
+                                <label for="" class="col-3 col-form-label">Discount reseller user (%)</label>
                                 <div class="col-7">
                                     <input class="form-control" type="text" name="margin_reseller_user" value="<?php echo $bulk->margin_reseller_user; ?>" required>
                                 </div>
