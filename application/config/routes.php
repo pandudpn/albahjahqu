@@ -42,6 +42,8 @@
 $route['default_controller']  = 'home';
 $route['login']               = 'user/login';
 
+$route['complaints/messages/(:num)']  = 'complaints/messages/index/$1';
+
 $route['dealers/boxes']               = 'dealers/boxes/main';
 $route['dealers/boxes/add']           = 'dealers/boxes/main/add';
 $route['dealers/boxes/edit/(:num)']   = 'dealers/boxes/main/edit/$1';
