@@ -27,7 +27,7 @@
 							      	<ul class="chat" id="chatBase">
 								        <li class="left clearfix">
 								            <span class="chat-img pull-left">
-								            <img src="https://ui-avatars.com/api/?name=OKBABE&background=f7f436&color=fff" alt="User Avatar" class="img-circle">
+								            <img src="https://ui-avatars.com/api/?name=OKBABE&background=f7f436&color=000&length=1&size=45" alt="User Avatar" class="img-circle">
 								            </span>
 								            <div class="chat-body clearfix">
 								               <div class="header">
@@ -39,7 +39,7 @@
 								        </li>
 							       		<li class="right clearfix">
 								            <span class="chat-img pull-right">
-								            <img src="https://ui-avatars.com/api/?name=Dealer&background=4286f4&color=fff" alt="User Avatar" class="img-circle">
+								            <img src="https://ui-avatars.com/api/?name=Dealer&background=4286f4&color=000&length=1&size=45" alt="User Avatar" class="img-circle">
 								            </span>
 								            <div class="chat-body clearfix">
 								               <div class="header">
@@ -51,7 +51,7 @@
 							          	</li>
 							          	<li class="left-dekape clearfix">
 								            <span class="chat-img pull-left">
-								            <img src="https://ui-avatars.com/api/?name=Dekape&background=5cf44b&color=fff" alt="User Avatar" class="img-circle">
+								            <img src="https://ui-avatars.com/api/?name=Dekape&background=5cf44b&color=000&length=1&size=45" alt="User Avatar" class="img-circle">
 								            </span>
 								            <div class="chat-body clearfix">
 								               <div class="header">

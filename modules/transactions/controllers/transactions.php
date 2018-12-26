@@ -22,6 +22,11 @@ class transactions extends Admin_Controller {
     					->build('index');
     }
 
+    public function download()
+    {
+        $this->transaction->download();
+    }
+
     public function datatables()
     {
         $list = $this->transaction->get_datatables();

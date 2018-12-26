@@ -110,4 +110,40 @@ class customer_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
+    public function download()
+    {
+        $this->db->select('name, phone, email, outlet_number, outlet_name, dealer_name, account_status, kyc_status');
+        $this->db->from($this->table);
+        $this->db->where($this->table.'.deleted', '0');
+
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        if(!empty($from) && !empty($to))
+        {
+            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
+            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
+
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $result = $this->db->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i:s').".xls";
+
+        $delimiter = ",";
+        $newline   = "\r\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
+    }
+
 }

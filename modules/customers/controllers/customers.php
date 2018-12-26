@@ -30,6 +30,11 @@ class customers extends Admin_Controller {
     		->build('index');
     }
 
+    public function download()
+    {
+        $this->customer->download();
+    }
+
     public function outlet($id)
     {
         if($this->input->post())
@@ -151,7 +156,7 @@ class customers extends Admin_Controller {
 
             $row[] = $outlet_name . ' / '.$outlet_number;
             $row[] = $l->dealer_name;
-            $row[] = 'Rp.' .number_format($this->eva_customer->find_by(array('account_user' => $l->id))->account_balance);
+            // $row[] = 'Rp.' .number_format($this->eva_customer->find_by(array('account_user' => $l->id))->account_balance);
             $row[] = $l->account_status;
             $row[] = $l->kyc_status;
 

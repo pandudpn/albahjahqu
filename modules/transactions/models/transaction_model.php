@@ -135,4 +135,54 @@ class transaction_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
+    public function download()
+    {
+        $this->db->select('transactions.id, ref_code, trx_code, destination_no, token_code, selling_price, status, status_provider');
+        $this->db->select($this->table.'.created_on');
+        $this->db->select($this->table.'.dealer_fee');
+        $this->db->select($this->table.'.biller_fee');
+        $this->db->select($this->table_code.'.remarks');
+        $this->db->select($this->table_customer.'.name as cus_name');
+        $this->db->select($this->table_customer.'.phone as cus_phone');
+        $this->db->select($this->table_biller.'.name as biller_name');
+        $this->db->from($this->table);
+        $this->db->join($this->table_code, $this->table_code.'.id = '.$this->table.'.service_id', 'left');
+        $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.biller_id', 'left');
+        $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
+        
+        $i = 0;
+     
+        $this->db->where($this->table.'.deleted', '0');
+        $this->db->where($this->table.'.status <>', 'inquiry');
+
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        if(!empty($from) && !empty($to))
+        {
+            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
+            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
+
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $result = $this->db->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i:s').".xls";
+
+        $delimiter = ",";
+        $newline   = "\r\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
+    }
+
 }

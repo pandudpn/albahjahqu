@@ -48,7 +48,11 @@ class report extends Admin_Controller {
             $no++;
             $row   = array();
             $row[] = $no;
-            $row[] = '<a href="javascript:;" onclick="data(\''.$l->id.'\')">'.$l->ticket.'</a> <br/> <a style="margin-top: 10px;" href="'.site_url('complaints/messages/'.$l->id).'" class="btn btn-primary btn-sm"><i class="fa fa-comments"></i></a></a>';
+            $row[] = '<a href="javascript:;" onclick="data(\''.$l->id.'\')">'.$l->ticket.'</a> <br/> 
+                      <a style="margin-top: 10px;" href="'.site_url('complaints/messages/'.$l->id).'" class="btn btn-primary btn-sm">
+                        <i class="fa fa-comments"></i> &nbsp; <span class="label label-pill label-danger float-right">'.rand(1, 10).'</span>
+                      </a>';
+
             $row[] = $l->cus_name;
             $row[] = word_limiter($l->subject, 4);
             $row[] = $l->status;

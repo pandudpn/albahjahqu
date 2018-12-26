@@ -280,6 +280,18 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="<?php echo site_url('dealers/usages'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-collection-text"></i><span> Box Usages </span> 
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="<?php echo site_url('dealers/boxes/alert'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-alert-octagon"></i><span> Alert Settings </span> 
+                                </a>
+                            </li>
+
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                             
                             <li class="text-muted menu-title">Clusters</li>

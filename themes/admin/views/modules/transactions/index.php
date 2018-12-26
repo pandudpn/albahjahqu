@@ -26,6 +26,9 @@
                     <div class="col-3"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
                     <div class="col-3"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
                     <div class="col-3"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('transactions'); ?>" class="btn btn-secondary">Reset</a></div>
+                    <div class="col-3 pull-right text-right">
+                        <a href="<?php echo site_url('transactions/download?from='.$from.'&to='.$to); ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                    </div>
                 </div>
             </form>
             <table id="datatable" class="table table-striped table-bordered table-responsive">
