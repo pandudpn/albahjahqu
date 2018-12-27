@@ -193,6 +193,9 @@ class customers extends Admin_Controller {
             $btn .= '<a class="dropdown-item" href="'.site_url('customers/outlet/'.$l->id).'" >Edit Outlet</a>
                                 <div class="dropdown-divider"></div>';
 
+            $btn .= '<a class="dropdown-item" href="'.site_url('customers/mutation/'.$l->id).'" >View Mutation</a>
+                                <div class="dropdown-divider"></div>';
+
             $btn .= '</div>
                     </div>';
 
