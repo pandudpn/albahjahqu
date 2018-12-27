@@ -8,7 +8,7 @@ class partner_model extends MY_Model {
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'name', 'description', 'phone', 'email'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'name', 'description', 'phone', 'email', 'date_joined', 'note'); //set column field database for datatable orderable
     protected $column_search = array('name', 'description', 'phone', 'email'); //set column field database for datatable searchable 
     protected $order 		 = array('name' => 'asc'); // default order 
 

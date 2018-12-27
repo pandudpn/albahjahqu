@@ -50,10 +50,12 @@ class help extends Admin_Controller {
             $row[] = $no;
             $row[] = '<a href="javascript:;" onclick="data(\''.$l->id.'\')">'.$l->ticket.'</a> <!--<br/> <a style="margin-top: 10px;" href="'.site_url('complaints/messages/'.$l->id).'" class="btn btn-primary btn-sm"><i class="fa fa-comments"></i></a>-->';
             $row[] = $l->cus_name;
+            $row[] = $l->dealer_name;
             $row[] = word_limiter($l->subject, 4);
             $row[] = $l->status;
             $row[] = $l->created_on;
-
+            $row[] = $l->modified_on;
+            
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
             //             <i class="fa fa-pencil"></i>
             //           </a> &nbsp;';

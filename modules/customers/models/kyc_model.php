@@ -8,7 +8,7 @@ class kyc_model extends MY_Model {
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'cus_name', 'cus_phone', 'cus_ktp', 'cus_mother', 'cus_job', 'ktp_image', 'selfie_image', 'decision', 'remarks'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'cus_name', 'cus_phone', 'cus_ktp', 'cus_mother', 'cus_job', 'ktp_image', 'selfie_image', 'decision', 'remarks', 'created_on', 'modified_on'); //set column field database for datatable orderable
     protected $column_search = array('cus_name', 'cus_phone', 'cus_ktp', 'cus_mother', 'cus_job', 'ktp_image', 'selfie_image', 'decision', 'remarks'); //set column field database for datatable searchable 
     protected $order 		 = array('customer_kycs.id' => 'desc'); // default order 
 

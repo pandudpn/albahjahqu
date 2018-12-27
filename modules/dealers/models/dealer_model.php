@@ -8,7 +8,7 @@ class dealer_model extends MY_Model {
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'name', 'phone', 'email'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'name', 'phone', 'email', 'total_customer', 'date_joined', 'note'); //set column field database for datatable orderable
     protected $column_search = array('name', 'phone', 'email'); //set column field database for datatable searchable 
     protected $order 		 = array('name' => 'asc'); // default order 
 
@@ -20,6 +20,7 @@ class dealer_model extends MY_Model {
     public function _get_datatables_query()
     {
          
+        $this->db->select('*, (SELECT count(*) FROM customers WHERE dealer_id = dealers.id) as total_customer', false);
         $this->db->from($this->table);
         
         $i = 0;

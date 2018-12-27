@@ -26,9 +26,11 @@
                     <th>No</th>
                     <th>Ticket</th>
                     <th>Customer</th>
+                    <th>Dealer</th>
                     <th>Subject</th>
                     <th>Status</th>
-                    <th>Time</th>
+                    <th>Date Submitted</th>
+                    <th>Last Updated</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -129,7 +131,7 @@
                 "orderable": false, //set not orderable
                 },
                 { 
-                "targets": [ 6 ], //first column / numbering column
+                "targets": [ 8 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 }
             ]

@@ -12,6 +12,7 @@ class customers extends Admin_Controller {
         $this->load->model('references/geo_villages_model', 'geo_village');
         $this->load->model('dealers/dealer_model', 'dealer');
         $this->load->model('dealers/dealer_cluster_model', 'dealer_cluster');
+        $this->load->model('transactions/transaction_model', 'transaction');
 
         $this->load->helper('text');
 
@@ -134,7 +135,8 @@ class customers extends Admin_Controller {
             $row   = array();
             $row[] = $no;
             $row[] = $l->name;
-            $row[] = $l->phone. ' / '.$l->email;
+            $row[] = $l->phone;
+            $row[] = $l->email;
 
             if(empty($l->outlet_name))
             {
@@ -159,6 +161,12 @@ class customers extends Admin_Controller {
             // $row[] = 'Rp.' .number_format($this->eva_customer->find_by(array('account_user' => $l->id))->account_balance);
             $row[] = $l->account_status;
             $row[] = $l->kyc_status;
+            
+            $last_trx = $this->transaction->order_by('id', 'desc');
+            $last_trx = $this->transaction->find_by(array('cus_id' => $l->id, 'status <>' => 'inquiry'))->created_on;
+            
+            $row[] = $last_trx;
+            $row[] = $l->created_on;
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
             //             <i class="fa fa-pencil"></i>

@@ -37,12 +37,15 @@
                 <tr>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Phone / Email</th>
+                    <th>Phone</th>
+                    <th>Email</th>
                     <th>Outlet</th>
                     <th>Dealer Name</th>
                     <!-- <th>Balance</th> -->
                     <th>Account Status</th>
                     <th>KYC Status</th>
+                    <th>Last Transaction</th>
+                    <th>Date Registered</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -92,6 +95,10 @@
             "columnDefs": [
                 { 
                 "targets": [ 0 ], //first column / numbering column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 10 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
             ]

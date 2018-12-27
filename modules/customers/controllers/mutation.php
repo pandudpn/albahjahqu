@@ -18,11 +18,14 @@ class mutation extends Admin_Controller {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
 
+        $customer = $this->customer->find($customer_id);
+
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('from', $from)
             ->set('to', $to)
             ->set('customer_id', $customer_id)
+            ->set('customer', $customer)
     		->build('mutation');
     }
 

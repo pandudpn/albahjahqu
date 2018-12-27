@@ -54,9 +54,11 @@ class report extends Admin_Controller {
                       </a>';
 
             $row[] = $l->cus_name;
+            $row[] = $l->dealer_name;
             $row[] = word_limiter($l->subject, 4);
             $row[] = $l->status;
             $row[] = $l->created_on;
+            $row[] = $l->modified_on;
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
             //             <i class="fa fa-pencil"></i>

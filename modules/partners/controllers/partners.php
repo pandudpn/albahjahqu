@@ -68,6 +68,8 @@ class partners extends Admin_Controller {
         $phone       = $this->input->post('phone');
         $email       = $this->input->post('email');
         $fax         = $this->input->post('fax');
+        $date_joined = $this->input->post('date_joined');
+        $note = $this->input->post('note');
 
         $data = array(
                 'type'        => $type,
@@ -79,7 +81,9 @@ class partners extends Admin_Controller {
                 'province'    => $province,
                 'phone'       => $phone,
                 'email'       => $email,
-                'fax'         => $fax
+                'fax'         => $fax,
+                'date_joined'   => $date_joined,
+                'note'          => $note
             );
         
         if(!$id){
@@ -118,6 +122,8 @@ class partners extends Admin_Controller {
             $row[] = $l->description;
             $row[] = $l->phone;
             $row[] = $l->email;
+            $row[] = $l->date_joined;
+            $row[] = $l->note;
 
             $btn   = '<a href="'.site_url('partners/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>

@@ -69,6 +69,8 @@ class kycs extends Admin_Controller {
             $row[] = '<a onclick="showimg(\''.$l->selfie_image.'\')" href="javascript:;">show image</a>';
             $row[] = $l->decision;
             $row[] = $l->remarks;
+            $row[] = $l->created_on;
+            $row[] = $l->modified_on;
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
             //             <i class="fa fa-pencil"></i>
@@ -82,15 +84,15 @@ class kycs extends Admin_Controller {
                         <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Change Status <span class="caret"></span></button>
                         <div class="dropdown-menu">';
             
-            if($l->decision != 'approved'){
+            //if($l->decision != 'approved'){
                 $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\'approve\',\''.$l->id.'\')">Approve</a>
                             <div class="dropdown-divider"></div>';
-            }
+            //}
 
-            if($l->decision != 'rejected'){
+            //if($l->decision != 'rejected'){
                 $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\'reject\',\''.$l->id.'\')">Reject</a>
                                 <div class="dropdown-divider"></div>';
-            }
+            //}
 
             $btn .= '</div>
                     </div>';

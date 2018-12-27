@@ -17,6 +17,11 @@
 
 <div class="row">
     <div class="col-12">
+    	<div class="p-20">
+            <a href="<?php echo site_url('complaints/report'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-arrow-left"></i> Back</button>
+            </a>
+        </div>
         <div class="card-box table-responsive">
         	<div class="container-fluid">
                 <div class="container-fluid">

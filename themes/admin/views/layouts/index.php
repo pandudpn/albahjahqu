@@ -200,7 +200,7 @@
                                 </a>
 
                                 <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('customers'); ?>">Customers</a></li>
+                                    <li><a href="<?php echo site_url('customers'); ?>">Profile</a></li>
                                     <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                     <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC</a></li>
                                     <?php } ?>

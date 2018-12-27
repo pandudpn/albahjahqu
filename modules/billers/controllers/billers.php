@@ -50,13 +50,17 @@ class billers extends Admin_Controller {
         $pic           = $this->input->post('pic');
         $pic_phone     = $this->input->post('pic_phone');
         $pic_email     = $this->input->post('pic_email');
+        $date_joined = $this->input->post('date_joined');
+        $note = $this->input->post('note');
 
         $data = array(
                 'name'          => $name,
                 'code'          => $code,
                 'pic'           => $pic,
                 'pic_email'     => $pic_email,
-                'pic_phone'     => $pic_phone
+                'pic_phone'     => $pic_phone,
+                'date_joined'   => $date_joined,
+                'note'          => $note
             );
         
         if(!$id){
@@ -95,6 +99,8 @@ class billers extends Admin_Controller {
             $row[] = $l->pic;
             $row[] = $l->pic_phone;
             $row[] = $l->pic_email;
+            $row[] = $l->date_joined;
+            $row[] = $l->note;
 
             $btn   = '<a href="'.site_url('billers/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>

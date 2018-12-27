@@ -8,8 +8,8 @@ class customer_model extends MY_Model {
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'name', 'phone', 'email', 'outlet_number', 'outlet_name', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable orderable
-    protected $column_search = array('name', 'phone', 'email', 'outlet_number', 'outlet_name', 'dealer_name', 'balance', 'account_status', 'kyc_status'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'name', 'phone', 'email', 'outlet_number', 'dealer_name', 'account_status', 'kyc_status', 'modified_on', 'created_on'); //set column field database for datatable orderable
+    protected $column_search = array('name', 'phone', 'email', 'outlet_number', 'dealer_name', 'account_status', 'kyc_status'); //set column field database for datatable searchable 
     protected $order 		 = array('customers.name' => 'asc'); // default order 
 
     public function __construct()
@@ -112,7 +112,7 @@ class customer_model extends MY_Model {
 
     public function download()
     {
-        $this->db->select('name, phone, email, outlet_number, outlet_name, dealer_name, account_status, kyc_status');
+        $this->db->select('name, phone, email, outlet_number, outlet_name, dealer_name, account_status, kyc_status, (SELECT created_on FROM transactions WHERE cus_id = customers.id AND status <> \'inquiry\' ORDER BY id DESC LIMIT 1) as last_transaction, created_on as date_registered', false);
         $this->db->from($this->table);
         $this->db->where($this->table.'.deleted', '0');
 

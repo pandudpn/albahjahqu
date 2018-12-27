@@ -17,7 +17,7 @@
             </a>
         </div>
         
-        <div class="card-box table-responsive" style="overflow-x: auto;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -31,9 +31,11 @@
                 <tr>
                     <th>No</th>
                     <th>Name</th>
-                    <th>Description</th>
+                    <th>Apps Description</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th>Date Joined</th>
+                    <th>Note</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -83,6 +85,10 @@
             "columnDefs": [
                 { 
                 "targets": [ 0 ], //first column / numbering column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 7 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
             ]

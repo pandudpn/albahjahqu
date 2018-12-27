@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Province</label>
-                            <div class="col-6">
+                            <div class="col-7">
                                 <select class="form-control select2" name="province" id="province">
                                     <?php foreach($province as $prov){ 
                                             if($prov->id == $data->province){
@@ -49,7 +49,7 @@
 
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">City</label>
-                            <div class="col-6">
+                            <div class="col-7">
                                 <select class="form-control select2" name="city" id="city">
                                     <?php foreach($cities as $city){ 
                                             if($city->id == $data->city){
@@ -98,8 +98,22 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Date Joined</label>
+                            <div class="col-7">
+                                <input class="form-control datepicker" type="text" name="date_joined" value="<?php echo $data->date_joined; ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Note</label>
+                            <div class="col-7">
+                                <textarea name="note" class="form-control"><?php echo $data->note; ?></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Operator</label>
-                            <div class="col-6">
+                            <div class="col-7">
                                 <select class="form-control select2" name="operator">
                                     <?php foreach($provider as $pro){ 
                                             if($pro->alias == $data->operator){
@@ -137,5 +151,12 @@
             });
         });
     });
+
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+    })
 
 </script>

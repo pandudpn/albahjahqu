@@ -71,6 +71,8 @@ class dealers extends Admin_Controller {
         $email    = $this->input->post('email');
         $fax      = $this->input->post('fax');
         $operator = $this->input->post('operator');
+        $date_joined = $this->input->post('date_joined');
+        $note = $this->input->post('note');
 
         $data = array(
                 'name'     => $name,
@@ -81,7 +83,9 @@ class dealers extends Admin_Controller {
                 'phone'    => $phone,
                 'email'    => $email,
                 'fax'      => $fax,
-                'operator' => $operator
+                'operator' => $operator,
+                'date_joined' => $date_joined,
+                'note' => $note
             );
         
         if(!$id){
@@ -119,6 +123,9 @@ class dealers extends Admin_Controller {
             $row[] = $l->name;
             $row[] = $l->phone;
             $row[] = $l->email;
+            $row[] = number_format($l->total_customer);
+            $row[] = $l->date_joined;
+            $row[] = $l->note;
 
             $btn   = '<a href="'.site_url('dealers/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>

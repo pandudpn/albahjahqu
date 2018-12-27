@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Description</label>
+                            <label for="" class="col-3 col-form-label">Apps Description</label>
                             <div class="col-7">
                                 <input class="form-control" type="text" name="description" value="<?php echo $data->description; ?>">
                             </div>
@@ -113,6 +113,20 @@
                                 <input class="form-control" type="text" name="fax" value="<?php echo $data->fax; ?>">
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Date Joined</label>
+                            <div class="col-7">
+                                <input class="form-control datepicker" type="text" name="date_joined" value="<?php echo $data->date_joined; ?>">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Note</label>
+                            <div class="col-7">
+                                <textarea name="note" class="form-control"><?php echo $data->note; ?></textarea>
+                            </div>
+                        </div>
                         
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
                         <a href="<?php echo site_url('partners'); ?>" class="btn btn-danger waves-effect waves-light">
@@ -139,5 +153,12 @@
             });
         });
     });
+
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd'
+        });
+    })
 
 </script>

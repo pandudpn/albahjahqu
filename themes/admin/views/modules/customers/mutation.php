@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Customer Mutations</h4>
+            <h4 class="page-title float-left">Customer Mutation: <?php echo $customer->name; ?></h4>
 
             <div class="clearfix"></div>
         </div>
@@ -26,9 +26,9 @@
                     <div class="col-3"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
                     <div class="col-3"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
                     <div class="col-3"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('customers'); ?>" class="btn btn-secondary">Back</a></div>
-                    <div class="col-3 pull-right text-right">
+                    <!-- <div class="col-3 pull-right text-right">
                         <a href="<?php echo site_url('customers/download?from='.$from.'&to='.$to); ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
-                    </div>
+                    </div> -->
                 </div>
             </form>
 

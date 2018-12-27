@@ -10,8 +10,8 @@ class transaction_model extends MY_Model {
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
 
-    protected $column_order  = array(null, 'trx_code', 'destination_no', 'token_code', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks'); //set column field database for datatable orderable
-    protected $column_search = array('trx_code', 'destination_no', 'token_code', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'trx_code', 'destination_no', 'token_code', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks', 'dealer_fee', 'biller_fee', 'status', 'transactions.created_on'); //set column field database for datatable orderable
+    protected $column_search = array('trx_code', 'destination_no', 'token_code', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks', 'dealer_fee', 'biller_fee', 'status', 'transactions.created_on'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.id' => 'desc'); // default order 
 
     public function __construct()

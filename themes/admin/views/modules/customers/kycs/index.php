@@ -33,6 +33,8 @@
                     <th>Selfie Image</th>
                     <th>Decision</th>
                     <th>Remarks</th>
+                    <th>Date Submitted</th>
+                    <th>Last Updated</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -108,6 +110,10 @@
             "columnDefs": [
                 { 
                 "targets": [ 0 ], //first column / numbering column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 12 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
             ]
