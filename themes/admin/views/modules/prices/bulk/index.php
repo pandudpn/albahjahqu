@@ -15,6 +15,9 @@
             <a href="<?php echo site_url('prices/bulk/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
                 <i class="zmdi zmdi-collection-plus"></i> Add Bulk</button>
             </a>
+            <div class="col-3 pull-right text-right">
+                <a href="<?php echo site_url('prices/bulk/download'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Download</a>
+            </div>
         </div>
         <div class="card-box table-responsive" style="overflow-x: auto;">
         	<?php if($alert){ ?>

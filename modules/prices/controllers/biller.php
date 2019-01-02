@@ -111,6 +111,11 @@ class biller extends Admin_Controller {
         redirect(site_url('prices/biller'), 'refresh');
     }
 
+    public function download()
+    {
+        $this->biller->download();
+    }
+
     public function price_log_insert($action, $type, $remarks, $price_id, $json_data)
     {
         $admin_id   = $this->session->userdata('user')->id;

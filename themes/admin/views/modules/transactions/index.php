@@ -42,10 +42,16 @@
                     <th>Customer</th>
                     <th>Destination Number</th>
                     <th>Selling Price</th>
+                    <th>Base Price</th>
                     <th>Dealer Fee</th>
                     <th>Biller Fee</th>
+                    <th>Dekape Fee</th>
+                    <th>Partner Fee</th>
+                    <th>User Fee</th>
+                    <th>User Cashback</th>
                     <th>Status</th>
                     <th>Time</th>
+                    <th>Action</th>
                     <!-- <th style="width: 120px;">
                     	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
 					</th> -->
@@ -53,6 +59,31 @@
                 </thead>
                 <tbody>
                 </tbody>
+                <tfoot>
+                <tr>
+                    <th>No</th>
+                    <th>TRX Code</th>
+                    <th>Product</th>
+                    <th>Biller</th>
+                    <th>SN / Token</th>
+                    <th>Customer</th>
+                    <th>Destination Number</th>
+                    <th>Selling Price</th>
+                    <th>Base Price</th>
+                    <th>Dealer Fee</th>
+                    <th>Biller Fee</th>
+                    <th>Dekape Fee</th>
+                    <th>Partner Fee</th>
+                    <th>User Fee</th>
+                    <th>User Cashback</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                    <th>Action</th>
+                    <!-- <th style="width: 120px;">
+                        <a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
+                    </th> -->
+                </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -69,10 +100,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure want to delete this item?</p>
+                <p>Are you sure want to do this?</p>
             </div>
             <div class="modal-footer">
-                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes, Delete it</a>
+                <a id="confirm" href="javascript:;" class="btn btn-primary">Yes</a>
                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
@@ -99,7 +130,8 @@
                 "targets": [ 0 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
-            ]
+            ],
+            "scrollX": true
         });
 
         $('.datepicker').datepicker({
@@ -108,7 +140,7 @@
         });
     });
 
-    function alert_delete(url)
+    function alert(url)
     {
         $("#confirm").attr('href', url)
         $("#modal-alert").modal('show')

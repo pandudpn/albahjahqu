@@ -25,7 +25,7 @@
                     <div class="col-12">Filter : </div>
                     <div class="col-3"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
                     <div class="col-3"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
-                    <div class="col-3"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('customers'); ?>" class="btn btn-secondary">Reset</a></div>
+                    <div class="col-3"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('prices/logs'); ?>" class="btn btn-secondary">Reset</a></div>
                 </div>
             </form>
 

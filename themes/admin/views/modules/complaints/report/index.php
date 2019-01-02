@@ -135,7 +135,8 @@
                 "orderable": false, //set not orderable
                 }
                 
-            ]
+            ],
+            "scrollX": true
         });
     });
 

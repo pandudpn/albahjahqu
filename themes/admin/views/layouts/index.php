@@ -264,6 +264,12 @@
                                 </a>
                             </li>
 
+                            <li>
+                                <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
+                                </a>
+                            </li>
+
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                             <li>
                                 <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">

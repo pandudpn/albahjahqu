@@ -5,6 +5,7 @@ class pending extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('transactions/transaction_model', 'transaction');
+        $this->load->model('transactions/transaction_log_model', 'transaction_log');
         $this->load->model('user/eva_customer_mutation_model', 'eva_customer_mutation');
         $this->load->model('user/eva_corporate_mutation_model', 'eva_corporate_mutation');
         $this->load->model('user/eva_customer_model', 'eva_customer');
@@ -33,8 +34,22 @@ class pending extends Admin_Controller {
     {
     	$transaction = $this->transaction->find($id);
 
+        $data_log = array(
+            'transaction_id'    => $transaction->id, 
+            'transaction_code'  => $transaction->trx_code, 
+            'user_id'           => $this->session->userdata('user')->id, 
+            'user_name'         => $this->session->userdata('user')->name, 
+            'user_role'         => $this->session->userdata('user')->role, 
+            'user_phone'        => $this->session->userdata('user')->phone,
+            'user_dealer_id'    => $this->session->userdata('user')->dealer_id,
+            'user_dealer_name'  => $this->dealer->find($this->session->userdata('user')->dealer_id)->name,
+            'remarks'           => 'Change status from '.$transaction->status.' to '.$status
+        );
+
+        $this->transaction_log->insert($data_log);
+
     	$update = $this->transaction->update($id, array(
-    		'status_level' 		=> ($transaction->status_level + 1),
+    		'status_level'      => 4,
     		'status_provider' 	=> '00',
     		'status' 			=> $status
     	));
@@ -130,10 +145,6 @@ class pending extends Admin_Controller {
                 $row[] = $l->biller_name;
             }
 
-            $row[] = $ref_code.' / '.$token;
-            $row[] = $l->cus_phone;
-            $row[] = $l->destination_no;
-
             if(empty($l->token_code))
             {
                 $token = '-';
@@ -152,19 +163,37 @@ class pending extends Admin_Controller {
                 $ref_code = $l->ref_code;
             }
 
+            $row[] = $ref_code.' / '.$token;
+            $row[] = $l->cus_phone;
+            $row[] = $l->destination_no;
+
             $row[] = 'Rp. '.number_format($l->selling_price);
+            $row[] = 'Rp. '.number_format($l->base_price);
             $row[] = 'Rp. '.number_format($l->dealer_fee);
             $row[] = 'Rp. '.number_format($l->biller_fee);
+            $row[] = 'Rp. '.number_format($l->dekape_fee);
+            $row[] = 'Rp. '.number_format($l->partner_fee);
+            $row[] = 'Rp. '.number_format($l->user_fee);
+            $row[] = 'Rp. '.number_format($l->user_cashback);
             $row[] = $l->status;
             $row[] = $l->created_on;
 
-            // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
-            //             <i class="fa fa-pencil"></i>
-            //           </a> &nbsp;';
+            $btn   = '';
 
-            // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-            //             <i class="fa fa-trash"></i>
-            //           </a>';
+            if($l->status != 'approved' && $l->status != 'rejected') 
+            {
+                $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
+                      <i class="fa fa-check"></i>  Approve
+                      </a> <br/>';
+
+                $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" class="btn btn-danger btn-sm">
+                      <i class="fa fa-close"></i>  Reject
+                      </a>';
+            }
+            else
+            {
+                $btn .= '-';
+            }
 
             $row[]  = $btn;
 

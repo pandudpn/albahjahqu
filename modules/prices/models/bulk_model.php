@@ -103,4 +103,39 @@ class bulk_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
+    public function download()
+    {
+        $this->db->select($this->table.'.id', false);
+        $this->db->select($this->table_provider.'.name as provider_name', false);
+        $this->db->select($this->table.'.description', false);
+        $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
+        // $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
+        $this->db->select($this->table.'.type', false);
+        $this->db->select('margin_dealer, margin_reseller_user, margin_end_user, dekape_fee, partner_fee', false);
+        $this->db->from($this->table);
+        $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
+     
+        $this->db->where($this->table.'.deleted', '0');
+
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $result = $this->db->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i:s').".csv";
+
+        $delimiter = ",";
+        $newline   = "\r\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
+    }
+
 }

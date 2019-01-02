@@ -141,6 +141,11 @@ class denom extends Admin_Controller {
         redirect(site_url('prices/denom'), 'refresh');
     }
 
+    public function download()
+    {
+        $this->denom->download();
+    }
+
     public function price_log_insert($action, $type, $remarks, $price_id, $json_data)
     {
         $admin_id   = $this->session->userdata('user')->id;
@@ -174,6 +179,7 @@ class denom extends Admin_Controller {
             $row[] = $l->dealer_name;
             $row[] = $l->biller_code;
             $row[] = $l->type;
+            $row[] = $l->denom;
             $row[] = number_format(($l->base_price + $l->dealer_fee + $l->dekape_fee + $l->biller_fee + $l->user_fee));
             $row[] = number_format($l->base_price);
             $row[] = number_format($l->dealer_fee);

@@ -15,6 +15,9 @@
             <a href="<?php echo site_url('prices/denom/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
                 <i class="zmdi zmdi-collection-plus"></i> Add Denom</button>
             </a>
+            <div class="col-3 pull-right text-right">
+                <a href="<?php echo site_url('prices/denom/download'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Download</a>
+            </div>
         </div>
         <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
@@ -34,6 +37,7 @@
                     <th>Dealer</th>
                     <th>Biller</th>
                     <th>Type</th>
+                    <th>Denom</th>
                     <th>Selling Price</th>
                     <th>Base Price</th>
                     <th>Dealer Fee</th>
@@ -112,14 +116,23 @@
                 "orderable": false, //set not orderable
                 },
                 { 
+                "targets": [ 11 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
                 "targets": [ 12 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 13 ], //last column / new item column
                 "orderable": false, //set not orderable
                 }
                 // { 
                 // "targets": [ 11 ], //last column / new item column
                 // "orderable": false, //set not orderable
                 // }
-            ]
+            ],
+            "scrollX": true
         });
     });
 

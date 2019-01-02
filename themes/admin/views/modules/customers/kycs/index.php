@@ -116,7 +116,8 @@
                 "targets": [ 12 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
-            ]
+            ],
+            "scrollX": true
         });
     });
 

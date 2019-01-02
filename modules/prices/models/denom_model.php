@@ -3,7 +3,8 @@
 class denom_model extends MY_Model {
 
 	protected $table         	= 'prepaid_denom_prices';
-	protected $table_provider 	= 'ref_service_providers';
+    protected $table_provider   = 'ref_service_providers';
+	protected $table_denom 	    = 'ref_denoms';
 	protected $table_biller   	= 'billers';
 	protected $table_dealer   	= 'dealers';
     protected $key           	= 'id';
@@ -11,8 +12,8 @@ class denom_model extends MY_Model {
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'prepaid_denom_prices.type'); //set column field database for datatable orderable
-    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'prepaid_denom_prices.type', 'ref_denoms.value'); //set column field database for datatable orderable
+    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'ref_denoms.value'); //set column field database for datatable searchable 
     protected $order 		 = array('prepaid_denom_prices.id' => 'asc'); // default order 
 
     public function __construct()
@@ -28,9 +29,11 @@ class denom_model extends MY_Model {
         $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
         $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
         $this->db->select($this->table.'.type', false);
+        $this->db->select($this->table_denom.'.value as denom', false);
         $this->db->select('prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
         $this->db->from($this->table);
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
+        $this->db->join($this->table_denom, $this->table_denom.'.id = '.$this->table.'.denom_id', 'left');
  
         $i = 0;
      
@@ -101,6 +104,41 @@ class denom_model extends MY_Model {
         }
         
         return $this->db->count_all_results();
+    }
+
+    public function download()
+    {
+        $this->db->select($this->table.'.id');
+        $this->db->select($this->table_provider.'.name as provider_name', false);
+        $this->db->select($this->table.'.description', false);
+        $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
+        $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
+        $this->db->select($this->table.'.type', false);
+        $this->db->select('prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
+        $this->db->from($this->table);
+        $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
+     
+        $this->db->where($this->table.'.deleted', '0');
+
+        if($this->session->userdata('user')->role == 'dealer') 
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $result = $this->db->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i:s').".csv";
+
+        $delimiter = ",";
+        $newline   = "\r\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
     }
 
 }

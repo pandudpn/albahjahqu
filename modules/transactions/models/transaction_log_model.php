@@ -1,24 +1,24 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class customer_model extends MY_Model {
+class transaction_log_model extends MY_Model {
 
-	protected $table         	= 'customers';
+    protected $table            = 'transaction_logs';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
-    protected $soft_deletes     = true;
-
-    protected $column_order  = array(null, 'name', 'phone', 'email', 'outlet_number', 'dealer_name', 'account_status', 'kyc_status', 'modified_on', 'created_on'); //set column field database for datatable orderable
-    protected $column_search = array('name', 'phone', 'email', 'outlet_number', 'dealer_name', 'account_status', 'kyc_status'); //set column field database for datatable searchable 
-    protected $order 		 = array('customers.name' => 'asc'); // default order 
 
     public function __construct()
     {
         parent::__construct();
     }
 
+    protected $column_order  = array(null, 'transaction_code', 'user_name', 'user_role', 'user_phone', 'user_dealer_name', 'remarks', 'created_on'); //set column field database for datatable orderable
+    protected $column_search = array('transaction_code', 'user_name', 'user_role', 'user_phone', 'user_dealer_name', 'remarks', 'created_on'); //set column field database for datatable searchable 
+    protected $order 		 = array('id' => 'desc'); // default order 
+
     public function _get_datatables_query()
     {
+        $this->db->select('*');
         $this->db->from($this->table);
         
         $i = 0;
@@ -45,7 +45,7 @@ class customer_model extends MY_Model {
             $i++;
         }
 
-        $this->db->where($this->table.'.deleted', '0');
+        $this->db->where('deleted', '0');
 
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
@@ -56,11 +56,6 @@ class customer_model extends MY_Model {
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
 
-        if($this->session->userdata('user')->role == 'dealer') 
-        {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
-        }
-                 
         if(isset($_POST['order'])) // here order processing
         {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -102,48 +97,7 @@ class customer_model extends MY_Model {
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
         
-        if($this->session->userdata('user')->role == 'dealer') 
-        {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
-        }
-
         return $this->db->count_all_results();
-    }
-
-    public function download()
-    {
-        $this->db->select('name, phone, email, outlet_number, outlet_name, dealer_name, account_status, kyc_status, (SELECT created_on FROM transactions WHERE cus_id = customers.id AND status <> \'inquiry\' ORDER BY id DESC LIMIT 1) as last_transaction, created_on as date_registered', false);
-        $this->db->from($this->table);
-        $this->db->where($this->table.'.deleted', '0');
-
-        $from   = $this->input->get('from');
-        $to     = $this->input->get('to');
-
-        if(!empty($from) && !empty($to))
-        {
-            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
-            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
-        }
-
-        if($this->session->userdata('user')->role == 'dealer') 
-        {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
-        }
-
-        $result = $this->db->get();
-
-        $this->load->dbutil();
-        $this->load->helper('file');
-        $this->load->helper('download');
-
-        date_default_timezone_set("Asia/Jakarta");
-        $filename  = "export_".date('Y-m-d H:i:s').".csv";
-
-        $delimiter = ",";
-        $newline   = "\r\n";
-        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
-
-        force_download($filename, $csv_file);
     }
 
 }

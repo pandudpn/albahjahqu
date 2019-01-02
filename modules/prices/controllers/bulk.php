@@ -134,6 +134,11 @@ class bulk extends Admin_Controller {
         redirect(site_url('prices/bulk'), 'refresh');
     }
 
+    public function download()
+    {
+        $this->bulk->download();
+    }
+
     public function price_log_insert($action, $type, $remarks, $price_id, $json_data)
     {
         $admin_id   = $this->session->userdata('user')->id;

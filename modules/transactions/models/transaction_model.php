@@ -10,8 +10,8 @@ class transaction_model extends MY_Model {
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
 
-    protected $column_order  = array(null, 'trx_code', 'destination_no', 'token_code', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks', 'dealer_fee', 'biller_fee', 'status', 'transactions.created_on'); //set column field database for datatable orderable
-    protected $column_search = array('trx_code', 'destination_no', 'token_code', 'selling_price', 'status', 'transactions.created_on', 'ref_service_codes.remarks', 'dealer_fee', 'biller_fee', 'status', 'transactions.created_on'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'trx_code', 'ref_service_codes.remarks', 'biller_name', 'ref_code', 'cus_phone', 'destination_no', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'status', 'transactions.created_on'); //set column field database for datatable orderable
+    protected $column_search = array('trx_code', 'ref_service_codes.remarks', 'billers.name', 'ref_code', 'customers.phone', 'destination_no', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'status', 'transactions.created_on'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.id' => 'desc'); // default order 
 
     public function __construct()
@@ -23,8 +23,13 @@ class transaction_model extends MY_Model {
     {
         $this->db->select('transactions.id, ref_code, trx_code, destination_no, token_code, selling_price, status, status_provider');
         $this->db->select($this->table.'.created_on');
+        $this->db->select($this->table.'.base_price');
         $this->db->select($this->table.'.dealer_fee');
         $this->db->select($this->table.'.biller_fee');
+        $this->db->select($this->table.'.partner_fee');
+        $this->db->select($this->table.'.dekape_fee');
+        $this->db->select($this->table.'.user_fee');
+        $this->db->select($this->table.'.user_cashback');
         $this->db->select($this->table_code.'.remarks');
         $this->db->select($this->table_customer.'.name as cus_name');
         $this->db->select($this->table_customer.'.phone as cus_phone');
@@ -137,14 +142,7 @@ class transaction_model extends MY_Model {
 
     public function download()
     {
-        $this->db->select('transactions.id, ref_code, trx_code, destination_no, token_code, selling_price, status, status_provider');
-        $this->db->select($this->table.'.created_on');
-        $this->db->select($this->table.'.dealer_fee');
-        $this->db->select($this->table.'.biller_fee');
-        $this->db->select($this->table_code.'.remarks');
-        $this->db->select($this->table_customer.'.name as cus_name');
-        $this->db->select($this->table_customer.'.phone as cus_phone');
-        $this->db->select($this->table_biller.'.name as biller_name');
+        $this->db->select('transactions.created_on, trx_code, ref_service_codes.remarks, billers.name as biller_name, ref_code, customers.phone as cus_phone, destination_no, selling_price, base_price, dealer_fee, biller_fee, dekape_fee, partner_fee, user_fee, user_cashback, status', false);
         $this->db->from($this->table);
         $this->db->join($this->table_code, $this->table_code.'.id = '.$this->table.'.service_id', 'left');
         $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.biller_id', 'left');
@@ -176,7 +174,7 @@ class transaction_model extends MY_Model {
         $this->load->helper('download');
 
         date_default_timezone_set("Asia/Jakarta");
-        $filename  = "export_".date('Y-m-d H:i:s').".xls";
+        $filename  = "export_".date('Y-m-d H:i:s').".csv";
 
         $delimiter = ",";
         $newline   = "\r\n";
