@@ -28,7 +28,7 @@ class kycs extends Admin_Controller {
         $is_exist = $this->kyc->find($kyc_id);
 
         if($is_exist){
-            $update_remark = $is_exist->remarks." -> ".$remarks;
+            $update_remark = $remarks;
 
             $arr = array();
             if($status == 'approve'){
