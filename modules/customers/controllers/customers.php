@@ -62,6 +62,37 @@ class customers extends Admin_Controller {
             ->build('outlet');
     }
 
+    public function password($id)
+    {
+        if($this->input->post())
+        {
+            $pin        = $this->input->post('pin');
+            $password   = $this->input->post('password');
+
+            if(!empty($pin))
+            {
+                $update = $this->customer->update($id, array('pin' => md5($pin)));
+            }
+
+            if(!empty($password))
+            {
+                $pass   = sha1($this->config->item('password_salt_customer').$password);
+                $eva    = $this->eva_customer->find_by(array('account_user' => $id));
+                $update = $this->eva_customer->update($eva->id, array('account_password' => $pass));
+            }
+
+            redirect(site_url('customers'), 'refresh');
+        }
+
+        $data = $this->customer->find($id);
+
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Edit Password / Pin for '.$data->name)
+            ->set('data', $data)
+            ->build('password');
+    }
+
     public function geography($id)
     {
         if($this->input->post())
@@ -199,6 +230,9 @@ class customers extends Admin_Controller {
                                 <div class="dropdown-divider"></div>';
 
             $btn .= '<a class="dropdown-item" href="'.site_url('customers/outlet/'.$l->id).'" >Edit Outlet</a>
+                                <div class="dropdown-divider"></div>';
+
+            $btn .= '<a class="dropdown-item" href="'.site_url('customers/password/'.$l->id).'" >Edit Password / Pin</a>
                                 <div class="dropdown-divider"></div>';
 
             $btn .= '<a class="dropdown-item" href="'.site_url('customers/mutation/'.$l->id).'" >View Mutation</a>

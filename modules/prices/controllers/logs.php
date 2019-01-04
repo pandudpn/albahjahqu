@@ -34,6 +34,7 @@ class logs extends Admin_Controller {
             $row   = array();
             $row[] = $no;
             $row[] = $l->admin_name;
+            $row[] = $l->dealer_name;
             $row[] = $l->type;
             $row[] = $l->action;
             $row[] = $l->remarks;

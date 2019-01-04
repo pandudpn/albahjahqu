@@ -58,7 +58,7 @@ class bulk_model extends MY_Model {
 
         $this->db->where($this->table.'.deleted', '0');
 
-        if($this->session->userdata('user')->role == 'dealer') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -95,7 +95,7 @@ class bulk_model extends MY_Model {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
 
-        if($this->session->userdata('user')->role == 'dealer') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -117,7 +117,7 @@ class bulk_model extends MY_Model {
      
         $this->db->where($this->table.'.deleted', '0');
 
-        if($this->session->userdata('user')->role == 'dealer') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }

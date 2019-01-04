@@ -7,6 +7,8 @@ class kycs extends Admin_Controller {
 
         $this->load->model('customers/kyc_model', 'kyc');
         $this->load->model('customers/customer_model', 'customer');
+        $this->load->model('customers/customer_notification_model', 'customer_notification');
+        $this->load->model('customers/customer_session_model', 'customer_session');
 
         $this->load->helper('text');
 
@@ -43,6 +45,30 @@ class kycs extends Admin_Controller {
 
             $cust_id = $this->kyc->find($kyc_id)->cus_id;
             $this->customer->update($cust_id, $kyc);
+
+            //insert to notif
+            $data = array(
+                'cus_id'        => $is_exist->cus_id, 
+                'cus_name'      => $is_exist->cus_name, 
+                'cus_phone'     => $is_exist->cus_phone, 
+                'notif_type'    => 'kyc', 
+                'notif_remark'  => 'KYC '.$kyc['kyc_status'].', Reason: '.$remarks
+            );
+
+            $this->customer_notification->insert($data);
+
+            //send notif
+
+            $session = $this->customer_session->order_by('id', 'desc');
+            $session = $this->customer_session->find_by(array('cus_id' => $is_exist->cus_id));
+
+            $fcm_id = Array();
+            array_push($fcm_id, $session->cus_fcm_id);
+            
+            $title      = 'OKBABE';
+            $message    = 'KYC '.$kyc['kyc_status'].', Reason: '.$remarks;
+
+            $this->push_notification($fcm_id, $title, $message, '', '');
 
             echo 'success';
         }
@@ -110,5 +136,40 @@ class kycs extends Admin_Controller {
         );
         //output to json format
         echo json_encode($output);
+    }
+
+    private function push_notification($gcm_ids, $title, $msg, $action='feed', $id='')
+    {
+        $url     = 'https://fcm.googleapis.com/fcm/send';
+        $message = array("title" => $title, "body" => $msg, "subject" => 'kyc');
+        $fields  = array(
+              'registration_ids'  => $gcm_ids,
+              'notification'      => $message
+        );
+
+        $api_key = 'AAAAf_Rr2ig:APA91bGe0MVf85hli70S__JHZMjIhZILomI9WkEv_wyLqf6K8mm2A4oHsmKGsS9UJr4CniLF518W9ECdncTtUhc-f-h8NFPRDCLU0M5nAM_bpeDxYPRk2U_OA1b8F3zUBOQHiMWmVMud';
+
+        $headers = array(
+             'Authorization: key='.$api_key,
+             'Content-Type: application/json'
+        );
+
+        // Open connection
+        $ch = curl_init();
+        // Set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Disabling SSL Certificate support temporarly
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        // Execute post
+        $result = curl_exec($ch);
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+        // Close connection
+        curl_close($ch);
     }
 }

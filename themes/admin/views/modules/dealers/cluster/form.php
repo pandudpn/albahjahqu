@@ -28,6 +28,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Dealer</label>
                             <div class="col-7">
+                                <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                 <select class="form-control" name="dealer_id" id="dealer_id">
                                     <?php foreach($dealers as $d){ 
                                             if($d->id == $data->dealer_id){
@@ -37,6 +38,18 @@
                                             }
                                         } ?>
                                 </select>
+                                <?php }else{ ?>
+                                <select class="form-control" disabled>
+                                    <?php foreach($dealers as $d){ 
+                                            if($d->id == $this->session->userdata('user')->dealer_id){
+                                                echo "<option selected value='$d->id'> $d->name </option>";
+                                            }else{
+                                                echo "<option value='$d->id'> $d->name </option>";
+                                            }
+                                        } ?>
+                                </select>
+                                <input type="hidden" name="dealer_id" value="<?php echo $this->session->userdata('user')->dealer_id; ?>">
+                                <?php } ?>
                             </div>
                         </div>
 

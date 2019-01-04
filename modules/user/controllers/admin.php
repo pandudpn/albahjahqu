@@ -138,6 +138,8 @@ class admin extends Admin_Controller {
             $row   = array();
             $row[] = $no;
             $row[] = $l->name;
+            $row[] = $l->role;
+            $row[] = $l->phone;
             $row[] = $l->email;
 
             //button edit & delete

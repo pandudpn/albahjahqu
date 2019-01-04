@@ -27,7 +27,7 @@ class alert extends Admin_Controller {
 
     public function add()
     {
-        if($this->session->userdata('user')->role == 'dealer') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $box_services = $this->dealer_box_services->where('dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -47,7 +47,7 @@ class alert extends Admin_Controller {
 
         if($is_exist){
 
-            if($this->session->userdata('user')->role == 'dealer') 
+            if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
             {
                 $box_services = $this->dealer_box_services->where('dealer_id', $this->session->userdata('user')->dealer_id);
             }
