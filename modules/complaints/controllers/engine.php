@@ -15,6 +15,8 @@ class engine extends Api_Controller {
 
     public function fcm()
     {
+    	header('Access-Control-Allow-Origin: *');  
+    	
     	$id 		= $this->input->get_post('id');
     	$web_fcm 	= $this->input->get_post('web_fcm');
 
