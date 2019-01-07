@@ -1,16 +1,19 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class dealer_boxes_model extends MY_Model {
+class referral_model extends MY_Model {
 
-	protected $table         	= 'dealer_boxes';
+	protected $table         	= 'dealer_referral_codes';
+	protected $table_cluster    = 'dealer_clusters';
+	protected $table_district   = 'geo_districts';
+	protected $table_village    = 'geo_villages';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'dealer_name', 'ipbox', 'type'); //set column field database for datatable orderable
-    protected $column_search = array('dealer_name', 'ipbox', 'type'); //set column field database for datatable searchable 
-    protected $order 		 = array('id' => 'asc'); // default order 
+    protected $column_order  = array(null, 'dealer_referral_codes.dealer_name', 'referral_phone', 'referral_code', 'dealer_clusters.alias', 'geo_districts.name', 'geo_villages.name'); //set column field database for datatable orderable
+    protected $column_search = array('dealer_referral_codes.dealer_name', 'referral_phone', 'referral_code', 'dealer_clusters.alias', 'geo_districts.name', 'geo_villages.name'); //set column field database for datatable searchable 
+    protected $order 		 = array('dealer_referral_codes.dealer_name' => 'asc'); // default order 
 
     public function __construct()
     {
@@ -19,9 +22,14 @@ class dealer_boxes_model extends MY_Model {
 
     public function _get_datatables_query()
     {
-         
-        $this->db->select('*');
+        $this->db->select($this->table.'.*');
+        $this->db->select($this->table_cluster.'.alias as cluster_alias');
+        $this->db->select($this->table_district.'.name as district_name');
+        $this->db->select($this->table_village.'.name as village_name');
         $this->db->from($this->table);
+        $this->db->join($this->table_cluster, 'dealer_clusters.id = dealer_referral_codes.cluster_id', 'left');
+        $this->db->join($this->table_district, 'geo_districts.id = dealer_referral_codes.district_id', 'left');
+        $this->db->join($this->table_village, 'geo_villages.id = dealer_referral_codes.village_id', 'left');
         
         $i = 0;
      
@@ -47,12 +55,12 @@ class dealer_boxes_model extends MY_Model {
             $i++;
         }
 
+        $this->db->where($this->table.'.deleted', '0');
+
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
-
-        $this->db->where($this->table.'.deleted', '0');
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -86,6 +94,15 @@ class dealer_boxes_model extends MY_Model {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
         return $this->db->count_all_results();
+    }
+
+    public function last_id()
+    {
+        $this->db->select_max('id');
+        $this->db->from($this->table);
+        $query = $this->db->get();
+        
+        return $query->row();
     }
 
 }

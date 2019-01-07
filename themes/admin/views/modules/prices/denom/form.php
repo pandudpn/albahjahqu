@@ -45,10 +45,18 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Dealership</label>
                                 <div class="col-9">
+                                    <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                     <select class="form-control select2" name="dealership" id="dealership">
                                         <option <?php if($denom->dealership == 'dealer'){ echo 'selected'; } ?> value='dealer'>Dealer</option>
                                         <option <?php if($denom->dealership == 'biller'){ echo 'selected'; } ?> value='biller'>Biller</option>
                                     </select>
+                                    <?php }else{ ?>
+                                    <select class="form-control select2" disabled>
+                                        <option <?php if($denom->dealership == 'dealer'){ echo 'selected'; } ?> value='dealer'>Dealer</option>
+                                        <option <?php if($denom->dealership == 'biller'){ echo 'selected'; } ?> value='biller'>Biller</option>
+                                    </select>
+                                    <input type="hidden" name="dealership" value="dealer">
+                                    <?php } ?>
                                 </div>
                             </div>
 
@@ -150,37 +158,37 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Base Price</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="base_price" value="<?php echo $denom->base_price; ?>" required>
+                                    <input class="form-control" type="text" name="base_price" value="<?php echo intval($denom->base_price); ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Dealer Fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="dealer_fee" value="<?php echo $denom->dealer_fee; ?>" required>
+                                    <input class="form-control" type="text" name="dealer_fee" value="<?php echo intval($denom->dealer_fee); ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Dekape Fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo $denom->dekape_fee; ?>" required>
+                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo intval($denom->dekape_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Biller Fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo $denom->biller_fee; ?>" required>
+                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo intval($denom->biller_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Partner fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo $denom->partner_fee; ?>" required>
+                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo intval($denom->partner_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">User fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="user_fee" value="<?php echo $denom->user_fee; ?>" required>
+                                    <input class="form-control" type="text" name="user_fee" value="<?php echo intval($denom->user_fee); ?>" required>
                                 </div>
                             </div>
                             <div class="form-group row">

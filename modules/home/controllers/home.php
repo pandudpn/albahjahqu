@@ -9,6 +9,15 @@ class home extends Admin_Controller {
         setlocale(LC_TIME, 'id_ID');
 
         $this->check_login();
+
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        {
+            $this->where_dealer = ' AND dealer_id = '.$this->session->userdata('user')->dealer_id;
+        }
+        else
+        {
+            $this->where_dealer = '';
+        }
     }
 
     public function index(){
@@ -32,7 +41,7 @@ class home extends Admin_Controller {
                                         ELSE 1
                                     END) as status_failed
                                     FROM transactions 
-                                    WHERE SUBSTRING(created_on, 1, 7) = '".date('Y-m')."'
+                                    WHERE SUBSTRING(created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
                                     AND LEFT(service_code, 3) <> 'TOP'
                                     GROUP BY SUBSTRING(created_on, 1, 10)")->result();
 
@@ -92,7 +101,7 @@ class home extends Admin_Controller {
                                         ELSE selling_price
                                     END) as status_failed
                                     FROM transactions 
-                                    WHERE SUBSTRING(created_on, 1, 7) = '".date('Y-m')."' 
+                                    WHERE SUBSTRING(created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
                                     AND LEFT(service_code, 3) <> 'TOP'
                                     GROUP BY SUBSTRING(created_on, 1, 10)")->result();
 
@@ -141,7 +150,7 @@ class home extends Admin_Controller {
          $query = $this->db->query("SELECT dealers.name AS dealer_name, SUM(selling_price) AS sales
                                     FROM dealers
                                     LEFT JOIN transactions ON transactions.dealer_id = dealers.id
-                                    WHERE SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."' 
+                                    WHERE SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
                                     AND (status = 'payment' OR status = 'approved')
                                     GROUP BY dealers.name")->result();
         $cols = array(
@@ -182,12 +191,14 @@ class home extends Admin_Controller {
          $topup = $this->db->query("SELECT sum(selling_price) as topup FROM transactions
                                     WHERE LEFT(service_code, 3) = 'TOP' 
                                     AND (status = 'payment' OR status = 'approved')
-                                    AND SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."'")->row()->topup;
+                                    AND SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."'
+                                    ".$this->where_dealer."")->row()->topup;
 
          $sales = $this->db->query("SELECT sum(selling_price) as sales FROM transactions
                                     WHERE LEFT(service_code, 3) <> 'TOP' 
                                     AND (status = 'payment' OR status = 'approved')
-                                    AND SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."'")->row()->sales;
+                                    AND SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."'
+                                    ".$this->where_dealer."")->row()->sales;
         
         $cols = array(
             array(
@@ -238,7 +249,7 @@ class home extends Admin_Controller {
                                     END) as sales
                                     FROM transactions 
                                     JOIN service_menus ON service_menus.id = transactions.service_menu
-                                    WHERE SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."' 
+                                    WHERE SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
                                     AND LEFT(service_code, 3) <> 'TOP'
                                     GROUP BY service_menus.id")->result();
 

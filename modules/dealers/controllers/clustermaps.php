@@ -29,13 +29,14 @@ class clustermaps extends Admin_Controller {
     {
         $provinces  = $this->geo_province->find_all();
         $dealers    = $this->dealer->find_all();
-        $dealer_clusters    = $this->dealer_cluster->find_all_by(array('dealer_id' => $data->dealer_id));
+        $dealer_clusters    = $this->dealer_cluster->find_all_by(array('dealer_id' => $this->session->userdata('user')->dealer_id));
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('title', 'Add Dealer Cluster Maps')
             ->set('provinces', $provinces)
             ->set('dealers', $dealers)
+            ->set('dealer_clusters', $dealer_clusters)
             ->build('clustermaps/form');
     }
 

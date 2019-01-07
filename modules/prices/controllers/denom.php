@@ -154,6 +154,8 @@ class denom extends Admin_Controller {
         $data = array(
             'admin_id'      => $admin_id,
             'admin_name'    => $admin_name,
+            'dealer_id'     => $this->session->userdata('user')->dealer_id,
+            'dealer_name'   => $this->dealer->find($this->session->userdata('user')->dealer_id)->name,
             'action'        => $action,
             'type'          => $type,
             'remarks'       => $remarks,

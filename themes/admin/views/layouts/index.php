@@ -182,149 +182,150 @@
                                     <i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> 
                                 </a>
                             </li>
-
+                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                            <li>
-                                <a href="<?php echo site_url('services'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-card-sd"></i><span> Services </span> 
-                                </a>
-                            </li>
-                            <?php } ?>
-
-                            <li class="text-muted menu-title">Users</li>
+                                <li>
+                                    <a href="<?php echo site_url('services'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-card-sd"></i><span> Services </span> 
+                                    </a>
+                                </li>
+                            <?php } ?>    
+                                <li class="text-muted menu-title">Users</li>
                             
-                            <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="zmdi zmdi-accounts"></i><span> Customers </span> 
-                                    <span class="menu-arrow"></span>
-                                </a>
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="zmdi zmdi-accounts"></i><span> Customers </span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
 
-                                <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('customers'); ?>">Profile</a></li>
-                                    <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                                    <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC</a></li>
-                                    <?php } ?>
-                                </ul>
-                            </li>
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('customers'); ?>">Profile</a></li>
+                                        <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                        <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC</a></li>
+                                        <?php } ?>
+                                    </ul>
+                                </li>
 
-                            <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="zmdi zmdi-email-open"></i><span> Complaints </span> 
-                                    <span class="menu-arrow"></span>
-                                </a>
+                                <li>
+                                    <a href="<?php echo site_url('referrals'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-tag-more"></i><span> Referral Codes </span> 
+                                    </a>
+                                </li>
 
-                                <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('complaints/report'); ?>">Report</a></li>
-                                    <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
-                                </ul>
-                            </li>
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="zmdi zmdi-email-open"></i><span> Complaints </span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
 
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('complaints/report'); ?>">Report</a></li>
+                                        <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
+                                    </ul>
+                                </li>
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                <li>
+                                    <a href="<?php echo site_url('dealers'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-store"></i><span> Dealers </span> 
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="<?php echo site_url('dealers'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-store"></i><span> Dealers </span> 
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="<?php echo site_url('billers'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-library"></i><span> Billers </span> 
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="<?php echo site_url('billers'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-library"></i><span> Billers </span> 
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="<?php echo site_url('partners'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-label"></i><span> Partners </span> 
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="<?php echo site_url('partners'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-label"></i><span> Partners </span> 
+                                    </a>
+                                </li>
+                            <?php } ?>   
                             <?php } ?>
 
                             <li class="text-muted menu-title">Transaction</li>
 
-                            <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="zmdi zmdi-money"></i><span> Prices </span> 
-                                    <span class="menu-arrow"></span>
-                                </a>
+                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
 
-                                <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
-                                    <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
-                                    <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                                    <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
-                                    <li><a href="<?php echo site_url('prices/logs'); ?>">Logs</a></li>
-                                    <?php } ?>
-                                </ul>
-                            </li>
-                            
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="zmdi zmdi-money"></i><span> Prices </span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
+
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
+                                        <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
+                                        <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                        <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
+                                        <?php } ?>
+                                        <li><a href="<?php echo site_url('prices/logs'); ?>">Logs</a></li>
+                                    </ul>
+                                </li>
+
+                            <?php } ?>
+
                             <li>
                                 <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                </a>
+                            </li>
                             <li>
                                 <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
                                 </a>
                             </li>
 
+                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
+
+                                <li class="text-muted menu-title">Modem Pool</li>
+
+                                <li>
+                                    <a href="<?php echo site_url('dealers/boxes'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
+                                    </a>
+                                </li>
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                            <li>
-                                <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="<?php echo site_url('dealers/usages'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-collection-text"></i><span> Box Usages </span> 
+                                    </a>
+                                </li>
                             <?php } ?>
+                                <li>
+                                    <a href="<?php echo site_url('dealers/boxes/alert'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-alert-octagon"></i><span> Alert Settings </span> 
+                                    </a>
+                                </li>
+                                
+                                <li class="text-muted menu-title">Clusters</li>
 
-                            <li class="text-muted menu-title">Modem Pool</li>
+                                <li>
+                                    <a href="<?php echo site_url('dealers/clusters'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-layers"></i><span> Clusters </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('dealers/clustermaps'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-map"></i><span> Cluster Maps </span> 
+                                    </a>
+                                </li>
+                                <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                    <li class="text-muted menu-title">Management</li>
 
-                            <li>
-                                <a href="<?php echo site_url('dealers/boxes'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="<?php echo site_url('dealers/usages'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-collection-text"></i><span> Box Usages </span> 
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="<?php echo site_url('dealers/boxes/alert'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-alert-octagon"></i><span> Alert Settings </span> 
-                                </a>
-                            </li>
-
-                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                            
-                            <li class="text-muted menu-title">Clusters</li>
-
-                            <li>
-                                <a href="<?php echo site_url('dealers/clusters'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-layers"></i><span> Clusters </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('dealers/clustermaps'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-map"></i><span> Cluster Maps </span> 
-                                </a>
-                            </li>
+                                    <li>
+                                        <a href="<?php echo site_url('user/admin'); ?>" class="waves-effect">
+                                            <i class="zmdi zmdi-account"></i><span> Admin Users </span> 
+                                        </a>
+                                    </li>
+                                <?php } ?>
                             <?php } ?>
-
-                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                            
-                            <li class="text-muted menu-title">Management</li>
-
-                            <li>
-                                <a href="<?php echo site_url('user/admin'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-account"></i><span> Admin Users </span> 
-                                </a>
-                            </li>
-                            <?php } ?>
-
                         </ul>
                         <div class="clearfix"></div>
                     </div>

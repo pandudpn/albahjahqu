@@ -34,6 +34,7 @@
                 <tr>
                     <th>No</th>
                     <th>Name</th>
+                    <th>Dealer</th>
                     <th>Type</th>
                     <th>Action</th>
                     <th>Remarks</th>

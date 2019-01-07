@@ -54,6 +54,7 @@
                                 <select name="role" class="form-control">
                                     <option value="dekape" <?php if($data->role == 'dekape') { echo "selected"; } ?>>Dekape</option>
                                     <option value="dealer" <?php if($data->role == 'dealer') { echo "selected"; } ?>>Dealer</option>
+                                    <option value="dealer_ops" <?php if($data->role == 'dealer_ops') { echo "selected"; } ?>>Dealer Operational</option>
                                 </select>
                             </div>
                         </div>

@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">User Admins</h4>
+            <h4 class="page-title float-left">Referral Codes</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -10,32 +10,33 @@
 <!-- end row -->
 
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-12">
         <div class="p-20">
-            <a href="<?php echo site_url('user/admin/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Add Admin User </button>
+            <a href="<?php echo site_url('referrals/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Add Code </button>
             </a>
         </div>
-
-        <div class="card-box table-responsive">
-            <?php if($alert){ ?>
-            <div class="alert alert-<?php echo $alert['type']; ?>">
+        
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
+        	<?php if($alert){ ?>
+	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
-                <?php echo $alert['msg']; ?>
-            </div>
-            <?php } ?>
-
+	    		<?php echo $alert['msg']; ?>
+	    	</div>
+	    	<?php } ?> 
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>
-                    <th width="10%">No</th>
-                    <th>Name</th>
-                    <th>Role</th>
+                    <th>No</th>
+                    <th>Dealer</th>
                     <th>Phone</th>
-                    <th>Email</th>
-                    <th width="20%"></th>
+                    <th>Code</th>
+                    <th>Cluster</th>
+                    <th>District</th>
+                    <!-- <th>Village</th> -->
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -59,7 +60,7 @@
                 <p>Are you sure want to delete this item?</p>
             </div>
             <div class="modal-footer">
-                <a id="confirm" href="javascript:;" class="btn btn-primary">Yes, Delete it</a>
+                <a id="confirm" href="javascript:;" class="btn btn-danger">Yes, Delete it</a>
                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
@@ -69,14 +70,14 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#datatable').DataTable({ 
-
+            // "scrollX": true,
             "processing": true, //Feature control the processing indicator.
             "serverSide": true, //Feature control DataTables' server-side processing mode.
             "order": [], //Initial no order.
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('user/admin/datatables')?>",
+                "url": "<?php echo site_url('referrals/datatables')?>",
                 "type": "POST"
             },
 
@@ -87,16 +88,12 @@
                 "orderable": false, //set not orderable
                 },
                 { 
-                "targets": [ 3 ], //first column / numbering column
+                "targets": [ 6 ], //first column / numbering column
                 "orderable": false, //set not orderable
-                }
+                },
             ]
         });
-        
-
-        $('#form').parsley();
-
-    } );
+    });
 
     function alert_delete(url)
     {

@@ -156,19 +156,19 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Dekape fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo $bulk->dekape_fee; ?>" required>
+                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo intval($bulk->dekape_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Biller fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo $bulk->biller_fee; ?>" required>
+                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo intval($bulk->biller_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Partner fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo $bulk->partner_fee; ?>" required>
+                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo intval($bulk->partner_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
                                 </div>
                             </div>
                             <div class="form-group row">

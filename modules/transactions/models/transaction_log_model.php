@@ -56,6 +56,11 @@ class transaction_log_model extends MY_Model {
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        {
+            $this->db->where($this->table.'.user_dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
         if(isset($_POST['order'])) // here order processing
         {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
