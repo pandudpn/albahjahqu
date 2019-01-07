@@ -1,0 +1,21 @@
+{
+  "gcm_sender_id": "549561555496",
+  "short_name": "OKBABE+",
+  "name": "OKBABE+ Ada Keuntungan di Setiap Kebutuhan Anda",
+  "icons": [
+    {
+      "src": "okbabe-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "okbabe-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#ff0000",
+  "background_color": "#ff0000",
+  "display": "standalone",
+  "orientation": "portrait"
+}
