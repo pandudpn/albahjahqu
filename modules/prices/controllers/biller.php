@@ -5,8 +5,10 @@ class biller extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('prices/biller_model', 'biller');
+        $this->load->model('references/dealers_model', 'dealer');
         $this->load->model('references/billers_model', 'ref_biller');
         $this->load->model('references/ref_service_codes_model', 'service_code');
+        $this->load->model('prices/price_log_model', 'price_log');
 
         $this->load->helper('text');
 
@@ -149,6 +151,7 @@ class biller extends Admin_Controller {
             $row[] = $l->provider_name;
             $row[] = $l->remarks;
             $row[] = $l->biller_name;
+            $row[] = number_format($l->base_price);
             $row[] = number_format($l->dealer_fee);
             $row[] = number_format($l->dekape_fee);
             $row[] = number_format($l->biller_fee);

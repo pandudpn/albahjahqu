@@ -35,6 +35,7 @@
                     <th>Provider</th>
                     <th>Description</th>
                     <th>Biller</th>
+                    <th>Base Price</th>
                     <th>Dealer Fee</th>
                     <th>Dekape Fee</th>
                     <th>Biller Fee</th>
@@ -104,6 +105,10 @@
                 },
                 { 
                 "targets": [ 7 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 8 ], //last column / new item column
                 "orderable": false, //set not orderable
                 }
             ]

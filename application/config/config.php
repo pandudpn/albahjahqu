@@ -240,6 +240,7 @@ $config['cache_path'] = 'application/cache/';
 */
 $config['encryption_key'] = 'B1ilineDeVb4NdUn60Ff1c3';
 $config['password_salt']  = 'sin3rG14En4M';
+$config['password_salt_customer']  = 'B!lin3DeV5eCuRE4u7h3Nt1c@T!0N53t0k3n2018'; 
 /*
 |--------------------------------------------------------------------------
 | Session Variables
