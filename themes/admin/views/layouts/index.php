@@ -394,6 +394,8 @@
                         requestToken();
                     });
 
+                    console.log(Notification.permission);
+
                     //B. SET LISTENER TO FOREGROUND MESSAGE
                     if (Notification.permission === 'granted') {
                         firebase.messaging().onMessage(function(payload) {
