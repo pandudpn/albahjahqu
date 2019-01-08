@@ -379,7 +379,7 @@
             <script type="text/javascript">
                 var firebase_token      = "No Token";
                 var firebase_permission = false;
-                var adminId             = <?php echo $user->id; ?>;
+                var adminId             = <?php echo $this->session->userdata('user')->id; ?>;
                 var adminWeb            = "other";
 
                 document.addEventListener('DOMContentLoaded', function() {
