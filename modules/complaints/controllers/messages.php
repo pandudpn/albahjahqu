@@ -8,8 +8,10 @@ class messages extends Admin_Controller {
 
         $this->config->load('pusher');
 
+        $this->load->model('user/user_admin_model', 'user_admin');
         $this->load->model('complaints/customer_support_model', 'cus_support');
         $this->load->model('complaints/customer_support_message_model', 'cus_support_message');
+        $this->load->model('complaints/customer_support_member_model', 'customer_support_member');
     }
 
     public function index($id=null)
@@ -68,13 +70,80 @@ class messages extends Admin_Controller {
 
         if($insert_id)
         {
-            $response = $this->pusher->trigger( $ticket , 'dekape_reply', $data);
+            $response = $this->pusher->trigger( $ticket , 'dealer_reply', $data);
+
             if($response['status'] == 200 || $response){ $data['push'] = 1; }
+
+            $customer_support_member = $this->customer_support_member->order_by('id', 'asc');
+            $customer_support_member = $this->customer_support_member->find_all_by(array('ticket' => $cus_support->ticket));
+
+            //PUSH NOTIF
+
+            $fcm_id  = Array();
+
+            foreach ($customer_support_member as $key => $c) 
+            {
+                if($c->role == 'customer')
+                {
+                    $session = $this->customer_session->order_by('id', 'desc');
+                    $session = $this->customer_session->find_by(array('cus_id' => $c->user_id));
+
+                    
+                    array_push($fcm_id, $session->cus_fcm_id);
+                }
+                else
+                {
+                    $admin   = $this->user_admin->find($c->user_id);
+
+                    array_push($fcm_id, $admin->web_fcm);
+                }
+            }
+            
+            $title      = 'Chat Baru dari '. $this->session->userdata('user')->name;
+            $message    = $message;
+
+            $this->push_notification($fcm_id, $title, $message, '', '');
+
             $this->rest->set_data($data);
         }else{
             $this->rest->set_error('Error Creating Message.'); 
         }
 
         $this->rest->render();
+    }
+
+    private function push_notification($gcm_ids, $title, $msg, $action='feed', $id='')
+    {
+        $url     = 'https://fcm.googleapis.com/fcm/send';
+        $message = array("title" => $title, "body" => $msg, "subject" => 'topup');
+        $fields  = array(
+              'registration_ids'  => $gcm_ids,
+              'notification'      => $message
+        );
+
+        $api_key = 'AAAAf_Rr2ig:APA91bGe0MVf85hli70S__JHZMjIhZILomI9WkEv_wyLqf6K8mm2A4oHsmKGsS9UJr4CniLF518W9ECdncTtUhc-f-h8NFPRDCLU0M5nAM_bpeDxYPRk2U_OA1b8F3zUBOQHiMWmVMud';
+
+        $headers = array(
+             'Authorization: key='.$api_key,
+             'Content-Type: application/json'
+        );
+
+        // Open connection
+        $ch = curl_init();
+        // Set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Disabling SSL Certificate support temporarly
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        // Execute post
+        $result = curl_exec($ch);
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+        // Close connection
+        curl_close($ch);
     }
 }

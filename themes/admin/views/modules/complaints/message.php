@@ -128,7 +128,7 @@
 
 	var chat_message           = document.getElementById('chat_message');
 	const pusher_credentials   = { app_id:"<?php echo $pusher_app_id; ?>", key:"<?php echo $pusher_app_key; ?>", secret:"<?php echo $pusher_app_secret; ?>", cluster:"<?php echo $pusher_app_cluster; ?>" };
-	const pusher_subscriptions = { channel: "<?php echo $cus_support->ticket; ?>", event: ["customer_reply", "dealer_reply", "dekape_reply" ] };
+	const pusher_subscriptions = { channel: "<?php echo $cus_support->ticket; ?>", event: ["customer_reply", "dealer_reply"] };
 
 	/* If We want to use PUSH.JS: Push.Permission.request(); */
 	var pusher  = new Pusher(pusher_credentials.key, { cluster: pusher_credentials.cluster, encrypted: true });
@@ -143,14 +143,6 @@
 	  	
 	});
 	channel.bind(pusher_subscriptions.event[1], function(data) {
-		console.log(data.message)
-		if(data.sender_role != '<?php echo $user->role; ?>')
-	  	{ append_chat('left', data.sender_name, data.created_on, data.message) }
-	  	else
-	  	{ append_chat('right', data.sender_name, data.created_on, data.message) } 
-	  // chat_message.innerHTML = "Ini Dealer (" + data.sender_name + ") bilang: " + data.message;
-	});
-	channel.bind(pusher_subscriptions.event[2], function(data) {
 		console.log(data.message)
 		if(data.sender_role != '<?php echo $user->role; ?>')
 	  	{ append_chat('left', data.sender_name, data.created_on, data.message) }
