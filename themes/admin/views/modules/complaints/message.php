@@ -136,7 +136,7 @@
 	channel.bind(pusher_subscriptions.event[0], function(data) {
 		console.log(data.message)
 	  // chat_message.innerHTML = "Ini Customer (" + data.sender_name + ") bilang: " + data.message;
-	  	if(data.sender_name != '<?php echo $user->role; ?>')
+	  	if(data.sender_role != '<?php echo $user->role; ?>')
 	  	{ append_chat('left', data.sender_name, data.created_on, data.message) }
 	  	else
 	  	{ append_chat('right', data.sender_name, data.created_on, data.message) } 
@@ -144,7 +144,7 @@
 	});
 	channel.bind(pusher_subscriptions.event[1], function(data) {
 		console.log(data.message)
-		if(data.sender_name != '<?php echo $user->role; ?>')
+		if(data.sender_role != '<?php echo $user->role; ?>')
 	  	{ append_chat('left', data.sender_name, data.created_on, data.message) }
 	  	else
 	  	{ append_chat('right', data.sender_name, data.created_on, data.message) } 
@@ -152,7 +152,7 @@
 	});
 	channel.bind(pusher_subscriptions.event[2], function(data) {
 		console.log(data.message)
-		if(data.sender_name != '<?php echo $user->role; ?>')
+		if(data.sender_role != '<?php echo $user->role; ?>')
 	  	{ append_chat('left', data.sender_name, data.created_on, data.message) }
 	  	else
 	  	{ append_chat('right', data.sender_name, data.created_on, data.message) } 
