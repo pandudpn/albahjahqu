@@ -103,7 +103,7 @@ class messages extends Admin_Controller {
             $title      = 'Chat Baru dari '. $this->session->userdata('user')->name;
             $message    = $message;
 
-            $this->push_notification($fcm_id, $title, $message, '', '');
+            $this->push_notification($fcm_id, $title, $message, '', '', $cus_support);
 
             $this->rest->set_data($data);
         }else{
@@ -113,13 +113,23 @@ class messages extends Admin_Controller {
         $this->rest->render();
     }
 
-    private function push_notification($gcm_ids, $title, $msg, $action='feed', $id='')
+    private function push_notification($gcm_ids, $title, $msg, $action='feed', $id='', $cus_support)
     {
         $url     = 'https://fcm.googleapis.com/fcm/send';
-        $message = array("title" => $title, "body" => $msg, "subject" => 'topup');
+        $message = array("title" => $title, "body" => $msg, "click_action" => "chat");
+        $data    = array(
+            "reference_id"          => $cus_support->reference_id, 
+            "reference_code"        => $cus_support->reference_code, 
+            "service_id"            => $cus_support->service_id, 
+            "service_code"          => $cus_support->service_code, 
+            "destination_no"        => $cus_support->destination_no, 
+            "destination_holder"    => $cus_support->destination_holder
+        );
+
         $fields  = array(
               'registration_ids'  => $gcm_ids,
-              'notification'      => $message
+              'notification'      => $message,
+              'data'              => $data
         );
 
         $api_key = 'AAAAf_Rr2ig:APA91bGe0MVf85hli70S__JHZMjIhZILomI9WkEv_wyLqf6K8mm2A4oHsmKGsS9UJr4CniLF518W9ECdncTtUhc-f-h8NFPRDCLU0M5nAM_bpeDxYPRk2U_OA1b8F3zUBOQHiMWmVMud';
