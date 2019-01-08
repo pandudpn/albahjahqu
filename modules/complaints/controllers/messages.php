@@ -12,6 +12,7 @@ class messages extends Admin_Controller {
         $this->load->model('complaints/customer_support_model', 'cus_support');
         $this->load->model('complaints/customer_support_message_model', 'cus_support_message');
         $this->load->model('complaints/customer_support_member_model', 'customer_support_member');
+        $this->load->model('references/customer_session_model', 'customer_session');
     }
 
     public function index($id=null)
