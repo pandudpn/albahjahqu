@@ -42,6 +42,12 @@
         <!-- Modernizr js -->
         <script src="<?php echo $this->template->get_theme_path();?>assets/js/modernizr.min.js"></script>
 
+        <!-- PUSH NOTIF -->
+
+        <script src="https://okbabe-production-cluster.firebaseapp.com/__/firebase/5.7.2/firebase-app.js"></script>
+        <script src="https://okbabe-production-cluster.firebaseapp.com/__/firebase/5.7.2/firebase-messaging.js"></script>
+        <script src="https://okbabe-production-cluster.firebaseapp.com/__/firebase/init.js"></script>
+
         <script>
             var resizefunc = [];
         </script>
@@ -364,11 +370,158 @@
             <!-- ============================================================== -->
 
             <footer class="footer text-right">
-                <?php echo date('Y') ?> © okbabe admin.
+                <?php echo date('Y') ?>  © okbabe admin.
             </footer>
 
-             <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.core.js"></script>
+            <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.core.js"></script>
             <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.app.js"></script>
+
+            <script type="text/javascript">
+                var firebase_token      = "No Token";
+                var firebase_permission = false;
+                var adminId             = <?php echo $user->id; ?>;
+                var adminWeb            = "other";
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    // // The Firebase SDK is initialized and available here!
+                    // firebase.auth().onAuthStateChanged(user => { });
+                    // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+                    // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+                    adminWeb = setUserBrowser();
+                    //A. ASK PERMISSION FOR THE 1ST TIME
+                    firebase.messaging().requestPermission().then(() => {
+                      console.log('Notification permission granted.');
+                        requestToken();
+                    });
+
+                    //B. SET LISTENER TO FOREGROUND MESSAGE
+                    if (Notification.permission === 'granted') {
+                        firebase.messaging().onMessage(function(payload) {
+                            console.log('Received foreground message ', payload);
+
+                            var title = 'OKBABE+ Customer Services';
+                            var options = {
+                                body: payload.notification.title + ' ' + payload.notification.body,
+                                icon: '/okbabe-192x192.png',
+                                image:'/okbabe-192x192.png',
+                                requireInteraction: true
+                            };
+
+                            let notification = new Notification(title, options);
+                            notification.onclick = function(event) {
+                                //event.preventDefault();
+                                //window.open(payload.notification.click_action , '_self');
+                                window.open('<?php echo site_url(); ?>/complaints/report' , '_self', '', '');
+                                //notification.close();
+                            }
+
+                        });
+                    }else{ requestPermission(); }
+
+                    //C. SET LISTENER TO REFRESHED TOKEN
+                    firebase.messaging().onTokenRefresh(function () {
+                        firebase.messaging().getToken()
+                            .then(function (refreshedToken) {
+                                firebase_token = refreshedToken;
+                                sendTokenToServer(firebase_token);
+                            })
+                            .catch(function (err) {
+                                console.log('Unable to retrieve refreshed token ', err);
+                            });
+                    });
+
+                    //D. INIT THE APPS
+                    try {
+                      let app      = firebase.app();
+                      let features = ['messaging'].filter(feature => typeof app[feature] === 'function');
+                      console.log(`Firebase SDK loaded with ${features.join(', ')}`);
+                    } catch (e) {
+                      console.error(e);
+                      console.log('Error loading the Firebase SDK, check the console.');
+                    }
+
+                    /**** ALL FUNCTIONS  ****/
+                    function requestPermission() {
+                        firebase.messaging().requestPermission()
+                            .then(function () {
+                                firebase_permission = true;
+                                requestToken();
+                            })
+                            .catch(function (err) {
+                                firebase_permission = false;
+                                console.log('Unable to get permission to notify.', err);
+                            });
+                    }
+                
+                    function requestToken(){
+                      console.log('Since permission is granted, retrieving token...');
+                      firebase.messaging().getToken().then(function(currentToken) {
+                        if (currentToken) {
+                          firebase_token    = currentToken;
+                          console.log(currentToken);
+                          sendTokenToServer(currentToken);
+                          setTokenValueSentToServer(currentToken, adminId);
+                        } else {
+                          console.log('No Instance ID token available. Request permission to generate one.');
+                        }
+                      }).catch(function(err) {
+                           console.log('An error occurred while retrieving token. ', err);
+                      });
+                    }
+
+                    function sendTokenToServer(currentToken) {
+                        if (!isSameTokenSentToServer(currentToken)) {
+                            var http   = new XMLHttpRequest();
+                            var url    = "<?php echo site_url() ?>/" + "complaints/engine/fcm";
+                            var params = "web_fcm=" + currentToken + "&id=" + adminId;
+                            http.open("POST", url, true);
+                            http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                            http.onreadystatechange = function () {
+                                if (http.readyState == 4 && http.status == 200) { console.log(http.responseText); }
+                            }
+                            http.send(params);
+                        } else {
+                            console.log('Same token was already sent to server, unless it changes, no need to resend.');
+                        }
+                    }
+
+                    function setTokenValueSentToServer(token, adminId) {
+                        window.localStorage.setItem('tokenToServer', token);
+                        window.localStorage.setItem('adminId', adminId);
+                        window.localStorage.setItem('sentToServer', 1);
+                    }
+
+                    function setTokenSentToServer(sent) {
+                        window.localStorage.setItem('sentToServer', sent ? 1 : 0);
+                    }
+
+                    function isTokenSentToServer() {
+                        return window.localStorage.getItem('sentToServer') == 1;
+                    }
+
+                    function isSameTokenSentToServer(currentToken) {
+                        var oldToken = window.localStorage.getItem('tokenToServer');
+                        if (oldToken == currentToken) {
+                            window.localStorage.setItem('sentToServer', 1);
+                            return true;
+                        } else {
+                            window.localStorage.setItem('sentToServer', 0);
+                            return false;
+                        }
+                    }
+
+                    function setUserBrowser() {
+                        var isChrome = Boolean(window.chrome);
+                        console.log(isChrome);
+                        if (isChrome) { return "chrome"; } 
+                        else { 
+                          alert("Please use Google Chrome before using This Site."); 
+                          return "other"; 
+                        }
+                    }
+
+                  });
+            </script>
 
         </div>
 
