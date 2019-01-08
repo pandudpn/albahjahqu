@@ -136,16 +136,28 @@
 	channel.bind(pusher_subscriptions.event[0], function(data) {
 		console.log(data.message)
 	  // chat_message.innerHTML = "Ini Customer (" + data.sender_name + ") bilang: " + data.message;
-	  	append_chat('left', data.sender_name, 'f7f436', data.created_on, data.message)
+	  	<?php if($c->sender_role != $user->role) {  ?>
+	  	append_chat('left', data.sender_name, data.created_on, data.message)
+	  	<?php } else { ?>
+	  	append_chat('right', data.sender_name, data.created_on, data.message)
+	  	<?php } ?>
 	});
 	channel.bind(pusher_subscriptions.event[1], function(data) {
 		console.log(data.message)
-		append_chat('left', data.sender_name, 'f7f436', data.created_on, data.message)
+		<?php if($c->sender_role != $user->role) {  ?>
+	  	append_chat('left', data.sender_name, data.created_on, data.message)
+	  	<?php } else { ?>
+	  	append_chat('right', data.sender_name, data.created_on, data.message)
+	  	<?php } ?>
 	  // chat_message.innerHTML = "Ini Dealer (" + data.sender_name + ") bilang: " + data.message;
 	});
 	channel.bind(pusher_subscriptions.event[2], function(data) {
 		console.log(data.message)
-		append_chat('right', data.sender_name, '4286f4', data.created_on, data.message)
+		<?php if($c->sender_role != $user->role) {  ?>
+	  	append_chat('left', data.sender_name, data.created_on, data.message)
+	  	<?php } else { ?>
+	  	append_chat('right', data.sender_name, data.created_on, data.message)
+	  	<?php } ?>
 	  // chat_message.innerHTML = "Ini Dealer (" + data.sender_name + ") bilang: " + data.message;
 	});
 
@@ -191,20 +203,39 @@
 		});
 	}
 
-	function append_chat(pos, name, color, time, message)
+	function append_chat(pos, name, time, message)
 	{
-		var msg = 	'<li class="left clearfix">'+
-	            		'<span class="chat-img pull-left">'+
-	            			'<img src="https://ui-avatars.com/api/?name='+name+'&background='+color+'&color=000&length=1&size=45" alt="User Avatar" class="img-circle">'+
-	            		'</span>'+
-	            		'<div class="chat-body clearfix">'+
-		               		'<div class="header">'+
-			                  	'<strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted">'+
-			                  	'<span class="glyphicon glyphicon-time"></span>'+time+'</small>'+
-		               		'</div>'+
-	               			'<p>'+message+'</p>'+
-	            		'</div>'+
-        			'</li>';
+		if(pos == 'left')
+		{
+			var msg = 	'<li class="left clearfix">'+
+		            		'<span class="chat-img pull-left">'+
+		            			'<img src="https://ui-avatars.com/api/?name='+name+'&background=f7f436&color=000&length=1&size=45" alt="User Avatar" class="img-circle">'+
+		            		'</span>'+
+		            		'<div class="chat-body clearfix">'+
+			               		'<div class="header">'+
+				                  	'<strong class="primary-font">'+name+'</strong> <small class="pull-right text-muted">'+
+				                  	'<span class="glyphicon glyphicon-time"></span>'+time+'</small>'+
+			               		'</div>'+
+		               			'<p>'+message+'</p>'+
+		            		'</div>'+
+	        			'</li>';
+       	}
+        else
+        {
+	        var msg = 	'<li class="right clearfix">'+
+				            '<span class="chat-img pull-right">'+
+				            '<img src="https://ui-avatars.com/api/?name='+name+'&background=4286f4&color=000&length=1&size=45" alt="User Avatar" class="img-circle">'+
+				            '</span>'+
+				            '<div class="chat-body clearfix">'+
+				               '<div class="header">'+
+				                  '<small class=" text-muted"><span class="glyphicon glyphicon-time"></span>'+time+'</small>'+
+				                  '<strong class="pull-right primary-font">'+name+'</strong>'+
+				               '</div>'+
+				               '<p class="pull-right">'+message+'</p>'+
+				            '</div>'+
+			          	'</li>';
+		}
+        
 
         $("#chatBase").append(msg);
         scrollToBottom();
