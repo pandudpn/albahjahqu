@@ -65,7 +65,7 @@ class kycs extends Admin_Controller {
             $fcm_id = Array();
             array_push($fcm_id, $session->cus_fcm_id);
 
-            if($status == 'approved')
+            if($status == 'approve')
             {
                 $message    = 'Data anda telah berhasil di verifikasi';
             }
