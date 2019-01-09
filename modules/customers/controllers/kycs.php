@@ -64,9 +64,18 @@ class kycs extends Admin_Controller {
 
             $fcm_id = Array();
             array_push($fcm_id, $session->cus_fcm_id);
+
+            if($status == 'approved')
+            {
+                $message    = 'Data anda telah berhasil di verifikasi';
+            }
+            else
+            {
+                $message    = 'Data anda gagal diverifikasi dengan alasan: '.$remarks;
+            }
             
-            $title      = 'OKBABE';
-            $message    = 'KYC '.$kyc['kyc_status'].', Reason: '.$remarks;
+            $title      = 'OKBABE+';
+            
 
             $this->push_notification($fcm_id, $title, $message, '', '');
 
@@ -141,7 +150,7 @@ class kycs extends Admin_Controller {
     private function push_notification($gcm_ids, $title, $msg, $action='feed', $id='')
     {
         $url     = 'https://fcm.googleapis.com/fcm/send';
-        $message = array("title" => $title, "body" => $msg, "subject" => 'kyc');
+        $message = array("title" => $title, "body" => $msg, "click_action" => "topup");
         $fields  = array(
               'registration_ids'  => $gcm_ids,
               'notification'      => $message
