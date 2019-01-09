@@ -77,7 +77,7 @@ class articles extends Admin_Controller {
         {
         	$config['upload_path']      = './data/images/';
 	        $config['allowed_types']    = '*';
-	        $config['max_size']         = 0;
+	        $config['max_size']         = 1024;
 	        $config['encrypt_name']     = true;
 	        
 	        $this->load->library('upload', $config);
