@@ -89,7 +89,7 @@
     </div>
 </div> <!-- end row -->
 
-<!-- Modal Alert Delete-->
+<!-- Modal Alert Reject-->
 <div class="modal fade bs-example-modal-sm" id="modal-alert" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -106,6 +106,41 @@
                 <a id="confirm" href="javascript:;" class="btn btn-primary">Yes</a>
                 <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Alert Approve-->
+<div class="modal fade bs-example-modal-sm" id="modal-alert-approve" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mySmallModalLabel">Approve Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="" id="form-approve">
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">SN</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text" value="" name="ref_code">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">Token</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text" value="" name="token_code">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Yes</button>
+                <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
+            </div>
+            
+                </form>
         </div>
     </div>
 </div>
@@ -144,5 +179,11 @@
     {
         $("#confirm").attr('href', url)
         $("#modal-alert").modal('show')
+    }
+
+    function alert_approve(url)
+    {
+        $("#form-approve").attr('action', url)
+        $("#modal-alert-approve").modal('show')
     }
 </script>

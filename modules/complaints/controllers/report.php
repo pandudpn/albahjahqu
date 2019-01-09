@@ -21,7 +21,21 @@ class report extends Admin_Controller {
 
     public function status($status, $id)
     {
-    	$update = $this->customer_support->update($id, array('status' => $status));
+        if($status == 'closed')
+        {
+            $data = array(
+                'status' => $status,
+                'status_closed_time' => date('Y-m-d H:i:s') 
+            );
+        }
+        else
+        {
+            $data = array(
+                'status' => $status
+            );
+        }
+
+        $update = $this->customer_support->update($id, $data);
 
     	if($update)
     	{

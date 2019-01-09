@@ -48,11 +48,23 @@ class pending extends Admin_Controller {
 
         $this->transaction_log->insert($data_log);
 
-    	$update = $this->transaction->update($id, array(
-    		'status_level'      => 4,
-    		'status_provider' 	=> '00',
-    		'status' 			=> $status
-    	));
+    	$data_status = array(
+            'status_level'      => 4,
+            'status_provider'   => '00',
+            'status'            => $status
+        );
+
+        if(!empty($this->input->post('ref_code')))
+        {
+            $data_status['ref_code']   = $this->input->post('ref_code');
+        }
+        
+        if(!empty($this->input->post('token_code')))
+        {
+            $data_status['token_code'] = $this->input->post('token_code');
+        }
+
+        $update = $this->transaction->update($id, $data_status);
 
     	if($status == 'rejected')
     	{
@@ -182,7 +194,7 @@ class pending extends Admin_Controller {
 
             if($l->status != 'approved' && $l->status != 'rejected') 
             {
-                $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
+                $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
                       <i class="fa fa-check"></i>  Approve
                       </a> <br/>';
 

@@ -89,14 +89,16 @@ class messages extends Admin_Controller {
                     $session = $this->customer_session->order_by('id', 'desc');
                     $session = $this->customer_session->find_by(array('cus_id' => $c->user_id));
 
-                    
                     array_push($fcm_id, $session->cus_fcm_id);
                 }
                 else
                 {
-                    $admin   = $this->user_admin->find($c->user_id);
+                    if($c->user_id != $this->session->userdata('user')->id)
+                    {
+                        $admin   = $this->user_admin->find($c->user_id);
 
-                    array_push($fcm_id, $admin->web_fcm);
+                        array_push($fcm_id, $admin->web_fcm);
+                    }
                 }
             }
             
