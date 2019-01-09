@@ -331,6 +331,12 @@
                                         </a>
                                     </li>
                                 <?php } ?>
+
+                                <li>
+                                    <a href="<?php echo site_url('articles'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-assignment-o"></i><span> Articles </span> 
+                                    </a>
+                                </li>
                             <?php } ?>
                         </ul>
                         <div class="clearfix"></div>
