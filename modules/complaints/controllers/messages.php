@@ -12,6 +12,7 @@ class messages extends Admin_Controller {
         $this->load->model('complaints/customer_support_model', 'cus_support');
         $this->load->model('complaints/customer_support_message_model', 'cus_support_message');
         $this->load->model('complaints/customer_support_member_model', 'customer_support_member');
+        $this->load->model('complaints/customer_support_message_read_model', 'customer_support_message_read');
         $this->load->model('customers/customer_session_model', 'customer_session');
     }
 
@@ -23,7 +24,18 @@ class messages extends Admin_Controller {
         $cus_support_message = $this->cus_support_message->order_by('id', 'asc');
         $cus_support_message = $this->cus_support_message->find_all_by(array('ticket' => $cus_support->ticket));
 
-        // var_dump($cus_support_message);die;
+        //READ THIS TICKET
+
+        $this->db->query("INSERT INTO customer_support_message_reads (user_id, role, message_id, created_on) 
+                          SELECT '".$this->session->userdata('user')->id."', '".$this->session->userdata('user')->role."', id, NOW() 
+                          FROM customer_support_messages
+                          WHERE id NOT IN (
+                            SELECT message_id 
+                            FROM customer_support_message_reads 
+                            WHERE user_id = '".$this->session->userdata('user')->id."' 
+                            AND role = '".$this->session->userdata('user')->role."' 
+                          )
+                          AND ticket = '".$cus_support_message[0]->ticket."'");
 
         if(!$cus_support)
         {
@@ -67,7 +79,12 @@ class messages extends Admin_Controller {
             'created_on'    => date('Y-m-d H:i:s')
         );
 
-        $insert_id = $this->cus_support_message->insert($data);
+        $insert_id      = $this->cus_support_message->insert($data);
+        $insert_read    = $this->customer_support_message_read->insert(array(
+            'user_id'       => $this->session->userdata('user')->id, 
+            'role'          => $this->session->userdata('user')->role, 
+            'message_id'    => $insert_id
+        ));
 
         if($insert_id)
         {

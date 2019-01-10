@@ -58,13 +58,25 @@ class report extends Admin_Controller {
         $data = array();
         $no   = $_POST['start'];
 
+        // echo $this->db->last_query();die;
+
         foreach ($list as $l) {
+
+            if($l->unread == 0 || empty($l->unread))
+            {
+                $unread = '';
+            }
+            else
+            {
+                $unread = '&nbsp; <span class="label label-pill label-danger float-right">'.$l->unread.'</span>';
+            }
+
             $no++;
             $row   = array();
             $row[] = $no;
             $row[] = '<a href="javascript:;" onclick="data(\''.$l->id.'\')">'.$l->ticket.'</a> <br/> 
                       <a style="margin-top: 10px;" href="'.site_url('complaints/messages/'.$l->id).'" class="btn btn-primary btn-sm">
-                        <i class="fa fa-comments"></i> &nbsp; <span class="label label-pill label-danger float-right">'.rand(1, 10).'</span>
+                        <i class="fa fa-comments"></i> '.$unread.'
                       </a>';
 
             $row[] = $l->cus_name;
