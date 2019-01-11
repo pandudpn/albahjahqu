@@ -19,7 +19,7 @@ class report extends Admin_Controller {
     		->build('report/index');
     }
 
-    public function status($status, $id)
+    public function status($status, $id, $position='outside')
     {
         if($status == 'closed')
         {
@@ -39,7 +39,14 @@ class report extends Admin_Controller {
 
     	if($update)
     	{
-    		redirect(site_url('complaints/report'), 'refresh');
+            if($position == 'outside')
+            {
+                redirect(site_url('complaints/report'), 'refresh');
+            }
+    		else
+            {
+                redirect(site_url('complaints/messages/'.$id), 'refresh');
+            }
     	}
     }
 

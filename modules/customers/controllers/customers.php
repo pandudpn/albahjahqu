@@ -226,7 +226,7 @@ class customers extends Admin_Controller {
                                 <div class="dropdown-divider"></div>';
             }
 
-            $btn .= '<a class="dropdown-item" href="'.site_url('customers/geography/'.$l->id).'" >Edit Geography</a>
+            $btn .= '<a class="dropdown-item" href="'.site_url('customers/geography/'.$l->id).'" >Edit Geography & Dealer</a>
                                 <div class="dropdown-divider"></div>';
 
             $btn .= '<a class="dropdown-item" href="'.site_url('customers/outlet/'.$l->id).'" >Edit Outlet</a>

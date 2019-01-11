@@ -3,9 +3,24 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">
-            	
-            	Ticket : <?php echo $cus_support->ticket; ?>
+            <h4 class="page-title float-left" style="font-size: small;">
+            	<table>
+            		<tr>
+            			<td style="width: 100px;">Ticket</td>
+            			<td style="width: 10px;">:</td>
+            			<td><?php echo $cus_support->ticket; ?> [<?php echo $cus_support->status; ?>]</td>
+            		</tr>
+            		<tr>
+            			<td>Customer</td>
+            			<td>:</td>
+            			<td><?php echo $cus_support->cus_name; ?></td>
+            		</tr>
+            		<!-- <tr>
+            			<td>Phone</td>
+            			<td>:</td>
+            			<td><?php echo '08888'; ?></td>
+            		</tr> -->
+            	</table>
 
             </h4>
 
@@ -17,9 +32,19 @@
 
 <div class="row">
     <div class="col-12">
-        <a href="<?php echo site_url('complaints/report'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-            <i class="zmdi zmdi-arrow-left"></i> Back</button>
+        <a href="<?php echo site_url('complaints/report'); ?>" class="btn btn-sm btn-primary waves-effect waves-light">
+        	<i class="zmdi zmdi-arrow-left"></i> Back
         </a>
+
+        <?php if($cus_support->status == 'open') { ?>
+        <a href="<?php echo site_url('complaints/report/status/closed/'.$cus_support->id.'/inside'); ?>" class="btn btn-sm btn-success waves-effect waves-light">
+        	<i class="zmdi zmdi-email"></i> Close This Ticket
+        </a>
+        <?php } else { ?>
+        <a href="<?php echo site_url('complaints/report/status/open/'.$cus_support->id.'/inside'); ?>" class="btn btn-sm btn-success waves-effect waves-light">
+        	<i class="zmdi zmdi-email-open"></i> Open This Ticket
+        </a>
+        <?php } ?>
         <br><br>
         <div class="card-box table-responsive" id="container-chat">
         	<div class="container-fluid">
