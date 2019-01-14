@@ -39,12 +39,20 @@
 */
 
 //variables in (:num), (:any), ([a-zA-Z_-]+)
-$route['default_controller']  = 'home';
-$route['login']               = 'user/login';
 
-//ARTIKEL
-$route['(:num)/view'] 		  	= 'articles/front/index/$1';
-$route['(:any)'] 		  		= 'articles/front/index/$1';
+if($_SERVER['SERVER_NAME'] == 'article.okbabe.id')
+{
+    //ARTIKEL
+	$route['(:num)/view'] 		  = 'articles/front/index/$1';
+	$route['(:any)'] 		  	  = 'articles/front/index/$1';
+}
+else
+{
+	$route['default_controller']  = 'home';
+	$route['login']               = 'user/login';
+}   
+
+
 
 $route['complaints/messages/(:num)']  = 'complaints/messages/index/$1';
 $route['customers/mutation/(:num)']   = 'customers/mutation/index/$1';
