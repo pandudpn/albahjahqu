@@ -14,7 +14,7 @@ class Front extends Front_Controller {
 
     	if(!$data)
     	{
-            redirect(site_url('https://okbabe.id'), 'refresh');
+            redirect('https://okbabe.id', 'refresh');
     		die;
     	}
 
