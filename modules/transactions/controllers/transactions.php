@@ -64,6 +64,11 @@ class transactions extends Admin_Controller {
             $data_status['token_code'] = $this->input->post('token_code');
         }
 
+        if($status == 'rejected')
+        {
+            $data_status['status_level'] = 5;
+        }
+
         $update = $this->transaction->update($id, $data_status);
 
         if($status == 'rejected')
