@@ -126,7 +126,7 @@
                     <a href="<?php echo site_url(); ?>" class="logo">
                         <!-- <i class="zmdi zmdi-group-work icon-c-logo"></i> -->
                         <!-- <span>AksenBNI</span></a> -->
-                        <img src="<?php echo $this->template->get_theme_path();?>assets/images/logo.png" style="width: 70%;">
+                        <img src="<?php echo $this->template->get_theme_path();?>assets/images/logo_okbabe_purple.png" style="width: 70%;">
                     </a>
                 </div>
 
@@ -280,6 +280,11 @@
                             <li>
                                 <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-upload"></i><span> Topups </span> 
                                 </a>
                             </li>
                             <li>

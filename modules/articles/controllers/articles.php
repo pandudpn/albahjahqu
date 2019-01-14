@@ -10,6 +10,7 @@ class articles extends Admin_Controller {
         $this->load->helper('text');
 
         $this->check_login();
+        $this->url = 'https://article.okbabe.id';
     }
 
     public function index()
@@ -92,8 +93,12 @@ class articles extends Admin_Controller {
         if(!$id){
 
             $insert = $this->article->insert($data);
+            $data['url'] = $this->url.'/'.$insert.'/view';
+            $update = $this->article->update($insert, $data);
+            
             redirect(site_url('articles'), 'refresh');
         }else{
+            $data['url'] = $this->url.'/'.$id.'/view';
             $update = $this->article->update($id, $data);
             redirect(site_url('articles'), 'refresh');
         }
