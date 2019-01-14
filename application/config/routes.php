@@ -44,7 +44,8 @@ if($_SERVER['SERVER_NAME'] == 'article.okbabe.co.id')
 {
     //ARTIKEL
 	$route['(:num)/view'] 		  = 'articles/front/index/$1';
-	$route['default_controller']  = 'articles/front/index';
+	$route['(:any)'] 		  	  = 'articles/front/index/$1';
+	$route['default_controller']  = 'articles/front/index/';
 }
 else
 {
