@@ -40,7 +40,7 @@
 
 //variables in (:num), (:any), ([a-zA-Z_-]+)
 
-if($_SERVER['SERVER_NAME'] == 'article.okbabe.id')
+if($_SERVER['SERVER_NAME'] == 'article.okbabe.co.id')
 {
     //ARTIKEL
 	$route['(:num)/view'] 		  = 'articles/front/index/$1';
