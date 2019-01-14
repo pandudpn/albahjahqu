@@ -14,7 +14,7 @@ class Front extends Front_Controller {
 
     	if(!$data)
     	{
-    		echo 'Forbidden';
+    		site_url('https://okbabe.id', 'refresh');
     		die;
     	}
 
