@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Dashboard: <?php echo date('F'); ?></h4>
+            <h4 class="page-title float-left">Dashboard: <?php echo date('F Y'); ?></h4>
 
             <div class="clearfix"></div>
         </div>
