@@ -138,37 +138,37 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Margin dealer (%)</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="margin_dealer" value="<?php echo $bulk->margin_dealer; ?>" required>
+                                    <input class="form-control" type="number" name="margin_dealer" value="<?php echo $bulk->margin_dealer; ?>" required min="0" max="10" step="0.01">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Discount reseller user (%)</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="margin_reseller_user" value="<?php echo $bulk->margin_reseller_user; ?>" required>
+                                    <input class="form-control" type="number" name="margin_reseller_user" value="<?php echo $bulk->margin_reseller_user; ?>" required min="0" max="10" step="0.01">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Margin end-user (%)</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="margin_end_user" value="<?php echo $bulk->margin_end_user; ?>" required>
+                                    <input class="form-control" type="number" name="margin_end_user" value="<?php echo floatval($bulk->margin_end_user); ?>" required min="0" max="10" step="0.01">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Dekape fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="dekape_fee" value="<?php echo intval($bulk->dekape_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
+                                    <input class="form-control" type="number" name="dekape_fee" value="<?php echo intval($bulk->dekape_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?> min="0" max="1000000000" step="1">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Biller fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="biller_fee" value="<?php echo intval($bulk->biller_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
+                                    <input class="form-control" type="number" name="biller_fee" value="<?php echo intval($bulk->biller_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?> min="0" max="1000000000" step="1">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Partner fee</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="text" name="partner_fee" value="<?php echo intval($bulk->partner_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?>>
+                                    <input class="form-control" type="number" name="partner_fee" value="<?php echo intval($bulk->partner_fee); ?>" required <?php if($this->session->userdata('user')->role != 'dekape') { echo 'readonly'; }?> min="0" max="1000000000" step="1">
                                 </div>
                             </div>
                             <div class="form-group row">
