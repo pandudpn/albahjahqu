@@ -138,13 +138,13 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Margin dealer (%)</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="number" name="margin_dealer" value="<?php echo $bulk->margin_dealer; ?>" required min="0" max="10" step="0.01">
+                                    <input class="form-control" type="number" id="margin_dealer" name="margin_dealer" value="<?php echo $bulk->margin_dealer; ?>" required min="0" max="10" step="0.01">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Discount reseller user (%)</label>
                                 <div class="col-7">
-                                    <input class="form-control" type="number" name="margin_reseller_user" value="<?php echo $bulk->margin_reseller_user; ?>" required min="0" max="10" step="0.01">
+                                    <input class="form-control" type="number" id="margin_reseller_user" name="margin_reseller_user" value="<?php echo $bulk->margin_reseller_user; ?>" required min="0" max="10" step="0.01">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -246,4 +246,19 @@
             });
         });
     });
+
+
+    var margin_dealer = document.getElementById("margin_dealer")
+      , margin_reseller_user = document.getElementById("margin_reseller_user");
+
+    function validatePassword(){
+      if(margin_dealer.value < margin_reseller_user.value) {
+        margin_reseller_user.setCustomValidity("Margin dealer tidak boleh lebih kecil dari margin reseller");
+      } else {
+        margin_reseller_user.setCustomValidity('');
+      }
+    }
+
+    margin_dealer.onchange = validatePassword;
+    margin_reseller_user.onkeyup = validatePassword;
 </script>
