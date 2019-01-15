@@ -167,4 +167,14 @@
     		datatable.ajax.reload();
     	});
     }
+
+    function rollback_topup(id)
+    {
+    	$("#btn-"+id).html('<i class="fa fa-spinner"></i>');
+
+    	$.ajax("<?php echo site_url('topups/rollback') ?>/"+id).done(function(data){
+    		console.log(data)
+    		datatable.ajax.reload();
+    	});
+    }
 </script>

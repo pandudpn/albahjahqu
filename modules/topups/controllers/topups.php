@@ -71,6 +71,42 @@ class topups extends Admin_Controller {
     	}
     }
 
+    public function rollback($id=null)
+    {
+    	if($id)
+    	{
+    		$update 		= $this->topup->update($id, array('status' => 'payment', 'status_level' => 2));
+    		$transaction 	= $this->topup->find($id);
+
+    		//MUTASI fee ke dealer
+            $dealer_eva     = $this->dealer->find($transaction->dealer_id)->eva;
+            $dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
+
+            $data = array(
+                'account_id'        => $dealer_account->id, 
+                'account_eva'       => $dealer_eva, 
+                'account_role'      => 'dealer', 
+                'account_role_id'   => $dealer_account->account_user, 
+                'transaction_type'  => 'RW',
+                'transaction_ref'   => $transaction->trx_code, 
+                'transaction_code'  => $transaction->service_code, 
+                'purchase_ref'      => $transaction->ref_code, 
+                'remarks'           => 'Rollback Withdraw via Admin by '.$this->session->userdata('user')->name, 
+                'starting_balance'  => intval($dealer_account->account_balance), 
+                'credit'            => intval($transaction->base_price),
+                'ending_balance'    => intval($dealer_account->account_balance + $transaction->base_price)
+            );
+
+            $mutation_id = $this->eva_corporate_mutation->insert($data);
+
+    		if($update)
+    		{
+
+    			echo 'success';
+    		}
+    	}
+    }
+
     public function download()
     {
         $this->topup->download();
