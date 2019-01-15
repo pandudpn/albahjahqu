@@ -13,6 +13,8 @@ class pending extends Admin_Controller {
         $this->load->model('customers/customer_model', 'customer');
         $this->load->model('dealers/dealer_model', 'dealer');
         $this->load->model('billers/biller_model', 'biller');
+        $this->load->model('customers/customer_session_model', 'customer_session');
+        $this->load->model('references/ref_service_codes_model', 'ref_service_code');
 
         $this->load->helper('text');
 
@@ -32,7 +34,8 @@ class pending extends Admin_Controller {
 
     public function changestatus($status, $id)
     {
-    	$transaction = $this->transaction->find($id);
+        $transaction  = $this->transaction->find($id);
+        $service_code = $this->ref_service_code->find($transaction->service_id);
 
         $data_log = array(
             'transaction_id'    => $transaction->id, 
@@ -48,7 +51,7 @@ class pending extends Admin_Controller {
 
         $this->transaction_log->insert($data_log);
 
-    	$data_status = array(
+        $data_status = array(
             'status_level'      => 4,
             'status_provider'   => '00',
             'status'            => $status
@@ -64,75 +67,145 @@ class pending extends Admin_Controller {
             $data_status['token_code'] = $this->input->post('token_code');
         }
 
+        if($status == 'rejected')
+        {
+            $data_status['status_level'] = 5;
+        }
+
         $update = $this->transaction->update($id, $data_status);
 
-    	if($status == 'rejected')
-    	{
-    		$customer 				= $this->customer->find($transaction->cus_id);
-    		$eva_customer 			= $this->eva_customer->find_by(array('account_user' => $transaction->cus_id));
-    		// echo $this->db->last_query();die;
+        if($status == 'approved')
+        {
+            if($transaction->status != 'payment')
+            {
+                //MUTASI fee ke biller
+                $biller_eva     = $this->biller->find($transaction->biller_id)->eva;
+                $biller_account = $this->eva_corporate->find_by(array('account_no' => $biller_eva));
 
-    		//MUTASI selling 
-			$data = array(
-				'account_id' 		=> $eva_customer->id, 
-				'account_eva' 		=> $eva_customer->account_no, 
-				'account_user' 		=> $customer->id, 
-				'transaction_ref' 	=> $transaction->trx_code, 
-				'transaction_code' 	=> $transaction->service_code, 
-				'purchase_ref' 		=> $transaction->ref_code, 
-				'remarks' 			=> 'Refund rejected transaction', 
-				'starting_balance' 	=> intval($eva_customer->account_balance), 
-				'credit' 			=> intval($transaction->selling_price), 
-				'ending_balance' 	=> intval(($eva_customer->account_balance + $transaction->selling_price))
-			);
+                $data = array(
+                    'account_id'        => $biller_account->id, 
+                    'account_eva'       => $biller_eva, 
+                    'account_role'      => 'biller', 
+                    'account_role_id'   => $biller_account->account_user, 
+                    'transaction_ref'   => $transaction->trx_code, 
+                    'transaction_code'  => $transaction->service_code, 
+                    'purchase_ref'      => $transaction->ref_code, 
+                    'remarks'           => 'Transaction fee '.$service_code->remarks.' ('.$transaction->destination_no.')', 
+                    'starting_balance'  => intval($biller_account->account_balance), 
+                    'credit'            => intval($transaction->biller_fee),
+                    'ending_balance'    => intval($biller_account->account_balance + $transaction->biller_fee)
+                );
 
-			$mutation_id = $this->eva_customer_mutation->insert($data);
+                $mutation_id = $this->eva_corporate_mutation->insert($data);
 
-			//MUTASI fee ke biller
-			$biller_eva 	= $this->biller->find($transaction->biller_id)->eva;
-			$biller_account = $this->eva_corporate->find_by(array('account_no' => $biller_eva));
+                //MUTASI fee ke dealer
+                $dealer_eva     = $this->dealer->find($transaction->dealer_id)->eva;
+                $dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
 
-			$data = array(
-				'account_id' 		=> $biller_account->id, 
-				'account_eva' 		=> $biller_eva, 
-				'account_role' 		=> 'biller', 
-				'account_role_id' 	=> $biller_account->account_user, 
-				'transaction_ref' 	=> $transaction->trx_code, 
-				'transaction_code' 	=> $transaction->service_code, 
-				'purchase_ref' 		=> $transaction->ref_code, 
-				'remarks' 			=> 'Refund rejected transaction', 
-				'starting_balance' 	=> intval($biller_account->account_balance), 
-				'debit'	 			=> intval($transaction->biller_fee),
-				'ending_balance'	=> intval($biller_account->account_balance - $transaction->biller_fee)
-			);
+                $data = array(
+                    'account_id'        => $dealer_account->id, 
+                    'account_eva'       => $dealer_eva, 
+                    'account_role'      => 'dealer', 
+                    'account_role_id'   => $dealer_account->account_user, 
+                    'transaction_ref'   => $transaction->trx_code, 
+                    'transaction_code'  => $transaction->service_code, 
+                    'purchase_ref'      => $transaction->ref_code, 
+                    'remarks'           => 'Transaction fee '.$service_code->remarks.' ('.$transaction->destination_no.')', 
+                    'starting_balance'  => intval($dealer_account->account_balance), 
+                    'credit'            => intval($transaction->dealer_fee),
+                    'ending_balance'    => intval($dealer_account->account_balance + $transaction->dealer_fee)
+                );
 
-			$mutation_id = $this->eva_corporate_mutation->insert($data);
+                $mutation_id = $this->eva_corporate_mutation->insert($data);
+            }
+        }
+        else if($status == 'rejected')
+        {
+            // $customer               = $this->customer->find($transaction->cus_id);
+            // $eva_customer           = $this->eva_customer->find_by(array('account_user' => $transaction->cus_id));
+            // // echo $this->db->last_query();die;
 
-			//MUTASI fee ke dealer
-			$dealer_eva 	= $this->dealer->find($transaction->dealer_id)->eva;
-			$dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
+            // //MUTASI selling 
+            // $data = array(
+            //     'account_id'        => $eva_customer->id, 
+            //     'account_eva'       => $eva_customer->account_no, 
+            //     'account_user'      => $customer->id, 
+            //     'transaction_ref'   => $transaction->trx_code, 
+            //     'transaction_code'  => $transaction->service_code, 
+            //     'purchase_ref'      => $transaction->ref_code, 
+            //     'remarks'           => 'Refund rejected transaction', 
+            //     'starting_balance'  => intval($eva_customer->account_balance), 
+            //     'credit'            => intval($transaction->selling_price), 
+            //     'ending_balance'    => intval(($eva_customer->account_balance + $transaction->selling_price))
+            // );
 
-			$data = array(
-				'account_id' 		=> $dealer_account->id, 
-				'account_eva' 		=> $dealer_eva, 
-				'account_role' 		=> 'dealer', 
-				'account_role_id' 	=> $dealer_account->account_user, 
-				'transaction_ref' 	=> $transaction->trx_code, 
-				'transaction_code' 	=> $transaction->service_code, 
-				'purchase_ref' 		=> $transaction->ref_code, 
-				'remarks' 			=> 'Refund rejected transaction', 
-				'starting_balance' 	=> intval($dealer_account->account_balance), 
-				'debit'	 			=> intval($transaction->dealer_fee),
-				'ending_balance'	=> intval($dealer_account->account_balance - $transaction->dealer_fee)
-			);
+            // $mutation_id = $this->eva_customer_mutation->insert($data);
 
-			$mutation_id = $this->eva_corporate_mutation->insert($data);
-    	}
+            // //MUTASI fee ke biller
+            // $biller_eva     = $this->biller->find($transaction->biller_id)->eva;
+            // $biller_account = $this->eva_corporate->find_by(array('account_no' => $biller_eva));
 
-    	if($update)
-    	{
-    		redirect(site_url('transactions/pending'), 'refresh');
-    	}
+            // $data = array(
+            //     'account_id'        => $biller_account->id, 
+            //     'account_eva'       => $biller_eva, 
+            //     'account_role'      => 'biller', 
+            //     'account_role_id'   => $biller_account->account_user, 
+            //     'transaction_ref'   => $transaction->trx_code, 
+            //     'transaction_code'  => $transaction->service_code, 
+            //     'purchase_ref'      => $transaction->ref_code, 
+            //     'remarks'           => 'Refund rejected transaction', 
+            //     'starting_balance'  => intval($biller_account->account_balance), 
+            //     'debit'             => intval($transaction->biller_fee),
+            //     'ending_balance'    => intval($biller_account->account_balance - $transaction->biller_fee)
+            // );
+
+            // $mutation_id = $this->eva_corporate_mutation->insert($data);
+
+            // //MUTASI fee ke dealer
+            // $dealer_eva     = $this->dealer->find($transaction->dealer_id)->eva;
+            // $dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
+
+            // $data = array(
+            //     'account_id'        => $dealer_account->id, 
+            //     'account_eva'       => $dealer_eva, 
+            //     'account_role'      => 'dealer', 
+            //     'account_role_id'   => $dealer_account->account_user, 
+            //     'transaction_ref'   => $transaction->trx_code, 
+            //     'transaction_code'  => $transaction->service_code, 
+            //     'purchase_ref'      => $transaction->ref_code, 
+            //     'remarks'           => 'Refund rejected transaction', 
+            //     'starting_balance'  => intval($dealer_account->account_balance), 
+            //     'debit'             => intval($transaction->dealer_fee),
+            //     'ending_balance'    => intval($dealer_account->account_balance - $transaction->dealer_fee)
+            // );
+
+            // $mutation_id = $this->eva_corporate_mutation->insert($data);
+        }
+
+        if($status == 'approved')
+        {
+
+            $message    = 'Pembayaran '.$service_code->remarks.' dengan invoice '.$transaction->trx_code.' berhasil di proses. Silahkan akses Riwayat untuk informasi lebih lanjut.';
+        }
+        else
+        {
+            $message    = 'Pembayaran '.$service_code->remarks.' dengan invoice '.$transaction->trx_code.' gagal di proses. Silahkan akses Riwayat untuk informasi lebih lanjut.';
+        }
+        
+        $title   = 'OKBABE+';
+        $session = $this->customer_session->order_by('id', 'desc');
+        $session = $this->customer_session->find_by(array('cus_id' => $transaction->cus_id));
+
+        $fcm_id = Array();
+        array_push($fcm_id, $session->cus_fcm_id);
+        
+
+        $this->push_notification($fcm_id, $title, $message, '', '');
+
+        if($update)
+        {
+            redirect(site_url('transactions/pending'), 'refresh');
+        }
     }
 
     public function datatables()
