@@ -156,6 +156,29 @@ class pending extends Admin_Controller {
 
                     $mutation_id = $this->eva_corporate_mutation->insert($data);
                 }
+
+                if(intval($transaction->dekape_fee) > 0)
+                {
+                    //MUTASI fee ke dealer
+                    $dealer_account = $this->eva_corporate->find(6);
+
+                    $data = array(
+                        'account_id'        => '6', 
+                        'account_eva'       => 'P0001DEKAPE', 
+                        'account_role'      => 'dekape', 
+                        'account_role_id'   => '3', 
+                        'transaction_type'  => 'F', 
+                        'transaction_ref'   => $transaction->trx_code, 
+                        'transaction_code'  => $transaction->service_code, 
+                        'purchase_ref'      => $transaction->ref_code, 
+                        'remarks'           => 'Transaction fee '.$service_code->remarks.' ('.$transaction->destination_no.')', 
+                        'starting_balance'  => intval($dealer_account->account_balance), 
+                        'credit'            => intval($transaction->dekape_fee),
+                        'ending_balance'    => intval($dealer_account->account_balance + $transaction->dekape_fee)
+                    );
+
+                    $mutation_id = $this->eva_corporate_mutation->insert($data);
+                }
             }
         }
         else if($status == 'rejected')
