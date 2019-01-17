@@ -203,6 +203,49 @@
                                     </a>
                                 </li>
                             <?php } ?>    
+                                <li class="text-muted menu-title">Transaction</li>
+
+                                <li>
+                                    <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-upload"></i><span> Topups </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
+                                    </a>
+                                </li>
+
+                                <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
+
+                                    <li class="has_sub">
+                                        <a href="javascript:void(0);" class="waves-effect">
+                                            <i class="zmdi zmdi-money"></i><span> Prices </span> 
+                                            <span class="menu-arrow"></span>
+                                        </a>
+
+                                        <ul class="list-unstyled">
+                                            <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
+                                            <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
+                                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                            <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
+                                            <?php } ?>
+                                            <li><a href="<?php echo site_url('prices/logs'); ?>">Logs</a></li>
+                                        </ul>
+                                    </li>
+
+                                <?php } ?>
+
                                 <li class="text-muted menu-title">Users</li>
                             
                                 <li class="has_sub">
@@ -256,49 +299,6 @@
                                 </li>
                             <?php } ?>   
                             <?php } ?>
-
-                            <li class="text-muted menu-title">Transaction</li>
-
-                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
-
-                                <li class="has_sub">
-                                    <a href="javascript:void(0);" class="waves-effect">
-                                        <i class="zmdi zmdi-money"></i><span> Prices </span> 
-                                        <span class="menu-arrow"></span>
-                                    </a>
-
-                                    <ul class="list-unstyled">
-                                        <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
-                                        <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
-                                        <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                                        <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
-                                        <?php } ?>
-                                        <li><a href="<?php echo site_url('prices/logs'); ?>">Logs</a></li>
-                                    </ul>
-                                </li>
-
-                            <?php } ?>
-
-                            <li>
-                                <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-upload"></i><span> Topups </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
-                                </a>
-                            </li>
 
                             <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
 
