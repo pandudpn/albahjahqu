@@ -83,8 +83,8 @@ class biller extends Admin_Controller {
                 'biller_fee'    => $biller_fee,
                 'dekape_fee'    => $dekape_fee,
                 'dealer_fee'    => $dealer_fee,
-                'partner_fee'   => $partner_fee,
-                'user_fee'      => $user_fee
+                'partner_fee'   => $partner_fee
+                // 'user_fee'      => $user_fee
             );
         
         if(!$id){
@@ -155,7 +155,7 @@ class biller extends Admin_Controller {
             $row[] = number_format($l->dealer_fee);
             $row[] = number_format($l->dekape_fee);
             $row[] = number_format($l->biller_fee);
-            $row[] = number_format($l->user_fee);
+            // $row[] = number_format($l->user_fee);
 
             $btn   = '<a href="'.site_url('prices/biller/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>
