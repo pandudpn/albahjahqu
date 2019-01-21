@@ -32,6 +32,24 @@ class transactions extends Admin_Controller {
     					->build('index');
     }
 
+    public function edit($id)
+    {
+        if(!empty($this->input->post('ref_code')))
+        {
+            $data_status['ref_code']   = $this->input->post('ref_code');
+        }
+        
+        if(!empty($this->input->post('token_code')))
+        {
+            $data_status['token_code'] = $this->input->post('token_code');
+        }
+
+
+        $update = $this->transaction->update($id, $data_status);
+
+        redirect(site_url('transactions'), 'refresh');
+    }
+
     public function changestatus($status, $id)
     {
         $transaction  = $this->transaction->find($id);
@@ -283,7 +301,31 @@ class transactions extends Admin_Controller {
         foreach ($list as $l) {
             $no++;
             $row   = array();
+
             $row[] = $no;
+
+            $btn   = '';
+
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/edit/'.$l->id).'\')" 
+                        class="btn btn-success btn-sm" style="margin-bottom: 5px;">
+                      <i class="fa fa-check"></i>  Edit
+                      </a> <br/>';
+
+            if($l->status != 'approved' && $l->status != 'rejected') 
+            {
+                $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
+                        class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
+                      <i class="fa fa-check"></i>  Approve
+                      </a> <br/>';
+
+                $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
+                            class="btn btn-danger btn-sm">
+                      <i class="fa fa-close"></i>  Reject
+                      </a>';
+            }
+
+            $row[] = $btn;
+            $row[] = $l->created_on;
             $row[] = $l->trx_code;
             $row[] = $l->remarks;
 
@@ -327,24 +369,6 @@ class transactions extends Admin_Controller {
             $row[] = 'Rp. '.number_format($l->user_fee);
             $row[] = 'Rp. '.number_format($l->user_cashback);
             $row[] = $l->status;
-            $row[] = $l->created_on;
-
-            $btn   = '';
-
-            if($l->status != 'approved' && $l->status != 'rejected') 
-            {
-                $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
-                      <i class="fa fa-check"></i>  Approve
-                      </a> <br/>';
-
-                $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" class="btn btn-danger btn-sm">
-                      <i class="fa fa-close"></i>  Reject
-                      </a>';
-            }
-            else
-            {
-                $btn .= '-';
-            }
             
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
@@ -354,8 +378,6 @@ class transactions extends Admin_Controller {
             // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
             //             <i class="fa fa-trash"></i>
             //           </a>';
-
-            $row[]  = $btn;
 
             $data[] = $row;
         }

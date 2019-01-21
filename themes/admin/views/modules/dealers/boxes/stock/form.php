@@ -126,10 +126,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-10">
                                 <div class="form-group row">
                                     <label for="" class="col-2 col-form-label">Bulk</label>
-                                    <div class="col-5">
+                                    <div class="col-10">
                                         <input class="form-control" type="text" name="bulk" value="<?php echo $stock->bulk; ?>">
                                     </div>
                                 </div>

@@ -12,11 +12,11 @@
 <div class="row">
     <div class="col-12">
         <div class="p-20">
-            <a href="<?php echo site_url('prices/biller/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+            <a href="<?php echo site_url('prices/biller/add?'.$_SERVER["QUERY_STRING"]); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
                 <i class="zmdi zmdi-collection-plus"></i> Add Biller Price </button>
             </a>
             <div class="col-3 pull-right text-right">
-                <a href="<?php echo site_url('prices/biller/download'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Download</a>
+                <a href="<?php echo site_url('prices/biller/download?'.$_SERVER["QUERY_STRING"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Download</a>
             </div>
         </div>
         <div class="card-box table-responsive" style="overflow-x: auto;">
@@ -28,6 +28,20 @@
 	    		<?php echo $alert['msg']; ?>
 	    	</div>
 	    	<?php } ?> 
+            <form method="get">
+                <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
+                    <div class="col-12">Filter : </div>
+                    <div class="col-4">
+                        <select class="form-control" name="biller" style="height: 40.74px;">
+                            <option value="">Choose Biller</option>
+                            <?php foreach ($billers as $key => $b) { if($b->id == $biller) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $b->id; ?>" <?php echo $selected; ?>><?php echo $b->name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('prices/biller'); ?>" class="btn btn-secondary">Reset</a></div>
+                </div>
+            </form>
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>
@@ -81,7 +95,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('prices/biller/datatables')?>",
+                "url": "<?php echo site_url('prices/biller/datatables?biller='.$biller)?>",
                 "type": "POST"
             },
 

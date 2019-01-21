@@ -35,6 +35,8 @@
                 <thead>
                 <tr>
                     <th>No</th>
+                    <th>Action</th>
+                    <th style="width:200px;">Time</th>
                     <th>TRX Code</th>
                     <th>Product</th>
                     <th>Biller</th>
@@ -50,8 +52,6 @@
                     <th>User Fee</th>
                     <th>User Cashback</th>
                     <th>Status</th>
-                    <th>Time</th>
-                    <th>Action</th>
                     <!-- <th style="width: 120px;">
                         <a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
                     </th> -->
@@ -62,6 +62,8 @@
                 <tfoot>
                 <tr>
                     <th>No</th>
+                    <th>Action</th>
+                    <th>Time</th>
                     <th>TRX Code</th>
                     <th>Product</th>
                     <th>Biller</th>
@@ -77,8 +79,6 @@
                     <th>User Fee</th>
                     <th>User Cashback</th>
                     <th>Status</th>
-                    <th>Time</th>
-                    <th>Action</th>
                     <!-- <th style="width: 120px;">
                         <a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
                     </th> -->
@@ -145,6 +145,41 @@
     </div>
 </div>
 
+<!-- Modal Alert Edit-->
+<div class="modal fade bs-example-modal-sm" id="modal-alert-edit" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mySmallModalLabel">Edit Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="" id="form-edit">
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">SN</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text" value="" name="ref_code">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">Token</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text" value="" name="token_code">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Yes</button>
+                <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
+            </div>
+            
+                </form>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#datatable').DataTable({ 
@@ -163,6 +198,10 @@
             "columnDefs": [
                 { 
                 "targets": [ 0 ], //first column / numbering column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 1 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
             ],
@@ -185,5 +224,11 @@
     {
         $("#form-approve").attr('action', url)
         $("#modal-alert-approve").modal('show')
+    }
+
+    function alert_edit(url)
+    {
+        $("#form-edit").attr('action', url)
+        $("#modal-alert-edit").modal('show')
     }
 </script>

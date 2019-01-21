@@ -11,6 +11,7 @@ class denom extends Admin_Controller {
         $this->load->model('references/ref_service_codes_model', 'service_code');
         $this->load->model('references/ref_denoms_model', 'ref_denom');
         $this->load->model('prices/price_log_model', 'price_log');
+        $this->load->model('dealers/dealer_model', 'dealer_list');
 
         $this->load->helper('text');
 
@@ -19,7 +20,25 @@ class denom extends Admin_Controller {
 
     public function index()
     {
+        $dealer     = $this->input->get('dealer');
+        $provider   = $this->input->get('provider');
+        $type       = $this->input->get('type');
+        $category   = $this->input->get('category');
+
+        $provider_lists = $this->denom->provider_list();
+        $category_lists = $this->denom->category_list();
+
+        $dealers        = $this->dealer_list->order_by('name', 'asc');
+        $dealers        = $this->dealer_list->find_all_by(array('deleted' => '0'));
+
         $this->template->set('alert', $this->session->flashdata('alert'))
+                        ->set('provider_lists', $provider_lists)
+                        ->set('dealers', $dealers)
+                        ->set('dealer', $dealer)
+                        ->set('provider', $provider)
+                        ->set('type', $type)
+                        ->set('category_lists', $category_lists)
+                        ->set('category', $category)
     					->build('denom/index');
     }
 
@@ -88,6 +107,7 @@ class denom extends Admin_Controller {
         $partner_fee = $this->input->post('partner_fee');
         $user_fee    = $this->input->post('user_fee');
         $description = $this->input->post('description');
+        $quota       = $this->input->post('quota');
         $status      = $this->input->post('status');
 
         $data = array(
@@ -104,6 +124,7 @@ class denom extends Admin_Controller {
                 'partner_fee' => $partner_fee,
                 'user_fee'    => $user_fee,
                 'description' => $description,
+                'quota'       => $quota,
                 'status'      => $status
             );
 
@@ -120,13 +141,13 @@ class denom extends Admin_Controller {
             $insert = $this->denom->insert($data);
             $this->price_log_insert('create', 'denom', $description, $insert, $data);
 
-            redirect(site_url('prices/denom'), 'refresh');
+            redirect(site_url('prices/denom?'.$_SERVER["QUERY_STRING"]), 'refresh');
         }else{
 
             $update = $this->denom->update($id, $data);
             $this->price_log_insert('edit', 'denom', $description, $id, $data);
 
-            redirect(site_url('prices/denom'), 'refresh');
+            redirect(site_url('prices/denom?'.$_SERVER["QUERY_STRING"]), 'refresh');
         }
 
     }
@@ -138,7 +159,7 @@ class denom extends Admin_Controller {
 
         $this->price_log_insert('delete', 'denom', $denom->description, $id, $data);
 
-        redirect(site_url('prices/denom'), 'refresh');
+        redirect(site_url('prices/denom?'.$_SERVER["QUERY_STRING"]), 'refresh');
     }
 
     public function download()
@@ -175,9 +196,21 @@ class denom extends Admin_Controller {
         foreach ($list as $l) {
             $no++;
             $row   = array();
+
+            $btn   = '<a href="'.site_url('prices/denom/edit/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'" class="btn btn-success btn-sm" style="margin-bottom: 5px;">
+                        <i class="fa fa-pencil"></i>
+                      </a>';
+
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('prices/denom/delete/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'\')" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                      </a>';
+
+            $row[] = $btn;
             $row[] = $no;
             $row[] = $l->provider_name;
             $row[] = $l->description;
+            $row[] = $l->quota;
+            $row[] = $l->category;
             $row[] = $l->dealer_name;
             $row[] = $l->biller_code;
             $row[] = $l->type;
@@ -189,16 +222,6 @@ class denom extends Admin_Controller {
             $row[] = number_format($l->biller_fee);
             // $row[] = $l->partner_fee;
             $row[] = number_format($l->user_fee);
-
-            $btn   = '<a href="'.site_url('prices/denom/edit/'.$l->id).'" class="btn btn-success btn-sm" style="margin-bottom: 5px;">
-                        <i class="fa fa-pencil"></i>
-                      </a>';
-
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('prices/denom/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </a>';
-
-            $row[]  = $btn;
 
             $data[] = $row;
         }

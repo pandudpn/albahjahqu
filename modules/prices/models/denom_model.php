@@ -12,8 +12,8 @@ class denom_model extends MY_Model {
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'prepaid_denom_prices.type', 'ref_denoms.value'); //set column field database for datatable orderable
-    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'ref_denoms.value'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.quota', 'prepaid_denom_prices.category','prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'prepaid_denom_prices.type', 'ref_denoms.value'); //set column field database for datatable orderable
+    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.quota', 'prepaid_denom_prices.category', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'ref_denoms.value'); //set column field database for datatable searchable 
     protected $order 		 = array('prepaid_denom_prices.id' => 'asc'); // default order 
 
     public function __construct()
@@ -30,7 +30,7 @@ class denom_model extends MY_Model {
         $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
         $this->db->select($this->table.'.type', false);
         $this->db->select($this->table_denom.'.value as denom', false);
-        $this->db->select('prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
+        $this->db->select('quota, category, prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
         $this->db->from($this->table);
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
         $this->db->join($this->table_denom, $this->table_denom.'.id = '.$this->table.'.denom_id', 'left');
@@ -64,6 +64,31 @@ class denom_model extends MY_Model {
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $dealer     = $this->input->get('dealer');
+        $provider   = $this->input->get('provider');
+        $type       = $this->input->get('type');
+        $category   = $this->input->get('category');
+         
+        if($dealer) 
+        {
+            $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($provider) 
+        {
+            $this->db->where($this->table.'.operator', $provider);
+        }
+
+        if($type) 
+        {
+            $this->db->where($this->table.'.type', $type);
+        }
+
+        if($category) 
+        {
+            $this->db->where($this->table.'.category', $category);
         }
          
         if(isset($_POST['order'])) // here order processing
@@ -102,6 +127,31 @@ class denom_model extends MY_Model {
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
+
+        $dealer     = $this->input->get('dealer');
+        $provider   = $this->input->get('provider');
+        $type       = $this->input->get('type');
+        $category   = $this->input->get('category');
+         
+        if($dealer) 
+        {
+            $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($provider) 
+        {
+            $this->db->where($this->table.'.operator', $provider);
+        }
+
+        if($type) 
+        {
+            $this->db->where($this->table.'.type', $type);
+        }
+
+        if($category) 
+        {
+            $this->db->where($this->table.'.category', $category);
+        }
         
         return $this->db->count_all_results();
     }
@@ -114,7 +164,7 @@ class denom_model extends MY_Model {
         $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
         $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
         $this->db->select($this->table.'.type', false);
-        $this->db->select('prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
+        $this->db->select('quota, category, prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
         $this->db->from($this->table);
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
      
@@ -123,6 +173,31 @@ class denom_model extends MY_Model {
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $dealer     = $this->input->get('dealer');
+        $provider   = $this->input->get('provider');
+        $type       = $this->input->get('type');
+        $category   = $this->input->get('category');
+         
+        if($dealer) 
+        {
+            $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($provider) 
+        {
+            $this->db->where($this->table.'.operator', $provider);
+        }
+
+        if($type) 
+        {
+            $this->db->where($this->table.'.type', $type);
+        }
+
+        if($category) 
+        {
+            $this->db->where($this->table.'.category', $category);
         }
 
         $result = $this->db->get();
@@ -139,6 +214,19 @@ class denom_model extends MY_Model {
         $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
 
         force_download($filename, $csv_file);
+    }
+
+    public function provider_list()
+    {
+        return $this->db->query('SELECT DISTINCT prepaid_denom_prices.operator, ref_service_providers.name
+                                 FROM prepaid_denom_prices 
+                                 JOIN ref_service_providers ON prepaid_denom_prices.operator = ref_service_providers.alias
+                                 ORDER BY ref_service_providers.name')->result();
+    }
+
+    public function category_list()
+    {
+        return $this->db->query('SELECT DISTINCT category FROM prepaid_denom_prices')->result();
     }
 
 }

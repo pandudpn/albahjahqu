@@ -17,9 +17,14 @@ class biller extends Admin_Controller {
 
     public function index()
     {
+        $biller     = $this->input->get('biller');
+        $billers    = $this->ref_biller->find_all_by(array('deleted' => '0'));
+
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('title', 'Biller Price')
+            ->set('biller', $biller)
+            ->set('billers', $billers)
             ->build('biller/index');
     }
 
@@ -92,13 +97,13 @@ class biller extends Admin_Controller {
             $insert = $this->biller->insert($data);
             $this->price_log_insert('create', 'biller', $service_code, $insert, $data);
 
-            redirect(site_url('prices/biller'), 'refresh');
+            redirect(site_url('prices/biller?'.$_SERVER["QUERY_STRING"]), 'refresh');
         }else{
 
             $update = $this->biller->update($id, $data);
             $this->price_log_insert('edit', 'biller', $service_code, $id, $data);
 
-            redirect(site_url('prices/biller'), 'refresh');
+            redirect(site_url('prices/biller?'.$_SERVER["QUERY_STRING"]), 'refresh');
         }
 
     }
@@ -110,7 +115,7 @@ class biller extends Admin_Controller {
         
         $this->price_log_insert('delete', 'biller', $biller->service_code, $id, $data);
 
-        redirect(site_url('prices/biller'), 'refresh');
+        redirect(site_url('prices/biller?'.$_SERVER["QUERY_STRING"]), 'refresh');
     }
 
     public function download()
@@ -157,11 +162,11 @@ class biller extends Admin_Controller {
             $row[] = number_format($l->biller_fee);
             // $row[] = number_format($l->user_fee);
 
-            $btn   = '<a href="'.site_url('prices/biller/edit/'.$l->id).'" class="btn btn-success btn-sm">
+            $btn   = '<a href="'.site_url('prices/biller/edit/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>
                       </a> &nbsp;';
 
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('prices/biller/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('prices/biller/delete/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'\')" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                       </a>';
 

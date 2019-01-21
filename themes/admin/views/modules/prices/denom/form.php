@@ -23,7 +23,7 @@
             
             <div class="row">
                 <div class="col-12">
-                    <form method="post" action="<?php echo site_url('prices/denom/save'); ?>">
+                    <form method="post" action="<?php echo site_url('prices/denom/save?'.$_SERVER["QUERY_STRING"]); ?>">
                         <input type="hidden" value="<?php echo $denom->id; ?>" name="id">
 
                         <div class="col-6">
@@ -198,6 +198,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Quota</label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text" name="quota" value="<?php echo $denom->quota; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Status</label>
                                 <div class="col-9">
                                     <select class="form-control select2" name="status">
@@ -207,7 +213,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
-                            <a href="<?php echo site_url('prices/denom'); ?>" class="btn btn-danger waves-effect waves-light">
+                            <a href="<?php echo site_url('prices/denom?'.$_SERVER["QUERY_STRING"]); ?>" class="btn btn-danger waves-effect waves-light">
                              Cancel 
                         </a>
                         </div>

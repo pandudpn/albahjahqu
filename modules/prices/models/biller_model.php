@@ -58,6 +58,13 @@ class biller_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
+
+        $biller     = $this->input->get('biller');
+
+        if($biller) 
+        {
+            $this->db->where($this->table.'.biller_id', $biller);
+        }
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -90,6 +97,14 @@ class biller_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
+
+        $biller     = $this->input->get('biller');
+
+        if($biller) 
+        {
+            $this->db->where($this->table.'.biller_id', $biller);
+        }
+
         return $this->db->count_all_results();
     }
 
@@ -106,6 +121,13 @@ class biller_model extends MY_Model {
         $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.biller_id', 'left');
      
         $this->db->where($this->table.'.deleted', '0');
+
+        $biller     = $this->input->get('biller');
+
+        if($biller) 
+        {
+            $this->db->where($this->table.'.biller_id', $biller);
+        }
 
         $result = $this->db->get();
 

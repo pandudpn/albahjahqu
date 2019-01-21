@@ -23,7 +23,7 @@
             
             <div class="row">
                 <div class="col-12">
-                    <form method="post" action="<?php echo site_url('prices/bulk/save'); ?>">
+                    <form method="post" action="<?php echo site_url('prices/bulk/save?'.$_SERVER["QUERY_STRING"]); ?>">
                         <input type="hidden" value="<?php echo $bulk->id; ?>" name="id">
 
                         <div class="col-6">
@@ -187,7 +187,7 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
-                            <a href="<?php echo site_url('prices/bulk'); ?>" class="btn btn-danger waves-effect waves-light">
+                            <a href="<?php echo site_url('prices/bulk?'.$_SERVER["QUERY_STRING"].''); ?>" class="btn btn-danger waves-effect waves-light">
                              Cancel 
                         </a>
                         </div>

@@ -10,6 +10,9 @@ class bulk extends Admin_Controller {
         $this->load->model('references/billers_model', 'biller');
         $this->load->model('references/ref_service_codes_model', 'service_code');
         $this->load->model('prices/price_log_model', 'price_log');
+
+        $this->load->model('prices/denom_model', 'denom');
+        $this->load->model('dealers/dealer_model', 'dealer_list');
         
         $this->load->helper('text');
 
@@ -18,7 +21,25 @@ class bulk extends Admin_Controller {
 
     public function index()
     {
+        $dealer     = $this->input->get('dealer');
+        $provider   = $this->input->get('provider');
+        $type       = $this->input->get('type');
+        $category   = $this->input->get('category');
+
+        $provider_lists = $this->denom->provider_list();
+        $category_lists = $this->denom->category_list();
+
+        $dealers        = $this->dealer_list->order_by('name', 'asc');
+        $dealers        = $this->dealer_list->find_all_by(array('deleted' => '0'));
+
     	$this->template->set('alert', $this->session->flashdata('alert'))
+                        ->set('provider_lists', $provider_lists)
+                        ->set('dealers', $dealers)
+                        ->set('dealer', $dealer)
+                        ->set('provider', $provider)
+                        ->set('type', $type)
+                        ->set('category_lists', $category_lists)
+                        ->set('category', $category)
     					->build('bulk/index');
     }
 
@@ -113,13 +134,13 @@ class bulk extends Admin_Controller {
             $insert = $this->bulk->insert($data);
             $this->price_log_insert('create', 'bulk', $description, $insert, $data);
 
-            redirect(site_url('prices/bulk'), 'refresh');
+            redirect(site_url('prices/bulk?'.$_SERVER["QUERY_STRING"]), 'refresh');
         }else{
 
             $update = $this->bulk->update($id, $data);
             $this->price_log_insert('edit', 'bulk', $description, $id, $data);
 
-            redirect(site_url('prices/bulk'), 'refresh');
+            redirect(site_url('prices/bulk?'.$_SERVER["QUERY_STRING"]), 'refresh');
         }
 
     }
@@ -131,7 +152,7 @@ class bulk extends Admin_Controller {
         
         $this->price_log_insert('delete', 'bulk', $bulk->description, $id, $data);
 
-        redirect(site_url('prices/bulk'), 'refresh');
+        redirect(site_url('prices/bulk?'.$_SERVER["QUERY_STRING"]), 'refresh');
     }
 
     public function download()
@@ -179,11 +200,11 @@ class bulk extends Admin_Controller {
             $row[] = $l->dekape_fee;
             // $row[] = $l->partner_fee;
 
-            $btn   = '<a href="'.site_url('prices/bulk/edit/'.$l->id).'" class="btn btn-success btn-sm">
+            $btn   = '<a href="'.site_url('prices/bulk/edit/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>
                       </a> &nbsp;';
 
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('prices/bulk/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('prices/bulk/delete/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'\')" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                       </a>';
 

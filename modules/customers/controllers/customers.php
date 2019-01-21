@@ -36,16 +36,34 @@ class customers extends Admin_Controller {
         $this->customer->download();
     }
 
-    public function outlet($id)
+    public function profile($id)
     {
         if($this->input->post())
         {
             $data = array(
                 'outlet_number' => $this->input->post('outlet_number'),
-                'outlet_name' => $this->input->post('outlet_name')
+                'outlet_name' => $this->input->post('outlet_name'),
+                'level'     => $this->input->post('level')
             );
 
             $update = $this->customer->update($id, $data);
+
+            //password update
+
+            $pin        = $this->input->post('pin');
+            $password   = $this->input->post('password');
+
+            if(!empty($pin))
+            {
+                $update = $this->customer->update($id, array('pin' => md5($pin)));
+            }
+
+            if(!empty($password))
+            {
+                $pass   = sha1($this->config->item('password_salt_customer').$password);
+                $eva    = $this->eva_customer->find_by(array('account_user' => $id));
+                $update = $this->eva_customer->update($eva->id, array('account_password' => $pass));
+            }
 
             if($update)
             {
@@ -57,9 +75,9 @@ class customers extends Admin_Controller {
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
-            ->set('title', 'Edit Outlet for '.$data->name)
+            ->set('title', 'Edit Profile for '.$data->name)
             ->set('data', $data)
-            ->build('outlet');
+            ->build('profile');
     }
 
     public function password($id)
@@ -168,6 +186,7 @@ class customers extends Admin_Controller {
             $row[] = $l->name;
             $row[] = $l->phone;
             $row[] = $l->email;
+            $row[] = $l->level;
 
             if(empty($l->outlet_name))
             {
@@ -229,11 +248,11 @@ class customers extends Admin_Controller {
             $btn .= '<a class="dropdown-item" href="'.site_url('customers/geography/'.$l->id).'" >Edit Geography & Dealer</a>
                                 <div class="dropdown-divider"></div>';
 
-            $btn .= '<a class="dropdown-item" href="'.site_url('customers/outlet/'.$l->id).'" >Edit Outlet</a>
+            $btn .= '<a class="dropdown-item" href="'.site_url('customers/profile/'.$l->id).'" >Edit Profile</a>
                                 <div class="dropdown-divider"></div>';
 
-            $btn .= '<a class="dropdown-item" href="'.site_url('customers/password/'.$l->id).'" >Edit Password / Pin</a>
-                                <div class="dropdown-divider"></div>';
+            // $btn .= '<a class="dropdown-item" href="'.site_url('customers/password/'.$l->id).'" >Edit Password / Pin</a>
+            //                     <div class="dropdown-divider"></div>';
 
             $btn .= '<a class="dropdown-item" href="'.site_url('customers/mutation/'.$l->id).'" >View Mutation</a>
                                 <div class="dropdown-divider"></div>';

@@ -63,6 +63,31 @@ class bulk_model extends MY_Model {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
          
+        $dealer     = $this->input->get('dealer');
+        $provider   = $this->input->get('provider');
+        $type       = $this->input->get('type');
+        $category   = $this->input->get('category');
+         
+        if($dealer) 
+        {
+            $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($provider) 
+        {
+            $this->db->where($this->table.'.operator', $provider);
+        }
+
+        if($type) 
+        {
+            $this->db->where($this->table.'.type', $type);
+        }
+
+        if($category) 
+        {
+            $this->db->where($this->table.'.category', $category);
+        }
+
         if(isset($_POST['order'])) // here order processing
         {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -95,6 +120,31 @@ class bulk_model extends MY_Model {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
 
+        $dealer     = $this->input->get('dealer');
+        $provider   = $this->input->get('provider');
+        $type       = $this->input->get('type');
+        $category   = $this->input->get('category');
+         
+        if($dealer) 
+        {
+            $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($provider) 
+        {
+            $this->db->where($this->table.'.operator', $provider);
+        }
+
+        if($type) 
+        {
+            $this->db->where($this->table.'.type', $type);
+        }
+
+        if($category) 
+        {
+            $this->db->where($this->table.'.category', $category);
+        }
+
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
@@ -120,6 +170,31 @@ class bulk_model extends MY_Model {
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $dealer     = $this->input->get('dealer');
+        $provider   = $this->input->get('provider');
+        $type       = $this->input->get('type');
+        $category   = $this->input->get('category');
+         
+        if($dealer) 
+        {
+            $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($provider) 
+        {
+            $this->db->where($this->table.'.operator', $provider);
+        }
+
+        if($type) 
+        {
+            $this->db->where($this->table.'.type', $type);
+        }
+
+        if($category) 
+        {
+            $this->db->where($this->table.'.category', $category);
         }
 
         $result = $this->db->get();

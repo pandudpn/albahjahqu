@@ -39,6 +39,7 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
+                    <th>Level</th>
                     <th>Outlet</th>
                     <th>Dealer Name</th>
                     <!-- <th>Balance</th> -->
@@ -98,7 +99,7 @@
                 "orderable": false, //set not orderable
                 },
                 { 
-                "targets": [ 10 ], //first column / numbering column
+                "targets": [ 11 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
             ],

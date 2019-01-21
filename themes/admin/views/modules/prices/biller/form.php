@@ -22,7 +22,7 @@
             
             <div class="row">
                 <div class="col-6">
-                    <form method="post" action="<?php echo site_url('prices/biller/save'); ?>">
+                    <form method="post" action="<?php echo site_url('prices/biller/save?'.$_SERVER["QUERY_STRING"]); ?>">
                     <input type="hidden" value="<?php echo $biller->id; ?>" name="id">
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Biller</label>
@@ -96,7 +96,7 @@
                         </div> -->
                         
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
-                        <a href="<?php echo site_url('prices/biller'); ?>" class="btn btn-danger waves-effect waves-light">
+                        <a href="<?php echo site_url('prices/biller?'.$_SERVER["QUERY_STRING"]); ?>" class="btn btn-danger waves-effect waves-light">
                              Cancel 
                         </a>
                     </form>

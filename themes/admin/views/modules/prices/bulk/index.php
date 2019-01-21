@@ -12,14 +12,14 @@
 <div class="row">
     <div class="col-12">
         <div class="p-20">
-            <a href="<?php echo site_url('prices/bulk/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+            <a href="<?php echo site_url('prices/bulk/add?'.$_SERVER["QUERY_STRING"]); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
                 <i class="zmdi zmdi-collection-plus"></i> Add Bulk</button>
             </a>
             <div class="col-3 pull-right text-right">
-                <a href="<?php echo site_url('prices/bulk/download'); ?>" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Download</a>
+                <a href="<?php echo site_url('prices/bulk/download?'.$_SERVER["QUERY_STRING"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Download</a>
             </div>
         </div>
-        <div class="card-box table-responsive" style="overflow-x: auto;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -28,6 +28,47 @@
 	    		<?php echo $alert['msg']; ?>
 	    	</div>
 	    	<?php } ?> 
+
+            <form method="get">
+                <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
+                    <div class="col-12">Filter : </div>
+                    <div class="col-2">
+                        <select class="form-control" name="provider" style="height: 40.74px;">
+                            <option value="">Choose Provider</option>
+                            <?php foreach ($provider_lists as $key => $pl) { if($pl->operator == $provider) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $pl->operator; ?>" <?php echo $selected; ?>><?php echo $pl->name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control" name="category" style="height: 40.74px;">
+                            <option value="">Choose Category</option>
+                            <?php foreach ($category_lists as $key => $cl) { if($cl->category == $category) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $cl->category; ?>" <?php echo $selected; ?>><?php echo $cl->category; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control" name="type" style="height: 40.74px;">
+                            <option value="">Choose Type</option>
+                            <option value="inner" <?php if($type == 'inner') { echo 'selected'; } ?>>Inner</option>
+                            <option value="outer" <?php if($type == 'outer') { echo 'selected'; } ?>>Outer</option>
+                        </select>
+                    </div>
+                    <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                    <div class="col-2">
+                        <select class="form-control" name="dealer" style="height: 40.74px;">
+                            <option value="">Choose Dealer</option>
+                            <?php foreach ($dealers as $key => $d) { if($d->id == $dealer) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $d->id; ?>" <?php echo $selected; ?>><?php echo $d->name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <?php } ?>
+                    <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('prices/bulk'); ?>" class="btn btn-secondary">Reset</a></div>
+                </div>
+            </form>
+
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>
@@ -81,7 +122,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('prices/bulk/datatables')?>",
+                "url": "<?php echo site_url('prices/bulk/datatables?dealer='.$dealer.'&provider='.$provider.'&type='.$type.'&category='.$category)?>",
                 "type": "POST"
             },
 
