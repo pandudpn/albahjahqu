@@ -46,6 +46,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Slot</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="slot" value="<?php echo $service_boxes->slot; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Operator</label>
                             <div class="col-9">
                                 <select class="form-control select2" name="operator">

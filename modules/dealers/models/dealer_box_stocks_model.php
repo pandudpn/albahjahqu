@@ -48,7 +48,7 @@ class dealer_box_stocks_model extends MY_Model {
             $i++;
         }
 
-        $this->db->where($this->table.'.deleted', '0');
+        // $this->db->where($this->table.'.deleted', '0');
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -80,7 +80,7 @@ class dealer_box_stocks_model extends MY_Model {
     public function count_all($ip_box)
     {
         $this->db->from($this->table);
-        $this->db->where('deleted', '0');
+        // $this->db->where('deleted', '0');
         $this->db->where('ipbox', $ip_box);
         
         return $this->db->count_all_results();

@@ -74,6 +74,11 @@ class dealers extends Admin_Controller {
         $date_joined = $this->input->post('date_joined');
         $note = $this->input->post('note');
 
+        if(empty($date_joined))
+        {
+            $date_joined = NULL;
+        }
+
         $data = array(
                 'name'     => $name,
                 'address'  => $address,

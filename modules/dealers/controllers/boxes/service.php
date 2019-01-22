@@ -78,6 +78,7 @@ class service extends Admin_Controller {
         
         $operator         = $this->input->post('operator');
         $service_type     = $this->input->post('service_type');
+        $slot             = $this->input->post('slot');
         $service_coverage = $this->input->post('service_coverage');
         $msisdn           = $this->input->post('msisdn');
         $pinsim           = $this->input->post('pinsim');
@@ -85,18 +86,19 @@ class service extends Admin_Controller {
         
         $dealer_box = $this->dealer_boxes->find($box_id);
 
-        $max_slot = $this->dealer_box_services->max_slot($dealer_box->ipbox, $service_type);
-        $slot = $max_slot[0]->slot;
+        // $max_slot = $this->dealer_box_services->max_slot($dealer_box->ipbox, $service_type);
+        // $slot = $max_slot[0]->slot;
         
-        if(empty($slot)){
-            $slot = 0;
-        }
+        // if(empty($slot)){
+        //     $slot = 0;
+        // }
 
         $data = array(
             'dealer_id'        => $dealer_box->dealer_id,
             'dealer_name'      => $dealer_box->dealer_name,
             'ipbox'            => $dealer_box->ipbox,
             'type'             => $dealer_box->type,
+            'slot'             => $slot,
             'operator'         => $operator,
             'service_type'     => $service_type,
             'service_coverage' => $service_coverage,
@@ -106,7 +108,7 @@ class service extends Admin_Controller {
         );
 
         if(!$id){
-            $data['slot'] = $slot + 1;
+            // $data['slot'] = $slot + 1;
             
             $insert = $this->dealer_box_services->insert($data);
             redirect(site_url('dealers/boxes/'.$box_id.'/service'), 'refresh');

@@ -226,7 +226,7 @@ class customers extends Admin_Controller {
             //             <i class="fa fa-trash"></i>
             //           </a>';
 
-            $btn = '<div class="btn-group">
+            $btn = '<div class="btn-group cst-button">
                         <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
                         <div class="dropdown-menu">';
             

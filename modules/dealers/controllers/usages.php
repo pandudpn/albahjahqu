@@ -27,6 +27,7 @@ class usages extends Admin_Controller {
             $no++;
             $row   = array();
             $row[] = $no;
+            $row[] = $l->dealer_name;
             $row[] = $l->trx;
             $row[] = $l->ipbox;
             $row[] = $l->slot;

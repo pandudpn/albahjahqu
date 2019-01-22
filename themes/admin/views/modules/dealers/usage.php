@@ -16,6 +16,7 @@
                 <thead>
                 <tr>
                     <th>No</th>
+                    <th>Dealer</th>
                     <th>Trx</th>
                     <th>Ip Box</th>
                     <th>Slot</th>
@@ -52,7 +53,8 @@
                 "targets": [ 0 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
-            ]
+            ],
+            'scrollX': true
         });
     });
 </script>

@@ -53,6 +53,7 @@
                     <th>Dealer</th>
                     <th>IP Box</th>
                     <th>Slot</th>
+                    <th>Status</th>
                     <th>V1</th>
                     <th>V5</th>
                     <th>V10</th>
@@ -179,6 +180,10 @@
                 },
                 { 
                 "targets": [ 16 ], //first column / numbering column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 17 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
             ]

@@ -8,9 +8,9 @@ class usage_model extends MY_Model {
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'trx', 'ipbox', 'slot', 'denom', 'status', 'mkios_response'); //set column field database for datatable orderable
-    protected $column_search = array('trx', 'ipbox', 'slot', 'denom', 'status', 'mkios_response'); //set column field database for datatable searchable 
-    protected $order 		 = array('id' => 'desc'); // default order 
+    protected $column_order  = array(null, 'dealers.name', 'trx', 'ipbox', 'slot', 'denom', 'dealer_box_stock_usages.status', 'mkios_response', 'dealer_box_stock_usages.created_on'); //set column field database for datatable orderable
+    protected $column_search = array('dealers.name', 'trx', 'ipbox', 'slot', 'denom', 'dealer_box_stock_usages.status', 'mkios_response', 'dealer_box_stock_usages.created_on'); //set column field database for datatable searchable 
+    protected $order 		 = array('dealer_box_stock_usages.id' => 'desc'); // default order 
 
     public function __construct()
     {
@@ -19,8 +19,11 @@ class usage_model extends MY_Model {
 
     public function _get_datatables_query()
     {
-         
+        
+        $this->db->select('dealers.name as dealer_name, trx, ipbox, slot, denom, dealer_box_stock_usages.status, mkios_response, dealer_box_stock_usages.created_on');
         $this->db->from($this->table);
+        $this->db->join('transactions', 'transactions.trx_code = dealer_box_stock_usages.trx', 'left');
+        $this->db->join('dealers', 'dealers.id = transactions.dealer_id', 'left');
         
         $i = 0;
      

@@ -110,6 +110,8 @@
             autoclose: true,
             format: 'yyyy-mm-dd'
         });
+
+        $('#datatable').css('min-height','300px');
     });
 
     function alert(url)

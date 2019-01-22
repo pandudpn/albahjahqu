@@ -134,6 +134,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-10">
+                                <div class="form-group row">
+                                    <label for="" class="col-2 col-form-label">Status</label>
+                                    <div class="col-10">
+                                        <select class="form-control" name="status" id="status">
+                                            <option value="0" <?php if($stock->deleted == '0') { echo 'selected'; } ?>>Active</option>
+                                            <option value="1" <?php if($stock->deleted == '1') { echo 'selected'; } ?>>Non active</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         

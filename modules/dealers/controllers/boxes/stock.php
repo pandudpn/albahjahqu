@@ -85,6 +85,7 @@ class stock extends Admin_Controller {
         $v200 = $this->input->post('v200');
         $v300 = $this->input->post('v300');
         $bulk = $this->input->post('bulk');
+        $status      = $this->input->post('status');
         
         $dealer_box = $this->dealer_boxes->find($box_id);
 
@@ -111,7 +112,8 @@ class stock extends Admin_Controller {
             'v100'        => $v100,
             'v200'        => $v200,
             'v300'        => $v300,
-            'bulk'        => $bulk
+            'bulk'        => $bulk,
+            'deleted'     => $status
         );
 
         if(!$id){
@@ -127,6 +129,7 @@ class stock extends Admin_Controller {
 
     public function delete($box_id, $id)
     {
+        $delete = $this->dealer_box_stocks->set_soft_deletes(FALSE);
         $delete = $this->dealer_box_stocks->delete($id);
 
         redirect(site_url('dealers/boxes/'.$box_id.'/stock'), 'refresh');
@@ -147,6 +150,16 @@ class stock extends Admin_Controller {
             $row[] = $l->dealer_name;
             $row[] = $l->ipbox;
             $row[] = $l->slot;
+            
+            if($l->deleted == '0')
+            {
+                $row[] = 'active';
+            }
+            else if($l->deleted == '1')
+            {
+                $row[] = 'non active';
+            }
+
             $row[] = $l->v1;
             $row[] = $l->v5;
             $row[] = $l->v10;
