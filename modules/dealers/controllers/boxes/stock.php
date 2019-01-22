@@ -85,16 +85,17 @@ class stock extends Admin_Controller {
         $v200 = $this->input->post('v200');
         $v300 = $this->input->post('v300');
         $bulk = $this->input->post('bulk');
-        $status      = $this->input->post('status');
+        $status    = $this->input->post('status');
+        $slot      = $this->input->post('slot');
         
         $dealer_box = $this->dealer_boxes->find($box_id);
 
-        $max_slot = $this->dealer_box_stocks->max_slot($dealer_box->ipbox);
-        $slot = $max_slot[0]->slot;
+        // $max_slot = $this->dealer_box_stocks->max_slot($dealer_box->ipbox);
+        // $slot = $max_slot[0]->slot;
         
-        if(empty($slot)){
-            $slot = 0;
-        }
+        // if(empty($slot)){
+        //     $slot = 0;
+        // }
 
         $data = array(
             'dealer_id'   => $dealer_box->dealer_id,
@@ -113,11 +114,12 @@ class stock extends Admin_Controller {
             'v200'        => $v200,
             'v300'        => $v300,
             'bulk'        => $bulk,
+            'slot'        => $slot,
             'deleted'     => $status
         );
 
         if(!$id){
-            $data['slot'] = $slot + 1;
+            // $data['slot'] = $slot + 1;
             $insert = $this->dealer_box_stocks->insert($data);
             redirect(site_url('dealers/boxes/'.$box_id.'/stock'), 'refresh');
         }else{

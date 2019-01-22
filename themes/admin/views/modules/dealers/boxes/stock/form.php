@@ -46,6 +46,13 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Slot</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="slot" value="<?php echo $stock->slot; ?>">
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group row">
