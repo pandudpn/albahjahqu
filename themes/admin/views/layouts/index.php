@@ -202,7 +202,18 @@
                                         <i class="zmdi zmdi-card-sd"></i><span> Services </span> 
                                     </a>
                                 </li>
-                            <?php } ?>    
+                            <?php } ?> 
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="zmdi zmdi-email-open"></i><span> Complaints <?php echo $unread; ?></span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
+
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('complaints/report'); ?>">Report <?php echo $unread; ?></a></li>
+                                        <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
+                                    </ul>
+                                </li>   
                                 <li class="text-muted menu-title">Transaction</li>
 
                                 <li>
@@ -266,18 +277,6 @@
                                     <a href="<?php echo site_url('referrals'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-tag-more"></i><span> Referral Codes </span> 
                                     </a>
-                                </li>
-
-                                <li class="has_sub">
-                                    <a href="javascript:void(0);" class="waves-effect">
-                                        <i class="zmdi zmdi-email-open"></i><span> Complaints </span> 
-                                        <span class="menu-arrow"></span>
-                                    </a>
-
-                                    <ul class="list-unstyled">
-                                        <li><a href="<?php echo site_url('complaints/report'); ?>">Report</a></li>
-                                        <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
-                                    </ul>
                                 </li>
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                 <li>

@@ -133,4 +133,29 @@ class customer_support_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
+    public function unread()
+    {
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        {
+            $where_user = "AND customer_support_members.user_id = '".$this->session->userdata('user')->dealer_id."'";
+        }
+
+        $this->db->select("SUM(((SELECT count(customer_support_messages.id)
+                            FROM customer_support_messages
+                            JOIN customer_support_members ON customer_support_members.ticket = customer_support_messages.ticket
+                            WHERE customer_support_members.role = 'dealer'
+                            ".$where_user."
+                            AND customer_support_messages.ticket = customer_supports.ticket
+                            ) - 
+                            (SELECT count(customer_support_message_reads.id) FROM customer_support_message_reads 
+                             JOIN customer_support_messages ON customer_support_messages.id = customer_support_message_reads.message_id
+                             WHERE customer_support_message_reads.user_id = '".$this->session->userdata('user')->id."'
+                             AND role = '".$this->session->userdata('user')->role."'
+                             AND customer_support_messages.ticket = customer_supports.ticket
+        ))) as unread", false);
+
+        $this->db->from($this->table);
+        return $this->db->get()->row();
+    }
+
 }

@@ -166,8 +166,22 @@ class Admin_Controller extends Base_Controller{
 
     public function __construct() {
         parent::__construct();
+        $this->load->model('complaints/customer_support_model', 'customer_support');
+
+        $unread = $this->customer_support->unread()->unread;
+
+        if($unread > 0)
+        {
+            $unread = '<span class="label label-pill label-primary float-right">'.$unread.'</span>';
+        }
+        else
+        {
+            $unread = '';
+        }
+
         $this->template->set_layout('index');
         $this->template->set_theme('admin');
+        $this->template->set('unread', $unread);
     }
 
     public function check_login(){
