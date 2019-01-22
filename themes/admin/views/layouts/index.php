@@ -199,7 +199,7 @@
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                 <li>
                                     <a href="<?php echo site_url('services'); ?>" class="waves-effect">
-                                        <i class="zmdi zmdi-card-sd"></i><span> Services </span> 
+                                        <i class="zmdi zmdi-card-sd"></i><span> Services / Product</span> 
                                     </a>
                                 </li>
                             <?php } ?> 
@@ -226,11 +226,13 @@
                                         <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
                                     </a>
                                 </li>
+                                <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                 <li>
                                     <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-upload"></i><span> Topups </span> 
                                     </a>
                                 </li>
+                                <?php } ?> 
                                 <li>
                                     <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 

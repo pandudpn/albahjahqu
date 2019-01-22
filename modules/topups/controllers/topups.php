@@ -6,9 +6,11 @@ class topups extends Admin_Controller {
         parent::__construct();
         $this->load->model('customers/customer_model', 'customer');
         $this->load->model('topups/topup_model', 'topup');
+        $this->load->model('topups/topup_log_model', 'topup_log');
         $this->load->model('dealers/dealer_model', 'dealer');
         $this->load->model('user/eva_corporate_mutation_model', 'eva_corporate_mutation');
         $this->load->model('user/eva_corporate_model', 'eva_corporate');
+        $this->load->model('user/eva_customer_va_model', 'eva_customer_va');
         $this->load->helper('text');
 
         $this->check_login();
@@ -33,6 +35,108 @@ class topups extends Admin_Controller {
             ->set('dealers', $dealers)
             ->set('total_sum', $total_sum)
     		->build('index');
+    }
+
+    public function user()
+    {
+        if($this->input->post())
+        {
+            $phone      = $this->input->post('phone');
+            $bank       = $this->input->post('bank');
+            $amount     = intval($this->input->post('amount'));
+
+            $customer   = $this->customer->find_by(array('phone' => $phone));
+
+            if(!$customer)
+            {
+                $msg = 'customer not found.';
+                $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $msg));
+
+                redirect(site_url('topups/user'), 'refresh');
+                // die;
+            }
+
+            $customer_va = $this->eva_customer_va->find_by(array('account_user' => $customer->id));
+
+            switch ($customer_va->bank_code) {
+                case 'BNI':
+                    $account_number = substr($customer_va->va, 4, 100);
+                    $merchant_code  = substr($customer_va->va, 0, 4);
+                    break;
+                case 'MANDIRI':
+                    $account_number = substr($customer_va->va, 5, 100);
+                    $merchant_code  = substr($customer_va->va, 0, 5);
+                    break;
+                case 'BRI':
+                    $account_number = substr($customer_va->va, 5, 100);
+                    $merchant_code  = substr($customer_va->va, 0, 5);
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+
+
+            // WAJIB ISI
+            // external_id => customer_id-bank 
+            // type => 'manual'
+            // payment_id => user+unixtimestamp
+            // amount 
+            // bank_code 
+            // id
+            // account_number
+
+            //CURL CALLBACK
+            $data = array(
+                'updated'                       => date('Y-m-d H:i:s'),
+                'created'                       => date('Y-m-d H:i:s'),
+                'amount'                        => $amount,
+                'callback_virtual_account_id'   => 'manual-'.time(),
+                'payment_id'                    => 'manual-'.time(),
+                'external_id'                   => $customer->id.'-'.strtolower($customer_va->bank_code),
+                'account_number'                => $account_number,
+                'merchant_code'                 => $merchant_code,
+                'bank_code'                     => $customer_va->bank_code,
+                'transaction_timestamp'         => date('Y-m-d H:i:s'),
+                'id'                            => 'manual-'.time(),
+                'owner_id'                      => 'manual-'.time(),
+                'type'                          => 'manual'
+            );
+
+            //INSERT LOG
+            $log_data = array(
+                'admin_id'      => $this->session->userdata('user')->id,
+                'admin_name'    => $this->session->userdata('user')->name,
+                'amount'        => $amount,
+                'to'            => $phone,
+                'cus_id'        => $customer->id,
+                'cus_name'      => $customer->name
+            );
+
+            $this->topup_log->insert($log_data);
+
+            //CALL CALLBACK
+            $url = 'http://localhost:8080/obb-new-isi-ulang/virtual-account/xendit/callback';
+            // $url = 'https://topup.okbabe.technology/virtual-account/xendit/callback';
+
+            $ch = curl_init( $url );
+            $payload = json_encode( $data );
+            curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+            curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            $msg = 'Topup success.';
+            $this->session->set_flashdata('alert', array('type' => 'success', 'msg' => $msg));
+
+            redirect(site_url('topups/user'), 'refresh');
+        }
+
+        $this->template->set('alert', $this->session->flashdata('alert'))
+                        ->build('user');
+
     }
 
     public function set($id=null)
