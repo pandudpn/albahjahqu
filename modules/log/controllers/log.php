@@ -16,12 +16,12 @@ class log extends Admin_Controller {
     	$this->template->build('index');
     }
 
-    public function get_data($collection=null)
+    public function get_data($collection=null, $offset=0)
     {
     	if(!empty($json['trx_code']))
     		$log_trx  = $this->mongo_db->where(array('reference'=>$json['trx_code']))->order_by(array('created_on'=>'DESC'))->get($collection);
     	else
-    		$log_trx  = $this->mongo_db->order_by(array('created_on'=>'DESC'))->limit(20)->get($collection);
+    		$log_trx  = $this->mongo_db->order_by(array('created_on'=>'DESC'))->limit(20)->offset($offset)->get($collection);
 
     	$this->rest->set_data($log_trx);
     	$this->rest->render();
