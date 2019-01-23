@@ -30,7 +30,7 @@
                             <label for="" class="col-3 col-form-label">Dealer</label>
                             <div class="col-7">
                                 <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                                <select class="form-control" name="dealer_id" id="dealer_id" onchange="dealer_change(this.value)">
+                                <select class="form-control" name="dealer_id" id="dealer_id" onchange="dealer_change(this.value)" required>
                                     <option value="">Choose Dealer</option>
                                     <?php foreach($dealers as $d){ 
                                             if($d->id == $data->dealer_id){
@@ -58,7 +58,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Cluster</label>
                             <div class="col-7">
-                                <select name="cluster_id" class="form-control" id="dealer_cluster" onchange="cluster_change(this.value)">
+                                <select name="cluster_id" class="form-control" id="dealer_cluster" onchange="cluster_change(this.value)" required>
                                     <option value="">Choose Cluster</option>
                                     <?php foreach ($dealer_clusters as $key => $dc) {
                                         if($dc->id == $data->cluster_id) { $selected = 'selected'; }else{ $selected = ''; }
@@ -71,7 +71,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Province</label>
                             <div class="col-7">
-                                <select name="province_id" class="form-control" id="province" onchange="province_change(this.value)">
+                                <select name="province_id" class="form-control" id="province" onchange="province_change(this.value)" required>
                                     <option value="">Choose Province</option>
                                     <?php foreach ($provinces as $key => $p) {
                                         if($p->id == $data->province_id) { $selected = 'selected'; }else{ $selected = ''; }
@@ -84,7 +84,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">City</label>
                             <div class="col-7">
-                                <select name="city_id" class="form-control" id="city" onchange="city_change(this.value)">
+                                <select name="city_id" class="form-control" id="city" onchange="city_change(this.value)" required>
                                     <option value="">Choose City</option>
                                     <?php foreach ($cities as $key => $c) {
                                         if($c->id == $data->city_id) { $selected = 'selected'; }else{ $selected = ''; }
@@ -97,7 +97,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">District</label>
                             <div class="col-7">
-                                <select name="district_id" class="form-control" id="district" onchange="district_change(this.value)">
+                                <select name="district_id" class="form-control" id="district" onchange="district_change(this.value)" required>
                                     <option value="">Choose District</option>
                                     <?php foreach ($districts as $key => $d) {
                                         if($d->id == $data->district_id) { $selected = 'selected'; }else{ $selected = ''; }
@@ -110,14 +110,14 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Code</label>
                             <div class="col-7">
-                                <input class="form-control" id="code" type="text" name="referral_code" value="<?php echo $data->referral_code; ?>">
+                                <input class="form-control" id="code" type="text" name="referral_code" value="<?php echo $data->referral_code; ?>" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Phone</label>
                             <div class="col-7">
-                                <input class="form-control" type="text" name="referral_phone" value="<?php echo $data->referral_phone; ?>">
+                                <input class="form-control" type="text" name="referral_phone" value="<?php echo $data->referral_phone; ?>" required>
                             </div>
                         </div>
 
