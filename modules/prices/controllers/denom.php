@@ -21,6 +21,7 @@ class denom extends Admin_Controller {
     public function index()
     {
         $dealer     = $this->input->get('dealer');
+        $biller     = $this->input->get('biller');
         $provider   = $this->input->get('provider');
         $type       = $this->input->get('type');
         $category   = $this->input->get('category');
@@ -31,10 +32,15 @@ class denom extends Admin_Controller {
         $dealers        = $this->dealer_list->order_by('name', 'asc');
         $dealers        = $this->dealer_list->find_all_by(array('deleted' => '0'));
 
+        $billers        = $this->biller->order_by('name', 'asc');
+        $billers        = $this->biller->find_all_by(array('deleted' => '0'));
+
         $this->template->set('alert', $this->session->flashdata('alert'))
                         ->set('provider_lists', $provider_lists)
                         ->set('dealers', $dealers)
+                        ->set('billers', $billers)
                         ->set('dealer', $dealer)
+                        ->set('biller', $biller)
                         ->set('provider', $provider)
                         ->set('type', $type)
                         ->set('category_lists', $category_lists)

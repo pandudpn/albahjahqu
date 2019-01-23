@@ -94,7 +94,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Biller Code</label>
+                            <label for="" class="col-3 col-form-label">Value / Amount</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="value" value="<?php echo intval($data->value); ?>000">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Product Code</label>
                             <div class="col-7">
                                 <input class="form-control" type="text" name="biller_code" value="<?php echo $data->biller_code; ?>">
                             </div>

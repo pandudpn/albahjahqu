@@ -65,6 +65,14 @@
                         </select>
                     </div>
                     <?php } ?>
+                    <div class="col-2">
+                        <select class="form-control" name="biller" style="height: 40.74px;">
+                            <option value="">Choose Biller</option>
+                            <?php foreach ($billers as $key => $d) { if($d->id == $biller) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $d->id; ?>" <?php echo $selected; ?>><?php echo $d->name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
                     <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('prices/denom'); ?>" class="btn btn-secondary">Reset</a></div>
                 </div>
             </form>
@@ -128,7 +136,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('prices/denom/datatables?dealer='.$dealer.'&provider='.$provider.'&type='.$type.'&category='.$category)?>",
+                "url": "<?php echo site_url('prices/denom/datatables?dealer='.$dealer.'&biller='.$biller.'&provider='.$provider.'&type='.$type.'&category='.$category)?>",
                 "type": "POST"
             },
 
@@ -172,6 +180,10 @@
                 },
                 { 
                 "targets": [ 14 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 15 ], //last column / new item column
                 "orderable": false, //set not orderable
                 }
             ],

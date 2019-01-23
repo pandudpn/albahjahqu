@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="" class="col-3 col-form-label">Service</label>
+                                <label for="" class="col-3 col-form-label">Service / Product</label>
                                 <div class="col-9">
                                     <select class="form-control select2" name="service" id="service">
                                         <?php foreach($service_code as $service){ 
@@ -255,7 +255,7 @@
             denom.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
-                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + obj[idx].biller.name +"</li>");
+                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
             });
         });
     });
@@ -264,12 +264,21 @@
         var source   = $('#category').val();
         var operator = $('#operator').val();
         var target   = $("#service");
+        var denom    = $("#denom");
 
         $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/"+ source, function (data, status) {
             target.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
                 target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+            });
+        });
+
+        $.get("<?php echo site_url().'references/data/denom/'; ?>" + operator + '/'+ source, function (data, status) {
+            denom.html('');
+            var obj = JSON.parse(data);
+            $.each(obj, function (idx, val) {
+                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
             });
         });
     });

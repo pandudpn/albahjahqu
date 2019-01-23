@@ -196,13 +196,6 @@
                                 </a>
                             </li>
                             <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
-                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                                <li>
-                                    <a href="<?php echo site_url('services'); ?>" class="waves-effect">
-                                        <i class="zmdi zmdi-card-sd"></i><span> Services / Product</span> 
-                                    </a>
-                                </li>
-                            <?php } ?> 
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
                                         <i class="zmdi zmdi-email-open"></i><span> Complaints <?php echo $unread; ?></span> 
@@ -241,21 +234,35 @@
 
                                 <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
 
-                                    <li class="has_sub">
-                                        <a href="javascript:void(0);" class="waves-effect">
-                                            <i class="zmdi zmdi-money"></i><span> Prices </span> 
-                                            <span class="menu-arrow"></span>
-                                        </a>
+                                <li class="text-muted menu-title">Prices</li>    
 
-                                        <ul class="list-unstyled">
-                                            <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
-                                            <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
-                                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                                            <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
-                                            <?php } ?>
-                                            <li><a href="<?php echo site_url('prices/logs'); ?>">Logs</a></li>
-                                        </ul>
-                                    </li>
+                                <li>
+                                    <a href="<?php echo site_url('services'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-card-sd"></i><span> Services / Products</span> 
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="<?php echo site_url('denoms'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-dns"></i><span> Denoms</span> 
+                                    </a>
+                                </li>
+
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="zmdi zmdi-money"></i><span> Prices </span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
+
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('prices/denom'); ?>">Denom</a></li>
+                                        <li><a href="<?php echo site_url('prices/bulk'); ?>">Bulk</a></li>
+                                        <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                        <li><a href="<?php echo site_url('prices/biller'); ?>">Biller</a></li>
+                                        <?php } ?>
+                                        <li><a href="<?php echo site_url('prices/logs'); ?>">Logs</a></li>
+                                    </ul>
+                                </li>
 
                                 <?php } ?>
 

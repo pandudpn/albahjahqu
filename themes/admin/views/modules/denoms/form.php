@@ -23,7 +23,7 @@
             
             <div class="row">
                 <div class="col-12">
-                    <form method="post" action="<?php echo site_url('denoms/save'); ?>">
+                    <form method="post" action="<?php echo site_url('denoms/save?'.$_SERVER["QUERY_STRING"]); ?>">
                         <input type="hidden" value="<?php echo $denom->id; ?>" name="id">
 
                         <div class="col-6">
@@ -131,7 +131,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
-                            <a href="<?php echo site_url('denoms'); ?>" class="btn btn-danger waves-effect waves-light">
+                            <a href="<?php echo site_url('denoms?'.$_SERVER["QUERY_STRING"]); ?>" class="btn btn-danger waves-effect waves-light">
                              Cancel 
                             </a>
 

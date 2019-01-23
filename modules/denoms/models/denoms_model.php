@@ -11,7 +11,7 @@ class denoms_model extends MY_Model {
     protected $soft_deletes     = true;
 
     protected $column_order  = array(null, 'ref_service_providers.name'); //set column field database for datatable orderable
-    protected $column_search = array('ref_service_providers.name'); //set column field database for datatable searchable 
+    protected $column_search = array('ref_service_providers.name', 'billers.name'); //set column field database for datatable searchable 
     protected $order 		 = array('ref_denoms.id' => 'asc'); // default order 
 
     public function __construct()
@@ -59,6 +59,25 @@ class denoms_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
+
+        $biller     = $this->input->get('biller');
+        $provider   = $this->input->get('provider');
+        $category   = $this->input->get('category');
+
+        if($biller) 
+        {
+            $this->db->where($this->table.'.supplier_id', $biller);
+        }
+
+        if($provider) 
+        {
+            $this->db->where($this->table.'.provider', $provider);
+        }
+
+        if($category) 
+        {
+            $this->db->where($this->table.'.type', $category);
+        }
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -91,6 +110,26 @@ class denoms_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
+
+        $biller     = $this->input->get('biller');
+        $provider   = $this->input->get('provider');
+        $category   = $this->input->get('category');
+
+        if($biller) 
+        {
+            $this->db->where($this->table.'.supplier_id', $biller);
+        }
+
+        if($provider) 
+        {
+            $this->db->where($this->table.'.provider', $provider);
+        }
+        
+        if($category) 
+        {
+            $this->db->where($this->table.'.type', $category);
+        }
+
         return $this->db->count_all_results();
     }
 

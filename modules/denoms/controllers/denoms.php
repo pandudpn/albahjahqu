@@ -10,15 +10,32 @@ class denoms extends Admin_Controller {
         $this->load->model('references/billers_model', 'biller');
         $this->load->model('references/ref_service_codes_model', 'service_code');
         $this->load->model('references/ref_denoms_model', 'ref_denom');
+        $this->load->model('prices/denom_model', 'denom_list');
 
         $this->check_login();
     }
 
     public function index()
     {
+        $biller     = $this->input->get('biller');
+        $provider   = $this->input->get('provider');
+        $category   = $this->input->get('category');
+
+        $provider_lists = $this->denom_list->provider_list();
+        $category_lists = $this->denom_list->category_list();
+
+        $billers        = $this->biller->order_by('name', 'asc');
+        $billers        = $this->biller->find_all_by(array('deleted' => '0'));
+
         $this->template
-        ->set('alert', $this->session->flashdata('alert'))
-    	->build('index');
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('biller', $biller)
+            ->set('billers', $billers)
+            ->set('provider', $provider)
+            ->set('provider_lists', $provider_lists)
+            ->set('category', $category)
+            ->set('category_lists', $category_lists)
+        	->build('index');
     }
 
     public function add()
@@ -86,10 +103,10 @@ class denoms extends Admin_Controller {
 
         if(!$id){
             $insert = $this->denom->insert($data);
-            redirect(site_url('denoms'), 'refresh');
+            redirect(site_url('denoms?'.$_SERVER["QUERY_STRING"]), 'refresh');
         }else{
             $update = $this->denom->update($id, $data);
-            redirect(site_url('denoms'), 'refresh');
+            redirect(site_url('denoms?'.$_SERVER["QUERY_STRING"]), 'refresh');
         }
     }
 
@@ -97,7 +114,7 @@ class denoms extends Admin_Controller {
     {
         $delete = $this->denom->delete($id);
 
-        redirect(site_url('denoms'), 'refresh');
+        redirect(site_url('denoms?'.$_SERVER["QUERY_STRING"]), 'refresh');
     }
 
     public function datatables()
@@ -119,11 +136,11 @@ class denoms extends Admin_Controller {
             $row[] = $l->code;
             $row[] = $l->value;
             
-            $btn   = '<a href="'.site_url('denoms/edit/'.$l->id).'" class="btn btn-success btn-sm">
+            $btn   = '<a href="'.site_url('denoms/edit/'.$l->id.'?'.$_SERVER["QUERY_STRING"]).'" class="btn btn-success btn-sm" style="margin-bottom: 5px;">
                         <i class="fa fa-pencil"></i>
                       </a> &nbsp;';
 
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('denoms/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('denoms/delete/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'\')" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                       </a>';
 

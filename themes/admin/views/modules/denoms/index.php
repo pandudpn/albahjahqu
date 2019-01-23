@@ -12,12 +12,12 @@
 <div class="row">
     <div class="col-12">
         <div class="p-20">
-            <a href="<?php echo site_url('denoms/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+            <a href="<?php echo site_url('denoms/add?'.$_SERVER["QUERY_STRING"]); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
                 <i class="zmdi zmdi-collection-plus"></i> Add Denom </button>
             </a>
         </div>
         
-        <div class="card-box table-responsive">
+        <div class="card-box table-responsive" style="zoom: 0.9;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -26,6 +26,37 @@
 	    		<?php echo $alert['msg']; ?>
 	    	</div>
 	    	<?php } ?>
+
+            <form method="get">
+                <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
+                    <div class="col-12">Filter : </div>
+                    <div class="col-2">
+                        <select class="form-control" name="provider" style="height: 40.74px;">
+                            <option value="">Choose Provider</option>
+                            <?php foreach ($provider_lists as $key => $pl) { if($pl->operator == $provider) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $pl->operator; ?>" <?php echo $selected; ?>><?php echo $pl->name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control" name="category" style="height: 40.74px;">
+                            <option value="">Choose Category</option>
+                            <?php foreach ($category_lists as $key => $cl) { if($cl->category == $category) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $cl->category; ?>" <?php echo $selected; ?>><?php echo $cl->category; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control" name="biller" style="height: 40.74px;">
+                            <option value="">Choose Biller</option>
+                            <?php foreach ($billers as $key => $d) { if($d->id == $biller) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $d->id; ?>" <?php echo $selected; ?>><?php echo $d->name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('denoms'); ?>" class="btn btn-secondary">Reset</a></div>
+                </div>
+            </form>
 
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
@@ -80,7 +111,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('denoms/datatables')?>",
+                "url": "<?php echo site_url('denoms/datatables?biller='.$biller.'&provider='.$provider.'&category='.$category)?>",
                 "type": "POST"
             },
 

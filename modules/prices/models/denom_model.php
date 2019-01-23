@@ -67,6 +67,7 @@ class denom_model extends MY_Model {
         }
 
         $dealer     = $this->input->get('dealer');
+        $biller     = $this->input->get('biller');
         $provider   = $this->input->get('provider');
         $type       = $this->input->get('type');
         $category   = $this->input->get('category');
@@ -74,6 +75,11 @@ class denom_model extends MY_Model {
         if($dealer) 
         {
             $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($biller) 
+        {
+            $this->db->where($this->table.'.biller_id', $biller);
         }
 
         if($provider) 
