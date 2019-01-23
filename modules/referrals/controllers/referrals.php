@@ -74,7 +74,7 @@ class referrals extends Admin_Controller {
         $dealer_name        = $this->dealer->find($dealer_id)->name;
         $cluster_id         = $this->input->post('cluster_id');
         $district_id     	= $this->input->post('district_id');
-        // $village_id     	= $this->input->post('village_id');
+        $village_id     	= $this->input->post('village_id');
         $referral_code 		= $this->input->post('referral_code');
         $referral_phone 	= $this->input->post('referral_phone');
 
@@ -82,7 +82,7 @@ class referrals extends Admin_Controller {
             'dealer_id'    => $dealer_id,
             'dealer_name'  => $dealer_name,
             'cluster_id'   => $cluster_id,
-            // 'village_id'   => $village_id,
+            'village_id'   => $village_id,
             'referral_code'  => $referral_code,
             'referral_phone' => $referral_phone
         );

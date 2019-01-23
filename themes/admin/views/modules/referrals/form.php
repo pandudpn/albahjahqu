@@ -108,6 +108,19 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Village</label>
+                            <div class="col-7">
+                                <select name="village_id" class="form-control" id="village">
+                                    <option value="">Choose Village</option>
+                                    <?php foreach ($villages as $key => $v) {
+                                        if($v->id == $data->village_id) { $selected = 'selected'; }else{ $selected = ''; }
+                                        echo '<option value="'.$v->id.'" '.$selected.'>'.$v->name.'</option>';
+                                    } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Code</label>
                             <div class="col-7">
                                 <input class="form-control" id="code" type="text" name="referral_code" value="<?php echo $data->referral_code; ?>" required>
