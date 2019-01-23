@@ -71,7 +71,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Province</label>
                             <div class="col-7">
-                                <select name="province_id" class="form-control" id="province" onchange="province_change(this.value)" required>
+                                <select name="province_id" class="form-control" id="province" onchange="province_change(this.value)">
                                     <option value="">Choose Province</option>
                                     <?php foreach ($provinces as $key => $p) {
                                         if($p->id == $data->province_id) { $selected = 'selected'; }else{ $selected = ''; }
@@ -84,7 +84,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">City</label>
                             <div class="col-7">
-                                <select name="city_id" class="form-control" id="city" onchange="city_change(this.value)" required>
+                                <select name="city_id" class="form-control" id="city" onchange="city_change(this.value)">
                                     <option value="">Choose City</option>
                                     <?php foreach ($cities as $key => $c) {
                                         if($c->id == $data->city_id) { $selected = 'selected'; }else{ $selected = ''; }
@@ -97,7 +97,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">District</label>
                             <div class="col-7">
-                                <select name="district_id" class="form-control" id="district" onchange="district_change(this.value)" required>
+                                <select name="district_id" class="form-control" id="district" onchange="district_change(this.value)">
                                     <option value="">Choose District</option>
                                     <?php foreach ($districts as $key => $d) {
                                         if($d->id == $data->district_id) { $selected = 'selected'; }else{ $selected = ''; }

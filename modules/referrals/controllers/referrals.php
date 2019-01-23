@@ -79,14 +79,18 @@ class referrals extends Admin_Controller {
         $referral_phone 	= $this->input->post('referral_phone');
 
         $data = array(
-                'dealer_id'    => $dealer_id,
-                'dealer_name'  => $dealer_name,
-                'cluster_id'   => $cluster_id,
-                'district_id'  => $district_id,
-                // 'village_id'   => $village_id,
-                'referral_code'  => $referral_code,
-                'referral_phone' => $referral_phone
-            );
+            'dealer_id'    => $dealer_id,
+            'dealer_name'  => $dealer_name,
+            'cluster_id'   => $cluster_id,
+            // 'village_id'   => $village_id,
+            'referral_code'  => $referral_code,
+            'referral_phone' => $referral_phone
+        );
+
+        if(empty($district_id))
+        {
+            $data['district_id'] = 5380;
+        }
         
         if(!$id){
             $insert = $this->referral->insert($data);
