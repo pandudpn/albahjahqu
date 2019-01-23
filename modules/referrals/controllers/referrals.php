@@ -91,6 +91,10 @@ class referrals extends Admin_Controller {
         {
             $data['district_id'] = 5380;
         }
+        else
+        {
+            $data['district_id'] = $this->input->post('district_id');
+        }
         
         if(!$id){
             $insert = $this->referral->insert($data);
