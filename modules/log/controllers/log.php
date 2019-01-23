@@ -5,14 +5,14 @@ class log extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
 
-        $this->check_login();
-
         $this->load->config('mongo_db');
         $this->load->library('mongo_db');
     }
 
     public function index()
     {
+    	$this->check_login();
+    	
     	$this->template->build('index');
     }
 
