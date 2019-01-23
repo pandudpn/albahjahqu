@@ -49,11 +49,10 @@ class referrals extends Admin_Controller {
     	$dealers    		= $this->dealer->find_all();
         $dealer_clusters    = $this->dealer_cluster->find_all_by(array('dealer_id' => $is_exist->dealer_id));
 
-
         if($is_exist){
             $data = $is_exist;
             $data->city_id 		= $this->geo_district->find($data->district_id)->city_id;
-            $data->province_id 	= $this->geo_city->find($data->city_id)->province_id;
+            $data->province_id  = $this->geo_city->find($data->city_id)->province_id;
             
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
@@ -86,6 +85,8 @@ class referrals extends Admin_Controller {
             'referral_code'  => $referral_code,
             'referral_phone' => $referral_phone
         );
+
+        // var_dump($data);die;
 
         if(empty($district_id))
         {

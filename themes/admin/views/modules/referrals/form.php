@@ -86,10 +86,6 @@
                             <div class="col-7">
                                 <select name="city_id" class="form-control" id="city" onchange="city_change(this.value)">
                                     <option value="">Choose City</option>
-                                    <?php foreach ($cities as $key => $c) {
-                                        if($c->id == $data->city_id) { $selected = 'selected'; }else{ $selected = ''; }
-                                        echo '<option value="'.$c->id.'" '.$selected.'>'.$c->name.'</option>';
-                                    } ?>
                                 </select>
                             </div>
                         </div>
@@ -99,10 +95,6 @@
                             <div class="col-7">
                                 <select name="district_id" class="form-control" id="district" onchange="district_change(this.value)">
                                     <option value="">Choose District</option>
-                                    <?php foreach ($districts as $key => $d) {
-                                        if($d->id == $data->district_id) { $selected = 'selected'; }else{ $selected = ''; }
-                                        echo '<option value="'.$d->id.'" '.$selected.'>'.$d->name.'</option>';
-                                    } ?>
                                 </select>
                             </div>
                         </div>
@@ -112,10 +104,6 @@
                             <div class="col-7">
                                 <select name="village_id" class="form-control" id="village">
                                     <option value="">Choose Village</option>
-                                    <?php foreach ($villages as $key => $v) {
-                                        if($v->id == $data->village_id) { $selected = 'selected'; }else{ $selected = ''; }
-                                        echo '<option value="'.$v->id.'" '.$selected.'>'.$v->name.'</option>';
-                                    } ?>
                                 </select>
                             </div>
                         </div>
@@ -157,10 +145,17 @@
             $("#city").html("");
 
             for (var i = 0; i < data.length; i++) {
-                $("#city").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
-            }
+                if('<?php echo $data->city_id ?>' == data[i].id)
+                {
+                    $("#city").append('<option value="'+data[i].id+'" selected>'+data[i].name+'</option>');
 
-            city_change($("#province").val());
+                    city_change(data[i].id);
+                }
+                else
+                {
+                    $("#city").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+                }
+            }
         });
     }
 
@@ -168,13 +163,21 @@
     {
         $.ajax("<?php echo site_url('customers/lists_district'); ?>/"+id).done(function(data){
             $("#district").html("");
+            console.log(data)
 
             for (var i = 0; i < data.length; i++) {
-                $("#district").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+                if('<?php echo $data->district_id ?>' == data[i].id)
+                {
+                    $("#district").append('<option value="'+data[i].id+'" selected>'+data[i].name+'</option>');
+
+                    district_change(data[i].id);
+                }
+                else
+                {
+                    $("#district").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+                }
+                
             }
-
-            district_change($("#city").val());
-
         });
     }
 
@@ -187,9 +190,15 @@
 
         $.ajax("<?php echo site_url('customers/lists_village'); ?>/"+id).done(function(data){
             $("#village").html("");
-
             for (var i = 0; i < data.length; i++) {
-                $("#village").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+                if('<?php echo $data->village_id ?>' == data[i].id)
+                {
+                    $("#village").append('<option value="'+data[i].id+'" selected>'+data[i].name+'</option>');
+                }
+                else
+                {
+                    $("#village").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');
+                }
             }
         });
     }
