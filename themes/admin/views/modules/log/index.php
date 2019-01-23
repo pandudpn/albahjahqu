@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-12">
         
-        <div class="card-box table-responsive">
+        <div class="card-box" style="overflow-x: auto; zoom: 0.9;">
         	<form method="get">
                 <div class="row" style="margin-bottom: 20px;">
                     <div class="col-12">Filter : </div>
@@ -24,7 +24,7 @@
                             <option value="credit">Credit</option>
                             <option value="electricity">Electricity</option>
                             <option value="user">User</option>
-                            <option value="user_migration">User Migration</option>
+                            <!-- <option value="user_migration">User Migration</option> -->
                             <option value="voucher">Voucher</option>
                         </select>
                     </div>
@@ -32,102 +32,88 @@
                     	<input type="text" class="form-control" name="trx_code" id="trx_code" placeholder="Transaction Code">
                     </div>
                     <div class="col-2">
-                    	<a href="javascript:;" class="btn btn-primary"><i class="fa fa-search"></i> Go</a> 
+                    	<a href="javascript:;" class="btn btn-primary" onclick="showdata()"><i class="fa fa-search"></i> Go</a> 
                     	<a href="<?php echo site_url('log'); ?>" class="btn btn-secondary">Reset</a></div>
                 </div>
             </form>
-            <table class="table">
-            <thead>
-	            <tr>
-	                <th>#</th>
-	                <th>User</th>
-	                <th>Payload</th>
-	                <th>Reference</th>
-	                <th>Type</th>
-	                <th>Partner</th>
-	                <th>Remarks</th>
-	                <th>Created On</th>
-	            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>
-                	<div id="user"></div>
-                </td>
-                <td>
-                	<div id="payload"></div>
-                </td>
-                <td>@mdo</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
-            </tbody>
-        </table>
+            <table class="table" style="width: 1500px;">
+	            <thead>
+		            <tr>
+		                <th>#</th>
+		                <th>User</th>
+		                <th>Payload</th>
+		                <th>Reference</th>
+		                <th>Type</th>
+		                <th>Partner</th>
+		                <th>Remarks</th>
+		                <th>Created On</th>
+		            </tr>
+	            </thead>
+	            <tbody id="body-table">
+	            	<tr><td colspan="8">no data found</td></tr>
+	            </tbody>
+	        </table>
 
         </div>
     </div>
 </div> <!-- end row -->
 <script>
-    document.getElementById("user").appendChild(
-        renderjson(
-        	{
-		        "id" : "51",
-		        "account" : "6287823095790"
-		    }
-        )
-    );
 
-    document.getElementById("payload").appendChild(
-        renderjson(
-        	{
-		        "mitracomm" : {
-		            "transaction" : {
-		                "destination_no" : "0201020006"
-		            },
-		            "request" : {
-		                "partner_id" : "DEKAPE",
-		                "terminal_type" : "6012",
-		                "product_code" : "2029",
-		                "date_time" : "20190116050341",
-		                "trx_id" : "001547632917",
-		                "terminal_id" : "00013512",
-		                "signature_id" : "f4ec3c5946769cfa386d76a1023f44d60e3bd58a",
-		                "data" : {
-		                    "cust_id" : "0201020006",
-		                    "cust_name" : "ISRUN",
-		                    "repeat" : "01",
-		                    "detail" : {
-		                        "period" : "201812",
-		                        "amount" : "28500",
-		                        "penalty" : "0"
-		                    }
-		                }
-		            }
-		        }
-		    }
-        )
-    );
+	function showdata()
+	{
+		$("#body-table").html('')
+		$("#body-table").html('loading... ')
+
+		var service 	= $("#service").val()
+		var trx_code 	= $("#trx_code").val()
+
+		$.post("https://admin.okbabe.id/log/get_data/"+ service, { trx_code: trx_code}).done(function(data){
+			var data = data.data
+			var num  = 1
+
+			$("#body-table").html('')
+
+			if(data.length > 0)
+			{
+				for (var i = data.length - 1; i >= 0; i--) {
+					// console.log(data[i])
+
+					var table = '<tr>'+
+					                '<th scope="row">'+num+'</th>'+
+					                '<td>'+
+					                	'<div id="user_'+data[i]._id.$id+'"></div>'+
+					                '</td>'+
+					                '<td>'+
+					                	'<div id="payload_'+data[i]._id.$id+'"></div>'+
+					                '</td>'+
+					                '<td>'+data[i].reference+'</td>'+
+					                '<td>'+data[i].type+'</td>'+
+					                '<td>'+data[i].partner+'</td>'+
+					                '<td>'+data[i].remarks+'</td>'+
+					                '<td>'+data[i].created_on+'</td>'+
+					            '</tr>';
+
+					$("#body-table").append(table)
+
+					document.getElementById('user_'+data[i]._id.$id).appendChild(
+				        renderjson(
+				        	data[i].user
+				        )
+				    )
+
+				    document.getElementById('payload_'+data[i]._id.$id).appendChild(
+				        renderjson(
+				        	data[i].payload
+				        )
+				    )
+
+					num++
+				}
+			}
+			else
+			{
+				$("#body-table").html('<tr><td colspan="8">no data found</td></tr>')
+			}
+		});
+	}
 </script>
