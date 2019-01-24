@@ -118,12 +118,18 @@ class customers extends Admin_Controller {
             $data = array(
                 'village'       => $this->input->post('village'),
                 'district'      => $this->input->post('district'),
-                'cluster'       => $this->input->post('cluster'),
                 'city'          => $this->input->post('city'),
                 'dealer_id'     => $this->input->post('dealer_id'),
                 'dealer_name'   => $this->dealer->find($this->input->post('dealer_id'))->name,
                 'dealership'    => $this->input->post('dealership')
             );
+
+            $cluster = $this->input->post('cluster');
+
+            if(!empty($cluster))
+            {
+                $data['cluster'] = $cluster;
+            }
 
             $update = $this->customer->update($id, $data);
 
