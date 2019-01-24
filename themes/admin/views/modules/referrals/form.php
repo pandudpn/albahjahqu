@@ -50,7 +50,7 @@
                                             }
                                         } ?>
                                 </select>
-                                <input type="hidden" name="dealer_id" value="<?php echo $this->session->userdata('user')->dealer_id; ?>">
+                                <input type="hidden" name="dealer_id" id="dealer_id_form" value="<?php echo $this->session->userdata('user')->dealer_id; ?>">
                                 <?php } ?>
                             </div>
                         </div>
@@ -185,7 +185,7 @@
     {
         <?php if(!$data) { ?>
         third_char = id;
-        $("#code").val(first_char+''+second_char+''+third_char);
+        // $("#code").val(first_char+''+second_char+''+third_char);
         <?php } ?>
 
         $.ajax("<?php echo site_url('customers/lists_village'); ?>/"+id).done(function(data){
@@ -207,7 +207,7 @@
     {
         <?php if(!$data) { ?>
         first_char = String.fromCharCode((64 + parseInt(id)));
-        $("#code").val(first_char);
+        // $("#code").val(first_char);
         <?php } ?>
 
         $.ajax("<?php echo site_url('customers/lists_cluster'); ?>/"+id).done(function(data){
@@ -229,16 +229,21 @@
         }
         
         <?php if(!$data) { ?>
-        $("#code").val(first_char+''+second_char);
+        // $("#code").val(first_char+''+second_char);
         <?php } ?>
     }
 
     $(document).ready(function(){
-        dealer_change($("#dealer_id").val());
+        <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+            dealer_change($("#dealer_id").val());
+        <?php } else { ?>
+            dealer_change($("#dealer_id_form").val());
+        <?php } ?>
+        
         cluster_change($("#dealer_cluster").val());
         province_change($("#province").val());
         city_change($("#city").val());
         district_change($("#district").val());
-        // dealer_change('<?php echo $this->session->userdata('user')->dealer_id; ?>');
+        dealer_change('<?php echo $this->session->userdata('user')->dealer_id; ?>');
     })
 </script>

@@ -74,7 +74,7 @@ class referrals extends Admin_Controller {
         $cluster_id         = $this->input->post('cluster_id');
         $district_id     	= $this->input->post('district_id');
         $village_id     	= $this->input->post('village_id');
-        $referral_code 		= $this->input->post('referral_code');
+        $referral_code 		= strtoupper($this->input->post('referral_code'));
         $referral_phone 	= $this->input->post('referral_phone');
 
         $data = array(
@@ -98,6 +98,17 @@ class referrals extends Admin_Controller {
         }
         
         if(!$id){
+
+            $check  = $this->referral->find_by(array('referral_code' => $referral_code, 'deleted' => '0'));
+
+            if($check)
+            {
+                $msg = 'code already exists; please choose another referral code.';
+                $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $msg));
+
+                redirect(site_url('referrals/add'), 'refresh');
+            }
+
             $insert = $this->referral->insert($data);
             redirect(site_url('referrals'), 'refresh');
         }else{
