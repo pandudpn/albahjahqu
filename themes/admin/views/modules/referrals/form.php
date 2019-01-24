@@ -143,6 +143,7 @@
     {
         $.ajax("<?php echo site_url('customers/lists_city'); ?>/"+id).done(function(data){
             $("#city").html("");
+            $("#city").append('<option value=""> Choose City </option>');
 
             for (var i = 0; i < data.length; i++) {
                 if('<?php echo $data->city_id ?>' == data[i].id)
@@ -163,7 +164,7 @@
     {
         $.ajax("<?php echo site_url('customers/lists_district'); ?>/"+id).done(function(data){
             $("#district").html("");
-            console.log(data)
+            $("#district").append('<option value=""> Choose District </option>');
 
             for (var i = 0; i < data.length; i++) {
                 if('<?php echo $data->district_id ?>' == data[i].id)
@@ -190,6 +191,7 @@
 
         $.ajax("<?php echo site_url('customers/lists_village'); ?>/"+id).done(function(data){
             $("#village").html("");
+            $("#village").append('<option value=""> Choose Village </option>');
             for (var i = 0; i < data.length; i++) {
                 if('<?php echo $data->village_id ?>' == data[i].id)
                 {
