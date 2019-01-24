@@ -39,8 +39,7 @@
 		            <tr>
 		                <th>#</th>
 		                <th>User</th>
-		                <th>Transaction</th>
-		                <th>Price</th>
+		                <th>Payload</th>
 		                <th>Remarks</th>
 		                <th>Created On</th>
 		            </tr>
@@ -72,7 +71,7 @@
 		$.post("https://admin.okbabe.id/log/get_data/"+ service, { trx_code: trx_code})
 		 .done(function(data){
 			var data = data.data
-			var num  = 1
+			var num  = data.length
 
 			$("#body-table").html('')
 
@@ -87,16 +86,13 @@
 					                	'<div id="user_'+data[i]._id.$id+'"></div>'+
 					                '</td>'+
 					                '<td>'+
-					                	'<div id="transaction_'+data[i]._id.$id+'"></div>'+
-					                '</td>'+
-					                '<td>'+
-					                	'<div id="price_'+data[i]._id.$id+'"></div>'+
+					                	'<div id="payload_'+data[i]._id.$id+'"></div>'+
 					                '</td>'+
 					                '<td>'+data[i].remarks+'</td>'+
 					                '<td>'+data[i].created_on+'</td>'+
 					            '</tr>';
 
-					$("#body-table").append(table)
+					$("#body-table").prepend(table)
 
 					document.getElementById('user_'+data[i]._id.$id).appendChild(
 				        renderjson(
@@ -104,19 +100,13 @@
 				        )
 				    )
 
-				    document.getElementById('transaction_'+data[i]._id.$id).appendChild(
+				    document.getElementById('payload_'+data[i]._id.$id).appendChild(
 				        renderjson(
-				        	data[i].transaction
+				        	data[i].payload
 				        )
 				    )
 
-				    document.getElementById('price_'+data[i]._id.$id).appendChild(
-				        renderjson(
-				        	data[i].price
-				        )
-				    )
-
-					num++
+					num--
 				}
 			}
 			else
