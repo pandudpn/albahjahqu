@@ -23,9 +23,9 @@ class data extends Admin_Controller {
     public function service_code($alias='', $category='REG')
     {
         if($category == ''){
-            $param = array('provider' => $alias);
+            $param = array('provider' => $alias, 'deleted' => '0');
         }else{
-            $param = array('provider' => $alias, 'type' => $category);
+            $param = array('provider' => $alias, 'type' => $category, 'deleted' => '0');
         }
 
         $data = $this->service_code->find_all_by($param);
@@ -50,9 +50,9 @@ class data extends Admin_Controller {
     public function denom($alias='', $category='')
     {
         if($category == ''){
-            $param = array('provider' => $alias);
+            $param = array('provider' => $alias, 'deleted' => '0');
         }else{
-            $param = array('provider' => $alias, 'type' => $category);
+            $param = array('provider' => $alias, 'type' => $category, 'deleted' => '0');
         }
         $data = $this->ref_denom->find_all_by($param);
 
