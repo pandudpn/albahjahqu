@@ -7,7 +7,7 @@
         <meta name="author" content="Coderthemes">
 
         <!-- App Favicon -->
-        <!-- <link rel="shortcut icon" href="<?php echo $this->template->get_theme_path();?>assets/images/favicon_bni.ico"> -->
+        <link rel="shortcut icon" href="<?php echo $this->template->get_theme_path();?>assets/images/favicon.png">
 
         <!-- App title -->
         <title> Admin Panel </title>
@@ -372,6 +372,7 @@
                                         <li><a href="<?php echo site_url('log'); ?>">Communication Logs</a></li>
                                         <li><a href="<?php echo site_url('log/request'); ?>">Request Logs</a></li>
                                         <li><a href="<?php echo site_url('log/migration'); ?>">User Migration Logs</a></li>
+                                        <li><a href="<?php echo site_url('log/tms'); ?>">TMS Callback Logs</a></li>
                                     </ul>
                                 </li>
                             <?php } ?>

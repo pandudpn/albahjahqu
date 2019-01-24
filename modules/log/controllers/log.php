@@ -5,6 +5,8 @@ class log extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
 
+        $this->load->model('log/log_tms_model', 'log_tms');
+
         $this->load->config('mongo_db');
         $this->load->library('mongo_db');
     }
@@ -28,6 +30,43 @@ class log extends Admin_Controller {
     	$this->check_login();
 
     	$this->template->build('migration');
+    }
+
+    public function tms()
+    {
+        $this->check_login();
+
+        $this->template->build('tms');
+    }
+
+    public function tms_datatables()
+    {
+        $list = $this->log_tms->get_datatables();
+        $data = array();
+        $no   = $_POST['start'];
+
+        foreach ($list as $l) {
+            $no++;
+            $row   = array();
+            $row[] = $no;
+            $row[] = $l->trx;
+            $row[] = $l->ipbox;
+            $row[] = $l->slot;
+            $row[] = $l->ussd_response;
+            $row[] = $l->ip_address;
+            $row[] = $l->created_on;
+
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw"              => $_POST['draw'],
+            "recordsTotal"      => $this->log_tms->count_all(),
+            "recordsFiltered"   => $this->log_tms->count_filtered(),
+            "data"              => $data,
+        );
+        //output to json format
+        echo json_encode($output);
     }
 
     public function get_data($collection=null, $offset=0)

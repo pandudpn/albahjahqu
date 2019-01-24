@@ -272,7 +272,16 @@ class home extends Admin_Controller {
         foreach ($query as $key => $v) {
             $value   = array();
             $value[] = array('v' => $v->menu);
-            $value[] = array('v' => intval($v->sales));
+
+            if($v->sales < 0)
+            {
+                $value[] = array('v' => 0);
+            }
+            else
+            {
+                $value[] = array('v' => intval($v->sales));
+            }
+            
 
             $rows[]  = array('c' => $value); 
         }
