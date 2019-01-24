@@ -358,6 +358,23 @@
                                     </a>
                                 </li>
                             <?php } ?>
+
+                            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                <li class="text-muted menu-title">Logs</li>
+                            
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="zmdi zmdi-view-list-alt"></i><span> Logs </span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
+
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('log'); ?>">Communication Logs</a></li>
+                                        <li><a href="<?php echo site_url('log/request'); ?>">Request Logs</a></li>
+                                        <li><a href="<?php echo site_url('log/migration'); ?>">User Migration Logs</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                         </ul>
                         <div class="clearfix"></div>
                     </div>

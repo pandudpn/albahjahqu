@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Denom</h4>
+            <h4 class="page-title float-left">Denom Price</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('prices/denom/add?'.$_SERVER["QUERY_STRING"]); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Add Denom</button>
+                <i class="zmdi zmdi-collection-plus"></i> Add Denom Price</button>
             </a>
             <div class="col-3 pull-right text-right">
                 <a href="<?php echo site_url('prices/denom/download?'.$_SERVER["QUERY_STRING"]); ?>" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Download</a>

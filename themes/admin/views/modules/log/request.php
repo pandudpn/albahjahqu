@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Log</h4>
+            <h4 class="page-title float-left">Log Request</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -20,24 +20,18 @@
                     <div class="col-3">
                         <select class="form-control" name="service" id="service">
                             <option value="">Choose Services</option>
-                            <option value="billing">Billing</option>
-                            <!-- <option value="billing_request">Billing Request</option> -->
-                            <option value="credit">Credit</option>
-                            <!-- <option value="credit_request">Credit Request</option> -->
-                            <option value="electricity">Electricity</option>
-                            <!-- <option value="electricity_request">Electricity Request</option> -->
-                            <!-- <option value="user_migration">User Migration</option> -->
-                            <option value="voucher">Voucher</option>
-                            <!-- <option value="voucher_request">Voucher Request</option> -->
-                            <option value="users">Users</option>
+                            <option value="billing_request">Billing</option>
+                            <option value="credit_request">Credit</option>
+                            <option value="electricity_request">Electricity</option>
+                            <option value="voucher_request">Voucher</option>
                         </select>
                     </div>
-                    <div class="col-3">
+                    <!-- <div class="col-3">
                     	<input type="text" class="form-control" name="trx_code" id="trx_code" placeholder="Transaction Code">
-                    </div>
+                    </div> -->
                     <div class="col-2">
                     	<a href="javascript:;" class="btn btn-primary" onclick="showdata()"><i class="fa fa-search"></i> Go</a> 
-                    	<a href="<?php echo site_url('log'); ?>" class="btn btn-secondary">Reset</a></div>
+                    	<a href="<?php echo site_url('log/request'); ?>" class="btn btn-secondary">Reset</a></div>
                 </div>
             </form>
             <table class="table" style="width: 1500px;">
@@ -45,10 +39,8 @@
 		            <tr>
 		                <th>#</th>
 		                <th>User</th>
-		                <th>Payload</th>
-		                <th>Reference</th>
-		                <th>Type</th>
-		                <th>Partner</th>
+		                <th>Transaction</th>
+		                <th>Price</th>
 		                <th>Remarks</th>
 		                <th>Created On</th>
 		            </tr>
@@ -95,11 +87,11 @@
 					                	'<div id="user_'+data[i]._id.$id+'"></div>'+
 					                '</td>'+
 					                '<td>'+
-					                	'<div id="payload_'+data[i]._id.$id+'"></div>'+
+					                	'<div id="transaction_'+data[i]._id.$id+'"></div>'+
 					                '</td>'+
-					                '<td>'+data[i].reference+'</td>'+
-					                '<td>'+data[i].type+'</td>'+
-					                '<td>'+data[i].partner+'</td>'+
+					                '<td>'+
+					                	'<div id="price_'+data[i]._id.$id+'"></div>'+
+					                '</td>'+
 					                '<td>'+data[i].remarks+'</td>'+
 					                '<td>'+data[i].created_on+'</td>'+
 					            '</tr>';
@@ -112,9 +104,15 @@
 				        )
 				    )
 
-				    document.getElementById('payload_'+data[i]._id.$id).appendChild(
+				    document.getElementById('transaction_'+data[i]._id.$id).appendChild(
 				        renderjson(
-				        	data[i].payload
+				        	data[i].transaction
+				        )
+				    )
+
+				    document.getElementById('price_'+data[i]._id.$id).appendChild(
+				        renderjson(
+				        	data[i].price
 				        )
 				    )
 
