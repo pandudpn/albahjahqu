@@ -70,7 +70,7 @@
 		$.post("https://admin.okbabe.id/log/get_user_migration/user_migration", { phone: phone})
 		 .done(function(data){
 			var data = data.data
-			var num  = 1
+			var num  = data.length
 
 			$("#body-table").html('')
 
@@ -88,9 +88,9 @@
 					                '<td>'+timeConverter((data[i].created_on.$date.$numberLong).substring(0, 10))+'</td>'+
 					            '</tr>';
 
-					$("#body-table").append(table)
+					$("#body-table").prepend(table)
 
-					num++
+					num--
 				}
 			}
 			else
