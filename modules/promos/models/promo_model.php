@@ -1,28 +1,28 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class dealer_box_services_model extends MY_Model {
+class promo_model extends MY_Model {
 
-	protected $table         	= 'dealer_box_services';
+	protected $table         	= 'promos';
+	protected $table_dealer     = 'dealers';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'dealer_name', 'ipbox', 'type', 'slot', 'operator', 'service_type', 'service_coverage', 'msisdn', 'status'); //set column field database for datatable orderable
-    protected $column_search = array('dealer_name', 'ipbox', 'type', 'slot', 'operator', 'service_type', 'service_coverage', 'msisdn', 'status'); //set column field database for datatable searchable 
-    protected $order 		 = array('id' => 'asc'); // default order 
+    protected $column_order  = array(null, 'execute_time', 'execute_date', 'execute_month', 'execute_year', 'execute_period', 'title', 'text', 'dealers.name', 'category', 'status', 'promos.created_on'); //set column field database for datatable orderable
+    protected $column_search = array('execute_time', 'execute_date', 'execute_month', 'execute_year', 'execute_period', 'title', 'text', 'dealers.name', 'category', 'status', 'promos.created_on'); //set column field database for datatable searchable 
+    protected $order 		 = array('promos.id' => 'desc'); // default order 
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function _get_datatables_query($ip_box)
+    public function _get_datatables_query()
     {
-         
-        $this->db->select('*');
+        $this->db->select('*, dealers.name as dealer_name, promos.id as id, promos.created_on as created_on', false);
         $this->db->from($this->table);
-        $this->db->where('ipbox', $ip_box);
+        $this->db->join($this->table_dealer, 'dealers.id = promos.dealer', 'left');
         
         $i = 0;
      
@@ -61,42 +61,27 @@ class dealer_box_services_model extends MY_Model {
         }
     }
  
-    public function get_datatables($ip_box)
+    public function get_datatables()
     {
-        $this->_get_datatables_query($ip_box);
+        $this->_get_datatables_query();
         if($_POST['length'] != -1)
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
     }
  
-    public function count_filtered($ip_box)
+    public function count_filtered()
     {
-        $this->_get_datatables_query($ip_box);
+        $this->_get_datatables_query();
         $query = $this->db->get();
         return $query->num_rows();
     }
  
-    public function count_all($ip_box)
+    public function count_all()
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
-        $this->db->where('ipbox', $ip_box);
-        
         return $this->db->count_all_results();
-    }
-
-    public function max_slot($ip_box, $service_type)
-    {
-        $this->db->select_max('slot');
-        $this->db->from($this->table);
-        $this->db->where('ipbox', $ip_box);
-        $this->db->where('service_type', $service_type);
-        $this->db->where('deleted', '0');
-        
-        $query = $this->db->get();
-        
-        return $query->result();
     }
 
 }

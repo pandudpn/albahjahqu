@@ -8,7 +8,7 @@
         <meta name="author" content="Coderthemes">
 
         <!-- App Favicon -->
-        <link rel="shortcut icon" href="<?php echo $this->template->get_theme_path();?>assets/images/favicon_bni.ico">
+        <link rel="shortcut icon" href="<?php echo $this->template->get_theme_path();?>assets/images/favicon.png">
 
         <!-- App title -->
         <title>Okbabe Admin - Login </title>

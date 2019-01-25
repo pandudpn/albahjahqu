@@ -69,14 +69,14 @@
                             <label for="" class="col-3 col-form-label">Service Type</label>
                             <div class="col-9">
                                 <select class="form-control" name="service_type">
-                                    <option <?php if($service_boxes->category == 'REG'){ echo 'selected'; } ?> value='REG'>REG</option>
-                                    <option <?php if($service_boxes->category == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
-                                    <option <?php if($service_boxes->category == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
-                                    <option <?php if($service_boxes->category == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
-                                    <option <?php if($service_boxes->category == 'BLK'){ echo 'selected'; } ?> value='BLK'>BLK</option>
-                                    <option <?php if($service_boxes->category == 'DLK'){ echo 'selected'; } ?> value='DLK'>DLK</option>
-                                    <option <?php if($service_boxes->category == 'TLK'){ echo 'selected'; } ?> value='TLK'>TLK</option>
-                                    <option <?php if($service_boxes->category == 'NAP'){ echo 'selected'; } ?> value='NAP'>NAP</option>
+                                    <option <?php if($service_boxes->service_type == 'REG'){ echo 'selected'; } ?> value='REG'>REG</option>
+                                    <option <?php if($service_boxes->service_type == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
+                                    <option <?php if($service_boxes->service_type == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
+                                    <option <?php if($service_boxes->service_type == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
+                                    <option <?php if($service_boxes->service_type == 'BLK'){ echo 'selected'; } ?> value='BLK'>BLK</option>
+                                    <option <?php if($service_boxes->service_type == 'DLK'){ echo 'selected'; } ?> value='DLK'>DLK</option>
+                                    <option <?php if($service_boxes->service_type == 'TLK'){ echo 'selected'; } ?> value='TLK'>TLK</option>
+                                    <option <?php if($service_boxes->service_type == 'NAP'){ echo 'selected'; } ?> value='NAP'>NAP</option>
                                 </select>
                             </div>
                         </div>
@@ -84,8 +84,8 @@
                             <label for="" class="col-3 col-form-label">Coverage</label>
                             <div class="col-9">
                                 <select class="form-control" name="service_coverage">
-                                    <option <?php if($service_boxes->category == 'inner'){ echo 'selected'; } ?> value='inner'>Inner</option>
-                                    <option <?php if($service_boxes->category == 'outer'){ echo 'selected'; } ?> value='outer'>Outer</option>
+                                    <option <?php if($service_boxes->service_coverage == 'inner'){ echo 'selected'; } ?> value='inner'>Inner</option>
+                                    <option <?php if($service_boxes->service_coverage == 'outer'){ echo 'selected'; } ?> value='outer'>Outer</option>
                                 </select>
                             </div>
                         </div>
