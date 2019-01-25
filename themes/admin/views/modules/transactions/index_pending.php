@@ -36,21 +36,22 @@
                 <tr>
                     <th>No</th>
                     <th>Action</th>
-                    <th style="width:200px;">Time</th>
+                    <th style="width:170px;">Time</th>
                     <th>TRX Code</th>
-                    <th>Product</th>
-                    <th>Biller</th>
+                    <th style="width:200px;">Product</th>
+                    <th style="width:100px;">Slot / Denom</th>
+                    <th style="width:200px;">Biller</th>
                     <th>SN / Token</th>
                     <th>Customer</th>
                     <th>Destination Number</th>
-                    <th>Selling Price</th>
-                    <th>Base Price</th>
-                    <th>Dealer Fee</th>
-                    <th>Biller Fee</th>
-                    <th>Dekape Fee</th>
-                    <th>Partner Fee</th>
-                    <th>User Fee</th>
-                    <th>User Cashback</th>
+                    <th style="width:100px;">Selling Price</th>
+                    <th style="width:100px;">Base Price</th>
+                    <th style="width:100px;">Dealer Fee</th>
+                    <th style="width:100px;">Biller Fee</th>
+                    <th style="width:100px;">Dekape Fee</th>
+                    <th style="width:100px;">Partner Fee</th>
+                    <th style="width:100px;">User Fee</th>
+                    <th style="width:100px;">User Cashback</th>
                     <th>Status</th>
                     <!-- <th style="width: 120px;">
                         <a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
@@ -66,6 +67,7 @@
                     <th>Time</th>
                     <th>TRX Code</th>
                     <th>Product</th>
+                    <th>Slot / Denom</th>
                     <th>Biller</th>
                     <th>SN / Token</th>
                     <th>Customer</th>

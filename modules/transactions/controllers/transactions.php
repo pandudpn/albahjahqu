@@ -306,28 +306,51 @@ class transactions extends Admin_Controller {
 
             $btn   = '';
 
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/edit/'.$l->id).'\')" 
+            if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
+            {
+                $btn .= '';
+            }
+            else
+            {
+                $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/pending/edit/'.$l->id).'\')" 
                         class="btn btn-success btn-sm" style="margin-bottom: 5px;">
-                      <i class="fa fa-check"></i>  Edit
+                      <i class="fa fa-pencil"></i>  Edit
                       </a> <br/>';
+            }
 
             if($l->status != 'approved' && $l->status != 'rejected') 
             {
-                $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
+                if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
+                {
+                    $btn .= '-';
+                }
+                else
+                {
+                    $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" 
                         class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
                       <i class="fa fa-check"></i>  Approve
                       </a> <br/>';
 
-                $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
+                    $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" 
                             class="btn btn-danger btn-sm">
                       <i class="fa fa-close"></i>  Reject
                       </a>';
+                }
             }
 
             $row[] = $btn;
             $row[] = $l->created_on;
             $row[] = $l->trx_code;
             $row[] = $l->remarks;
+
+            if(empty($l->slot))
+            {
+                $row[] = '-';
+            }
+            else
+            {
+                $row[] = $l->slot .' / '.$l->denom.'K';
+            }
 
             if(empty($l->biller_name))
             {
