@@ -340,7 +340,7 @@ class transactions extends Admin_Controller {
 
             $btn   = '';
 
-            if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
+            if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && $l->provider != 'TSL')
             {
                 $btn .= '';
             }
