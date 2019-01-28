@@ -195,6 +195,23 @@
                                     <i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> 
                                 </a>
                             </li>
+                            <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
+
+                            <li class="text-muted menu-title">Transaction</li>
+
+                            <li>
+                                <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                </a>
+                            </li>
+
+                            <?php } ?>
+
                             <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
