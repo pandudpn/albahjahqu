@@ -308,7 +308,7 @@ class pending extends Admin_Controller {
             {
                 $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/pending/edit/'.$l->id).'\')" 
                         class="btn btn-success btn-sm" style="margin-bottom: 5px;">
-                      <i class="fa fa-pencil"></i>  Edit
+                      <i class="fa fa-pencil"></i>  edit
                       </a> <br/>';
             }
 
@@ -322,12 +322,12 @@ class pending extends Admin_Controller {
                 {
                     $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" 
                         class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
-                      <i class="fa fa-check"></i>  Approve
+                      <i class="fa fa-check"></i>  approve
                       </a> <br/>';
 
                     $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" 
                             class="btn btn-danger btn-sm">
-                      <i class="fa fa-close"></i>  Reject
+                      <i class="fa fa-close"></i>  reject
                       </a>';
                 }
             }

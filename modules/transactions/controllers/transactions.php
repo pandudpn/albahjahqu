@@ -52,6 +52,12 @@ class transactions extends Admin_Controller {
 
     public function changestatus($status, $id)
     {
+        if($status == 'reapproved')
+        {
+            $status             = 'approved';
+            $status_reapproved  = 'reapproved';
+        }
+
         $transaction  = $this->transaction->find($id);
         $service_code = $this->ref_service_code->find($transaction->service_id);
 
@@ -66,6 +72,11 @@ class transactions extends Admin_Controller {
             'user_dealer_name'  => $this->dealer->find($this->session->userdata('user')->dealer_id)->name,
             'remarks'           => 'Change status from '.$transaction->status.' to '.$status
         );
+
+        if($status_reapproved == 'reapproved')
+        {
+            $data_log['remarks'] = 'Change status from rejected to reapproved';
+        }
 
         $this->transaction_log->insert($data_log);
 
@@ -91,6 +102,29 @@ class transactions extends Admin_Controller {
         }
 
         $update = $this->transaction->update($id, $data_status);
+
+        if($status_reapproved == 'reapproved')
+        {
+            $customer               = $this->customer->find($transaction->cus_id);
+            $eva_customer           = $this->eva_customer->find_by(array('account_user' => $transaction->cus_id));
+            // // echo $this->db->last_query();die;
+
+            // //MUTASI selling 
+            $data = array(
+                'account_id'        => $eva_customer->id, 
+                'account_eva'       => $eva_customer->account_no, 
+                'account_user'      => $customer->id, 
+                'transaction_ref'   => $transaction->trx_code, 
+                'transaction_code'  => $transaction->service_code, 
+                'purchase_ref'      => $transaction->ref_code, 
+                'remarks'           => 'reapproved rejected transaction', 
+                'starting_balance'  => intval($eva_customer->account_balance), 
+                'credit'            => intval($transaction->selling_price), 
+                'ending_balance'    => intval(($eva_customer->account_balance - $transaction->selling_price))
+            );
+
+            $mutation_id = $this->eva_customer_mutation->insert($data);
+        }
 
         if($status == 'approved')
         {
@@ -312,10 +346,18 @@ class transactions extends Admin_Controller {
             }
             else
             {
-                $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/pending/edit/'.$l->id).'\')" 
+                $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/edit/'.$l->id).'\')" 
                         class="btn btn-success btn-sm" style="margin-bottom: 5px;">
-                      <i class="fa fa-pencil"></i>  Edit
+                      <i class="fa fa-pencil"></i>  edit
                       </a> <br/>';
+
+                if($l->status == 'rejected') 
+                {
+                    $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')" 
+                        class="btn btn-warning btn-sm" style="margin-bottom: 5px;">
+                      <i class="fa fa-check"></i>  reapprove
+                      </a> <br/>';
+                }
             }
 
             if($l->status != 'approved' && $l->status != 'rejected') 
@@ -326,14 +368,14 @@ class transactions extends Admin_Controller {
                 }
                 else
                 {
-                    $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" 
+                    $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
                         class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
-                      <i class="fa fa-check"></i>  Approve
+                      <i class="fa fa-check"></i>  approve
                       </a> <br/>';
 
-                    $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" 
+                    $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
                             class="btn btn-danger btn-sm">
-                      <i class="fa fa-close"></i>  Reject
+                      <i class="fa fa-close"></i>  reject
                       </a>';
                 }
             }
