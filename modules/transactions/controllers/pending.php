@@ -213,7 +213,7 @@ class pending extends Admin_Controller {
                 'transaction_ref'   => $transaction->trx_code, 
                 'transaction_code'  => $transaction->service_code, 
                 'purchase_ref'      => $transaction->ref_code, 
-                'remarks'           => 'Refund rejected transaction', 
+                'remarks'           => 'Refund rejected transaction reversal '.$transaction->remarks,
                 'starting_balance'  => intval($eva_customer->account_balance), 
                 'credit'            => intval($transaction->selling_price), 
                 'ending_balance'    => intval(($eva_customer->account_balance + $transaction->selling_price))
