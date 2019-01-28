@@ -119,7 +119,7 @@ class transactions extends Admin_Controller {
                 'purchase_ref'      => $transaction->ref_code, 
                 'remarks'           => 'Re-approved rejected transaction reversal '.$transaction->remarks, 
                 'starting_balance'  => intval($eva_customer->account_balance), 
-                'credit'            => intval($transaction->selling_price), 
+                'debit'             => intval($transaction->selling_price), 
                 'ending_balance'    => intval(($eva_customer->account_balance - $transaction->selling_price))
             );
 
