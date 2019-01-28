@@ -117,7 +117,7 @@ class transactions extends Admin_Controller {
                 'transaction_ref'   => $transaction->trx_code, 
                 'transaction_code'  => $transaction->service_code, 
                 'purchase_ref'      => $transaction->ref_code, 
-                'remarks'           => 'Re-approved '.$transaction->remarks, 
+                'remarks'           => 'Re-Approved '.$transaction->remarks, 
                 'starting_balance'  => intval($eva_customer->account_balance), 
                 'debit'             => intval($transaction->selling_price), 
                 'ending_balance'    => intval(($eva_customer->account_balance - $transaction->selling_price))
