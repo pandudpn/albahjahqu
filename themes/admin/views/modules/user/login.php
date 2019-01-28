@@ -22,6 +22,17 @@
         <!-- Modernizr js -->
         <script src="<?php echo $this->template->get_theme_path();?>assets/js/modernizr.min.js"></script>
 
+        <style type="text/css">
+            .account-pages {
+                background-color: #8d31a2;
+            }
+
+            .wrapper-page .card-box {
+                box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
+                border: 5px solid #8d31a2;
+            }
+        </style>
+
     </head>
 
 
@@ -72,7 +83,7 @@
 
                             <div class="form-group text-center row m-t-10">
                                 <div class="col-12">
-                                    <button class="btn btn-success btn-block waves-effect waves-light" type="submit">Log In</button>
+                                    <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Log In</button>
                                 </div>
                             </div>
 

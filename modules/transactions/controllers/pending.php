@@ -302,7 +302,7 @@ class pending extends Admin_Controller {
 
             if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && $l->provider != 'TSL')
             {
-                $btn .= '';
+                $btn .= '-';
             }
             else
             {
@@ -315,7 +315,7 @@ class pending extends Admin_Controller {
                 {
                     if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
                     {
-                        $btn .= '-';
+                        $btn .= '';
                     }
                     else
                     {
