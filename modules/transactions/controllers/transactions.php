@@ -342,7 +342,7 @@ class transactions extends Admin_Controller {
 
             if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && $l->provider != 'TSL')
             {
-                $btn .= '';
+                $btn .= '-';
             }
             else
             {
@@ -358,25 +358,25 @@ class transactions extends Admin_Controller {
                       <i class="fa fa-check"></i>  reapprove
                       </a> <br/>';
                 }
-            }
 
-            if($l->status != 'approved' && $l->status != 'rejected') 
-            {
-                if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
+                if($l->status != 'approved' && $l->status != 'rejected') 
                 {
-                    $btn .= '-';
-                }
-                else
-                {
-                    $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
-                        class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
-                      <i class="fa fa-check"></i>  approve
-                      </a> <br/>';
+                    if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
+                    {
+                        $btn .= '';
+                    }
+                    else
+                    {
+                        $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
+                            class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
+                          <i class="fa fa-check"></i>  approve
+                          </a> <br/>';
 
-                    $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
-                            class="btn btn-danger btn-sm">
-                      <i class="fa fa-close"></i>  reject
-                      </a>';
+                        $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
+                                class="btn btn-danger btn-sm">
+                          <i class="fa fa-close"></i>  reject
+                          </a>';
+                    }
                 }
             }
 

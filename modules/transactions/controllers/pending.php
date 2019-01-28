@@ -310,25 +310,25 @@ class pending extends Admin_Controller {
                         class="btn btn-success btn-sm" style="margin-bottom: 5px;">
                       <i class="fa fa-pencil"></i>  edit
                       </a> <br/>';
-            }
 
-            if($l->status != 'approved' && $l->status != 'rejected') 
-            {
-                if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
+                if($l->status != 'approved' && $l->status != 'rejected') 
                 {
-                    $btn .= '-';
-                }
-                else
-                {
-                    $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" 
-                        class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
-                      <i class="fa fa-check"></i>  approve
-                      </a> <br/>';
+                    if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
+                    {
+                        $btn .= '-';
+                    }
+                    else
+                    {
+                        $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" 
+                            class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
+                          <i class="fa fa-check"></i>  approve
+                          </a> <br/>';
 
-                    $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" 
-                            class="btn btn-danger btn-sm">
-                      <i class="fa fa-close"></i>  reject
-                      </a>';
+                        $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" 
+                                class="btn btn-danger btn-sm">
+                          <i class="fa fa-close"></i>  reject
+                          </a>';
+                    }
                 }
             }
 
