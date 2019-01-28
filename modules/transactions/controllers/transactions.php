@@ -351,7 +351,7 @@ class transactions extends Admin_Controller {
                       <i class="fa fa-pencil"></i>  edit
                       </a> <br/>';
 
-                if($l->status == 'rejected') 
+                if($l->status == 'rejected' || $l->status_provider == '5') 
                 {
                     $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')" 
                         class="btn btn-warning btn-sm" style="margin-bottom: 5px;">
