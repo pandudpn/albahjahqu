@@ -10,8 +10,13 @@ class outlets extends Admin_Controller {
 
     public function index()
     {
+        $outlets = $this->outlet->outlet_list();
+        $outlet = $this->input->get('outlet');
+
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
+            ->set('outlets', $outlets)
+            ->set('outlet', $outlet)
     		->build('index');
     }
 
@@ -90,7 +95,7 @@ class outlets extends Admin_Controller {
                         <i class="fa fa-pencil"></i>
                       </a> &nbsp;';
 
-            $btn  .= '<a href="javascript:;" class="btn btn-primary btn-sm" title="Transaction Lists">
+            $btn  .= '<a href="'.site_url('outlets/transaction/'.$l->outlet_number).'" class="btn btn-primary btn-sm" title="Transaction Lists">
                         <i class="fa fa-list-ul"></i>
                       </a>';
 

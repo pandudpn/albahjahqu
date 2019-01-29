@@ -26,6 +26,20 @@
 	    		<?php echo $alert['msg']; ?>
 	    	</div>
 	    	<?php } ?> 
+            <form method="get">
+                <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
+                    <div class="col-12">Filter : </div>
+                    <div class="col-3">
+                        <select class="form-control select2" name="outlet" style="height: 40.74px;">
+                            <option value="">Choose Outlets</option>
+                            <?php foreach ($outlets as $key => $o) { if($o->outlet_number == $outlet) { $selected = 'selected'; }else{ $selected = ''; } ?>
+                            <option value="<?php echo $o->outlet_number; ?>" <?php echo $selected; ?>><?php echo $o->outlet_number; ?> - <?php echo $o->outlet_name; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('outlets'); ?>" class="btn btn-secondary">Reset</a></div>
+                </div>
+            </form>
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>
@@ -76,7 +90,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('outlets/datatables')?>",
+                "url": "<?php echo site_url('outlets/datatables?outlet='.$outlet)?>",
                 "type": "POST"
             },
 

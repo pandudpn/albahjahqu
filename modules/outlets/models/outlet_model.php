@@ -48,6 +48,13 @@ class outlet_model extends MY_Model {
         $this->db->where($this->table.'.deleted', '0');
         $this->db->where("(outlet_number IS NOT NULL AND outlet_number <> '')");
 
+        $outlet     = $this->input->get('outlet');
+
+        if(!empty($outlet))
+        {
+            $this->db->where($this->table.'.outlet_number', $outlet);
+        }
+
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
@@ -85,13 +92,11 @@ class outlet_model extends MY_Model {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
 
-        $from   = $this->input->get('from');
-        $to     = $this->input->get('to');
+        $outlet     = $this->input->get('outlet');
 
-        if(!empty($from) && !empty($to))
+        if(!empty($outlet))
         {
-            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
-            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+            $this->db->where($this->table.'.outlet_number', $outlet);
         }
         
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
@@ -102,40 +107,16 @@ class outlet_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
-    public function download()
+    public function outlet_list()
     {
-        $this->db->select('name, phone, email, outlet_number, outlet_name, dealer_name, account_status, kyc_status, (SELECT created_on FROM transactions WHERE cus_id = customers.id AND status <> \'inquiry\' ORDER BY id DESC LIMIT 1) as last_transaction, created_on as date_registered', false);
+        $this->db->distinct();
+        $this->db->select('outlet_number, outlet_name');
         $this->db->from($this->table);
         $this->db->where($this->table.'.deleted', '0');
+        $this->db->where("(outlet_number IS NOT NULL AND outlet_number <> '')");
+        $this->db->order_by('outlet_number', 'asc');
 
-        $from   = $this->input->get('from');
-        $to     = $this->input->get('to');
-
-        if(!empty($from) && !empty($to))
-        {
-            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
-            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
-        }
-
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
-        {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
-        }
-
-        $result = $this->db->get();
-
-        $this->load->dbutil();
-        $this->load->helper('file');
-        $this->load->helper('download');
-
-        date_default_timezone_set("Asia/Jakarta");
-        $filename  = "export_".date('Y-m-d H:i:s').".csv";
-
-        $delimiter = ",";
-        $newline   = "\r\n";
-        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
-
-        force_download($filename, $csv_file);
+        return $this->db->get()->result();
     }
 
 }

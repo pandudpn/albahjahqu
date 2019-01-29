@@ -60,7 +60,7 @@ class customers extends Admin_Controller {
 
             if(!empty($password))
             {
-                $pass   = sha1($this->config->item('password_salt_customer').$password);
+                $pass   = sha1($password.$this->config->item('password_salt_customer'));
                 $eva    = $this->eva_customer->find_by(array('account_user' => $id));
                 $update = $this->eva_customer->update($eva->id, array('account_password' => $pass));
             }
