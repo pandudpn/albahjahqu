@@ -33,6 +33,7 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table.'.user_cashback');
         $this->db->select($this->table_code.'.remarks');
         $this->db->select($this->table_code.'.provider');
+        $this->db->select($this->table_code.'.by');
         $this->db->select($this->table_box.'.slot');
         $this->db->select($this->table_box.'.denom');
         $this->db->select($this->table_customer.'.name as cus_name');

@@ -340,7 +340,7 @@ class transactions extends Admin_Controller {
 
             $btn   = '';
 
-            if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && $l->provider != 'TSL')
+            if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
             {
                 $btn .= '-';
             }
@@ -361,7 +361,7 @@ class transactions extends Admin_Controller {
 
                 if($l->status != 'approved' && $l->status != 'rejected') 
                 {
-                    if($this->session->userdata('user')->role == 'dealer' && $l->provider != 'TSL')
+                    if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
                     {
                         $btn .= '';
                     }
