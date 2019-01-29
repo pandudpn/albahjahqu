@@ -19,7 +19,9 @@ class kyc_model extends MY_Model {
 
     public function _get_datatables_query()
     {
+        $this->db->select('customer_kycs.cus_name, customer_kycs.cus_phone, customer_kycs.cus_ktp, customer_kycs.cus_mother, customer_kycs.cus_job, customer_kycs.ktp_image, customer_kycs.selfie_image, customer_kycs.decision, customer_kycs.remarks, customer_kycs.created_on, customer_kycs.modified_on');
         $this->db->from($this->table);
+        $this->db->join('customers', 'customers.id = customer_kycs.cus_id');
         
         $i = 0;
      
@@ -46,6 +48,11 @@ class kyc_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
+
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        {
+            $this->db->where('customers.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
          
         if(isset($_POST['order'])) // here order processing
         {

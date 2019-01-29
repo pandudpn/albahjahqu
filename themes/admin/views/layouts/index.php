@@ -322,9 +322,7 @@
 
                                     <ul class="list-unstyled">
                                         <li><a href="<?php echo site_url('customers'); ?>">Profile</a></li>
-                                        <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                         <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC</a></li>
-                                        <?php } ?>
                                     </ul>
                                 </li>
 
@@ -336,7 +334,7 @@
                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                 <li>
                                     <a href="<?php echo site_url('dealers'); ?>" class="waves-effect">
-                                        <i class="zmdi zmdi-store"></i><span> Dealers </span> 
+                                        <i class="zmdi zmdi-accounts-list"></i><span> Dealers </span> 
                                     </a>
                                 </li>
 
@@ -355,6 +353,14 @@
                             <?php } ?>
 
                             <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
+
+                                <li class="text-muted menu-title">Outlet</li>
+
+                                <li>
+                                    <a href="<?php echo site_url('outlets'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-store"></i><span> Outlets </span> 
+                                    </a>
+                                </li>
 
                                 <li class="text-muted menu-title">Modem Pool</li>
 
