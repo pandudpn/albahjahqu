@@ -117,8 +117,8 @@ class topups extends Admin_Controller {
             $this->topup_log->insert($log_data);
 
             //CALL CALLBACK
-            $url = 'http://localhost:8080/obb-new-isi-ulang/virtual-account/xendit/callback';
-            // $url = 'https://topup.okbabe.technology/virtual-account/xendit/callback';
+            // $url = 'http://localhost:8080/obb-new-isi-ulang/virtual-account/xendit/callback';
+            $url = 'https://topup.okbabe.technology/virtual-account/xendit/callback';
 
             $ch = curl_init( $url );
             $payload = json_encode( $data );
