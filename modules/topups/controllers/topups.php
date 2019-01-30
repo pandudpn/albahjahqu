@@ -43,7 +43,7 @@ class topups extends Admin_Controller {
         {
             $phone      = $this->input->post('phone');
             $bank       = $this->input->post('bank');
-            $amount     = intval($this->input->post('amount'));
+            $amount     = intval($this->input->post('amount')) + 4950; //FEE TOPUP
 
             $customer   = $this->customer->find_by(array('phone' => $phone));
 
