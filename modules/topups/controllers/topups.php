@@ -116,6 +116,18 @@ class topups extends Admin_Controller {
 
             $this->topup_log->insert($log_data);
 
+            //GENERATE or REGENERATE VA BEFORE EXECUTE CALLBACK
+            $url = 'https://topup.okbabe.technology/virtual-account/'.strtolower($customer_va->bank_code);
+
+            $ch = curl_init( $url );
+            $payload = json_encode( $data );
+            curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+            curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json', 'X-User-ID: '.$customer->id));
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+
             //CALL CALLBACK
             // $url = 'http://localhost:8080/obb-new-isi-ulang/virtual-account/xendit/callback';
             $url = 'https://topup.okbabe.technology/virtual-account/xendit/callback';
