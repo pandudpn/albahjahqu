@@ -56,6 +56,19 @@ class topups extends Admin_Controller {
                 // die;
             }
 
+            ///GENERATE or REGENERATE VA BEFORE EXECUTE CALLBACK
+            $url = 'https://topup.okbabe.technology/virtual-account/'.strtolower($bank);
+
+            $ch = curl_init( $url );
+            $payload = json_encode( $data );
+            curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
+            curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json', 'X-User-ID: '.$customer->id));
+            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            /// END REGENERATE
+
             $customer_va = $this->eva_customer_va->find_by(array('account_user' => $customer->id));
 
             switch ($customer_va->bank_code) {
@@ -115,17 +128,6 @@ class topups extends Admin_Controller {
             );
 
             $this->topup_log->insert($log_data);
-
-            //GENERATE or REGENERATE VA BEFORE EXECUTE CALLBACK
-            $url = 'https://topup.okbabe.technology/virtual-account/'.strtolower($customer_va->bank_code);
-
-            $ch = curl_init( $url );
-            $payload = json_encode( $data );
-            curl_setopt( $ch, CURLOPT_POSTFIELDS, $payload );
-            curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json', 'X-User-ID: '.$customer->id));
-            curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-            $result = curl_exec($ch);
-            curl_close($ch);
 
 
             //CALL CALLBACK
