@@ -241,13 +241,22 @@
         var source = $('#operator').val();
         var service = $("#service");
         var denom = $("#denom");
+        var service_id = "<?php echo $denom->service_id; ?>";
+        var denom_id = "<?php echo $denom->denom_id; ?>";
 
         $.get("<?php echo site_url().'references/data/service_code/'; ?>" + source, function (data, status) {
             service.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
                 console.log(obj);
-                service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</li>");
+                if(service_id == obj[idx].id)
+                {
+                    service.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</option>");
+                }
+                else
+                {
+                    service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</option>");
+                }
             });
         });
         
@@ -255,22 +264,40 @@
             denom.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
-                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
+
+                if(denom_id == obj[idx].id)
+                {
+                    denom.append("<option selected value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</option>");
+                }
+                else
+                {
+                    denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</option>");
+                }
+                
             });
         });
-    });
+    }).trigger('change');
 
     $("#category").on('change', function(){
         var source   = $('#category').val();
         var operator = $('#operator').val();
         var target   = $("#service");
         var denom    = $("#denom");
+        var service_id = "<?php echo $denom->service_id; ?>";
+        var denom_id = "<?php echo $denom->denom_id; ?>";
 
         $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/"+ source, function (data, status) {
             target.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
-                target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                if(service_id == obj[idx].id)
+                {
+                    target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                }
+                else
+                {
+                    target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                }
             });
         });
 
@@ -278,7 +305,15 @@
             denom.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
-                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
+                if(denom_id == obj[idx].id)
+                {
+                    denom.append("<option selected value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
+                }
+                else
+                {
+                    denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
+                }
+                
             });
         });
     });
