@@ -112,13 +112,23 @@
     $("#biller").on('change', function(){
         var source   = $('#biller').val();
         var target   = $("#service");
+        var service_id = <?php echo $biller->service_id; ?>
+
         $.get("<?php echo site_url().'references/data/services/'; ?>" + source, function (data, status) {
             target.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
-                target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                if(service_id == obj[idx].id)
+                {
+                    target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                }
+                else
+                {
+                    target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                }
+                
             });
         });
-    });
+    }).trigger('change');
 
 </script>

@@ -216,33 +216,65 @@
         var service = $("#service");
         var denom = $("#denom");
 
-        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + source, function (data, status) {
+        var service_id = "<?php echo $bulk->service_id; ?>";
+        var denom_id = "<?php echo $bulk->denom_id; ?>";
+
+        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + source +'/BLK', function (data, status) {
             service.html('');
             var obj = JSON.parse(data);
+            
             $.each(obj, function (idx, val) {
-                service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                if(service_id == obj[idx].id)
+                {
+                    service.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</option>");
+                }
+                else
+                {
+                    service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</option>");
+                }
+                
             });
         });
         
-        $.get("<?php echo site_url().'references/data/denom/'; ?>" + source, function (data, status) {
-            denom.html('');
-            var obj = JSON.parse(data);
-            $.each(obj, function (idx, val) {
-                denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + "</li>");
-            });
-        });
-    });
+        // $.get("<?php echo site_url().'references/data/denom/'; ?>" + source, function (data, status) {
+        //     denom.html('');
+        //     var obj = JSON.parse(data);
+        //     $.each(obj, function (idx, val) {
+
+        //         if(denom_id == obj[idx].id)
+        //         {
+        //             denom.append("<option selected value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + "</li>");
+        //         }
+        //         else
+        //         {
+        //             denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + "</li>");
+        //         }
+                
+        //     });
+        // });
+    }).trigger('change');
 
     $("#category").on('change', function(){
         var source   = $('#category').val();
         var operator = $('#operator').val();
         var target   = $("#service");
 
-        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/"+ source, function (data, status) {
+        var service_id = "<?php echo $bulk->service_id; ?>";
+        var denom_id = "<?php echo $bulk->denom_id; ?>";
+
+        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/BLK", function (data, status) {
             target.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {
-                target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                if(service_id == obj[idx].id)
+                {
+                    target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</option>");
+                }
+                else
+                {
+                    target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</option>");
+                }
+                
             });
         });
     });
