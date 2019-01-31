@@ -57,6 +57,7 @@ else
 
 $route['complaints/messages/(:num)']  = 'complaints/messages/index/$1';
 $route['customers/mutation/(:num)']   = 'customers/mutation/index/$1';
+$route['outlets/transaction/(:num)']  = 'outlets/transaction/index/$1';
 
 $route['dealers/boxes']               = 'dealers/boxes/main';
 $route['dealers/boxes/add']           = 'dealers/boxes/main/add';
