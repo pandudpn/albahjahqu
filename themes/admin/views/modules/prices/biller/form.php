@@ -88,6 +88,12 @@
                                 <input class="form-control" type="text" name="partner_fee" value="<?php echo $biller->partner_fee; ?>" required>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">User Cashback</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="user_cashback" value="<?php echo $biller->user_cashback; ?>" required>
+                            </div>
+                        </div>
                         <!-- <div class="form-group row">
                             <label for="" class="col-3 col-form-label">User Fee</label>
                             <div class="col-7">

@@ -53,6 +53,7 @@
                     <th>Dealer Fee</th>
                     <th>Dekape Fee</th>
                     <th>Biller Fee</th>
+                    <th>User Cashback</th>
                     <!-- <th>User Fee</th> -->
                     <th width="90">Action</th>
                 </tr>
@@ -119,6 +120,10 @@
                 },
                 { 
                 "targets": [ 7 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 8 ], //last column / new item column
                 "orderable": false, //set not orderable
                 }
                 // { 
