@@ -51,10 +51,12 @@ class pushnotif extends Admin_Controller {
         }
 
         $dealers = $this->dealer->find_all_by(array('deleted' => '0'));
+        $dealer  = $this->dealer->find($this->session->userdata('user')->dealer_id);
 
         $this->template
              ->set('alert', $this->session->flashdata('alert'))
              ->set('dealers', $dealers)
+             ->set('dealer', $dealer)
     		 ->build('pushnotif');
     }
 

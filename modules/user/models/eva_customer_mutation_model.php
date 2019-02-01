@@ -9,7 +9,7 @@ class eva_customer_mutation_model extends MY_Model {
 
     protected $column_order  = array(null, 'transaction_ref', 'remarks', 'starting_balance', 'credit', 'debit', 'ending_balance', 'created_on'); //set column field database for datatable orderable
     protected $column_search = array('transaction_ref', 'remarks', 'starting_balance', 'credit', 'debit', 'ending_balance', 'created_on'); //set column field database for datatable searchable 
-    protected $order 		 = array('id' => 'desc'); // default order 
+    protected $order 		 = array('customer_mutations.id' => 'desc'); // default order 
 
     public function __construct()
     {
@@ -21,6 +21,7 @@ class eva_customer_mutation_model extends MY_Model {
     public function _get_datatables_query()
     {
         $this->db->from($this->table);
+        $this->db->join('customers', 'customers.id = customer_mutations.account_id');
         
         $i = 0;
      
@@ -60,7 +61,7 @@ class eva_customer_mutation_model extends MY_Model {
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+            $this->db->where('customers.account_dealer', $this->session->userdata('user')->dealer_id);
         }
                  
         if(isset($_POST['order'])) // here order processing
@@ -93,7 +94,9 @@ class eva_customer_mutation_model extends MY_Model {
     public function count_all()
     {
         $this->db->from($this->table);
-        $this->db->where('deleted', '0');
+        $this->db->join('customers', 'customers.id = customer_mutations.account_id');
+
+        $this->db->where('customer_mutations.deleted', '0');
         $this->db->where($this->table.'.account_user', $this->input->get('customer_id'));
 
         $from   = $this->input->get('from');
@@ -107,7 +110,7 @@ class eva_customer_mutation_model extends MY_Model {
         
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+            $this->db->where('customers.account_dealer', $this->session->userdata('user')->dealer_id);
         }
 
         return $this->db->count_all_results();

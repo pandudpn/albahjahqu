@@ -50,6 +50,11 @@ class usage_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
+
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        {
+            $this->db->where('dealers.id', $this->session->userdata('user')->dealer_id);
+        }
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -81,7 +86,15 @@ class usage_model extends MY_Model {
     public function count_all()
     {
         $this->db->from($this->table);
-        $this->db->where('deleted', '0');
+        $this->db->join('transactions', 'transactions.trx_code = dealer_box_stock_usages.trx', 'left');
+        $this->db->join('dealers', 'dealers.id = transactions.dealer_id', 'left');
+
+        $this->db->where('transactions.deleted', '0');
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        {
+            $this->db->where('dealers.id', $this->session->userdata('user')->dealer_id);
+        }
+
         return $this->db->count_all_results();
     }
 

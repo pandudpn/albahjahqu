@@ -25,6 +25,12 @@
                     <form method="post" action="">
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">To</label>
+                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') { ?>
+                            <div class="col-9">
+                                <input class="form-control" type="text" value="<?php echo $dealer->name; ?>" readonly>
+                                <input type="hidden" name="dealer" value="<?php echo $dealer->id; ?>">
+                            </div>
+                            <?php } else { ?>
                             <div class="col-9">
                                 <select name="dealer" class="form-control">
                                     <option value="">All Users</option>
@@ -33,6 +39,7 @@
                                     } ?>
                                 </select>
                             </div>
+                            <?php } ?>
                         </div>
 
                         <div class="form-group row">

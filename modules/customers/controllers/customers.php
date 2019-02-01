@@ -237,18 +237,24 @@ class customers extends Admin_Controller {
                         <div class="dropdown-menu">';
             
             if($l->account_status != 'active'){
-                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/active/'.$l->id).'\')">Active</a>
+                if($this->session->userdata('user')->role != 'dealer_ops') {
+                    $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/active/'.$l->id).'\')">Active</a>
                             <div class="dropdown-divider"></div>';
+                }
             }
 
             if($l->account_status != 'suspended'){
-                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/suspend/'.$l->id).'\')">Suspend</a>
+                if($this->session->userdata('user')->role != 'dealer_ops') {
+                    $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/suspend/'.$l->id).'\')">Suspend</a>
                                 <div class="dropdown-divider"></div>';
+                }
             }
 
             if($l->account_status != 'blocked'){
-                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/block/'.$l->id).'\')">Block!</a>
+                if($this->session->userdata('user')->role != 'dealer_ops') {
+                    $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/block/'.$l->id).'\')">Block!</a>
                                 <div class="dropdown-divider"></div>';
+                }
             }
 
             $btn .= '<a class="dropdown-item" href="'.site_url('customers/geography/'.$l->id).'" >Edit Geography & Dealer</a>

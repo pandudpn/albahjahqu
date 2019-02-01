@@ -195,23 +195,6 @@
                                     <i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> 
                                 </a>
                             </li>
-                            <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
-
-                            <li class="text-muted menu-title">Transaction</li>
-
-                            <li>
-                                <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
-                                </a>
-                            </li>
-
-                            <li class="text-muted menu-title">Complaints</li>
-
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect">
                                     <i class="zmdi zmdi-email-open"></i><span> Complaints <?php echo $unread; ?></span> 
@@ -223,6 +206,75 @@
                                     <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
                                 </ul>
                             </li>  
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="zmdi zmdi-notifications-active"></i><span> Announcements</span> 
+                                    <span class="menu-arrow"></span>
+                                </a>
+
+                                <ul class="list-unstyled">
+                                    <li><a href="<?php echo site_url('announcements/pushnotif'); ?>">Push Notification</a></li>
+                                    <li><a href="javascript:;">Email Blast</a></li>
+                                    <!-- <li><a href="<?php echo site_url('announcements/email'); ?>">Email Blast</a></li> -->
+                                </ul>
+                            </li>  
+
+                            <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
+
+                            <li class="text-muted menu-title">Transaction</li>
+                            <li>
+                                <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
+                                </a>
+                            </li>
+                            <li class="text-muted menu-title">Users</li>
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="zmdi zmdi-accounts"></i><span> Customers </span> 
+                                    <span class="menu-arrow"></span>
+                                </a>
+
+                                <ul class="list-unstyled">
+                                    <li><a href="<?php echo site_url('customers'); ?>">Profile</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('referrals'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-tag-more"></i><span> Referral Codes </span> 
+                                </a>
+                            </li>
+                            <li class="text-muted menu-title">Outlet</li>
+                            <li>
+                                <a href="<?php echo site_url('outlets'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-store"></i><span> Outlets </span> 
+                                </a>
+                            </li>
+                            <li class="text-muted menu-title">Modem Pool</li>
+                            <li>
+                                <a href="<?php echo site_url('dealers/boxes'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('dealers/usages'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-collection-text"></i><span> Box Usages </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('dealers/boxes/alert'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-alert-octagon"></i><span> Alert Settings </span> 
+                                </a>
+                            </li>
 
                             <?php } ?>
 
