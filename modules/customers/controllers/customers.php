@@ -45,7 +45,8 @@ class customers extends Admin_Controller {
                 'outlet_number' => $this->input->post('outlet_number'),
                 'outlet_name' => $this->input->post('outlet_name'),
                 'level'     => $this->input->post('level'),
-                'name'     => $this->input->post('name')
+                'name'     => $this->input->post('name'),
+                'email'     => $this->input->post('email')
             );
 
             $update = $this->customer->update($id, $data);
