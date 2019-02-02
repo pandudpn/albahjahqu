@@ -195,6 +195,10 @@
                                     <i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> 
                                 </a>
                             </li>
+
+                            <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
+
+                            
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect">
                                     <i class="zmdi zmdi-email-open"></i><span> Complaints <?php echo $unread; ?></span> 
@@ -218,8 +222,6 @@
                                     <!-- <li><a href="<?php echo site_url('announcements/email'); ?>">Email Blast</a></li> -->
                                 </ul>
                             </li>  
-
-                            <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
 
                             <li class="text-muted menu-title">Transaction</li>
                             <li>

@@ -5,6 +5,7 @@ class customers extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('customers/customer_model', 'customer');
+        $this->load->model('customers/customer_session_model', 'customer_session');
         $this->load->model('user/eva_customer_model', 'eva_customer');
         $this->load->model('references/geo_cities_model', 'geo_city');
         $this->load->model('references/geo_provinces_model', 'geo_province');
@@ -174,7 +175,22 @@ class customers extends Admin_Controller {
             $arr = array('account_status' => 'blocked');
         }
 
-        $update = $this->customer->update($id, $arr);
+        $arr['verified']    = 'phone';
+        $update             = $this->customer->update($id, $arr);
+
+        $customer           = $this->customer->find($id);
+        $token_session      = sha1($customer->id.floor(time()/1000).$customer->phone);
+        $expired_on         = date("Y-m-d H:i:s", strtotime('+1 Months', time()));
+        $expired_on         = date("Y-m-d H:i:s", strtotime('+15 Days', strtotime($expired_on)));
+
+        $customer_session_data = array(
+            'cus_lat'           => '-6.2428442',
+            'cus_long'          => '106.8520604',
+            'cus_session_token' => $token_session,
+            'expired_on'        => $expired_on,
+        );
+
+        $update = $this->customer_session->update_where('cus_id', $customer->id, $customer_session_data);
 
         redirect(site_url('customers'), 'refresh');
     }
@@ -236,12 +252,12 @@ class customers extends Admin_Controller {
                         <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
                         <div class="dropdown-menu">';
             
-            if($l->account_status != 'active'){
+            // if($l->account_status != 'active'){
                 if($this->session->userdata('user')->role != 'dealer_ops') {
                     $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('customers/status/active/'.$l->id).'\')">Active</a>
                             <div class="dropdown-divider"></div>';
                 }
-            }
+            // }
 
             if($l->account_status != 'suspended'){
                 if($this->session->userdata('user')->role != 'dealer_ops') {
