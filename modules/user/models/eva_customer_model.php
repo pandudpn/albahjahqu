@@ -94,4 +94,18 @@ class eva_customer_model extends MY_Model {
 	
 		return false;
 	}
+
+	public function update_where($field=null, $value=null, $data=null) 
+	{
+		$eva = $this->load->database('eva', TRUE);
+
+		if (empty($field) || empty($value) || !is_array($data))
+		{
+			$this->error = $this->lang->line('bf_model_no_data');
+			$this->logit('['. get_class($this) .': '. __METHOD__ .'] '. $this->lang->line('bf_model_no_data'));
+			return false;
+		}
+			
+		return $eva->update($this->table, $data, array($field => $value));
+	}
 }

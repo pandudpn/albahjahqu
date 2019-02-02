@@ -31,6 +31,13 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Name</label>
+                                <div class="col-7">
+                                    <input class="form-control" type="text" name="name" value="<?php echo $data->name; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Level</label>
                                 <div class="col-7">
                                     <select name="level" class="form-control">

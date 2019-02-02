@@ -44,10 +44,12 @@ class customers extends Admin_Controller {
             $data = array(
                 'outlet_number' => $this->input->post('outlet_number'),
                 'outlet_name' => $this->input->post('outlet_name'),
-                'level'     => $this->input->post('level')
+                'level'     => $this->input->post('level'),
+                'name'     => $this->input->post('name')
             );
 
             $update = $this->customer->update($id, $data);
+            $update = $this->eva_customer->update_where('account_user', $id, array('account_holder' => $data['name']));
 
             //password update
 
