@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Customer Mutation: <?php echo $customer->name; ?></h4>
+            <h4 class="page-title float-left">Customer Mutation: <font color="#8e2aa4"><?php echo $customer->name; ?></font></h4>
 
             <div class="clearfix"></div>
         </div>
