@@ -148,11 +148,30 @@ class transaction_model extends MY_Model {
 
     public function download()
     {
-        $this->db->select('transactions.created_on, trx_code, ref_service_codes.remarks, billers.name as biller_name, ref_code, customers.phone as cus_phone, destination_no, selling_price, base_price, dealer_fee, biller_fee, dekape_fee, partner_fee, user_fee, user_cashback, transactions.status', false);
+        $this->db->select($this->table.'.created_on');
+        $this->db->select($this->table.'.trx_code');
+        $this->db->select($this->table_code.'.remarks as product');
+        $this->db->select($this->table_box.'.slot');
+        $this->db->select($this->table_box.'.denom');
+        $this->db->select($this->table_biller.'.name as biller_name');
+        $this->db->select($this->table.'.ref_code as sn');
+        $this->db->select($this->table.'.token_code as token');
+        $this->db->select($this->table_customer.'.name as customer');
+        $this->db->select($this->table.'.destination_no as destination_number');
+        $this->db->select($this->table.'.base_price');
+        $this->db->select($this->table.'.dealer_fee');
+        $this->db->select($this->table.'.biller_fee');
+        // $this->db->select($this->table.'.partner_fee');
+        $this->db->select($this->table.'.dekape_fee');
+        $this->db->select($this->table.'.user_fee');
+        $this->db->select($this->table.'.user_cashback');
+        $this->db->select($this->table.'.status');
+        
         $this->db->from($this->table);
         $this->db->join($this->table_code, $this->table_code.'.id = '.$this->table.'.service_id', 'left');
         $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.biller_id', 'left');
         $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
+        $this->db->join($this->table_box, $this->table_box.'.trx = '.$this->table.'.trx_code', 'left');
         
         $i = 0;
      
