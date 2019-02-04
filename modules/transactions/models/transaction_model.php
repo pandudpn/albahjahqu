@@ -12,8 +12,8 @@ class transaction_model extends MY_Model {
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
 
-    protected $column_order  = array(null, null, 'transactions.created_on', 'trx_code', 'ref_service_codes.remarks', 'dealer_box_stock_usages.slot','biller_name', 'ref_code', 'cus_phone', 'destination_no', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status'); //set column field database for datatable orderable
-    protected $column_search = array('trx_code', 'ref_service_codes.remarks', 'dealer_box_stock_usages.slot', 'billers.name', 'ref_code', 'customers.phone', 'destination_no', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status', 'transactions.created_on'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, null, 'transactions.created_on', 'trx_code', 'ref_service_codes.remarks', 'location_type','dealer_box_stock_usages.slot','biller_name', 'ref_code', 'cus_phone', 'destination_no', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status'); //set column field database for datatable orderable
+    protected $column_search = array('trx_code', 'ref_service_codes.remarks', 'location_type', 'dealer_box_stock_usages.slot', 'billers.name', 'ref_code', 'customers.phone', 'destination_no', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status', 'transactions.created_on'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.created_on' => 'desc'); // default order 
 
     public function __construct()
@@ -32,7 +32,8 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table.'.dekape_fee');
         $this->db->select($this->table.'.user_fee');
         $this->db->select($this->table.'.user_cashback');
-        $this->db->select($this->table_code.'.remarks');
+        $this->db->select($this->table.'.location_type as location_type');
+        $this->db->select("IFNULL(".$this->table_code.".remarks, 'Produk Migrasi') as remarks", false);
         $this->db->select($this->table_code.'.provider');
         $this->db->select($this->table_code.'.by');
         $this->db->select($this->table_box.'.slot');
@@ -151,7 +152,8 @@ class transaction_model extends MY_Model {
     {
         $this->db->select($this->table.'.created_on');
         $this->db->select($this->table.'.trx_code');
-        $this->db->select($this->table_code.'.remarks as product');
+        $this->db->select("IFNULL(".$this->table_code.".remarks, 'Produk Migrasi') as product", false);
+        $this->db->select($this->table.'.location_type as location_type');
         $this->db->select($this->table_box.'.slot');
         $this->db->select($this->table_box.'.denom');
         $this->db->select($this->table_biller.'.name as biller_name');

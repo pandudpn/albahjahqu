@@ -39,6 +39,7 @@
                     <th style="width:170px;">Time</th>
                     <th>TRX Code</th>
                     <th style="width:200px;">Product</th>
+                    <th style="width:100px;">Location Type</th>
                     <th style="width:100px;">Slot / Denom</th>
                     <th style="width:200px;">Biller</th>
                     <th>SN / Token</th>
@@ -67,6 +68,7 @@
                     <th>Time</th>
                     <th>TRX Code</th>
                     <th>Product</th>
+                    <th>Location Type</th>
                     <th>Slot / Denom</th>
                     <th>Biller</th>
                     <th>SN / Token</th>

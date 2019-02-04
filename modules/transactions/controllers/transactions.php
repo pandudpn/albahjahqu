@@ -384,6 +384,7 @@ class transactions extends Admin_Controller {
             $row[] = $l->created_on;
             $row[] = $l->trx_code;
             $row[] = $l->remarks;
+            $row[] = $l->location_type;
 
             if(empty($l->slot))
             {
