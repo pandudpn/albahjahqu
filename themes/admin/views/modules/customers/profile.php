@@ -51,6 +51,7 @@
                                         <option value="">Choose Level</option>
                                         <option value="dealer" <?php if($data->level == 'dealer') { echo 'selected'; } ?>>Dealer</option>
                                         <option value="outlet" <?php if($data->level == 'outlet') { echo 'selected'; } ?>>Outlet</option>
+                                        <option value="staff" <?php if($data->level == 'staff') { echo 'selected'; } ?>>Staff / Karyawan</option>
                                         <option value="agent" <?php if($data->level == 'agent') { echo 'selected'; } ?>>Agent</option>
                                         <option value="enduser" <?php if($data->level == 'enduser') { echo 'selected'; } ?>>End User / Customer</option>
                                     </select>
