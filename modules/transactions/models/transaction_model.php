@@ -162,6 +162,7 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table.'.token_code as token');
         $this->db->select($this->table_customer.'.name as customer');
         $this->db->select($this->table.'.destination_no as destination_number');
+        $this->db->select($this->table.'.selling_price');
         $this->db->select($this->table.'.base_price');
         $this->db->select($this->table.'.dealer_fee');
         $this->db->select($this->table.'.biller_fee');
