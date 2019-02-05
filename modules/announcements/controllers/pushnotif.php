@@ -63,10 +63,11 @@ class pushnotif extends Admin_Controller {
     private function push_notification($gcm_ids, $title, $msg)
     {
         $url     = 'https://fcm.googleapis.com/fcm/send';
-        $message = array("title" => $title, "body" => $msg, "click_action" => '');
+        $message = array("title" => $title, "body" => $msg, "click_action" => 'popup');
         $fields  = array(
               'registration_ids'  => $gcm_ids,
-              'notification'      => $message
+              'notification'      => $message,
+              'data'              => array("title" => $title, "message" => $msg)
         );
 
         $api_key = 'AAAAf_Rr2ig:APA91bGe0MVf85hli70S__JHZMjIhZILomI9WkEv_wyLqf6K8mm2A4oHsmKGsS9UJr4CniLF518W9ECdncTtUhc-f-h8NFPRDCLU0M5nAM_bpeDxYPRk2U_OA1b8F3zUBOQHiMWmVMud';
