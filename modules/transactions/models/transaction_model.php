@@ -33,7 +33,7 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table.'.user_fee');
         $this->db->select($this->table.'.user_cashback');
         $this->db->select($this->table.'.location_type as location_type');
-        $this->db->select('IF(customers.phone = destination_no, "user", "reseller") as reseller', false);
+        $this->db->select('IF(customers.phone = IF(LEFT(destination_no, 2) <> 62, CONCAT(62, SUBSTRING(destination_no, 2, 20)), destination_no), "user", "reseller") as reseller', false);
         $this->db->select('('.$this->table.'.service_denom * 1000) as service_denom', false);
         $this->db->select("IFNULL(".$this->table_code.".remarks, 'Produk Migrasi') as remarks", false);
         $this->db->select($this->table_code.'.provider');
@@ -165,7 +165,7 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table_customer.'.name as customer');
         $this->db->select($this->table_customer.'.phone as customer_phone');
         $this->db->select($this->table.'.destination_no as destination_number');
-        $this->db->select('IF(customers.phone = destination_no, "user", "reseller") as reseller', false);
+        $this->db->select('IF(customers.phone = IF(LEFT(destination_no, 2) <> 62, CONCAT(62, SUBSTRING(destination_no, 2, 20)), destination_no), "user", "reseller") as reseller', false);
         $this->db->select('('.$this->table.'.service_denom * 1000) as amount', false);
         $this->db->select($this->table.'.selling_price');
         $this->db->select($this->table.'.base_price');
@@ -204,6 +204,7 @@ class transaction_model extends MY_Model {
         }
 
         $result = $this->db->get();
+        // echo $this->db->last_query();die;
 
         $this->load->dbutil();
         $this->load->helper('file');
