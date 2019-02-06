@@ -45,6 +45,8 @@
                     <th>SN / Token</th>
                     <th>Customer</th>
                     <th>Destination Number</th>
+                    <th>Reseller/User</th>
+                    <th style="width:100px;">Amount</th>
                     <th style="width:100px;">Selling Price</th>
                     <th style="width:100px;">Base Price</th>
                     <th style="width:100px;">Dealer Fee</th>
@@ -74,6 +76,8 @@
                     <th>SN / Token</th>
                     <th>Customer</th>
                     <th>Destination Number</th>
+                    <th>Reseller/User</th>
+                    <th>Amount</th>
                     <th>Selling Price</th>
                     <th>Base Price</th>
                     <th>Dealer Fee</th>

@@ -426,6 +426,16 @@ class transactions extends Admin_Controller {
             $row[] = $l->cus_phone;
             $row[] = $l->destination_no;
 
+            if($l->provider == 'TSL')
+            {
+                $row[] = $l->reseller;
+            }
+            else
+            {
+                $row[] = '-';
+            }
+
+            $row[] = $l->service_denom;
             $row[] = 'Rp. '.number_format($l->selling_price);
             $row[] = 'Rp. '.number_format($l->base_price);
             $row[] = 'Rp. '.number_format($l->dealer_fee);

@@ -12,8 +12,8 @@ class transaction_model extends MY_Model {
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
 
-    protected $column_order  = array(null, null, 'transactions.created_on', 'trx_code', 'ref_service_codes.remarks', 'location_type','dealer_box_stock_usages.slot','biller_name', 'ref_code', 'cus_phone', 'destination_no', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status'); //set column field database for datatable orderable
-    protected $column_search = array('trx_code', 'ref_service_codes.remarks', 'location_type', 'dealer_box_stock_usages.slot', 'billers.name', 'ref_code', 'customers.phone', 'destination_no', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status', 'transactions.created_on'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, null, 'transactions.created_on', 'trx_code', 'ref_service_codes.remarks', 'location_type','dealer_box_stock_usages.slot','biller_name', 'ref_code', 'cus_phone', 'destination_no', 'destination_no','service_denom', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status'); //set column field database for datatable orderable
+    protected $column_search = array('trx_code', 'ref_service_codes.remarks', 'location_type', 'dealer_box_stock_usages.slot', 'billers.name', 'ref_code', 'customers.phone', 'destination_no', 'destination_no', 'service_denom', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status', 'transactions.created_on'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.created_on' => 'desc'); // default order 
 
     public function __construct()
@@ -33,6 +33,8 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table.'.user_fee');
         $this->db->select($this->table.'.user_cashback');
         $this->db->select($this->table.'.location_type as location_type');
+        $this->db->select('IF(customers.phone = destination_no, "user", "reseller") as reseller', false);
+        $this->db->select('('.$this->table.'.service_denom * 1000) as service_denom', false);
         $this->db->select("IFNULL(".$this->table_code.".remarks, 'Produk Migrasi') as remarks", false);
         $this->db->select($this->table_code.'.provider');
         $this->db->select($this->table_code.'.by');
@@ -163,6 +165,8 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table_customer.'.name as customer');
         $this->db->select($this->table_customer.'.phone as customer_phone');
         $this->db->select($this->table.'.destination_no as destination_number');
+        $this->db->select('IF(customers.phone = destination_no, "user", "reseller") as reseller', false);
+        $this->db->select('('.$this->table.'.service_denom * 1000) as amount', false);
         $this->db->select($this->table.'.selling_price');
         $this->db->select($this->table.'.base_price');
         $this->db->select($this->table.'.dealer_fee');
