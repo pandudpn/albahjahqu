@@ -105,6 +105,10 @@
                                         <option <?php if($bulk->category == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
                                         <option <?php if($bulk->category == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
                                         <option <?php if($bulk->category == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
+                                        <option <?php if($bulk->category == 'BLK'){ echo 'selected'; } ?> value='BLK'>BLK</option>
+                                        <option <?php if($bulk->category == 'DLK'){ echo 'selected'; } ?> value='DLK'>DLK</option>
+                                        <option <?php if($bulk->category == 'TLK'){ echo 'selected'; } ?> value='TLK'>TLK</option>
+                                        <option <?php if($bulk->category == 'NAP'){ echo 'selected'; } ?> value='NAP'>NAP</option>
                                     </select>
                                 </div>
                             </div>
@@ -178,6 +182,12 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Quota</label>
+                                <div class="col-9">
+                                    <input class="form-control" type="text" name="quota" value="<?php echo $bulk->quota; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Status</label>
                                 <div class="col-9">
                                     <select class="form-control select2" name="status">
@@ -213,13 +223,14 @@
 
     $("#operator").on('change', function(){
         var source = $('#operator').val();
+        var category   = $('#category').val();
         var service = $("#service");
         var denom = $("#denom");
 
         var service_id = "<?php echo $bulk->service_id; ?>";
         var denom_id = "<?php echo $bulk->denom_id; ?>";
 
-        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + source +'/BLK', function (data, status) {
+        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + source +'/'+category, function (data, status) {
             service.html('');
             var obj = JSON.parse(data);
             
@@ -261,8 +272,8 @@
 
         var service_id = "<?php echo $bulk->service_id; ?>";
         var denom_id = "<?php echo $bulk->denom_id; ?>";
-
-        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/BLK", function (data, status) {
+        
+        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/"+ source, function (data, status) {
             target.html('');
             var obj = JSON.parse(data);
             $.each(obj, function (idx, val) {

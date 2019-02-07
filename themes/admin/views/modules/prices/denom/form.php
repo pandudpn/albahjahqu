@@ -109,6 +109,9 @@
                                         <option <?php if($denom->category == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
                                         <option <?php if($denom->category == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
                                         <option <?php if($denom->category == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
+                                        <option <?php if($denom->category == 'BLK'){ echo 'selected'; } ?> value='BLK'>BLK</option>
+                                        <option <?php if($denom->category == 'DLK'){ echo 'selected'; } ?> value='DLK'>DLK</option>
+                                        <option <?php if($denom->category == 'TLK'){ echo 'selected'; } ?> value='TLK'>TLK</option>
                                         <option <?php if($denom->category == 'NAP'){ echo 'selected'; } ?> value='NAP'>NAP</option>
                                     </select>
                                 </div>
@@ -226,96 +229,103 @@
 </div> <!-- end row -->
 
 <script>
-    $("#dealership").on('change', function(){
-        var value = $(this).val();
-        if(value == 'biller'){
-            $("#container-biller").show();
-            $("#container-dealer").hide();
-        }else{
-            $("#container-biller").hide();
-            $("#container-dealer").show();
-        }
-    });
+    $(document).ready(function(){
 
-    $("#operator").on('change', function(){
-        var source = $('#operator').val();
-        var service = $("#service");
-        var denom = $("#denom");
-        var service_id = "<?php echo $denom->service_id; ?>";
-        var denom_id = "<?php echo $denom->denom_id; ?>";
-
-        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + source, function (data, status) {
-            service.html('');
-            var obj = JSON.parse(data);
-            $.each(obj, function (idx, val) {
-                console.log(obj);
-                if(service_id == obj[idx].id)
-                {
-                    service.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</option>");
-                }
-                else
-                {
-                    service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</option>");
-                }
-            });
-        });
-        
-        $.get("<?php echo site_url().'references/data/denom/'; ?>" + source, function (data, status) {
-            denom.html('');
-            var obj = JSON.parse(data);
-            $.each(obj, function (idx, val) {
-
-                if(denom_id == obj[idx].id)
-                {
-                    denom.append("<option selected value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</option>");
-                }
-                else
-                {
-                    denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</option>");
-                }
-                
-            });
-        });
-    }).trigger('change');
-
-    $("#category").on('change', function(){
-        var source   = $('#category').val();
-        var operator = $('#operator').val();
-        var target   = $("#service");
-        var denom    = $("#denom");
-        var service_id = "<?php echo $denom->service_id; ?>";
-        var denom_id = "<?php echo $denom->denom_id; ?>";
-
-        $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/"+ source, function (data, status) {
-            target.html('');
-            var obj = JSON.parse(data);
-            $.each(obj, function (idx, val) {
-                if(service_id == obj[idx].id)
-                {
-                    target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
-                }
-                else
-                {
-                    target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
-                }
-            });
+        $("#dealership").on('change', function(){
+            var value = $(this).val();
+            if(value == 'biller'){
+                $("#container-biller").show();
+                $("#container-dealer").hide();
+            }else{
+                $("#container-biller").hide();
+                $("#container-dealer").show();
+            }
         });
 
-        $.get("<?php echo site_url().'references/data/denom/'; ?>" + operator + '/'+ source, function (data, status) {
-            denom.html('');
-            var obj = JSON.parse(data);
-            $.each(obj, function (idx, val) {
-                if(denom_id == obj[idx].id)
-                {
-                    denom.append("<option selected value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
-                }
-                else
-                {
-                    denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
-                }
-                
+        $("#operator").on('change', function(){
+            var source = $('#operator').val();
+            var category = $('#category').val();
+            var service = $("#service");
+            var denom = $("#denom");
+            var service_id = "<?php echo $denom->service_id; ?>";
+            var denom_id = "<?php echo $denom->denom_id; ?>";
+            // console.log("<?php echo site_url().'references/data/service_code/'; ?>" + source)
+            $.get("<?php echo site_url().'references/data/service_code/'; ?>" + source +"/"+ category, function (data, status) {
+                service.html('');
+                var obj = JSON.parse(data);
+                $.each(obj, function (idx, val) {
+                    // console.log(obj);
+                    if(service_id == obj[idx].id)
+                    {
+                        service.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</option>");
+                    }
+                    else
+                    {
+                        service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</option>");
+                    }
+                });
             });
-        });
-    });
+            
+            $.get("<?php echo site_url().'references/data/denom/'; ?>" + source + '/'+ category, function (data, status) {
+                denom.html('');
+                var obj = JSON.parse(data);
+                $.each(obj, function (idx, val) {
+
+                    if(denom_id == obj[idx].id)
+                    {
+                        denom.append("<option selected value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</option>");
+                    }
+                    else
+                    {
+                        denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</option>");
+                    }
+                    
+                });
+            });
+        }).trigger('change');
+
+        $("#category").on('change', function(){
+            var source   = $('#category').val();
+            var operator = $('#operator').val();
+            var target   = $("#service");
+            var denom    = $("#denom");
+            var service_id = "<?php echo $denom->service_id; ?>";
+            console.log(service_id)
+            var denom_id = "<?php echo $denom->denom_id; ?>";
+            // console.log("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/"+ source)
+            $.get("<?php echo site_url().'references/data/service_code/'; ?>" + operator +"/"+ source, function (data, status) {
+                target.html('');
+                var obj = JSON.parse(data);
+                console.log(obj)
+                $.each(obj, function (idx, val) {
+                    if(service_id == obj[idx].id)
+                    {
+                        target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                    }
+                    else
+                    {
+                        target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                    }
+                });
+            });
+
+            $.get("<?php echo site_url().'references/data/denom/'; ?>" + operator + '/'+ source, function (data, status) {
+                denom.html('');
+                var obj = JSON.parse(data);
+                $.each(obj, function (idx, val) {
+                    if(denom_id == obj[idx].id)
+                    {
+                        denom.append("<option selected value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
+                    }
+                    else
+                    {
+                        denom.append("<option value="+obj[idx].id+">" + obj[idx].service.toUpperCase() + " | " + obj[idx].provider + " | " + obj[idx].type + " | " + obj[idx].value + " | " + obj[idx].supplier_code + obj[idx].biller.name +"</li>");
+                    }
+                    
+                });
+            });
+        }).trigger('change');
+
+    })
 
 </script>

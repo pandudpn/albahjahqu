@@ -41,9 +41,14 @@
                     <div class="col-2">
                         <select class="form-control" name="category" style="height: 40.74px;">
                             <option value="">Choose Category</option>
-                            <?php foreach ($category_lists as $key => $cl) { if($cl->category == $category) { $selected = 'selected'; }else{ $selected = ''; } ?>
-                            <option value="<?php echo $cl->category; ?>" <?php echo $selected; ?>><?php echo $cl->category; ?></option>
-                            <?php } ?>
+                            <option <?php if($category == 'REG'){ echo 'selected'; } ?> value='REG'>REG</option>
+                            <option <?php if($category == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
+                            <option <?php if($category == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
+                            <option <?php if($category == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
+                            <option <?php if($category == 'BLK'){ echo 'selected'; } ?> value='BLK'>BLK</option>
+                            <option <?php if($category == 'DLK'){ echo 'selected'; } ?> value='DLK'>DLK</option>
+                            <option <?php if($category == 'TLK'){ echo 'selected'; } ?> value='TLK'>TLK</option>
+                            <option <?php if($category == 'NAP'){ echo 'selected'; } ?> value='NAP'>NAP</option>
                         </select>
                     </div>
                     <div class="col-2">

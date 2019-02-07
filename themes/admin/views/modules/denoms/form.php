@@ -111,6 +111,9 @@
                                         <option <?php if($denom->type == 'DAT'){ echo 'selected'; } ?> value='DAT'>DAT</option>
                                         <option <?php if($denom->type == 'PKD'){ echo 'selected'; } ?> value='PKD'>PKD</option>
                                         <option <?php if($denom->type == 'PKT'){ echo 'selected'; } ?> value='PKT'>PKT</option>
+                                        <option <?php if($denom->type == 'BLK'){ echo 'selected'; } ?> value='BLK'>BLK</option>
+                                        <option <?php if($denom->type == 'DLK'){ echo 'selected'; } ?> value='DLK'>DLK</option>
+                                        <option <?php if($denom->type == 'TLK'){ echo 'selected'; } ?> value='TLK'>TLK</option>
                                         <option <?php if($denom->type == 'NAP'){ echo 'selected'; } ?> value='NAP'>NAP</option>
                                     </select>
                                 </div>

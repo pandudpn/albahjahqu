@@ -70,6 +70,7 @@ class denom extends Admin_Controller {
     public function edit($id)
     {
         $is_exist = $this->denom->find($id);
+        // var_dump($is_exist);die;
 
         if($is_exist){
             $denom_data = $is_exist;

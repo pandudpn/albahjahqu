@@ -103,6 +103,7 @@ class bulk extends Admin_Controller {
         $biller_fee           = $this->input->post('biller_fee');
         $partner_fee          = $this->input->post('partner_fee');
         $description          = $this->input->post('description');
+        $quota                = $this->input->post('quota');
         $status               = $this->input->post('status');
 
         $data = array(
@@ -118,6 +119,7 @@ class bulk extends Admin_Controller {
                 'biller_fee' => $biller_fee,
                 'partner_fee' => $partner_fee,
                 'description' => $description,
+                'quota'       => $quota,
                 'status' => $status
             );
 
