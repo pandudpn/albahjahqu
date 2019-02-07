@@ -53,6 +53,11 @@ class services extends Admin_Controller {
         }
     }
 
+    public function download()
+    {
+        $this->service->download();
+    }
+
     public function save()
     {
         $id   = $this->input->post('id');

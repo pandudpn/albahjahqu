@@ -111,7 +111,7 @@
             format: 'yyyy-mm-dd'
         });
 
-        $('#datatable').css('min-height','300px');
+        $('#datatable').css('min-height','400px');
     });
 
     function alert(url)

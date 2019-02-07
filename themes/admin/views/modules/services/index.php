@@ -27,6 +27,14 @@
 	    	</div>
 	    	<?php } ?>
 
+            <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
+                <div class="col-12"></div>
+                <div class="col-9"></div>
+                <div class="col-3 pull-right text-right">
+                    <a href="<?php echo site_url('services/download'); ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                </div>
+            </div>
+
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                 <tr>

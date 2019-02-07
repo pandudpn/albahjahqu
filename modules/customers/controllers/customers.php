@@ -4,6 +4,7 @@ class customers extends Admin_Controller {
 	
 	public function __construct() {
         parent::__construct();
+        $this->load->model('customers/kyc_model', 'kyc');
         $this->load->model('customers/customer_model', 'customer');
         $this->load->model('customers/customer_session_model', 'customer_session');
         $this->load->model('user/eva_customer_model', 'eva_customer');
@@ -46,11 +47,19 @@ class customers extends Admin_Controller {
                 'outlet_name' => $this->input->post('outlet_name'),
                 'level'     => $this->input->post('level'),
                 'name'     => $this->input->post('name'),
-                'email'     => $this->input->post('email')
+                'email'     => $this->input->post('email'),
+                'identity'  => $this->input->post('identity')
             );
 
             $update = $this->customer->update($id, $data);
             $update = $this->eva_customer->update_where('account_user', $id, array('account_holder' => $data['name']));
+
+            $data_kyc = array(
+                'cus_name' => $this->input->post('name'),
+                'cus_ktp'  => $this->input->post('identity')
+            );
+
+            $update = $this->kyc->update_where('cus_id', $id, $data_kyc);
 
             //password update
 

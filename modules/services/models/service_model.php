@@ -90,4 +90,31 @@ class service_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
+    public function download()
+    {
+        $this->db->select($this->table.'.id', false);
+        $this->db->select($this->table_provider.'.name as provider_name', false);
+        $this->db->select($this->table.'.remarks', false);
+        $this->db->select('if(ref_service_codes.deleted = 0, "active", "non active") as status', false);
+        $this->db->select("IFNULL(".$this->table_biller.".name, '-') as biller_name", false);
+        $this->db->from($this->table);
+        $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.provider', 'left');
+        $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.by', 'left');
+
+        $result = $this->db->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i:s').".csv";
+
+        $delimiter = ",";
+        $newline   = "\r\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
+    }
+
 }

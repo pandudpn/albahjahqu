@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card-box" style="overflow-x: auto; zoom: 0.9;">
+        <div class="card-box">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -34,6 +34,13 @@
                                 <label for="" class="col-3 col-form-label">Name</label>
                                 <div class="col-7">
                                     <input class="form-control" type="text" name="name" value="<?php echo $data->name; ?>">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">KTP</label>
+                                <div class="col-7">
+                                    <input class="form-control" type="text" name="identity" value="<?php echo $data->identity; ?>">
                                 </div>
                             </div>
 

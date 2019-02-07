@@ -9,6 +9,7 @@ class kycs extends Admin_Controller {
         $this->load->model('customers/customer_model', 'customer');
         $this->load->model('customers/customer_notification_model', 'customer_notification');
         $this->load->model('customers/customer_session_model', 'customer_session');
+        $this->load->model('user/eva_customer_model', 'eva_customer');
 
         $this->load->helper('text');
 
@@ -19,6 +20,40 @@ class kycs extends Admin_Controller {
     {
     	$this->template->set('alert', $this->session->flashdata('alert'))
     					->build('kycs/index');
+    }
+
+    public function edit($id)
+    {
+        if($this->input->post())
+        {
+            $data = array(
+                'name'      => $this->input->post('name'),
+                'identity'  => $this->input->post('identity')
+            );
+
+            $update = $this->customer->update($id, $data);
+            $update = $this->eva_customer->update_where('account_user', $id, array('account_holder' => $data['name']));
+
+            $data_kyc = array(
+                'cus_name' => $this->input->post('name'),
+                'cus_ktp'  => $this->input->post('identity')
+            );
+
+            $update = $this->kyc->update_where('cus_id', $id, $data_kyc);
+
+            if($update)
+            {
+                redirect(site_url('customers/kycs'), 'refresh');
+            }
+        }
+
+        $data = $this->customer->find($id);
+
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Edit KYC for '.$data->name)
+            ->set('data', $data)
+            ->build('kycs/edit');
     }
 
     public function status()
@@ -128,6 +163,9 @@ class kycs extends Admin_Controller {
                 $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\'reject\',\''.$l->id.'\')">Reject</a>
                                 <div class="dropdown-divider"></div>';
             //}
+
+                $btn .= '<a class="dropdown-item" href="'.site_url('customers/kycs/edit/'.$l->cus_id).'">Edit</a>
+                                <div class="dropdown-divider"></div>';
 
             $btn .= '</div>
                     </div>';
