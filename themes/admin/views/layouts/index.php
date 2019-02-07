@@ -235,6 +235,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="<?php echo site_url('transactions/transfers'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-repeat"></i><span> Transfers Balance </span> 
+                                </a>
+                            </li>
+                            <li>
                                 <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
                                 </a>
@@ -317,6 +322,11 @@
                                 <li>
                                     <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('transactions/transfers'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-repeat"></i><span> Transfers Balance </span> 
                                     </a>
                                 </li>
                                 <?php if($this->session->userdata('user')->role == 'dekape') { ?>
