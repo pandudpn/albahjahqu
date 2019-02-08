@@ -45,6 +45,7 @@
                     <!-- <th>Balance</th> -->
                     <th>Account Status</th>
                     <th>KYC Status</th>
+                    <th>Referral Code</th>
                     <th>Last Transaction</th>
                     <th>Date Registered</th>
                     <th>Action</th>

@@ -245,6 +245,7 @@ class customers extends Admin_Controller {
             // $row[] = 'Rp.' .number_format($this->eva_customer->find_by(array('account_user' => $l->id))->account_balance);
             $row[] = $l->account_status;
             $row[] = $l->kyc_status;
+            $row[] = $l->referral_code;
             
             $last_trx = $this->transaction->order_by('id', 'desc');
             $last_trx = $this->transaction->find_by(array('cus_id' => $l->id, 'status <>' => 'inquiry'))->created_on;
