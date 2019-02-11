@@ -70,7 +70,7 @@ class kycs extends Admin_Controller {
             $arr = array();
             if($status == 'approve'){
                 $arr = array('decision' => 'approved', 'remarks' => $update_remark);
-                $kyc = array('kyc_status' => 'approved');
+                $kyc = array('kyc_status' => 'approved', 'account_status' => 'active', 'verified' => 'phone');
             }else if($status == 'reject'){
                 $arr = array('decision' => 'rejected', 'remarks' => $update_remark);
                 $kyc = array('kyc_status' => 'rejected');
