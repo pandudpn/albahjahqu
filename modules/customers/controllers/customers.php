@@ -298,6 +298,11 @@ class customers extends Admin_Controller {
             $btn .= '<a class="dropdown-item" href="'.site_url('customers/mutation/'.$l->id).'" >View Mutation</a>
                                 <div class="dropdown-divider"></div>';
 
+            if($this->session->userdata('user')->role == 'dekape') {
+                $btn .= '<a class="dropdown-item" href="'.site_url('customers/balance/'.$l->id).'" >Balance Manipulation</a>
+                                <div class="dropdown-divider"></div>';
+            }
+
             $btn .= '</div>
                     </div>';
 

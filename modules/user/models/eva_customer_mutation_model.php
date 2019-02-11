@@ -115,4 +115,33 @@ class eva_customer_mutation_model extends MY_Model {
 
         return $this->db->count_all_results();
     }
+
+    public function insert($data=null)
+    {
+        $eva = $this->load->database('eva', TRUE);
+
+        if ($this->_function_check(FALSE, $data) === FALSE)
+        {
+            return FALSE;
+        }
+    
+        // Add the created field
+        if ($this->set_created === TRUE && !array_key_exists('created', $data))
+        {
+            $data['created_on'] = date("Y-m-d H:i:s");
+        }
+        
+        // Insert it
+        $status = $eva->insert($this->table, $data);
+        
+        if ($status != FALSE)
+        {
+            return $eva->insert_id();
+        } else
+        {
+            $this->error = mysqli_error();
+            return false;
+        }
+
+    }
 }
