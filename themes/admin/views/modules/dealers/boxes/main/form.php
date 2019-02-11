@@ -32,7 +32,7 @@
                                 <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                 <select class="form-control select2" name="dealer">
                                     <?php foreach($dealer as $deal){
-                                        if($deal->id == $denom->dealer_id){
+                                        if($deal->id == $boxes->dealer_id){
                                             echo "<option selected value='$deal->id'> $deal->name </option>";
                                         }else{
                                             echo "<option value='$deal->id'> $deal->name </option>";
