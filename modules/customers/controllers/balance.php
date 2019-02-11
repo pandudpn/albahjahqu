@@ -33,7 +33,8 @@ class balance extends Admin_Controller {
                 'to'            => $customer->phone,
                 'cus_id'        => $customer->id,
                 'cus_name'      => $customer->name,
-                'method'		=> $action
+                'method'		=> $action,
+                'remarks' 		=> $remarks
             );
 
             $this->customer_balance_log->insert($log_data);
