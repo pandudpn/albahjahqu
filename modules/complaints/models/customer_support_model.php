@@ -32,12 +32,14 @@ class customer_support_model extends MY_Model {
                             WHERE customer_support_members.role = 'dealer'
                             ".$where_user."
                             AND customer_support_messages.ticket = customer_supports.ticket
+                            AND customer_supports.status = 'open'
                             ) - 
                             (SELECT count(customer_support_message_reads.id) FROM customer_support_message_reads 
                              JOIN customer_support_messages ON customer_support_messages.id = customer_support_message_reads.message_id
                              WHERE customer_support_message_reads.user_id = '".$this->session->userdata('user')->id."'
                              AND role = '".$this->session->userdata('user')->role."'
                              AND customer_support_messages.ticket = customer_supports.ticket
+                             AND customer_supports.status = 'open'
         )) as unread", false);
 
         $this->db->from($this->table);
@@ -146,12 +148,14 @@ class customer_support_model extends MY_Model {
                             WHERE customer_support_members.role = 'dealer'
                             ".$where_user."
                             AND customer_support_messages.ticket = customer_supports.ticket
+                            AND customer_supports.status = 'open'
                             ) - 
                             (SELECT count(customer_support_message_reads.id) FROM customer_support_message_reads 
                              JOIN customer_support_messages ON customer_support_messages.id = customer_support_message_reads.message_id
                              WHERE customer_support_message_reads.user_id = '".$this->session->userdata('user')->id."'
                              AND role = '".$this->session->userdata('user')->role."'
                              AND customer_support_messages.ticket = customer_supports.ticket
+                             AND customer_supports.status = 'open'
         ))) as unread", false);
 
         $this->db->from($this->table);

@@ -167,6 +167,7 @@ class Admin_Controller extends Base_Controller{
     public function __construct() {
         parent::__construct();
         $this->load->model('complaints/customer_support_model', 'customer_support');
+        $this->load->model('customers/kyc_model', 'kyc');
 
         $unread = $this->customer_support->unread()->unread;
 
@@ -179,9 +180,21 @@ class Admin_Controller extends Base_Controller{
             $unread = '';
         }
 
+        $waiting = $this->kyc->waiting()->waiting;
+
+        if($waiting > 0)
+        {
+            $waiting = '<span class="label label-pill label-primary float-right">'.$waiting.'</span>';
+        }
+        else
+        {
+            $waiting = '';
+        }
+
         $this->template->set_layout('index');
         $this->template->set_theme('admin');
         $this->template->set('unread', $unread);
+        $this->template->set('waiting', $waiting);
     }
 
     public function check_login(){

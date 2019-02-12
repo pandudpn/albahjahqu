@@ -88,4 +88,13 @@ class kyc_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
+    public function waiting()
+    {
+        $this->db->select('count(*) as waiting', false);
+        $this->db->from($this->table);
+        $this->db->where('decision', 'waiting');
+
+        return $this->db->get()->row();
+    }
+
 }

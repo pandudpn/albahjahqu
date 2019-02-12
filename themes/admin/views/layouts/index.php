@@ -380,13 +380,13 @@
                             
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
-                                        <i class="zmdi zmdi-accounts"></i><span> Customers </span> 
+                                        <i class="zmdi zmdi-accounts"></i><span> Customers <?php echo $waiting; ?></span> 
                                         <span class="menu-arrow"></span>
                                     </a>
 
                                     <ul class="list-unstyled">
                                         <li><a href="<?php echo site_url('customers'); ?>">Profile</a></li>
-                                        <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC</a></li>
+                                        <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC <?php echo $waiting; ?></a></li>
                                     </ul>
                                 </li>
 
