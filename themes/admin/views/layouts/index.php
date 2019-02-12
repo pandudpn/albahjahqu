@@ -285,7 +285,7 @@
 
                             <?php } ?>
 
-                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
+                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape' || $this->session->userdata('user')->role == 'dealer_spv') { ?>
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
                                         <i class="zmdi zmdi-email-open"></i><span> Complaints <?php echo $unread; ?></span> 
@@ -343,6 +343,7 @@
                                 </li>
 
                                 <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
+
 
                                 <li class="text-muted menu-title">Prices</li>    
 
@@ -416,7 +417,7 @@
                             <?php } ?>   
                             <?php } ?>
 
-                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
+                            <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape'  || $this->session->userdata('user')->role == 'dealer_spv') { ?>
 
                                 <li class="text-muted menu-title">Outlet</li>
 

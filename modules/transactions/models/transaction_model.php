@@ -85,7 +85,7 @@ class transaction_model extends MY_Model {
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -137,7 +137,7 @@ class transaction_model extends MY_Model {
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -198,7 +198,7 @@ class transaction_model extends MY_Model {
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }

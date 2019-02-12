@@ -49,7 +49,7 @@ class kyc_model extends MY_Model {
 
         $this->db->where($this->table.'.deleted', '0');
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where('customers.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -95,7 +95,7 @@ class kyc_model extends MY_Model {
         $this->db->join('customers', 'customers.id = customer_kycs.cus_id');
         $this->db->where('decision', 'waiting');
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv') 
         {
             $this->db->where('customers.dealer_id', $this->session->userdata('user')->dealer_id);
         }

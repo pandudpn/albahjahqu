@@ -80,7 +80,7 @@ class customer_support_model extends MY_Model {
         }
         
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -127,7 +127,7 @@ class customer_support_model extends MY_Model {
 
         $this->db->where('deleted', '0');
         
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -137,7 +137,7 @@ class customer_support_model extends MY_Model {
 
     public function unread()
     {
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $where_user = "AND customer_support_members.user_id = '".$this->session->userdata('user')->dealer_id."'";
         }

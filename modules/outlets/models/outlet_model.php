@@ -55,7 +55,7 @@ class outlet_model extends MY_Model {
             $this->db->where($this->table.'.outlet_number', $outlet);
         }
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -99,7 +99,7 @@ class outlet_model extends MY_Model {
             $this->db->where($this->table.'.outlet_number', $outlet);
         }
         
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
@@ -114,6 +114,12 @@ class outlet_model extends MY_Model {
         $this->db->from($this->table);
         $this->db->where($this->table.'.deleted', '0');
         $this->db->where("(outlet_number IS NOT NULL AND outlet_number <> '')");
+
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+        
         $this->db->order_by('outlet_number', 'asc');
 
         return $this->db->get()->result();

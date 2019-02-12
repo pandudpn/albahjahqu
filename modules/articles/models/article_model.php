@@ -48,7 +48,7 @@ class article_model extends MY_Model {
 
         $this->db->where($this->table.'.deleted', '0');
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.for_dealer', $this->session->userdata('user')->dealer_id);
         }
