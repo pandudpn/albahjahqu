@@ -119,6 +119,8 @@
             ],
             "scrollX": true
         });
+
+        $('#datatable').css('min-height','400px');
     });
 
     function alert(status, id)
