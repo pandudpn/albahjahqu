@@ -137,14 +137,20 @@ class services extends Admin_Controller {
                 $row[] = 'non active';
             }
             
+            if($this->session->userdata('user')->role == 'dekape') {
 
-            $btn   = '<a href="'.site_url('services/edit/'.$l->id).'" class="btn btn-success btn-sm">
-                        <i class="fa fa-pencil"></i>
-                      </a> &nbsp;';
+                $btn   = '<a href="'.site_url('services/edit/'.$l->id).'" class="btn btn-success btn-sm">
+                            <i class="fa fa-pencil"></i>
+                          </a> &nbsp;';
 
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('services/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </a>';
+                $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('services/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                          </a>';
+            }
+            else
+            {
+                $btn = '-';
+            }
 
             $row[]  = $btn;
 

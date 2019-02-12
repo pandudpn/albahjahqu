@@ -12,9 +12,11 @@
 <div class="row">
     <div class="col-12">
         <div class="p-20">
+            <?php if($this->session->userdata('user')->role == 'dekape') { ?>
             <a href="<?php echo site_url('denoms/add?'.$_SERVER["QUERY_STRING"]); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
                 <i class="zmdi zmdi-collection-plus"></i> Add Denom </button>
             </a>
+            <?php } ?>
         </div>
         
         <div class="card-box table-responsive" style="zoom: 0.9;">

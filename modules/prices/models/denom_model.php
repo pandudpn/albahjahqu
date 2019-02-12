@@ -24,6 +24,7 @@ class denom_model extends MY_Model {
     public function _get_datatables_query()
     {
         $this->db->select($this->table.'.id');
+        $this->db->select($this->table.'.operator');
         $this->db->select($this->table_provider.'.name as provider_name', false);
         $this->db->select($this->table.'.description', false);
         $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
@@ -63,7 +64,7 @@ class denom_model extends MY_Model {
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+            $this->db->where("(prepaid_denom_prices.dealer_id = '".$this->session->userdata('user')->dealer_id."' OR prepaid_denom_prices.dealer_id IS NULL)");
         }
 
         $dealer     = $this->input->get('dealer');
@@ -131,7 +132,7 @@ class denom_model extends MY_Model {
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
         {
-            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+            $this->db->where("(prepaid_denom_prices.dealer_id = '".$this->session->userdata('user')->dealer_id."' OR prepaid_denom_prices.dealer_id IS NULL)");
         }
 
         $dealer     = $this->input->get('dealer');

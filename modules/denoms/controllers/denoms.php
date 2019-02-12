@@ -135,14 +135,21 @@ class denoms extends Admin_Controller {
             $row[] = $l->type;
             $row[] = $l->code;
             $row[] = $l->value;
-            
-            $btn   = '<a href="'.site_url('denoms/edit/'.$l->id.'?'.$_SERVER["QUERY_STRING"]).'" class="btn btn-success btn-sm" style="margin-bottom: 5px;">
-                        <i class="fa fa-pencil"></i>
-                      </a> &nbsp;';
 
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('denoms/delete/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'\')" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </a>';
+            if($this->session->userdata('user')->role == 'dekape') 
+            {
+                $btn   = '<a href="'.site_url('denoms/edit/'.$l->id.'?'.$_SERVER["QUERY_STRING"]).'" class="btn btn-success btn-sm" style="margin-bottom: 5px;">
+                            <i class="fa fa-pencil"></i>
+                          </a> &nbsp;';
+
+                $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('denoms/delete/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'\')" class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash"></i>
+                          </a>';
+            }
+            else
+            {
+                $btn = '-';
+            }
 
             $row[]  = $btn;
 
