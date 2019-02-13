@@ -175,14 +175,6 @@ class transaction_model extends MY_Model {
             
         }
 
-        $outlet     = $this->input->get('outlet');
-
-        if(!empty($outlet))
-        {
-            $this->db->where($this->table_customer.'.outlet_number', $outlet);
-            $this->db->where($this->table.'.service_id IS NOT NULL');
-        }
-
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
