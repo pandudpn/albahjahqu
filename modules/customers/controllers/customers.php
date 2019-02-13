@@ -48,7 +48,8 @@ class customers extends Admin_Controller {
                 'level'     => $this->input->post('level'),
                 'name'     => $this->input->post('name'),
                 'email'     => $this->input->post('email'),
-                'identity'  => $this->input->post('identity')
+                'identity'  => $this->input->post('identity'),
+                'referral_code'  => strtoupper($this->input->post('referral_code'))
             );
 
             $update = $this->customer->update($id, $data);

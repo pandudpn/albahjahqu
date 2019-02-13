@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-12">
                     <form method="post">
-                        <div class="col-6">
+                        <div class="col-8">
 
                             <div class="form-group row">
                                 <small class="text-muted"> Profile </small>
@@ -62,6 +62,13 @@
                                         <option value="agent" <?php if($data->level == 'agent') { echo 'selected'; } ?>>Agent</option>
                                         <option value="enduser" <?php if($data->level == 'enduser') { echo 'selected'; } ?>>End User / Customer</option>
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Referral Code</label>
+                                <div class="col-7">
+                                    <input class="form-control" type="text" name="referral_code" value="<?php echo $data->referral_code; ?>">
                                 </div>
                             </div>
 
