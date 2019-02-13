@@ -351,14 +351,14 @@ class transactions extends Admin_Controller {
             else
             {
                 $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/edit/'.$l->id).'\')" 
-                        class="btn btn-success btn-sm" style="margin-bottom: 5px;">
+                        class="btn btn-success btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
                       <i class="fa fa-pencil"></i>  edit
                       </a> <br/>';
 
                 if($l->status == 'rejected' || $l->status_provider == '5') 
                 {
                     $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')" 
-                        class="btn btn-warning btn-sm" style="margin-bottom: 5px;">
+                        class="btn btn-warning btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
                       <i class="fa fa-check"></i>  reapprove
                       </a> <br/>';
                 }
@@ -372,12 +372,12 @@ class transactions extends Admin_Controller {
                     else
                     {
                         $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
-                            class="btn btn-primary btn-sm" style="margin-bottom: 5px;">
+                            class="btn btn-primary btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
                           <i class="fa fa-check"></i>  approve
                           </a> <br/>';
 
                         $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
-                                class="btn btn-danger btn-sm">
+                                class="btn btn-danger btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
                           <i class="fa fa-close"></i>  reject
                           </a>';
                     }
