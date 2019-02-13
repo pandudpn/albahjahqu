@@ -177,24 +177,32 @@ class topup_model extends MY_Model {
 
     public function download()
     {
-        $this->db->select('transactions.created_on, trx_code, ref_service_codes.remarks, billers.name as biller_name, ref_code, customers.phone as cus_phone, destination_no, selling_price, base_price, dealer_fee, biller_fee, dekape_fee, partner_fee, user_fee, user_cashback, status', false);
+        $this->db->select('customers.name as cus_name, customers.phone as cus_phone, dealers.name as dealer_name, base_price as topup, ref_service_codes.remarks, transactions.created_on');
         $this->db->from($this->table);
-        $this->db->join($this->table_code, $this->table_code.'.id = '.$this->table.'.service_id', 'left');
-        $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.biller_id', 'left');
         $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
+        $this->db->join($this->table_dealer, $this->table_dealer.'.id = '.$this->table.'.dealer_id', 'left');
+        $this->db->join($this->table_service, $this->table_service.'.id = '.$this->table.'.service_id', 'left');
         
         $i = 0;
      
         $this->db->where($this->table.'.deleted', '0');
+        $this->db->where('LEFT('.$this->table.'.service_code, 3) = ', 'TOP');
         $this->db->where($this->table.'.status <>', 'inquiry');
+        // $this->db->where($this->table.'.status <>', 'approved');
 
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
+        $dealer = $this->input->get('dealer');
 
         if(!empty($from) && !empty($to))
         {
             $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
+
+        if($dealer) 
+        {
+            $this->db->where($this->table.'.dealer_id', $dealer);
         }
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 
