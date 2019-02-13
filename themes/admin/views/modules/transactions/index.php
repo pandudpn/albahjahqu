@@ -23,11 +23,18 @@
             <form method="get">
                 <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
                     <div class="col-12">Filter : </div>
-                    <div class="col-3"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
-                    <div class="col-3"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
-                    <div class="col-3"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('transactions'); ?>" class="btn btn-secondary">Reset</a></div>
-                    <div class="col-3 pull-right text-right">
-                        <a href="<?php echo site_url('transactions/download?from='.$from.'&to='.$to); ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                    <div class="col-2"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
+                    <div class="col-2"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
+                    <div class="col-2">
+                        <select class="form-control" name="status" style="height: 40.74px;">
+                            <option value="">Choose Status</option>
+                            <option value="success" <?php if($status == 'success') { echo 'selected'; } ?>>Success</option>
+                            <option value="failed" <?php if($status == 'failed') { echo 'selected'; } ?>>Failed</option>
+                        </select>
+                    </div>
+                    <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('transactions'); ?>" class="btn btn-secondary">Reset</a></div>
+                    <div class="col-4 pull-right text-right">
+                        <a href="<?php echo site_url('transactions/download?from='.$from.'&to='.$to.'&status='.$status); ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
                     </div>
                 </div>
             </form>
@@ -198,7 +205,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('transactions/datatables?from='.$from.'&to='.$to)?>",
+                "url": "<?php echo site_url('transactions/datatables?from='.$from.'&to='.$to.'&status='.$status)?>",
                 "type": "POST"
             },
 

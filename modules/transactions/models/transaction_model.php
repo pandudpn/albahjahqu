@@ -85,6 +85,21 @@ class transaction_model extends MY_Model {
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
 
+        $status = $this->input->get('status');
+
+        if(!empty($status))
+        {
+            if($status == 'success')
+            {
+                $this->db->where("(transactions.status = 'payment' OR transactions.status = 'approved')");
+            }
+            else if($status == 'failed')
+            {
+                $this->db->where("(transactions.status = 'reversal' OR transactions.status = 'dispute' OR transactions.status = 'rejected')");
+            }
+            
+        }
+
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
@@ -196,6 +211,21 @@ class transaction_model extends MY_Model {
         {
             $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
+
+        $status = $this->input->get('status');
+
+        if(!empty($status))
+        {
+            if($status == 'success')
+            {
+                $this->db->where("(transactions.status = 'payment' OR transactions.status = 'approved')");
+            }
+            else if($status == 'failed')
+            {
+                $this->db->where("(transactions.status = 'reversal' OR transactions.status = 'dispute' OR transactions.status = 'rejected')");
+            }
+            
         }
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
