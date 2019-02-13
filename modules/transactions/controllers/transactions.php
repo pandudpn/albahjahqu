@@ -26,11 +26,13 @@ class transactions extends Admin_Controller {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
         $status = $this->input->get('status');
+        $outlet = $this->input->get('outlet');
         
     	$this->template->set('alert', $this->session->flashdata('alert'))
                         ->set('from', $from)
                         ->set('to', $to)
                         ->set('status', $status)
+                        ->set('outlet', $outlet)
     					->build('index');
     }
 
