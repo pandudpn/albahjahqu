@@ -105,6 +105,7 @@ class transaction_model extends MY_Model {
         if(!empty($outlet))
         {
             $this->db->where($this->table_customer.'.outlet_number', $outlet);
+            $this->db->where($this->table.'.service_id IS NOT NULL');
         }
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
@@ -172,6 +173,14 @@ class transaction_model extends MY_Model {
                 $this->db->where("(transactions.status = 'reversal' OR transactions.status = 'dispute' OR transactions.status = 'rejected')");
             }
             
+        }
+
+        $outlet     = $this->input->get('outlet');
+
+        if(!empty($outlet))
+        {
+            $this->db->where($this->table_customer.'.outlet_number', $outlet);
+            $this->db->where($this->table.'.service_id IS NOT NULL');
         }
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
@@ -248,6 +257,14 @@ class transaction_model extends MY_Model {
                 $this->db->where("(transactions.status = 'reversal' OR transactions.status = 'dispute' OR transactions.status = 'rejected')");
             }
             
+        }
+
+        $outlet     = $this->input->get('outlet');
+
+        if(!empty($outlet))
+        {
+            $this->db->where($this->table_customer.'.outlet_number', $outlet);
+            $this->db->where($this->table.'.service_id IS NOT NULL');
         }
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
