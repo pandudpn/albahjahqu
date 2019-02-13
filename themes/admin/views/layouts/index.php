@@ -231,7 +231,7 @@
                             </li>
                             <li>
                                 <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                    <i class="zmdi zmdi-shopping-basket"></i><span> Pending Trx <?php echo $pending; ?></span> 
                                 </a>
                             </li>
                             <li>
@@ -321,7 +321,7 @@
                                 </li>
                                 <li>
                                     <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
-                                        <i class="zmdi zmdi-shopping-basket"></i><span> Pending Transactions </span> 
+                                        <i class="zmdi zmdi-shopping-basket"></i><span> Pending Trx <?php echo $pending; ?></span> 
                                     </a>
                                 </li>
                                 <li>

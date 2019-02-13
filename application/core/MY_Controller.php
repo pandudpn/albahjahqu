@@ -168,6 +168,7 @@ class Admin_Controller extends Base_Controller{
         parent::__construct();
         $this->load->model('complaints/customer_support_model', 'customer_support');
         $this->load->model('customers/kyc_model', 'kyc');
+        $this->load->model('transactions/transaction_model', 'transaction');
 
         $unread = $this->customer_support->unread()->unread;
 
@@ -191,10 +192,24 @@ class Admin_Controller extends Base_Controller{
             $waiting = '';
         }
 
+        $pending = $this->transaction->pending()->pending;
+
+        if($pending > 0)
+        {
+            $pending = '<span class="label label-pill label-primary float-right">'.$pending.'</span>';
+        }
+        else
+        {
+            $pending = '';
+        }
+
+        // var_dump($pending);die;
+
         $this->template->set_layout('index');
         $this->template->set_theme('admin');
         $this->template->set('unread', $unread);
         $this->template->set('waiting', $waiting);
+        $this->template->set('pending', $pending);
     }
 
     public function check_login(){
