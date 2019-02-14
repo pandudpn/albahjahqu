@@ -7,8 +7,8 @@ class eva_customer_mutation_model extends MY_Model {
     protected $date_format  = 'datetime';
     protected $set_created  = true;
 
-    protected $column_order  = array(null, 'transaction_ref', 'remarks', 'starting_balance', 'credit', 'debit', 'ending_balance', 'created_on'); //set column field database for datatable orderable
-    protected $column_search = array('transaction_ref', 'remarks', 'starting_balance', 'credit', 'debit', 'ending_balance', 'created_on'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'transaction_ref', 'remarks', 'starting_balance', 'credit', 'debit', 'ending_balance', 'customer_mutations.created_on'); //set column field database for datatable orderable
+    protected $column_search = array('transaction_ref', 'remarks', 'starting_balance', 'credit', 'debit', 'ending_balance', 'customer_mutations.created_on'); //set column field database for datatable searchable 
     protected $order 		 = array('customer_mutations.id' => 'desc'); // default order 
 
     public function __construct()
@@ -20,6 +20,8 @@ class eva_customer_mutation_model extends MY_Model {
 
     public function _get_datatables_query()
     {
+        $this->db->select('*');
+        $this->db->select('customer_mutations.created_on as created_on', false);
         $this->db->from($this->table);
         $this->db->join('customers', 'customers.id = customer_mutations.account_id');
         
