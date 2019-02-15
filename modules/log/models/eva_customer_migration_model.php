@@ -48,7 +48,7 @@ class eva_customer_migration_model extends MY_Model {
 
         $this->db->where($this->table.'.deleted', '0');
         $this->db->where($this->table.'.migration_balance <> old_balance');
-        $this->db->where($this->table.'.migration_balance > ', '0');
+        $this->db->where($this->table.'.migrated', '1');
                  
         if(isset($_POST['order'])) // here order processing
         {
@@ -82,7 +82,7 @@ class eva_customer_migration_model extends MY_Model {
         $this->db->from($this->table);
         $this->db->where($this->table.'.deleted', '0');
        	$this->db->where($this->table.'.migration_balance <> old_balance');
-        $this->db->where($this->table.'.migration_balance > ', '0');
+        $this->db->where($this->table.'.migrated', '1');
 
         return $this->db->count_all_results();
     }
