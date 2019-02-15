@@ -497,6 +497,7 @@
                                         <li><a href="<?php echo site_url('log'); ?>">Communication Logs</a></li>
                                         <li><a href="<?php echo site_url('log/request'); ?>">Request Logs</a></li>
                                         <li><a href="<?php echo site_url('log/migration'); ?>">User Migration Logs</a></li>
+                                        <li><a href="<?php echo site_url('log/usermigration'); ?>">User Migration Problems</a></li>
                                         <li><a href="<?php echo site_url('log/tms'); ?>">TMS Callback Logs</a></li>
                                     </ul>
                                 </li>
