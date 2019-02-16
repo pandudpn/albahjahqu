@@ -286,13 +286,15 @@ class transaction_model extends MY_Model {
         $this->db->select('count(*) as pending', false);
         $this->db->from($this->table);
 
+        $this->db->where($this->table.'.deleted', '0');
+        $this->db->where($this->table.'.status <>', 'inquiry');
+
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv') 
         {
             $this->db->where('transactions.dealer_id', $this->session->userdata('user')->dealer_id);
         }
 
         $this->db->where("(status_provider = '68' OR status_provider = '82' OR status_provider = '96')");
-
         return $this->db->get()->row();
     }
 

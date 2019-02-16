@@ -236,7 +236,6 @@ class transactions extends Admin_Controller {
         }
         else if($status == 'rejected')
         {
-
             
             $customer               = $this->customer->find($transaction->cus_id);
             $eva_customer           = $this->eva_customer->find_by(array('account_user' => $transaction->cus_id));
@@ -257,6 +256,108 @@ class transactions extends Admin_Controller {
             );
 
             $mutation_id = $this->eva_customer_mutation->insert($data);
+
+
+            if($transaction->status == 'approved')
+            {
+                if($transaction->dealer_id != '1')
+                {
+                    $first  = substr($transaction->service_code, 0, 3);
+                    $second = substr($transaction->service_code, 7, 5);
+
+                    if($first.$second == 'PLSTSL01')
+                    {
+                        //MUTASI fee ke dealer
+                        $dealer_eva     = $this->dealer->find($transaction->dealer_id)->eva;
+                        $dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
+
+                        $data = array(
+                            'account_id'        => $dealer_account->id, 
+                            'account_eva'       => $dealer_eva, 
+                            'account_role'      => 'dealer', 
+                            'account_role_id'   => $dealer_account->account_user, 
+                            'transaction_ref'   => $transaction->trx_code, 
+                            'transaction_code'  => $transaction->service_code, 
+                            'purchase_ref'      => $transaction->ref_code, 
+                            'remarks'           => 'Rollback Transaction fee '.$service_code->remarks.' ('.$transaction->destination_no.')', 
+                            'starting_balance'  => intval($dealer_account->account_balance), 
+                            'debit'             => intval($transaction->base_price),
+                            'ending_balance'    => intval($dealer_account->account_balance - $transaction->base_price)
+                        );
+
+                        $mutation_id = $this->eva_corporate_mutation->insert($data);
+                    }
+                }
+
+                if(intval($transaction->biller_fee) > 0)
+                {
+                    //MUTASI fee ke biller
+                    $biller_eva     = $this->biller->find($transaction->biller_id)->eva;
+                    $biller_account = $this->eva_corporate->find_by(array('account_no' => $biller_eva));
+
+                    $data = array(
+                        'account_id'        => $biller_account->id, 
+                        'account_eva'       => $biller_eva, 
+                        'account_role'      => 'biller', 
+                        'account_role_id'   => $biller_account->account_user, 
+                        'transaction_ref'   => $transaction->trx_code, 
+                        'transaction_code'  => $transaction->service_code, 
+                        'purchase_ref'      => $transaction->ref_code, 
+                        'remarks'           => 'Rollback Transaction fee '.$service_code->remarks.' ('.$transaction->destination_no.')', 
+                        'starting_balance'  => intval($biller_account->account_balance), 
+                        'debit'             => intval($transaction->biller_fee),
+                        'ending_balance'    => intval($biller_account->account_balance - $transaction->biller_fee)
+                    );
+
+                    $mutation_id = $this->eva_corporate_mutation->insert($data);
+                }
+
+                if(intval($transaction->dealer_fee) > 0)
+                {
+                    //MUTASI fee ke dealer
+                    $dealer_eva     = $this->dealer->find($transaction->dealer_id)->eva;
+                    $dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
+
+                    $data = array(
+                        'account_id'        => $dealer_account->id, 
+                        'account_eva'       => $dealer_eva, 
+                        'account_role'      => 'dealer', 
+                        'account_role_id'   => $dealer_account->account_user, 
+                        'transaction_ref'   => $transaction->trx_code, 
+                        'transaction_code'  => $transaction->service_code, 
+                        'purchase_ref'      => $transaction->ref_code, 
+                        'remarks'           => 'Rollback Transaction fee '.$service_code->remarks.' ('.$transaction->destination_no.')', 
+                        'starting_balance'  => intval($dealer_account->account_balance), 
+                        'debit'             => intval($transaction->dealer_fee),
+                        'ending_balance'    => intval($dealer_account->account_balance - $transaction->dealer_fee)
+                    );
+
+                    $mutation_id = $this->eva_corporate_mutation->insert($data);
+                }
+
+                if(intval($transaction->dekape_fee) > 0)
+                {
+                    //MUTASI fee ke dealer
+                    $dealer_account = $this->eva_corporate->find(6);
+
+                    $data = array(
+                        'account_id'        => '6', 
+                        'account_eva'       => 'P0001DEKAPE', 
+                        'account_role'      => 'dekape', 
+                        'account_role_id'   => '3', 
+                        'transaction_type'  => 'F', 
+                        'transaction_ref'   => $transaction->trx_code, 
+                        'transaction_code'  => $transaction->service_code, 
+                        'purchase_ref'      => $transaction->ref_code, 
+                        'remarks'           => 'Rollback Transaction fee '.$service_code->remarks.' ('.$transaction->destination_no.')', 
+                        'starting_balance'  => intval($dealer_account->account_balance), 
+                        'debit'             => intval($transaction->dekape_fee),
+                        'ending_balance'    => intval($dealer_account->account_balance - $transaction->dekape_fee)
+                    );
+
+                    $mutation_id = $this->eva_corporate_mutation->insert($data);
+                }
+            }
 
             // //MUTASI fee ke biller
             // $biller_eva     = $this->biller->find($transaction->biller_id)->eva;
@@ -363,7 +464,35 @@ class transactions extends Admin_Controller {
                       </a> <br/>';
                 }
 
-                if($l->status != 'approved' && $l->status != 'rejected') 
+                if($l->status == 'approved') 
+                {
+                    if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
+                    {
+                        $btn .= '';
+                    }
+                    else
+                    {
+                        $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
+                                class="btn btn-danger btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
+                          <i class="fa fa-close"></i>  reject
+                          </a>';
+                    }
+                }
+                else if($l->status == 'rejected')
+                {
+                    if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
+                    {
+                        $btn .= '';
+                    }
+                    else
+                    {
+                        $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
+                            class="btn btn-primary btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
+                          <i class="fa fa-check"></i>  approve
+                          </a> <br/>';
+                    }
+                }
+                else
                 {
                     if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
                     {
