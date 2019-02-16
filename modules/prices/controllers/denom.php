@@ -214,6 +214,16 @@ class denom extends Admin_Controller {
                         <i class="fa fa-trash"></i>
                       </a>';
             }
+            else if($this->session->userdata('user')->role == 'dekape')
+            {
+                $btn   = '<a href="'.site_url('prices/denom/edit/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'" class="btn btn-success btn-sm" style="margin-bottom: 5px;">
+                        <i class="fa fa-pencil"></i>
+                      </a>';
+
+                $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('prices/denom/delete/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'\')" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                      </a>';
+            }
             else
             {
                 $btn = '-';
