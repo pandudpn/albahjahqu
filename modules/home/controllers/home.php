@@ -165,7 +165,9 @@ class home extends Admin_Controller {
                                     WHERE SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
                                     AND (status = 'payment' OR status = 'approved')
                                     AND service_id IS NOT NULL
+                                    AND LEFT(service_code, 3) <> 'TOP'
                                     GROUP BY dealers.name")->result();
+         
         $cols = array(
             array(
                 'id' => '',
