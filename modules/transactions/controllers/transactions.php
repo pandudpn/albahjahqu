@@ -402,23 +402,37 @@ class transactions extends Admin_Controller {
 
         if($status == 'approved')
         {
-
             $message    = 'Pembayaran '.$service_code->remarks.' dengan invoice '.$transaction->trx_code.' berhasil di proses. Silahkan akses Riwayat untuk informasi lebih lanjut.';
         }
         else
         {
             $message    = 'Pembayaran '.$service_code->remarks.' dengan invoice '.$transaction->trx_code.' gagal di proses. Silahkan akses Riwayat untuk informasi lebih lanjut.';
         }
-        
-        $title   = 'OKBABE+';
-        $session = $this->customer_session->order_by('id', 'desc');
-        $session = $this->customer_session->find_by(array('cus_id' => $transaction->cus_id));
 
-        $fcm_id = Array();
-        array_push($fcm_id, $session->cus_fcm_id);
-        
+        if($status == 'rejected')
+        {
+            $title   = 'OKBABE+';
+            $session = $this->customer_session->order_by('id', 'desc');
+            $session = $this->customer_session->find_by(array('cus_id' => $transaction->cus_id));
+            $reason  = $this->input->post('reason');
+            $message = 'Transaksi dengan kode '.$transaction->trx_code.' GAGAL dengan alasan : '. $reason;
 
-        $this->push_notification($fcm_id, $title, $message, '', '');
+            $fcm_id  = Array();
+            array_push($fcm_id, $session->cus_fcm_id);
+
+            $this->push_notification($fcm_id, $title, $message, 'popup', '');
+        }
+        else
+        {
+            $title   = 'OKBABE+';
+            $session = $this->customer_session->order_by('id', 'desc');
+            $session = $this->customer_session->find_by(array('cus_id' => $transaction->cus_id));
+
+            $fcm_id = Array();
+            array_push($fcm_id, $session->cus_fcm_id);
+
+            $this->push_notification($fcm_id, $title, $message, 'transaction', '');
+        }
 
         if($update)
         {
@@ -472,7 +486,7 @@ class transactions extends Admin_Controller {
                     }
                     else
                     {
-                        $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
+                        $btn  .= '<a href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
                                 class="btn btn-danger btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
                           <i class="fa fa-close"></i>  reject
                           </a>';
@@ -505,7 +519,7 @@ class transactions extends Admin_Controller {
                           <i class="fa fa-check"></i>  approve
                           </a> <br/>';
 
-                        $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
+                        $btn  .= '<a href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
                                 class="btn btn-danger btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
                           <i class="fa fa-close"></i>  reject
                           </a>';
@@ -601,13 +615,14 @@ class transactions extends Admin_Controller {
         echo json_encode($output);
     }
 
-    private function push_notification($gcm_ids, $title, $msg, $action='feed', $id='')
+    private function push_notification($gcm_ids, $title, $msg, $action='transaction', $id='')
     {
         $url     = 'https://fcm.googleapis.com/fcm/send';
-        $message = array("title" => $title, "body" => $msg, "click_action" => "transaction");
+        $message = array("title" => $title, "body" => $msg, "click_action" => $action);
         $fields  = array(
               'registration_ids'  => $gcm_ids,
-              'notification'      => $message
+              'notification'      => $message,
+              'data'              => array("title" => $title, "message" => $msg)
         );
 
         $api_key = 'AAAAf_Rr2ig:APA91bGe0MVf85hli70S__JHZMjIhZILomI9WkEv_wyLqf6K8mm2A4oHsmKGsS9UJr4CniLF518W9ECdncTtUhc-f-h8NFPRDCLU0M5nAM_bpeDxYPRk2U_OA1b8F3zUBOQHiMWmVMud';
