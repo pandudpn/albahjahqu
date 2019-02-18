@@ -29,20 +29,26 @@ class home extends Admin_Controller {
     {
          $query = $this->db->query("SELECT COUNT(id) as total, SUBSTRING(created_on, 1, 10) as date,
                                     SUM(CASE
-                                        WHEN status = 'payment' THEN 1
-                                        WHEN status = 'approved' THEN 1
                                         WHEN status = 'inquiry' THEN 0
-                                        ELSE 0
+                                        WHEN status = 'payment' THEN 1
+                                        WHEN status = 'reversal' THEN 0
+                                        WHEN status = 'dispute' THEN 0
+                                        WHEN status = 'approved' THEN 1
+                                        WHEN status = 'rejected' THEN 0
                                     END) as status_success,
                                     SUM(CASE
-                                        WHEN status = 'payment' THEN 0
-                                        WHEN status = 'approved' THEN 0
                                         WHEN status = 'inquiry' THEN 0
-                                        ELSE 1
+                                        WHEN status = 'payment' THEN 0
+                                        WHEN status = 'reversal' THEN 1
+                                        WHEN status = 'dispute' THEN 1
+                                        WHEN status = 'approved' THEN 0
+                                        WHEN status = 'rejected' THEN 1
                                     END) as status_failed
                                     FROM transactions 
                                     WHERE SUBSTRING(created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
+                                    AND status <> 'inquiry'
                                     AND LEFT(service_code, 3) <> 'TOP'
+                                    AND service_id IS NOT NULL
                                     GROUP BY SUBSTRING(created_on, 1, 10)")->result();
 
         $cols = array(
@@ -69,7 +75,7 @@ class home extends Admin_Controller {
 
         foreach ($query as $key => $v) {
             $value   = array();
-            $value[] = array('v' => date("j F", strtotime($v->date)));
+            $value[] = array('v' => date("j M", strtotime($v->date)));
             $value[] = array('v' => intval($v->status_success));
             $value[] = array('v' => intval($v->status_failed));
 
@@ -89,20 +95,26 @@ class home extends Admin_Controller {
     {
          $query = $this->db->query("SELECT COUNT(id) as total, SUBSTRING(created_on, 1, 10) as date,
                                     SUM(CASE
-                                        WHEN status = 'payment' THEN selling_price
-                                        WHEN status = 'approved' THEN selling_price
                                         WHEN status = 'inquiry' THEN 0
-                                        ELSE 0
+                                        WHEN status = 'payment' THEN selling_price
+                                        WHEN status = 'reversal' THEN 0
+                                        WHEN status = 'dispute' THEN 0
+                                        WHEN status = 'approved' THEN selling_price
+                                        WHEN status = 'rejected' THEN 0
                                     END) as status_success,
                                     SUM(CASE
-                                        WHEN status = 'payment' THEN 0
-                                        WHEN status = 'approved' THEN 0
                                         WHEN status = 'inquiry' THEN 0
-                                        ELSE selling_price
+                                        WHEN status = 'payment' THEN 0
+                                        WHEN status = 'reversal' THEN selling_price
+                                        WHEN status = 'dispute' THEN selling_price
+                                        WHEN status = 'approved' THEN 0
+                                        WHEN status = 'rejected' THEN selling_price
                                     END) as status_failed
                                     FROM transactions 
                                     WHERE SUBSTRING(created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
+                                    AND status <> 'inquiry'
                                     AND LEFT(service_code, 3) <> 'TOP'
+                                    AND service_id IS NOT NULL
                                     GROUP BY SUBSTRING(created_on, 1, 10)")->result();
 
         $cols = array(
@@ -152,6 +164,7 @@ class home extends Admin_Controller {
                                     LEFT JOIN transactions ON transactions.dealer_id = dealers.id
                                     WHERE SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
                                     AND (status = 'payment' OR status = 'approved')
+                                    AND service_id IS NOT NULL
                                     GROUP BY dealers.name")->result();
         $cols = array(
             array(
@@ -192,12 +205,14 @@ class home extends Admin_Controller {
                                     WHERE LEFT(service_code, 3) = 'TOP' 
                                     AND (status = 'payment' OR status = 'approved')
                                     AND SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."'
+                                    AND service_id IS NOT NULL
                                     ".$this->where_dealer."")->row()->topup;
 
          $sales = $this->db->query("SELECT sum(selling_price) as sales FROM transactions
                                     WHERE LEFT(service_code, 3) <> 'TOP' 
                                     AND (status = 'payment' OR status = 'approved')
                                     AND SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."'
+                                    AND service_id IS NOT NULL
                                     ".$this->where_dealer."")->row()->sales;
         
         $cols = array(
@@ -242,14 +257,18 @@ class home extends Admin_Controller {
     {
         $query = $this->db->query("SELECT COUNT(transactions.id) as total, service_menus.name as menu,
                                     SUM(CASE
-                                        WHEN status = 'payment' THEN selling_price
-                                        WHEN status = 'approved' THEN selling_price
                                         WHEN status = 'inquiry' THEN 0
+                                        WHEN status = 'payment' THEN selling_price
+                                        WHEN status = 'reversal' THEN 0
+                                        WHEN status = 'dispute' THEN 0
+                                        WHEN status = 'approved' THEN selling_price
+                                        WHEN status = 'rejected' THEN 0
                                         ELSE 0
                                     END) as sales
                                     FROM transactions 
                                     JOIN service_menus ON service_menus.id = transactions.service_menu
                                     WHERE SUBSTRING(transactions.created_on, 1, 7) = '".date('Y-m')."' ".$this->where_dealer."
+                                    AND service_id IS NOT NULL
                                     AND LEFT(service_code, 3) <> 'TOP'
                                     GROUP BY service_menus.id")->result();
 

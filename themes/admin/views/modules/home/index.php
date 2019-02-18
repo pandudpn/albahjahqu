@@ -46,7 +46,7 @@
     <div class="col-6">
 	    <div class="card-box">
 	    	<div class="col-sm-12 col-xs-12 col-md-12">
-            	<h4 class="header-title m-t-0">Topup</h4>
+            	<h4 class="header-title m-t-0">Transaksi</h4>
                 <p class="text-muted font-13 m-b-30"> </p>
             	<div id="topup-chart" style="height: 400px;"></div>
             </div>
