@@ -11,6 +11,11 @@ class topups extends Admin_Controller {
         $this->load->model('user/eva_corporate_mutation_model', 'eva_corporate_mutation');
         $this->load->model('user/eva_corporate_model', 'eva_corporate');
         $this->load->model('user/eva_customer_va_model', 'eva_customer_va');
+        $this->load->model('user/eva_customer_mutation_model', 'eva_customer_mutation');
+        $this->load->model('transactions/transaction_model', 'transaction');
+        $this->load->model('user/eva_customer_model', 'eva_customer');
+
+        $this->load->model('services/service_model', 'service_code');
         $this->load->helper('text');
 
         $this->check_login();
@@ -54,6 +59,69 @@ class topups extends Admin_Controller {
 
                 redirect(site_url('topups/user'), 'refresh');
                 // die;
+            }
+
+            if($bank == 'mandiri_manual' || $bank == 'bni_manual' || $bank == 'bri_manual')
+            {
+                $amount                 = $amount - 4950;
+                $bank_code              = explode('_', $bank);
+                $bank_code              = strtoupper($bank_code[0]);
+
+                // $customer               = $this->customer->find($customer_id);
+                $customer_eva           = $this->eva_customer->find_by(array('account_user' => $customer->id));
+
+                $service_apps           = $this->service_apps($bank_code);
+                $trxleftpad             = (25 - strlen($customer->id.$service_apps));
+                $trx_id                 = $customer->id.$service_apps.str_pad(time(), $trxleftpad, "0", STR_PAD_LEFT);
+                $trx_okbabe             = $trx_id;
+                
+                //insert trx
+
+                $sc                     = $this->service_code->find_by(array('provider' => $service_apps));
+
+                $trx_data = array(
+                    'trx_code'      => $trx_id, 
+                    'ref_code'      => $data->id,
+                    'service_code'  => $sc->service.$sc->value.$sc->provider.$sc->prepaid.$sc->type,
+                    'service_id'    => $sc->id,
+                    'service_menu'  => '9999',
+                    'service_type'  => '01',
+                    'cus_id'        => $customer->id,
+                    'cus_phone'     => $customer->phone,
+                    'destination_no'        => $data->account_number,
+                    'destination_holder'    => $customer->name,
+                    'location_type' => 'none',
+                    'base_price'    => $amount,
+                    'selling_price' => intval($amount),
+                    'biller_fee'    => 0,
+                    'biller_id'     => NULL,
+                    'dealer_id'     => $customer->dealer_id,
+                    'remarks'       => 'TOPUP Manual Via '.$bank_code,
+                    'status'        => 'payment',
+                    'status_level'  => '2'
+                );
+
+                $trx_id        = $this->transaction->insert($trx_data);
+                $transaction   = $this->transaction->find($trx_id);
+
+                $mts_data = array(
+                    'account_id'        => $customer_eva->id,
+                    'account_eva'       => $customer_eva->account_no,
+                    'account_user'      => $customer->id,
+                    'transaction_ref'   => $trx_data['trx_code'],
+                    'remarks'           => 'TOPUP Manual Via '.$bank_code,
+                    'starting_balance'  => $customer_eva->account_balance,
+                    'credit'            => intval($amount),
+                    'ending_balance'    => $customer_eva->account_balance + intval($amount)
+                );
+
+                $mts_id = $this->eva_customer_mutation->insert($mts_data);
+
+                $msg = 'Topup manual berhasil';
+                $this->session->set_flashdata('alert', array('type' => 'success', 'msg' => $msg));
+
+                redirect(site_url('topups/user'), 'refresh');
+                die;
             }
 
             ///GENERATE or REGENERATE VA BEFORE EXECUTE CALLBACK
@@ -151,6 +219,23 @@ class topups extends Admin_Controller {
         $this->template->set('alert', $this->session->flashdata('alert'))
                         ->build('user');
 
+    }
+
+    private function service_apps($bank)
+    {
+        switch ($bank) {
+            case 'MANDIRI':
+                $service_apps = 'BMR';
+                break;
+            case 'BNI':
+                $service_apps = 'BNI';
+                break;
+            case 'BRI':
+                $service_apps = 'BRI';
+                break;
+        }
+
+        return $service_apps;
     }
 
     public function set($id=null)

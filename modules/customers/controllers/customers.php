@@ -300,7 +300,7 @@ class customers extends Admin_Controller {
                                 <div class="dropdown-divider"></div>';
 
             if($this->session->userdata('user')->role == 'dekape') {
-                $btn .= '<a class="dropdown-item" href="'.site_url('customers/balance/'.$l->id).'" >Balance Manipulation / Topup Manual</a>
+                $btn .= '<a class="dropdown-item" href="'.site_url('customers/balance/'.$l->id).'" >Balance Manipulation</a>
                                 <div class="dropdown-divider"></div>';
             }
 

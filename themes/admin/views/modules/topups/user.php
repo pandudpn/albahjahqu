@@ -38,9 +38,12 @@
                 <div class="col-9">
                     <select name="bank" class="form-control" required>
                     	<option value="">Choose Bank</option>
-                    	<option value="mandiri">Bank Mandiri</option>
-                    	<option value="bri">Bank BRI</option>
-                    	<option value="bni">Bank BNI</option>
+                        <option value="mandiri_manual">Bank Mandiri Manual</option>
+                        <option value="bri_manual">Bank BRI Manual</option>
+                        <option value="bni_manual">Bank BNI Manual</option>
+                        <option value="mandiri">Bank Mandiri VA</option>
+                        <option value="bri">Bank BRI VA</option>
+                        <option value="bni">Bank BNI VA</option>
                     </select>
                 </div>
             </div>
