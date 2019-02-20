@@ -37,7 +37,7 @@
                     <?php } ?>
                     <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('topups'); ?>" class="btn btn-secondary">Reset</a></div>
                     <div class="col-4 pull-right text-right">
-                        <a href="<?php echo site_url('topups/user'); ?>" class="btn btn-success"><i class="fa fa-upload"></i> Topup Manual Customer</a>
+                        <a href="<?php echo site_url('topups/user'); ?>" class="btn btn-success"><i class="fa fa-upload"></i> Simulate VA Callback</a>
                         <a href="<?php echo site_url('topups/download?from='.$from.'&to='.$to); ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
                     </div>
                 </div>
