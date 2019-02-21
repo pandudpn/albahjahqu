@@ -69,19 +69,19 @@
                     <div class="form-group row">
                         <label class="col-3 col-form-label">Account Name</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" name="account_holder_name">
+                            <input type="text" class="form-control" name="account_holder_name" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-3 col-form-label">Account Number</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" name="account_number">
+                            <input type="text" class="form-control" name="account_number" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-3 col-form-label">Description</label>
                         <div class="col-9">
-                            <input type="text" class="form-control" name="description">
+                            <input type="text" class="form-control" name="description" required>
                         </div>
                     </div>
             </div>
