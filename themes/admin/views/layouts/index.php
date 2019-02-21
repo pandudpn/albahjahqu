@@ -286,6 +286,15 @@
                             <?php } ?>
 
                             <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape' || $this->session->userdata('user')->role == 'dealer_spv') { ?>
+                                
+                                <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                <li>
+                                    <a href="<?php echo site_url('balance'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-balance-wallet"></i><span> Balance VA </span> 
+                                    </a>
+                                </li>
+                                <?php } ?>
+
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
                                         <i class="zmdi zmdi-email-open"></i><span> Complaints <?php echo $unread; ?></span> 
@@ -298,6 +307,7 @@
                                     </ul>
                                 </li>   
                                 <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
                                         <i class="zmdi zmdi-notifications-active"></i><span> Announcements</span> 
