@@ -35,7 +35,7 @@
 	                    <td>Xendit (PT Sinar Digital Terdepan)</td>
 	                    <td><?php echo 'Rp. '.number_format($balance); ?></td>
 	                    <td><a href="#modal-imburse" data-toggle="modal" data-target="#modal-imburse" class="btn btn-primary">
-	                    	<i class="fa fa-arrow-down"></i> Imburse</a>
+	                    	<i class="fa fa-arrow-down"></i> reimburse</a>
 	                    </td>
 	                </tr>
                 </tbody>
@@ -49,7 +49,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="mySmallModalLabel">Imburse Balance</h5>
+                <h5 class="modal-title" id="mySmallModalLabel">reimburse Balance</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
