@@ -344,7 +344,7 @@
                                         <i class="zmdi zmdi-repeat"></i><span> Transfers Balance </span> 
                                     </a>
                                 </li>
-                                <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dekape') { ?>
+                                <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dekape' || $this->session->userdata('user')->role == 'dealer_spv') { ?>
                                 <li>
                                     <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-upload"></i><span> Topups </span> 
