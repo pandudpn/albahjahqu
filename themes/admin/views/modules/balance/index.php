@@ -78,6 +78,12 @@
                             <input type="text" class="form-control" name="account_number" required>
                         </div>
                     </div>
+                     <div class="form-group row">
+                        <label class="col-3 col-form-label">Amount</label>
+                        <div class="col-9">
+                            <input type="number" class="form-control" name="amount" required>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label class="col-3 col-form-label">Description</label>
                         <div class="col-9">
