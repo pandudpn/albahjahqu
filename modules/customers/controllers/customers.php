@@ -44,7 +44,8 @@ class customers extends Admin_Controller {
         {
             $data = array(
                 'outlet_number' => $this->input->post('outlet_number'),
-                'outlet_name' => $this->input->post('outlet_name'),
+                'outlet_name'   => $this->input->post('outlet_name'),
+                'outlet_owner'  => $this->input->post('outlet_owner'),
                 'level'     => $this->input->post('level'),
                 'name'     => $this->input->post('name'),
                 'email'     => $this->input->post('email'),

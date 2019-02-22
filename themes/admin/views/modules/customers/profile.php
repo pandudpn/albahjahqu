@@ -76,6 +76,13 @@
                                 <small class="text-muted"> Outlet </small>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Outlet Owner</label>
+                                <div class="col-7">
+                                    <input class="form-control" type="text" name="outlet_owner" value="<?php echo $data->outlet_owner; ?>">
+                                </div>
+                            </div>
+
                         	<div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Outlet Number</label>
                                 <div class="col-7">

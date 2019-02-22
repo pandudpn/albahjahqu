@@ -41,8 +41,8 @@ class balance extends Admin_Controller {
 	        			time();
 	            
 	            $headers  = [
-	                'Authorization' => 'Basic ' . $access_64key,        
-	                'Accept'        => 'application/json; charset=utf-8',
+	                'Authorization' 	=> 'Basic ' . $access_64key,        
+	                'Accept'        	=> 'application/json; charset=utf-8',
 	                'X-IDEMPOTENCY-KEY' => $key
 	            ];
 
