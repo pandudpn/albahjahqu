@@ -3,7 +3,7 @@
   class Guzzle {
       public function Guzzle()
       {
-        require APPPATH.'third_party/Guzzle/autoload.php';
+        require APPPATH.'third_party/guzzle/autoload.php';
       }
   }
 ?>

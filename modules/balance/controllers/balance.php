@@ -104,6 +104,7 @@ class balance extends Admin_Controller {
 
         // var_dump($this->session->userdata('user'));die;
     	$this->template->set('alert', $this->session->flashdata('alert'));
+        $this->template->set('balance', $result->balance);
     	$this->template->build('index');
     }
 }
