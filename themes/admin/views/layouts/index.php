@@ -240,6 +240,11 @@
                                 </a>
                             </li>
                             <li>
+                                    <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-upload"></i><span> Topups </span> 
+                                    </a>
+                                </li>
+                            <li>
                                 <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
                                 </a>
@@ -339,7 +344,7 @@
                                         <i class="zmdi zmdi-repeat"></i><span> Transfers Balance </span> 
                                     </a>
                                 </li>
-                                <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dekape') { ?>
                                 <li>
                                     <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-upload"></i><span> Topups </span> 
