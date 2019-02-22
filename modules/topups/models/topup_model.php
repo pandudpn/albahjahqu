@@ -28,7 +28,7 @@ class topup_model extends MY_Model {
         $this->db->select($this->table_customer.'.phone as customer_phone');
         $this->db->select($this->table_customer.'.email as customer_email');
         $this->db->select($this->table_dealer.'.name as dealer_name');
-        $this->db->select($this->table_service.'.remarks as note');
+        $this->db->select($this->table.'.remarks as note');
         $this->db->from($this->table);
         $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
         $this->db->join($this->table_dealer, $this->table_dealer.'.id = '.$this->table.'.dealer_id', 'left');
