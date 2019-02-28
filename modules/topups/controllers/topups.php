@@ -238,72 +238,91 @@ class topups extends Admin_Controller {
         return $service_apps;
     }
 
-    public function set($id=null)
+    public function approve($trx_code=null)
     {
-    	if($id)
+    	if($trx_code)
     	{
-    		$update 		= $this->topup->update($id, array('status' => 'approved', 'status_level' => 4));
-    		$transaction 	= $this->topup->find($id);
+            //var_dump($trx_code);die;
+            $amount             = $this->input->post('base_price');
 
-    		//MUTASI fee ke dealer
-            $dealer_eva     = $this->dealer->find($transaction->dealer_id)->eva;
-            $dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
+            $transaction        = $this->transaction->find_by(array('trx_code' => $trx_code));
+            $customer           = $this->customer->find($transaction->cus_id);
+            $customer_eva       = $this->eva_customer->find_by(array('account_user' => $customer->id));
+            $service_code       = $this->service_code->find($transaction->service_id);
 
-            $data = array(
-                'account_id'        => $dealer_account->id, 
-                'account_eva'       => $dealer_eva, 
-                'account_role'      => 'dealer', 
-                'account_role_id'   => $dealer_account->account_user, 
-                'transaction_type'  => 'W',
-                'transaction_ref'   => $transaction->trx_code, 
-                'transaction_code'  => $transaction->service_code, 
-                'purchase_ref'      => $transaction->ref_code, 
-                'remarks'           => 'Withdraw via Admin by '.$this->session->userdata('user')->name, 
-                'starting_balance'  => intval($dealer_account->account_balance), 
-                'debit'             => intval($transaction->base_price),
-                'ending_balance'    => intval($dealer_account->account_balance - $transaction->base_price)
+            $mts_data = array(
+                'account_id'        => $customer_eva->id,
+                'account_eva'       => $customer_eva->account_no,
+                'account_user'      => $customer->id,
+                'transaction_ref'   => $transaction->trx_code,
+                'remarks'           => $service_code->remarks,
+                'starting_balance'  => $customer_eva->account_balance,
+                'credit'            => intval($amount),
+                'ending_balance'    => $customer_eva->account_balance + intval($amount)
             );
 
-            $mutation_id = $this->eva_corporate_mutation->insert($data);
+            $update = $this->transaction->update($transaction->id, array(
+                'base_price' => intval($amount),
+                'selling_price' => intval($amount),
+                'status' => 'approved', 
+                'status_level' => '4', 
+                'status_provider' => '00'
+            ));
 
-    		if($update)
+            $mts_id = $this->eva_customer_mutation->insert($mts_data);
+
+    		// $update 		= $this->topup->update($id, array('status' => 'approved', 'status_level' => 4));
+    		// $transaction 	= $this->topup->find($id);
+
+    		// //MUTASI fee ke dealer
+      //       $dealer_eva     = $this->dealer->find($transaction->dealer_id)->eva;
+      //       $dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
+
+      //       $data = array(
+      //           'account_id'        => $dealer_account->id, 
+      //           'account_eva'       => $dealer_eva, 
+      //           'account_role'      => 'dealer', 
+      //           'account_role_id'   => $dealer_account->account_user, 
+      //           'transaction_type'  => 'W',
+      //           'transaction_ref'   => $transaction->trx_code, 
+      //           'transaction_code'  => $transaction->service_code, 
+      //           'purchase_ref'      => $transaction->ref_code, 
+      //           'remarks'           => 'Withdraw via Admin by '.$this->session->userdata('user')->name, 
+      //           'starting_balance'  => intval($dealer_account->account_balance), 
+      //           'debit'             => intval($transaction->base_price),
+      //           'ending_balance'    => intval($dealer_account->account_balance - $transaction->base_price)
+      //       );
+
+      //       $mutation_id = $this->eva_corporate_mutation->insert($data);
+
+    		if($update && $mts_id)
     		{
+                $msg = 'Topup approve success.';
+                $this->session->set_flashdata('alert', array('type' => 'success', 'msg' => $msg));
 
-    			echo 'success';
+    			redirect(site_url('topups'), 'refresh');
     		}
     	}
     }
 
-    public function rollback($id=null)
+    public function reject($trx_code=null)
     {
-    	if($id)
+    	if($trx_code)
     	{
-    		$update 		= $this->topup->update($id, array('status' => 'payment', 'status_level' => 2));
-    		$transaction 	= $this->topup->find($id);
+    		$transaction        = $this->transaction->find_by(array('trx_code' => $trx_code));
 
-    		//MUTASI fee ke dealer
-            $dealer_eva     = $this->dealer->find($transaction->dealer_id)->eva;
-            $dealer_account = $this->eva_corporate->find_by(array('account_no' => $dealer_eva));
-
-            $data = array(
-                'account_id'        => $dealer_account->id, 
-                'account_eva'       => $dealer_eva, 
-                'account_role'      => 'dealer', 
-                'account_role_id'   => $dealer_account->account_user, 
-                'transaction_type'  => 'RW',
-                'transaction_ref'   => $transaction->trx_code, 
-                'transaction_code'  => $transaction->service_code, 
-                'purchase_ref'      => $transaction->ref_code, 
-                'remarks'           => 'Rollback Withdraw via Admin by '.$this->session->userdata('user')->name, 
-                'starting_balance'  => intval($dealer_account->account_balance), 
-                'credit'            => intval($transaction->base_price),
-                'ending_balance'    => intval($dealer_account->account_balance + $transaction->base_price)
-            );
-
-            $mutation_id = $this->eva_corporate_mutation->insert($data);
+            $update = $this->transaction->update($transaction->id, array(
+                'status' => 'rejected', 
+                'status_level' => '5', 
+                'status_provider' => '00'
+            ));
 
     		if($update)
     		{
+                $msg = 'Topup reject success.';
+                $this->session->set_flashdata('alert', array('type' => 'success', 'msg' => $msg));
+
+                redirect(site_url('topups'), 'refresh');
 
     			echo 'success';
     		}
@@ -331,6 +350,16 @@ class topups extends Admin_Controller {
             $row[] = $l->dealer_name;
             $row[] = 'Rp. '.number_format($l->base_price);
             $row[] = $l->note;
+
+            if($l->image != NULL)
+            {
+                $row[] = '<a href="javascript:;" onclick="show_image(\''.$l->image.'\')">[view image]</a>';
+            }
+            else
+            {
+                $row[] = '-';
+            }
+
             $row[] = $l->created_on;
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
@@ -341,17 +370,20 @@ class topups extends Admin_Controller {
             //             <i class="fa fa-trash"></i>
             //           </a>';
 
-            if($l->status == 'approved')
+            
+            if($l->status == 'dispute')
             {
-            	$btn = 'commited <a href="javascript:;" id="btn-'.$l->id.'" class="btn btn-danger btn-sm" onclick="rollback_topup(\''.$l->id.'\')" title="rollback">
-	            		 <i class="fa fa-undo"></i>
-	            		 </a>';
-            }
-            else
-            {
-            	$btn =  '<a href="javascript:;" id="btn-'.$l->id.'" class="btn btn-success btn-sm" onclick="approve_topup(\''.$l->id.'\')" title="">
+            	$btn =  '<a href="javascript:;" id="btn-'.$l->id.'" class="btn btn-success btn-sm" onclick="approve_topup(\''.site_url('topups/approve/'.$l->trx_code).'\',\''.$l->base_price.'\')" title="">
 	            		 <i class="fa fa-check"></i>
 	            		 </a>';
+
+                $btn .=  '<a href="'.site_url('topups/reject/'.$l->trx_code).'" id="btn-'.$l->id.'" class="btn btn-danger btn-sm" title="">
+                         <i class="fa fa-close"></i>
+                         </a>';
+            }
+            else 
+            {
+                $btn = $l->status;
             }
 
             $row[]  = $btn;
