@@ -298,4 +298,23 @@ class transaction_model extends MY_Model {
         return $this->db->get()->row();
     }
 
+    public function dispute_topup()
+    {
+        $this->db->select('count(*) as dispute_topup', false);
+        $this->db->from($this->table);
+
+        $this->db->where($this->table.'.deleted', '0');
+        $this->db->where($this->table.'.status <>', 'inquiry');
+        $this->db->where($this->table.'.status', 'dispute');
+        $this->db->where('LEFT('.$this->table.'.service_code, 3) = ', 'TOP');
+
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv') 
+        {
+            $this->db->where('transactions.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $this->db->where("(status_provider = '99' OR status_provider = '00')");
+        return $this->db->get()->row();
+    }
+
 }

@@ -203,6 +203,28 @@ class Admin_Controller extends Base_Controller{
             $pending = '';
         }
 
+        $pending = $this->transaction->pending()->pending;
+
+        if($pending > 0)
+        {
+            $pending = '<span class="label label-pill label-primary float-right">'.$pending.'</span>';
+        }
+        else
+        {
+            $pending = '';
+        }
+
+        $dispute_topup = $this->transaction->dispute_topup()->dispute_topup;
+
+        if($dispute_topup > 0)
+        {
+            $dispute_topup = '<span class="label label-pill label-primary float-right">'.$dispute_topup.'</span>';
+        }
+        else
+        {
+            $dispute_topup = '';
+        }
+
         // var_dump($pending);die;
 
         $this->template->set_layout('index');
@@ -210,6 +232,7 @@ class Admin_Controller extends Base_Controller{
         $this->template->set('unread', $unread);
         $this->template->set('waiting', $waiting);
         $this->template->set('pending', $pending);
+        $this->template->set('dispute_topup', $dispute_topup);
     }
 
     public function check_login(){
