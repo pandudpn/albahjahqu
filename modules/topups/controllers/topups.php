@@ -14,6 +14,7 @@ class topups extends Admin_Controller {
         $this->load->model('user/eva_customer_mutation_model', 'eva_customer_mutation');
         $this->load->model('transactions/transaction_model', 'transaction');
         $this->load->model('user/eva_customer_model', 'eva_customer');
+        $this->load->model('customers/customer_session_model', 'customer_session');
 
         $this->load->model('services/service_model', 'service_code');
         $this->load->helper('text');
@@ -297,6 +298,15 @@ class topups extends Admin_Controller {
 
     		if($update && $mts_id)
     		{
+                $title   = 'OKBABE+';
+                $session = $this->customer_session->order_by('id', 'desc');
+                $session = $this->customer_session->find_by(array('cus_id' => $transaction->cus_id));
+
+                $fcm_id = Array();
+                array_push($fcm_id, $session->cus_fcm_id);
+
+                $this->push_notification($fcm_id, $title, 'Topup manual anda sudah diterima senilai Rp. '.number_format($amount), 'transaction', '');
+
                 $msg = 'Topup approve success.';
                 $this->session->set_flashdata('alert', array('type' => 'success', 'msg' => $msg));
 
@@ -319,6 +329,15 @@ class topups extends Admin_Controller {
 
     		if($update)
     		{
+                $title   = 'OKBABE+';
+                $session = $this->customer_session->order_by('id', 'desc');
+                $session = $this->customer_session->find_by(array('cus_id' => $transaction->cus_id));
+
+                $fcm_id = Array();
+                array_push($fcm_id, $session->cus_fcm_id);
+
+                $this->push_notification($fcm_id, $title, 'Topup manual anda dibatalkan', 'transaction', '');
+
                 $msg = 'Topup reject success.';
                 $this->session->set_flashdata('alert', array('type' => 'success', 'msg' => $msg));
 
@@ -400,5 +419,41 @@ class topups extends Admin_Controller {
         );
         //output to json format
         echo json_encode($output);
+    }
+
+    private function push_notification($gcm_ids, $title, $msg, $action='transaction', $id='')
+    {
+        $url     = 'https://fcm.googleapis.com/fcm/send';
+        $message = array("title" => $title, "body" => $msg, "click_action" => $action);
+        $fields  = array(
+              'registration_ids'  => $gcm_ids,
+              'notification'      => $message,
+              'data'              => array("title" => $title, "message" => $msg)
+        );
+
+        $api_key = 'AAAAf_Rr2ig:APA91bGe0MVf85hli70S__JHZMjIhZILomI9WkEv_wyLqf6K8mm2A4oHsmKGsS9UJr4CniLF518W9ECdncTtUhc-f-h8NFPRDCLU0M5nAM_bpeDxYPRk2U_OA1b8F3zUBOQHiMWmVMud';
+
+        $headers = array(
+             'Authorization: key='.$api_key,
+             'Content-Type: application/json'
+        );
+
+        // Open connection
+        $ch = curl_init();
+        // Set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Disabling SSL Certificate support temporarly
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        // Execute post
+        $result = curl_exec($ch);
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+        // Close connection
+        curl_close($ch);
     }
 }
