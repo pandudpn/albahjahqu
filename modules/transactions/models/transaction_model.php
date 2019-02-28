@@ -8,6 +8,7 @@ class transaction_model extends MY_Model {
 	protected $table_customer   = 'customers';
     protected $table_code       = 'ref_service_codes';
 	protected $table_box        = 'dealer_box_stock_usages';
+    protected $table_proof      = 'topup_proofs';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
@@ -302,10 +303,12 @@ class transaction_model extends MY_Model {
     {
         $this->db->select('count(*) as dispute_topup', false);
         $this->db->from($this->table);
+        $this->db->join($this->table_proof, $this->table_proof.'.trx_code = '.$this->table.'.trx_code', 'left');
 
         $this->db->where($this->table.'.deleted', '0');
         $this->db->where($this->table.'.status <>', 'inquiry');
         $this->db->where($this->table.'.status', 'dispute');
+        $this->db->where($this->table_proof.'.image IS NOT NULL');
         $this->db->where('LEFT('.$this->table.'.service_code, 3) = ', 'TOP');
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv') 
