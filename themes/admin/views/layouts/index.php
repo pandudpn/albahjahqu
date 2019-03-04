@@ -537,7 +537,6 @@
                 <!-- Start content -->
                 <div class="content">
                     <div class="container-fluid">
-
                         <?php echo $template['body']; ?>
 
                     </div> <!-- container -->
@@ -709,6 +708,66 @@
 
                   });
             </script>
+            <?php if($this->session->userdata('user')) { ?>
+
+                <script type="text/javascript">
+
+                    // request permission on page load
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if (!Notification) 
+                        {
+                            alert('Browser tidak mendukung notifikasi. Silahkan coba google chrome.'); 
+                            return;
+                        }
+
+                        if (Notification.permission !== "granted")
+                        {
+                            Notification.requestPermission();
+                        }
+                    });
+
+                    function notifyMe(count_notif) 
+                    {
+                        if (Notification.permission !== "granted")
+                        {   
+                            Notification.requestPermission(); 
+                        }
+                        else 
+                        {
+                            var notification = new Notification('Alert! OKBABE+', {
+                                icon: '<?php echo $this->template->get_theme_path();?>assets/images/logo_okbabe_purple.png',
+                                image: '<?php echo $this->template->get_theme_path();?>assets/images/logo_okbabe_purple.png',
+                                body: "Saat ini ada "+count_notif+" trx PENDING. Cek sekarang",
+                            });
+
+                            notification.onclick = function () {
+                                window.location.href = "<?php echo site_url('transactions/pending'); ?>";      
+                            };
+
+                            var audio = new Audio('<?php echo $this->template->get_theme_path();?>assets/sound/notification.mp3');
+                            audio.play();
+                        }
+                    }
+
+                    $(document).ready(function(){
+                        
+                        setInterval(function(){ 
+
+                            $.post('<?php echo site_url('transactions/notifications/pending_trx'); ?>')
+                             .done(function(data){
+                                var count_notif = parseInt(data);
+                                if(count_notif > 0)
+                                {
+                                    notifyMe(count_notif)
+                                }
+
+                             });
+
+                        }, 60000)
+                    });
+                </script>
+
+            <?php } ?>
 
         </div>
 
