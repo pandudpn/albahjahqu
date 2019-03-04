@@ -249,16 +249,22 @@
                 "targets": [ 1 ], 
                 "orderable": false, //set not orderable
                 },
-                <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
-
                 { 
                 "targets": [ 5 ], 
                 "visible": false, //set not visible
                 },
                 { 
-                "targets": [ 12 ], 
+                "targets": [ 7 ], 
                 "visible": false, //set not visible
                 },
+                { 
+                "targets": [ 11 ], 
+                "visible": false, //set not visible
+                },
+                // { 
+                // "targets": [ 12 ], 
+                // "visible": false, //set not visible
+                // },
                 { 
                 "targets": [ 14 ], 
                 "visible": false, //set not visible
@@ -287,7 +293,6 @@
                 "targets": [ 20 ], 
                 "visible": false, //set not visible
                 }
-                <?php } ?>
             ],
             "scrollX": true
         });
