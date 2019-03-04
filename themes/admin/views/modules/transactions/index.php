@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.7;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -246,9 +246,48 @@
                 "orderable": false, //set not orderable
                 },
                 { 
-                "targets": [ 1 ], //first column / numbering column
+                "targets": [ 1 ], 
                 "orderable": false, //set not orderable
                 },
+                <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
+
+                { 
+                "targets": [ 5 ], 
+                "visible": false, //set not visible
+                },
+                { 
+                "targets": [ 12 ], 
+                "visible": false, //set not visible
+                },
+                { 
+                "targets": [ 14 ], 
+                "visible": false, //set not visible
+                },
+                { 
+                "targets": [ 15 ], 
+                "visible": false, //set not visible
+                },
+                { 
+                "targets": [ 16 ], 
+                "visible": false, //set not visible
+                },
+                { 
+                "targets": [ 17 ], 
+                "visible": false, //set not visible
+                },
+                { 
+                "targets": [ 18 ], 
+                "visible": false, //set not visible
+                },
+                { 
+                "targets": [ 19 ], 
+                "visible": false, //set not visible
+                },
+                { 
+                "targets": [ 20 ], 
+                "visible": false, //set not visible
+                }
+                <?php } ?>
             ],
             "scrollX": true
         });
