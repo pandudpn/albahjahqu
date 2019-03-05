@@ -20,7 +20,7 @@ class data extends Admin_Controller {
         echo json_encode($data);
     }
 
-    public function service_code($alias='', $category='REG')
+    public function service_code($alias='', $category='')
     {
         if($category == ''){
             $param = array('provider' => $alias, 'deleted' => '0');
