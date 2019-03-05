@@ -223,7 +223,7 @@
 
     $("#operator").on('change', function(){
         var source = $('#operator').val();
-        var category   = $('#category').val();
+        var category   = $('#category').val(); var category = '';
         var service = $("#service");
         var denom = $("#denom");
 
@@ -237,11 +237,11 @@
             $.each(obj, function (idx, val) {
                 if(service_id == obj[idx].id)
                 {
-                    service.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</option>");
+                    service.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + " "+ obj[idx].biller.name +"</option>");
                 }
                 else
                 {
-                    service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</option>");
+                    service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + " "+ obj[idx].biller.name +"</option>");
                 }
                 
             });
@@ -266,7 +266,7 @@
     }).trigger('change');
 
     $("#category").on('change', function(){
-        var source   = $('#category').val();
+        var source   = $('#category').val(); var source = '';
         var operator = $('#operator').val();
         var target   = $("#service");
 
@@ -279,11 +279,11 @@
             $.each(obj, function (idx, val) {
                 if(service_id == obj[idx].id)
                 {
-                    target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</option>");
+                    target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + " "+ obj[idx].biller.name +"</option>");
                 }
                 else
                 {
-                    target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</option>");
+                    target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + " "+ obj[idx].biller.name +"</option>");
                 }
                 
             });
