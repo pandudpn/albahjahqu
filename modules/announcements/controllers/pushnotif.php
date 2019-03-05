@@ -7,6 +7,8 @@ class pushnotif extends Admin_Controller {
         $this->load->model('dealers/dealer_model', 'dealer');
         $this->load->model('customers/customer_model', 'customer');
         $this->load->model('customers/customer_session_model', 'customer_session');
+        $this->load->model('announcements/notification_model', 'notification');
+        $this->load->model('announcements/notification_read_model', 'notification_read');
 
         $this->check_login();
     }
@@ -15,17 +17,28 @@ class pushnotif extends Admin_Controller {
     {
         if($this->input->post())
         {
-            //Populating FCM IDs
-
             $dealer_id     = $this->input->post('dealer');
+            $title         = $this->input->post('title');
+            $message       = $this->input->post('message');
+
+            $data          = array(
+                'dealer_id' => $dealer_id,
+                'title'     => $title,
+                'message'   => $message,
+                'type'      => 'popup'
+            );
+
+            if(empty($dealer_id))
+            {
+                unset($data['dealer_id']);
+            }
+
+            $notification_id = $this->notification->insert($data);
 
             $max_fcm_users = 1000;
             $users_num     = $this->customer_session->count_all_users($dealer_id); // ALL USERS COUNT
-            // var_dump($users_num);die;
-            $users_queue   = floor($users_num/$max_fcm_users);
             
-            $title          = $this->input->post('title');
-            $message        = $this->input->post('message');
+            $users_queue   = floor($users_num/$max_fcm_users);
 
             for ($i=0; $i <= $users_queue; $i++) { 
                 
@@ -40,7 +53,7 @@ class pushnotif extends Admin_Controller {
 
                 //Send to All FCM IDs in $i-st Batch of A Thousand.
                 if(count($fcm_ids) > 0){
-                    $this->push_notification($fcm_ids, $title, $message);
+                    $this->push_notification($fcm_ids, $title, $message, $notification_id);
                 }
             }
 
@@ -60,21 +73,21 @@ class pushnotif extends Admin_Controller {
     		 ->build('pushnotif');
     }
 
-    private function push_notification($gcm_ids, $title, $msg)
+    private function push_notification($gcm_ids, $title, $msg, $notification_id)
     {
         $url     = 'https://fcm.googleapis.com/fcm/send';
         $message = array("title" => $title, "body" => $msg, "click_action" => 'popup');
         $fields  = array(
-              'registration_ids'  => $gcm_ids,
-              'notification'      => $message,
-              'data'              => array("title" => $title, "message" => $msg)
+            'registration_ids'  => $gcm_ids,
+            'notification'      => $message,
+            'data'              => array("notification_id" => $notification_id, "title" => $title, "message" => $msg)
         );
 
         $api_key = 'AAAAf_Rr2ig:APA91bGe0MVf85hli70S__JHZMjIhZILomI9WkEv_wyLqf6K8mm2A4oHsmKGsS9UJr4CniLF518W9ECdncTtUhc-f-h8NFPRDCLU0M5nAM_bpeDxYPRk2U_OA1b8F3zUBOQHiMWmVMud';
 
         $headers = array(
-             'Authorization: key='.$api_key,
-             'Content-Type: application/json'
+            'Authorization: key='.$api_key,
+            'Content-Type: application/json'
         );
 
         // Open connection
