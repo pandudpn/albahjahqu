@@ -200,7 +200,7 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table_box.'.denom');
         $this->db->select($this->table_biller.'.name as biller_name');
         $this->db->select($this->table_dealer.'.name as dealer_name');
-        $this->db->select($this->table_dealer_cluster.'.alias as cluster_name');
+        $this->db->select($this->table_dealer_cluster.'.name as cluster_name');
         $this->db->select($this->table.'.ref_code as sn');
         $this->db->select($this->table.'.token_code as token');
         $this->db->select($this->table_customer.'.name as customer');
