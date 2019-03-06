@@ -10,7 +10,7 @@ class customer_support_model extends MY_Model {
 
     protected $column_order  = array(null, 'ticket', 'cus_name', 'dealer_name', 'subject', 'status', 'created_on', 'modified_on'); //set column field database for datatable orderable
     protected $column_search = array('ticket', 'cus_name', 'status', 'subject', 'created_on'); //set column field database for datatable searchable 
-    protected $order 		 = array('created_on' => 'desc'); // default order 
+    protected $order 		 = array('unread' => 'desc', 'status' => 'asc'); // default order 
 
     public function __construct()
     {
