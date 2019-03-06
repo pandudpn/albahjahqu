@@ -5,6 +5,7 @@ class transaction_model extends MY_Model {
     protected $table            = 'transactions';
     protected $table_biller     = 'billers';
     protected $table_dealer     = 'dealers';
+    protected $table_dealer_cluster     = 'dealer_clusters';
 	protected $table_customer   = 'customers';
     protected $table_code       = 'ref_service_codes';
 	protected $table_box        = 'dealer_box_stock_usages';
@@ -199,6 +200,7 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table_box.'.denom');
         $this->db->select($this->table_biller.'.name as biller_name');
         $this->db->select($this->table_dealer.'.name as dealer_name');
+        $this->db->select($this->table_dealer_cluster.'.alias as cluster_name');
         $this->db->select($this->table.'.ref_code as sn');
         $this->db->select($this->table.'.token_code as token');
         $this->db->select($this->table_customer.'.name as customer');
@@ -221,6 +223,7 @@ class transaction_model extends MY_Model {
         $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.biller_id', 'left');
         $this->db->join($this->table_dealer, $this->table_dealer.'.id = '.$this->table.'.dealer_id', 'left');
         $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
+        $this->db->join($this->table_dealer_cluster, $this->table_dealer_cluster.'.id = '.$this->table_customer.'.cluster', 'left');
         $this->db->join($this->table_box, $this->table_box.'.trx = '.$this->table.'.trx_code', 'left');
         
         $i = 0;
@@ -276,7 +279,7 @@ class transaction_model extends MY_Model {
         $filename  = "export_".date('Y-m-d H:i:s').".csv";
 
         $delimiter = ",";
-        $newline   = "\r\n";
+        $newline   = "\n";
         $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
 
         force_download($filename, $csv_file);
