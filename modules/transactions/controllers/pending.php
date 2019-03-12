@@ -405,7 +405,7 @@ class pending extends Admin_Controller {
                     else
                     {
                         $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" >approve</a>';
-                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" >reject</a>';
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" >reject</a>';
 
                         if($l->biller_id == '7') //NARINDO
                         {
