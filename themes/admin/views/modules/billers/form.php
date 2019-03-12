@@ -25,7 +25,10 @@
                     <form method="post" action="<?php echo site_url('billers/save'); ?>">
                     
                     <input type="hidden" value="<?php echo $data->id; ?>" name="id">
-                        
+                        <div class="form-group row">
+                            <small class="text-muted"> Biller </small>
+                        </div>
+
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Name</label>
                             <div class="col-7">
@@ -74,6 +77,21 @@
                                 <textarea name="note" class="form-control"><?php echo $data->note; ?></textarea>
                             </div>
                         </div>
+
+                        <?php if($data) { ?>
+
+                        <div class="form-group row">
+                            <small class="text-muted"> EVA </small>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Account No</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="account_no" value="<?php echo $data->account_no; ?>">
+                            </div>
+                        </div>
+
+                        <?php } ?>
 
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
                         <a href="<?php echo site_url('billers'); ?>" class="btn btn-danger waves-effect waves-light">

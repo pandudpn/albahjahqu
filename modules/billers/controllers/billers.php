@@ -5,6 +5,7 @@ class billers extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('billers/biller_model', 'biller');
+        $this->load->model('user/eva_corporate_model', 'corporate');
 
         $this->load->helper('text');
 
@@ -31,7 +32,8 @@ class billers extends Admin_Controller {
         $is_exist = $this->biller->find($id);
 
         if($is_exist){
-            $biller = $is_exist;
+            $biller             = $is_exist;
+            $biller->account_no = $this->corporate->find_by(array('account_user' => $biller->id))->account_no;
             
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
@@ -73,18 +75,36 @@ class billers extends Admin_Controller {
             $last_id = $this->biller->last_id()->id;
             $leftPad = str_pad(intval($last_id + 1), 4, "0", STR_PAD_LEFT);
             
-            $data['eva'] = 'B'.$leftPad.str_replace(' ', '', strtoupper($code));
-            
-            $insert = $this->biller->insert($data);
+            $data['eva']    = 'B'.$leftPad.str_replace(' ', '', strtoupper($code));
+            $insert         = $this->biller->insert($data);
+
+            $data_eva = array(
+                'account_no'        => $data['eva'], 
+                'account_role'      => 'biller', 
+                'account_user'      => $insert, 
+                'account_holder'    => $name
+            );
+
+            $insert_eva = $this->corporate->insert($data_eva);
+
             redirect(site_url('billers'), 'refresh');
         }else{
             $update = $this->biller->update($id, $data);
+
+            $data_eva = array(
+                'account_no'        => $this->input->post('account_no'),
+                'account_holder'    => $name
+            );
+
+            $update_eva = $this->corporate->update_where('account_user', $id, $data_eva);
+
             redirect(site_url('billers'), 'refresh');
         }
     }
 
     public function delete($id)
     {
+        $delete = $this->biller->set_soft_deletes(FALSE);
         $delete = $this->biller->delete($id);
 
         redirect(site_url('billers'), 'refresh');

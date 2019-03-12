@@ -50,6 +50,91 @@ class pending extends Admin_Controller {
         redirect(site_url('transactions/pending'), 'refresh');
     }
 
+    public function check($id)
+    {
+        $transaction        = $this->transaction->find($id); 
+        $ref_service_code   = $this->ref_service_code->find($transaction->service_id);
+
+        //URL 
+        // $url            = 'https://h2hdev.narindo.com:9902/v3/advice'; //DEV
+        $url            = 'https://h2h.narindo.com:9922/v3/advice'; //PROD
+        $headers        = $this->input->request_headers();
+
+        //PARAMS
+
+        $reqid          = rand(1111111111, 9999999999);
+        $msisdn         = $transaction->destination_no;
+        $product        = $ref_service_code->biller_code;
+        $userid         = '22893'; //
+        $password       = '@d3k4pEh2h'; //
+        $sign           = strtoupper(sha1($reqid.$msisdn.$product.$userid.$password));
+        $mid            = '';
+        $trx_code       = $transaction->trx_code;
+
+        $params = array(
+            'reqid'     => $reqid, 
+            'msisdn'    => $msisdn, 
+            'product'   => $product, 
+            'userid'    => $userid, 
+            'sign'      => $sign, 
+            'mid'       => $mid, 
+            'trx_code'  => $trx_code
+        );
+
+        $date   = new DateTime( $transaction->modified_on );
+        $date2  = new DateTime( date('Y-m-d H:i:s') );
+
+        $diff   = $date2->getTimestamp() - $date->getTimestamp();
+
+        if($diff < 60)
+        {
+            $msg = 'silahkan tunggu '.(60 - $diff).' detik lagi untuk pengecekan trx / advice.';
+            $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $msg));
+            redirect(site_url('transactions/pending'), 'refresh');
+            die;
+        }
+
+        $ch = curl_init(); 
+        curl_setopt($ch, CURLOPT_URL, $url); 
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");                                                                     
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);                                                                  
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                                                                      
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        
+        $output = curl_exec($ch); 
+        curl_close($ch);  
+
+        header('Cache-Control: no-cache, must-revalidate');
+        header('Content-type: application/json');    
+        
+        $response = json_decode($output);
+
+        if($response['status'] == '1')
+        {
+            redirect(site_url('transactions/pending/changestatus/approved/'.$id), 'refresh');
+            die;
+        }
+        else if($response['status'] == '0')
+        {
+            redirect(site_url('transactions/pending/changestatus/rejected/'.$id), 'refresh');
+            die;
+        }
+        else if($response['message'])
+        {
+            $msg = $response['message'];
+            $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $msg));
+            redirect(site_url('transactions/pending'), 'refresh');
+            die;
+        }
+        else
+        {
+            $msg = 'ada sesuatu yang salah. silahkan coba kembali';
+            $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $msg));
+            redirect(site_url('transactions/pending'), 'refresh');
+            die;
+        }
+    }
+
     public function changestatus($status, $id)
     {
         $transaction  = $this->transaction->find($id);
@@ -298,105 +383,51 @@ class pending extends Admin_Controller {
             $no++;
             $row   = array();
             $row[] = $no;
-            $btn   = '';
+            
+            $btn = '<div class="btn-group">
+                        <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                        <div class="dropdown-menu">';
 
             if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
             {
-                $btn .= '-';
+                // $btn .= '-';
             }
             else
             {
-                $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/pending/edit/'.$l->id).'\')" 
-                        class="btn btn-success btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                      <i class="fa fa-pencil"></i>  edit
-                      </a> <br/>';
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/pending/edit/'.$l->id).'\')"  >edit</a>';
 
                 if($l->status != 'approved' && $l->status != 'rejected') 
                 {
                     if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
                     {
-                        $btn .= '';
+                        // $btn .= '';
                     }
                     else
                     {
-                        $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" 
-                            class="btn btn-primary btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                          <i class="fa fa-check"></i>  approve
-                          </a> <br/>';
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" >approve</a>';
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" >reject</a>';
 
-                        $btn  .= '<a href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" 
-                                class="btn btn-danger btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                          <i class="fa fa-close"></i>  reject
-                          </a>';
+                        if($l->biller_id == '7') //NARINDO
+                        {
+                            $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_check(\''.site_url('transactions/pending/check/'.$l->id).'\')" >check status trx</a>';
+                        }
                     }
                 }
             }
 
+            $btn .= '</div>
+                    </div>';
+
             $row[] = $btn;
+            $row[] = 'pending';
             $row[] = $l->created_on;
-            $row[] = $l->trx_code;
-            $row[] = $l->remarks;
-            $row[] = $l->location_type;
-
-            if(empty($l->slot))
-            {
-                $row[] = '-';
-            }
-            else
-            {
-                $row[] = $l->slot .' / '.$l->denom.'K';
-            }
-
-            if(empty($l->biller_name))
-            {
-                $row[] = '-';
-            }
-            else
-            {
-                $row[] = $l->biller_name;
-            }
-
-            if(empty($l->token_code))
-            {
-                $token = '-';
-            }
-            else
-            {
-                $token = $l->token_code;
-            }
-
-            if(empty($l->ref_code))
-            {
-                $ref_code = '-';
-            }
-            else
-            {
-                $ref_code = $l->ref_code;
-            }
-
-            $row[] = $ref_code.' / '.$token;
             $row[] = $l->cus_phone;
             $row[] = $l->destination_no;
-
-            if($l->provider == 'TSL')
-            {
-                $row[] = $l->reseller;
-            }
-            else
-            {
-                $row[] = '-';
-            }
-
-            $row[] = $l->service_denom;
+            $row[] = $l->remarks;
+            $row[] = (empty($l->slot) ? ' - ' : $l->slot) .' / '. (empty($l->denom) ? ' - ' : $l->denom.'K');
+            $row[] = (empty($l->ref_code) ? ' - ' : $l->ref_code) .' / '. (empty($l->token_code) ? ' - ' : $l->token_code);
             $row[] = 'Rp. '.number_format($l->selling_price);
-            $row[] = 'Rp. '.number_format($l->base_price);
-            $row[] = 'Rp. '.number_format($l->dealer_fee);
-            $row[] = 'Rp. '.number_format($l->biller_fee);
-            $row[] = 'Rp. '.number_format($l->dekape_fee);
-            $row[] = 'Rp. '.number_format($l->partner_fee);
-            $row[] = 'Rp. '.number_format($l->user_fee);
-            $row[] = 'Rp. '.number_format($l->user_cashback);
-            $row[] = $l->status;
+            $row[] = $l->trx_code;
 
             $data[] = $row;
         }

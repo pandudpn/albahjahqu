@@ -94,4 +94,48 @@ class eva_corporate_model extends MY_Model {
 	
 		return false;
 	}
+
+	public function insert($data=null)
+	{
+		$eva = $this->load->database('eva', TRUE);
+
+		if ($this->_function_check(FALSE, $data) === FALSE)
+		{
+			return FALSE;
+		}
+	
+		// Add the created field
+		if ($this->set_created === TRUE && !array_key_exists('created', $data))
+		{
+			$data['created_on'] = $this->set_date();
+		}
+		
+		// Insert it
+		$status = $eva->insert($this->table, $data);
+		
+		if ($status != FALSE)
+		{
+			return $eva->insert_id();
+		} else
+		{
+			$this->error = mysqli_error();
+			return false;
+		}
+
+	}
+
+	public function update_where($field=null, $value=null, $data=null) 
+	{
+		$eva = $this->load->database('eva', TRUE);
+		
+		if (empty($field) || empty($value) || !is_array($data))
+		{
+			$this->error = $this->lang->line('bf_model_no_data');
+			$this->logit('['. get_class($this) .': '. __METHOD__ .'] '. $this->lang->line('bf_model_no_data'));
+			return false;
+		}
+			
+		return $eva->update($this->table, $data, array($field => $value));
+	}
+
 }
