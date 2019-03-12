@@ -34,6 +34,7 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table.'.dekape_fee');
         $this->db->select($this->table.'.user_fee');
         $this->db->select($this->table.'.user_cashback');
+        $this->db->select($this->table.'.biller_id');
         $this->db->select($this->table.'.location_type as location_type');
         $this->db->select('IF(customers.phone = IF(LEFT(destination_no, 2) <> 62, CONCAT(62, SUBSTRING(destination_no, 2, 20)), destination_no), "user", "reseller") as reseller', false);
         $this->db->select('('.$this->table.'.service_denom * 1000) as service_denom', false);

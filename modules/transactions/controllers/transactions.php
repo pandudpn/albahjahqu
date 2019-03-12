@@ -457,150 +457,73 @@ class transactions extends Admin_Controller {
 
             $row[] = $no;
 
-            $btn   = '';
+            $btn = '<div class="btn-group">
+                        <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
+                        <div class="dropdown-menu">';
 
             if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
             {
-                $btn .= '-';
+                // $btn .= '-';
             }
             else
             {
-                $btn  .= '<a href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/edit/'.$l->id).'\')" 
-                        class="btn btn-success btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                      <i class="fa fa-pencil"></i>  edit
-                      </a> <br/>';
+                $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/edit/'.$l->id).'\')">edit</a>';
 
                 if($l->status == 'rejected' || $l->status_provider == '5') 
                 {
-                    $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')" 
-                        class="btn btn-warning btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                      <i class="fa fa-check"></i>  reapprove
-                      </a> <br/>';
+                    $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')">reapprove</a>';
                 }
 
                 if($l->status == 'approved') 
                 {
                     if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
                     {
-                        $btn .= '';
+                        // $btn .= '';
                     }
                     else
                     {
-                        $btn  .= '<a href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
-                                class="btn btn-danger btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                          <i class="fa fa-close"></i>  reject
-                          </a>';
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')">reject</a>';
                     }
                 }
                 else if($l->status == 'rejected')
                 {
                     if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
                     {
-                        $btn .= '';
+                        // $btn .= '';
                     }
                     else
                     {
-                        $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
-                            class="btn btn-primary btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                          <i class="fa fa-check"></i>  approve
-                          </a> <br/>';
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')">approve</a>';
                     }
                 }
                 else
                 {
                     if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
                     {
-                        $btn .= '';
+                        // $btn .= '';
                     }
                     else
                     {
-                        $btn  .= '<a href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" 
-                            class="btn btn-primary btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                          <i class="fa fa-check"></i>  approve
-                          </a> <br/>';
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" >approve</a>';
 
-                        $btn  .= '<a href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')" 
-                                class="btn btn-danger btn-sm" style="margin-bottom: 5px; width: 80px; text-align: left;">
-                          <i class="fa fa-close"></i>  reject
-                          </a>';
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')">reject</a>';
                     }
                 }
             }
 
+            $btn .= '</div>
+                    </div>';
+
             $row[] = $btn;
+            $row[] = (($l->status == 'payment' || $l->status == 'approved') ? '<span class="badge badge-pill badge-success">'.$l->status.'</span>' : '<span class="badge badge-pill badge-danger">'.$l->status.'</span>');
             $row[] = $l->created_on;
-            $row[] = $l->trx_code;
-            $row[] = $l->remarks;
-            $row[] = $l->location_type;
-
-            if(empty($l->slot))
-            {
-                $row[] = '-';
-            }
-            else
-            {
-                $row[] = $l->slot .' / '.$l->denom.'K';
-            }
-
-            if(empty($l->biller_name))
-            {
-                $row[] = '-';
-            }
-            else
-            {
-                $row[] = $l->biller_name;
-            }
-
-            if(empty($l->token_code))
-            {
-                $token = '-';
-            }
-            else
-            {
-                $token = $l->token_code;
-            }
-
-            if(empty($l->ref_code))
-            {
-                $ref_code = '-';
-            }
-            else
-            {
-                $ref_code = $l->ref_code;
-            }
-
-            $row[] = $ref_code.' / '.$token;
             $row[] = $l->cus_phone;
             $row[] = $l->destination_no;
-
-            if($l->provider == 'TSL')
-            {
-                $row[] = $l->reseller;
-            }
-            else
-            {
-                $row[] = '-';
-            }
-
-            $row[] = $l->service_denom;
+            $row[] = $l->remarks;
+            $row[] = (empty($l->slot) ? ' - ' : $l->slot) .' / '. (empty($l->denom) ? ' - ' : $l->denom.'K');
+            $row[] = (empty($l->ref_code) ? ' - ' : $l->ref_code) .' / '. (empty($l->token_code) ? ' - ' : $l->token_code);
             $row[] = 'Rp. '.number_format($l->selling_price);
-            $row[] = 'Rp. '.number_format($l->base_price);
-            $row[] = 'Rp. '.number_format($l->dealer_fee);
-            $row[] = 'Rp. '.number_format($l->biller_fee);
-            $row[] = 'Rp. '.number_format($l->dekape_fee);
-            $row[] = 'Rp. '.number_format($l->partner_fee);
-            $row[] = 'Rp. '.number_format($l->user_fee);
-            $row[] = 'Rp. '.number_format($l->user_cashback);
-            $row[] = $l->status;
-            
-
-            // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
-            //             <i class="fa fa-pencil"></i>
-            //           </a> &nbsp;';
-
-            // $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('menu/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-            //             <i class="fa fa-trash"></i>
-            //           </a>';
+            $row[] = $l->trx_code;
 
             $data[] = $row;
         }

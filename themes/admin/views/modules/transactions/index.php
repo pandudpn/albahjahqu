@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.7;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -39,34 +39,20 @@
                     </div>
                 </div>
             </form>
-            <table id="datatable" class="table table-striped table-bordered table-responsive">
+            <table id="datatable" class="table table-striped table-bordered table-responsive" style="min-width: 2000px; min-height: 300px;">
                 <thead>
                 <tr>
                     <th>No</th>
                     <th>Action</th>
-                    <th style="width:170px;">Time</th>
-                    <th>TRX Code</th>
-                    <th style="width:200px;">Product</th>
-                    <th style="width:100px;">Location Type</th>
-                    <th style="width:100px;">Slot / Denom</th>
-                    <th style="width:200px;">Biller</th>
-                    <th>SN / Token</th>
-                    <th>Customer</th>
-                    <th>Destination Number</th>
-                    <th>Reseller/User</th>
-                    <th style="width:100px;">Amount</th>
-                    <th style="width:100px;">Selling Price</th>
-                    <th style="width:100px;">Base Price</th>
-                    <th style="width:100px;">Dealer Fee</th>
-                    <th style="width:100px;">Biller Fee</th>
-                    <th style="width:100px;">Dekape Fee</th>
-                    <th style="width:100px;">Partner Fee</th>
-                    <th style="width:100px;">User Fee</th>
-                    <th style="width:100px;">User Cashback</th>
                     <th>Status</th>
-                    <!-- <th style="width: 120px;">
-                    	<a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
-					</th> -->
+                    <th>Time</th>
+                    <th>User</th>
+                    <th>Destination Number</th>
+                    <th>Product</th>
+                    <th>Slot / Denom</th>
+                    <th>SN / Token</th>
+                    <th>Selling Price</th>
+                    <th>TRX Code</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -75,29 +61,15 @@
                 <tr>
                     <th>No</th>
                     <th>Action</th>
-                    <th>Time</th>
-                    <th>TRX Code</th>
-                    <th>Product</th>
-                    <th>Location Type</th>
-                    <th>Slot / Denom</th>
-                    <th>Biller</th>
-                    <th>SN / Token</th>
-                    <th>Customer</th>
-                    <th>Destination Number</th>
-                    <th>Reseller/User</th>
-                    <th>Amount</th>
-                    <th>Selling Price</th>
-                    <th>Base Price</th>
-                    <th>Dealer Fee</th>
-                    <th>Biller Fee</th>
-                    <th>Dekape Fee</th>
-                    <th>Partner Fee</th>
-                    <th>User Fee</th>
-                    <th>User Cashback</th>
                     <th>Status</th>
-                    <!-- <th style="width: 120px;">
-                        <a href="<?php echo site_url('menu/create'); ?>" class="btn waves-effect btn-info btn-sm"> <i class="fa fa-plus"></i> </a>
-                    </th> -->
+                    <th>Time</th>
+                    <th>User</th>
+                    <th>Destination Number</th>
+                    <th>Product</th>
+                    <th>Slot / Denom</th>
+                    <th>SN / Token</th>
+                    <th>Selling Price</th>
+                    <th>TRX Code</th>
                 </tr>
                 </tfoot>
             </table>
@@ -248,50 +220,6 @@
                 { 
                 "targets": [ 1 ], 
                 "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 5 ], 
-                "visible": false, //set not visible
-                },
-                { 
-                "targets": [ 7 ], 
-                "visible": false, //set not visible
-                },
-                { 
-                "targets": [ 11 ], 
-                "visible": false, //set not visible
-                },
-                // { 
-                // "targets": [ 12 ], 
-                // "visible": false, //set not visible
-                // },
-                { 
-                "targets": [ 14 ], 
-                "visible": false, //set not visible
-                },
-                { 
-                "targets": [ 15 ], 
-                "visible": false, //set not visible
-                },
-                { 
-                "targets": [ 16 ], 
-                "visible": false, //set not visible
-                },
-                { 
-                "targets": [ 17 ], 
-                "visible": false, //set not visible
-                },
-                { 
-                "targets": [ 18 ], 
-                "visible": false, //set not visible
-                },
-                { 
-                "targets": [ 19 ], 
-                "visible": false, //set not visible
-                },
-                { 
-                "targets": [ 20 ], 
-                "visible": false, //set not visible
                 }
             ],
             "scrollX": true
