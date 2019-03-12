@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.9;">
+        <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -53,7 +53,7 @@
                     <th>SN / Token</th>
                     <th>Selling Price</th>
                     <th>TRX Code</th>
-                    <th style="width: 300px;">Assignee</th>
+                    <th>Assignee</th>
                 </tr>
                 </thead>
                 <tbody>
