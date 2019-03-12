@@ -528,12 +528,13 @@ class transactions extends Admin_Controller {
             $assignees  = $this->transaction_log->find_all_by(array('transaction_code' => $l->trx_code));
 
             $assignee   = '';
+            $assignee   = '<ul style="margin: 5px; padding: 5px;">';
             foreach ($assignees as $a) 
             {
-                $assignee .= $a->user_name.', ';
+                $assignee .= '<li>'.$a->user_name.' <br>'.substr($a->remarks, 19, 40).'</li>';
             }
 
-            $assignee  = rtrim($assignee, ', ');
+            $assignee .= '</ul>';
             $row[]     = $assignee;
 
             $data[] = $row;
