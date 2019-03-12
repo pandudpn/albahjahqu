@@ -53,7 +53,7 @@
                     <th>SN / Token</th>
                     <th>Selling Price</th>
                     <th>TRX Code</th>
-                    <th>Assignee</th>
+                    <th style="width: 300px;">Assignee</th>
                 </tr>
                 </thead>
                 <tbody>
