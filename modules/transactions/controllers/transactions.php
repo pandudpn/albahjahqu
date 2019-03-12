@@ -525,6 +525,18 @@ class transactions extends Admin_Controller {
             $row[] = 'Rp. '.number_format($l->selling_price);
             $row[] = $l->trx_code;
 
+            $assignees  = $this->transaction_log->find_all_by(array('transaction_code' => $l->trx_code));
+
+            $assignee   = '';
+            $assignee   = '<ul>';
+            foreach ($assignees as $a) 
+            {
+                $assignee .= '<li><strong>'.$a->user_name.'</strong> '.$a->remarks.' ['.$a->created_on.']</li>';
+            }
+
+            $assignee .= '</ul>';
+            $row[]     = $assignee;
+
             $data[] = $row;
         }
  
