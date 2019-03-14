@@ -62,7 +62,7 @@ class pending extends Admin_Controller {
 
         //PARAMS
 
-        $reqid          = rand(1111111111, 9999999999);
+        $reqid          = substr($transaction->trx_code, -13);
         $msisdn         = $transaction->destination_no;
         $product        = $ref_service_code->biller_code;
         $userid         = '22893'; //
