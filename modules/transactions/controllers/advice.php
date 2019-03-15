@@ -27,6 +27,7 @@ class advice extends Api_Controller {
 
         //URL 
         $url            = 'https://h2hdev.narindo.com:9902/v3/advice'; //DEV
+
         // $url            = 'https://h2h.narindo.com:9922/v3/advice'; //PROD
         $headers        = $this->input->request_headers();
 
@@ -85,8 +86,17 @@ class advice extends Api_Controller {
         
         $response = json_decode($output);
 
-        $this->rest->set_data($response);
-        $this->rest->render();
-        die;
+        if($response['status'] == '1')
+        {
+            $this->rest->set_data($response);
+            $this->rest->render();
+            die;
+        }
+        else
+        {
+            $this->rest->set_error($response);
+            $this->rest->render();
+            die;
+        }
     }
 }
