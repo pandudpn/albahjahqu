@@ -30,13 +30,19 @@ class advice extends Api_Controller {
         // $url            = 'https://h2h.narindo.com:9922/v3/advice'; //PROD
         $headers        = $this->input->request_headers();
 
+        // DEVEL
+        $userid         = '11111';
+        $password       = '123456';
+
+        // PROD
+        // $userid         = '22893';
+        // $password       = '@d3k4pEh2h';
+
         //PARAMS
 
         $reqid          = substr($transaction->trx_code, -13);
         $msisdn         = $transaction->destination_no;
         $product        = $ref_service_code->biller_code;
-        $userid         = '22893'; //
-        $password       = '@d3k4pEh2h'; //
         $sign           = strtoupper(sha1($reqid.$msisdn.$product.$userid.$password));
         $mid            = '';
         $trx_code       = $transaction->trx_code;
