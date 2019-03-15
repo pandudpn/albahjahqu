@@ -25,6 +25,13 @@ class advice extends Api_Controller {
         $transaction        = $this->transaction->find_by(array('trx_code' => $trx_code)); 
         $ref_service_code   = $this->ref_service_code->find($transaction->service_id);
 
+        if(!$transaction)
+        {
+            $this->rest->set_error('transaction not found');
+            $this->rest->render();
+            die;
+        }
+
         //URL 
         $url            = 'https://h2hdev.narindo.com:9902/v3/advice'; //DEV
 
@@ -90,13 +97,13 @@ class advice extends Api_Controller {
         {
             $this->rest->set_data($response);
             $this->rest->render();
-            die;
+            // die;
         }
         else
         {
             $this->rest->set_error($response);
             $this->rest->render();
-            die;
+            // die;
         }
     }
 }
