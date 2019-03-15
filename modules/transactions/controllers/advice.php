@@ -87,10 +87,7 @@ class advice extends Api_Controller {
         
         $output = curl_exec($ch); 
         curl_close($ch);  
-
-        header('Cache-Control: no-cache, must-revalidate');
-        header('Content-type: application/json');    
-        
+    
         $response = json_decode($output);
 
         if($response['status'] == '1')
