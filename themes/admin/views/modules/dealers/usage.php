@@ -54,7 +54,12 @@
                 "orderable": false, //set not orderable
                 },
             ],
-            'scrollX': true
+            'scrollX': true,
+            initComplete: function(settings, json){
+                setTimeout(function(){
+                    $('.dataTables_scrollBody table thead tr th.sorting').css('visibility', 'hidden');  
+                }, 300);
+            }
         });
     });
 </script>

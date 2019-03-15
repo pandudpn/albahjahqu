@@ -56,17 +56,23 @@ class pending extends Admin_Controller {
         $ref_service_code   = $this->ref_service_code->find($transaction->service_id);
 
         //URL 
-        // $url            = 'https://h2hdev.narindo.com:9902/v3/advice'; //DEV
-        $url            = 'https://h2h.narindo.com:9922/v3/advice'; //PROD
+        $url            = 'https://h2hdev.narindo.com:9902/v3/advice'; //DEV
+        // $url            = 'https://h2h.narindo.com:9922/v3/advice'; //PROD
         $headers        = $this->input->request_headers();
+
+        // DEVEL
+        $userid         = '11111';
+        $password       = '123456';
+
+        // PROD
+        // $userid         = '22893';
+        // $password       = '@d3k4pEh2h';
 
         //PARAMS
 
-        $reqid          = rand(1111111111, 9999999999);
+        $reqid          = substr($transaction->trx_code, -13);
         $msisdn         = $transaction->destination_no;
         $product        = $ref_service_code->biller_code;
-        $userid         = '22893'; //
-        $password       = '@d3k4pEh2h'; //
         $sign           = strtoupper(sha1($reqid.$msisdn.$product.$userid.$password));
         $mid            = '';
         $trx_code       = $transaction->trx_code;
@@ -103,25 +109,22 @@ class pending extends Admin_Controller {
         
         $output = curl_exec($ch); 
         curl_close($ch);  
-
-        header('Cache-Control: no-cache, must-revalidate');
-        header('Content-type: application/json');    
         
         $response = json_decode($output);
 
-        if($response['status'] == '1')
+        if($response->status == '1')
         {
             redirect(site_url('transactions/pending/changestatus/approved/'.$id), 'refresh');
             die;
         }
-        else if($response['status'] == '0')
+        else if($response->status == '0')
         {
             redirect(site_url('transactions/pending/changestatus/rejected/'.$id), 'refresh');
             die;
         }
-        else if($response['message'])
+        else if($response->message)
         {
-            $msg = $response['message'];
+            $msg = $response->message;
             $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $msg));
             redirect(site_url('transactions/pending'), 'refresh');
             die;

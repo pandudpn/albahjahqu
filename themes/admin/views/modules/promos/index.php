@@ -96,7 +96,12 @@
                 "targets": [ 7 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 },
-            ]
+            ],
+            initComplete: function(settings, json){
+                setTimeout(function(){
+                    $('.dataTables_scrollBody table thead tr th.sorting').css('visibility', 'hidden');  
+                }, 300);
+            }
         });
     });
 
