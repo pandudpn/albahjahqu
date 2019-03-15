@@ -2,7 +2,7 @@
 
 class notification_model extends MY_Model {
 
-    protected $table            = 'notifications';
+    protected $table            = 'customer_notifications';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
