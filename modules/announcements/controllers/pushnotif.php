@@ -22,10 +22,10 @@ class pushnotif extends Admin_Controller {
             $message       = $this->input->post('message');
 
             $data          = array(
-                'dealer_id' => $dealer_id,
-                'title'     => $title,
-                'message'   => $message,
-                'type'      => 'popup'
+                'dealer_id'     => $dealer_id,
+                'notif_type'    => 'general',
+                'notif_title'   => $title,
+                'notif_remark'  => $message
             );
 
             if(empty($dealer_id))
