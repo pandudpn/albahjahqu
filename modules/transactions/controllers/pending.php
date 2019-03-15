@@ -73,8 +73,6 @@ class pending extends Admin_Controller {
         $reqid          = substr($transaction->trx_code, -13);
         $msisdn         = $transaction->destination_no;
         $product        = $ref_service_code->biller_code;
-        $userid         = '22893'; //
-        $password       = '@d3k4pEh2h'; //
         $sign           = strtoupper(sha1($reqid.$msisdn.$product.$userid.$password));
         $mid            = '';
         $trx_code       = $transaction->trx_code;
