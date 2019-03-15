@@ -89,9 +89,8 @@ class advice extends Api_Controller {
         curl_close($ch);  
     
         $response = json_decode($output);
-        var_dump($response);die;
 
-        if($response['status'] == '1')
+        if($response->status == '1')
         {
             $this->rest->set_data($response);
             $this->rest->render();
