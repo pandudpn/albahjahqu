@@ -33,18 +33,18 @@ class advice extends Api_Controller {
         }
 
         //URL 
-        $url            = 'https://h2hdev.narindo.com:9902/v3/advice'; //DEV
+        // $url            = 'https://h2hdev.narindo.com:9902/v3/advice'; //DEV
 
-        // $url            = 'https://h2h.narindo.com:9922/v3/advice'; //PROD
+        $url            = 'https://h2h.narindo.com:9922/v3/advice'; //PROD
         $headers        = $this->input->request_headers();
 
         // DEVEL
-        $userid         = '11111';
-        $password       = '123456';
+        // $userid         = '11111';
+        // $password       = '123456';
 
         // PROD
-        // $userid         = '22893';
-        // $password       = '@d3k4pEh2h';
+        $userid         = '22893';
+        $password       = '@d3k4pEh2h';
 
         //PARAMS
 
