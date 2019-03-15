@@ -109,25 +109,22 @@ class pending extends Admin_Controller {
         
         $output = curl_exec($ch); 
         curl_close($ch);  
-
-        header('Cache-Control: no-cache, must-revalidate');
-        header('Content-type: application/json');    
         
         $response = json_decode($output);
 
-        if($response['status'] == '1')
+        if($response->status == '1')
         {
             redirect(site_url('transactions/pending/changestatus/approved/'.$id), 'refresh');
             die;
         }
-        else if($response['status'] == '0')
+        else if($response->status == '0')
         {
             redirect(site_url('transactions/pending/changestatus/rejected/'.$id), 'refresh');
             die;
         }
-        else if($response['message'])
+        else if($response->message)
         {
-            $msg = $response['message'];
+            $msg = $response->message;
             $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => $msg));
             redirect(site_url('transactions/pending'), 'refresh');
             die;
