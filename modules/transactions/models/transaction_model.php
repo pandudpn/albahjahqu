@@ -35,6 +35,7 @@ class transaction_model extends MY_Model {
         $this->db->select($this->table.'.user_fee');
         $this->db->select($this->table.'.user_cashback');
         $this->db->select($this->table.'.biller_id');
+        $this->db->select($this->table_dealer.'.name as dealer_name');
         $this->db->select($this->table.'.location_type as location_type');
         $this->db->select('IF(customers.phone = IF(LEFT(destination_no, 2) <> 62, CONCAT(62, SUBSTRING(destination_no, 2, 20)), destination_no), "user", "reseller") as reseller', false);
         $this->db->select('('.$this->table.'.service_denom * 1000) as service_denom', false);
@@ -51,6 +52,7 @@ class transaction_model extends MY_Model {
         $this->db->join($this->table_biller, $this->table_biller.'.id = '.$this->table.'.biller_id', 'left');
         $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
         $this->db->join($this->table_box, $this->table_box.'.trx = '.$this->table.'.trx_code', 'left');
+        $this->db->join($this->table_dealer, $this->table_dealer.'.id = '.$this->table.'.dealer_id', 'left');
         
         $i = 0;
      

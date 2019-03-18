@@ -430,6 +430,7 @@ class pending extends Admin_Controller {
             $row[] = (empty($l->slot) ? ' - ' : $l->slot) .' / '. (empty($l->denom) ? ' - ' : $l->denom.'K');
             $row[] = (empty($l->ref_code) ? ' - ' : $l->ref_code) .' / '. (empty($l->token_code) ? ' - ' : $l->token_code);
             $row[] = 'Rp. '.number_format($l->selling_price);
+            $row[] = $l->dealer_name;
             $row[] = $l->trx_code;
 
             $data[] = $row;

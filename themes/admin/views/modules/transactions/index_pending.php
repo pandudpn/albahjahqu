@@ -44,6 +44,7 @@
                     <th>Slot / Denom</th>
                     <th>SN / Token</th>
                     <th>Selling Price</th>
+                    <th>Dealer</th>
                     <th>TRX Code</th>
                 </tr>
                 </thead>
@@ -61,6 +62,7 @@
                     <th>Slot / Denom</th>
                     <th>SN / Token</th>
                     <th>Selling Price</th>
+                    <th>Dealer</th>
                     <th>TRX Code</th>
                 </tr>
                 </tfoot>
