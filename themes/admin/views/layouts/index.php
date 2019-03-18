@@ -89,7 +89,7 @@
         <script src="<?php echo $this->template->get_theme_path();?>assets/plugins/mjolnic-bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
 
         <!-- Date Picker -->
-        <script src="<?php echo $this->template->get_theme_path();?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="<?php echo $this->template->get_theme_path();?>assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
         <script src="<?php echo $this->template->get_theme_path();?>assets/plugins/bootstrap-inputmask/bootstrap-inputmask.min.js" type="text/javascript"></script>
         <script src="<?php echo $this->template->get_theme_path();?>assets/plugins/autoNumeric/autoNumeric.js" type="text/javascript"></script>
@@ -293,6 +293,12 @@
                             <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape' || $this->session->userdata('user')->role == 'dealer_spv') { ?>
                                 
                                 <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                <li>
+                                    <a href="<?php echo site_url('reporting'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-assignment"></i><span> Reporting </span> 
+                                    </a>
+                                </li>
+
                                 <li>
                                     <a href="<?php echo site_url('balance'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-balance-wallet"></i><span> Balance VA </span> 
