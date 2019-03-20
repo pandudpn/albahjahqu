@@ -86,6 +86,7 @@
                     <th>Margin Reseller User (%)</th>
                     <th>Margin End User (%)</th>
                     <th>Dekape Fee</th>
+                    <th>Status</th>
                     <th style="width: 80px">Action</th>
                 </tr>
                 </thead>
@@ -158,6 +159,11 @@
                 "orderable": false, //set not orderable
                 "visible": <?php echo ($this->session->userdata('user')->role == 'dekape' ? 'true':'false'); ?>,
                 },
+                { 
+                "targets": [ 10 ], //last column / new item column
+                "orderable": false, //set not orderable
+                }
+                ,
                 { 
                 "targets": [ 9 ], //last column / new item column
                 "orderable": false, //set not orderable

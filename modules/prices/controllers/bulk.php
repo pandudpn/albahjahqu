@@ -200,6 +200,7 @@ class bulk extends Admin_Controller {
             $row[] = $l->margin_reseller_user;
             $row[] = $l->margin_end_user;
             $row[] = $l->dekape_fee;
+            $row[] = $l->status;
             // $row[] = $l->partner_fee;
 
             $btn   = '<a href="'.site_url('prices/bulk/edit/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'" class="btn btn-success btn-sm">

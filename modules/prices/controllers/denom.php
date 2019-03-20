@@ -248,6 +248,7 @@ class denom extends Admin_Controller {
             $row[] = number_format($l->biller_fee);
             // $row[] = $l->partner_fee;
             $row[] = number_format($l->user_fee);
+            $row[] = $l->status;
 
             $data[] = $row;
         }

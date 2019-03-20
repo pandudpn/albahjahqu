@@ -54,7 +54,6 @@
                     <th>Dekape Fee</th>
                     <th>Biller Fee</th>
                     <th>User Cashback</th>
-                    <!-- <th>User Fee</th> -->
                     <th width="90">Action</th>
                 </tr>
                 </thead>
