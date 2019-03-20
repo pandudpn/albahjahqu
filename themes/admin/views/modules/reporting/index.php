@@ -26,15 +26,53 @@
                     
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">From</label>
-                            <div class="col-7">
+                            <div class="col-9">
                                 <input class="form-control datepicker" type="text" name="from" value="" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">To</label>
-                            <div class="col-7">
+                            <div class="col-9">
                                 <input class="form-control datepicker" type="text" name="to" value="" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Type</label>
+                            <div class="col-9">
+                                <select class="form-control select2" name="type" id="type">
+                                    <option value="omzet">Omzet</option>
+                                    <option value="revenue">Revenue</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Dealer</label>
+                            <div class="col-9">
+                                <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+                                <select class="form-control select2" name="dealer_id" id="dealer_id">
+                                    <option value="">All Dealer</option>
+                                    <?php foreach($dealer as $deal)
+                                    {
+                                        echo "<option value='$deal->id'> $deal->name </option>";
+                                    } 
+                                    ?>
+                                </select>
+                                <?php }else{ ?>
+                                    <select class="form-control select2" disabled>
+                                        <option value="">Semua Dealer</option>
+                                        <?php foreach($dealer as $deal){
+                                            if($deal->id == $this->session->userdata('user')->dealer_id){
+                                                echo "<option selected value='$deal->id'> $deal->name </option>";
+                                            }else{
+                                                echo "<option value='$deal->id'> $deal->name </option>";
+                                            }
+                                        } ?>
+                                    </select>
+                                    <input type="hidden" name="dealer_id" value="<?php echo $this->session->userdata('user')->dealer_id; ?>">
+                                <?php } ?>
                             </div>
                         </div>
 

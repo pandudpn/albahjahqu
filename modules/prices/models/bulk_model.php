@@ -28,6 +28,7 @@ class bulk_model extends MY_Model {
         $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
         // $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
         $this->db->select($this->table.'.type', false);
+        $this->db->select($this->table.'.status', false);
         $this->db->select('margin_dealer, margin_reseller_user, margin_end_user, dekape_fee, partner_fee', false);
         $this->db->from($this->table);
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');

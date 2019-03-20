@@ -101,6 +101,7 @@
                     <th>Dekape Fee</th>
                     <th>Biller Fee</th>
                     <th>User Fee</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>

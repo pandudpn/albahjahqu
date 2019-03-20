@@ -12,12 +12,16 @@ class reporting extends Admin_Controller {
         $this->check_login();
 
         $this->load->model('reporting/reporting_model', 'reporting');
+        $this->load->model('references/dealers_model', 'dealer');
     }
 
     public function index()
     {
+    	$dealer           = $this->dealer->get_all();
+
         $this->template
              ->set('alert', $this->session->flashdata('alert'))
+             ->set('dealer', $dealer)
     		 ->build('index');
     }
 
@@ -78,6 +82,59 @@ class reporting extends Admin_Controller {
 			// $total_column_qty 	= array();
 			// $total_column_sum 	= array();
 
+			$tsl_lists = $this->reporting->tsl_lists();
+
+			// echo $i->format('Y-m-d');
+
+			foreach ($tsl_lists as $tsl) 
+			{
+				for ($x=0; $x < 2; $x++) 
+				{ 
+					if($x == 0)
+					{
+						$tsl_values = $this->reporting->tsl_values($tsl->provider, $tsl->type, $i->format('Y-m-d'), 'inner');
+
+						$total_row_qty 				= $total_row_qty + $tsl_values->count_trx;
+						$total_row_sum 				= $total_row_sum + $tsl_values->sum_trx;
+						$total_column_qty[$number] 	= $total_column_qty[$number] + $tsl_values->count_trx;
+						$total_column_sum[$number]	= $total_column_sum[$number] + $tsl_values->sum_trx;
+
+						$sheet->setCellValue('A'.$list, $number);
+						$sheet->setCellValue('B'.$list, $tsl->name .' '. $tsl->description.' INNER ('.$tsl->type.')');
+						$sheet->setCellValue($char.$list, $tsl_values->count_trx);
+						$sheet->setCellValue($char_next.$list, $tsl_values->sum_trx);
+
+						$spreadsheet->getActiveSheet()->getColumnDimension($char)->setWidth(15);
+						$spreadsheet->getActiveSheet()->getColumnDimension($char_next)->setWidth(20);
+
+						$list++;
+						$number++;
+					}
+					else if($x == 1)
+					{
+						$tsl_values = $this->reporting->tsl_values($tsl->provider, $tsl->type, $i->format('Y-m-d'), 'outer');
+
+						$total_row_qty 				= $total_row_qty + $tsl_values->count_trx;
+						$total_row_sum 				= $total_row_sum + $tsl_values->sum_trx;
+						$total_column_qty[$number] 	= $total_column_qty[$number] + $tsl_values->count_trx;
+						$total_column_sum[$number]	= $total_column_sum[$number] + $tsl_values->sum_trx;
+
+						$sheet->setCellValue('A'.$list, $number);
+						$sheet->setCellValue('B'.$list, $tsl->name .' '. $tsl->description.' OUTER ('.$tsl->type.')');
+						$sheet->setCellValue($char.$list, $tsl_values->count_trx);
+						$sheet->setCellValue($char_next.$list, $tsl_values->sum_trx);
+
+						$spreadsheet->getActiveSheet()->getColumnDimension($char)->setWidth(15);
+						$spreadsheet->getActiveSheet()->getColumnDimension($char_next)->setWidth(20);
+
+						$list++;
+						$number++;
+					}
+				}
+				// echo $this->db->last_query();die;
+				// var_dump($tsl_values);die;
+			}
+
 			$pls_lists = $this->reporting->pls_lists();
 
 			// echo $i->format('Y-m-d');
@@ -105,7 +162,46 @@ class reporting extends Admin_Controller {
 				$number++;
 			}
 
-			$topup_lists = $this->reporting->topup_lists();
+			$bil_lists = $this->reporting->bil_lists();
+			// echo $this->db->last_query();die;
+
+			// echo $i->format('Y-m-d');
+
+			foreach ($bil_lists as $b) 
+			{
+				$bil_values = $this->reporting->bil_values($b->provider, $b->type, $i->format('Y-m-d'));
+				// echo $this->db->last_query();die;
+				// var_dump($bil_values);die;
+
+				$total_row_qty 				= $total_row_qty + $bil_values->count_trx;
+				$total_row_sum 				= $total_row_sum + $bil_values->sum_trx;
+				$total_column_qty[$number] 	= $total_column_qty[$number] + $bil_values->count_trx;
+				$total_column_sum[$number]	= $total_column_sum[$number] + $bil_values->sum_trx;
+
+				$sheet->setCellValue('A'.$list, $number);
+				if($b->type == 'NAP')
+				{
+					$sheet->setCellValue('B'.$list, 'TAGIHAN '.$b->name);	
+				}
+				else if ($b->type == 'REG')
+				{
+					$sheet->setCellValue('B'.$list, 'PREPAID '.$b->name);	
+				}
+				
+				$sheet->setCellValue($char.$list, $bil_values->count_trx);
+				$sheet->setCellValue($char_next.$list, $bil_values->sum_trx);
+
+				$spreadsheet->getActiveSheet()->getColumnDimension($char)->setWidth(15);
+				$spreadsheet->getActiveSheet()->getColumnDimension($char_next)->setWidth(20);
+
+				$list++;
+				$number++;
+			}
+
+			if($this->input->post('type') == 'omzet')
+			{
+				$topup_lists = $this->reporting->topup_lists();
+			}
 
 			// echo $i->format('Y-m-d');
 
@@ -193,10 +289,20 @@ class reporting extends Admin_Controller {
 		//END TOTAL SUM
 		// die;
 
-		$writer 	= new Xlsx($spreadsheet);
-		$writer->save(FCPATH.'data/report.xlsx');
+		$dealer_name 	= $this->dealer->find($this->input->post('dealer_id'))->name;
+		
+		if(empty($dealer_name))
+		{
+			$dealer_name = 'all';
+		}
 
-		redirect(site_url('data/report.xlsx'));
+		$filename 		= url_title($dealer_name, '_', true);
+		$export 		= 'data/report_'.$this->input->post('type').'_'.$filename.'_'.date('Ymd').'.xlsx';
+
+		$writer 	= new Xlsx($spreadsheet);
+		$writer->save(FCPATH.$export);
+
+		redirect(site_url($export));
 
 		// header('Content-Type: application/vnd.ms-excel');
 		// header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); /*-- $filename is  xsl filename ---*/
