@@ -139,6 +139,11 @@ class customers extends Admin_Controller {
                 'dealership'    => $this->input->post('dealership')
             );
 
+            if($data['dealer_id'] == '1')
+            {
+                $data['dealership'] = 'wko';
+            }
+
             $cluster = $this->input->post('cluster');
 
             if(!empty($cluster))
