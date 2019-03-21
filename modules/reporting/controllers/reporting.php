@@ -316,6 +316,41 @@ class reporting extends Admin_Controller {
 		// echo "<script>window.close</script>";
     }
 
+    public function balance()
+    {
+    	$from 		= $this->input->post('from');
+    	$to 		= $this->input->post('to');
+    	$dealer_id 	= $this->input->post('dealer_id');
+
+    	if(!empty($dealer_id))
+    	{
+    		$and_where = "AND customers.account_dealer = '".$dealer_id."'";
+    	}
+
+    	$eva    = $this->load->database('eva', TRUE);
+    	$result = $eva->query("SELECT LEFT(customer_mutations.created_on, 10) as date, sum(ending_balance) as customer_balance
+			FROM customer_mutations 
+			JOIN customers ON customers.id = customer_mutations.account_id
+			WHERE CONCAT(customer_mutations.created_on, customer_mutations.id) in (SELECT MAX(CONCAT(customer_mutations.created_on, customer_mutations.id)) from customer_mutations GROUP BY customer_mutations.account_eva, LEFT(customer_mutations.created_on, 10))
+			AND (customer_mutations.created_on >= '".$from." 00:00' AND customer_mutations.created_on <= '".$to." 23:59')
+			".$and_where."
+			GROUP BY LEFT(customer_mutations.created_on, 10)
+			ORDER BY LEFT(customer_mutations.created_on, 10) ASC");
+
+    	$this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i:s').".csv";
+
+        $delimiter = ",";
+        $newline   = "\r\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
+    }
+
     private function toAlpha($num)
     {
 	    return chr($num+65);
