@@ -257,11 +257,11 @@
                     // console.log(obj);
                     if(service_id == obj[idx].id)
                     {
-                        service.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</option>");
+                        service.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + ' | ' + obj[idx].biller_code + "</option>");
                     }
                     else
                     {
-                        service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + "</option>");
+                        service.append("<option value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + ' | ' + obj[idx].biller_code + "</option>");
                     }
                 });
             });
@@ -300,11 +300,11 @@
                 $.each(obj, function (idx, val) {
                     if(service_id == obj[idx].id)
                     {
-                        target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                        target.append("<option selected value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + ' | ' + obj[idx].biller_code + "</li>");
                     }
                     else
                     {
-                        target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + "</li>");
+                        target.append("<option value="+obj[idx].id+">" + obj[idx].remarks + obj[idx].biller.name + ' | ' + obj[idx].biller_code +  "</li>");
                     }
                 });
             });
