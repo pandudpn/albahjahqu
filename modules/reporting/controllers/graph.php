@@ -36,7 +36,7 @@ class graph extends Admin_Controller {
         if($option == 'daily')
         {
             $label = ', LEFT(created_on, 10) as label';
-            $group = 'date';
+            $group = 'label';
         }
         else if($option == 'weekly')
         {
@@ -50,12 +50,12 @@ class graph extends Admin_Controller {
         }
 
         $query = $this->db->query("
-        	SELECT SUM(dekape_fee) as revenue, LEFT(created_on, 10) as date ".$label."
+        	SELECT SUM(dekape_fee) as revenue ".$label.", YEAR(created_on) as year
         	FROM `transactions` 
         	WHERE (status = 'payment' OR status = 'approved') 
         	AND status_provider = '00'
         	AND (created_on >= '".$from." 00:00' AND created_on <= '".$to." 23:59')
-        	GROUP BY ".$group."
+        	GROUP BY ".$group.", year
         	ORDER BY ".$group." ASC
         ")->result();
 
@@ -83,15 +83,15 @@ class graph extends Admin_Controller {
 
             if($option == 'daily')
             {
-                $value[] = array('v' => date('j M, y', strtotime( $v->date )));
+                $value[] = array('v' => date('j M, y', strtotime( $v->label )));
             }
             else if($option == 'weekly')
             {
-                $value[] = array('v' => 'Week '.($v->label + 1).', '.date('Y', strtotime( $v->date )));
+                $value[] = array('v' => 'Week '.($v->label + 1).', '.$v->year);
             }
             else if($option == 'monthly')
             {
-                $value[] = array('v' => date('M', strtotime( $v->date )).', '.date('y', strtotime( $v->date )));
+                $value[] = array('v' => date('M, y', strtotime( $v->year.'-'.$v->label.'-01' )));
             }
 
             $value[] = array('v' => intval($v->revenue));
