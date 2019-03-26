@@ -14,21 +14,26 @@ class customer_session_model extends MY_Model {
         parent::__construct();
     }
 
-    public function count_all_users($dealer_id)
+    public function count_all_users($dealer_id, $level)
     {
     	$this->db->from($this->table_customer);
-    	$this->db->where('deleted', '0');
+    	$this->db->where('customers.deleted', '0');
 
     	if(!empty($dealer_id))
     	{
-    		$this->db->where('dealer_id', $dealer_id);
+    		$this->db->where('customers.dealer_id', $dealer_id);
     	}
+
+        if($level == 'outlet')
+        {
+            $this->db->where('customers.level', 'outlet');
+        }
 
     	return $this->db->count_all_results();
     	
     }
 
-    public function get_all_fcm_users($offset, $limit, $dealer_id)
+    public function get_all_fcm_users($offset, $limit, $dealer_id, $level)
     {
     	$this->db->select('customer_sessions.cus_fcm_id');
     	$this->db->from($this->table_customer);
@@ -41,6 +46,11 @@ class customer_session_model extends MY_Model {
     	{
     		$this->db->where('customers.dealer_id', $dealer_id);
     	}
+
+        if($level == 'outlet')
+        {
+            $this->db->where('customers.level', 'outlet');
+        }
 		
 		$this->db->limit($limit);
 		$this->db->offset($offset);

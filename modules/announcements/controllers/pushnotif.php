@@ -20,9 +20,11 @@ class pushnotif extends Admin_Controller {
             $dealer_id     = $this->input->post('dealer');
             $title         = $this->input->post('title');
             $message       = $this->input->post('message');
+            $level         = $this->input->post('level');
 
             $data          = array(
                 'dealer_id'     => $dealer_id,
+                'type'          => $level,
                 'notif_type'    => 'general',
                 'notif_title'   => $title,
                 'notif_remark'  => $message
@@ -36,16 +38,16 @@ class pushnotif extends Admin_Controller {
             $notification_id = $this->notification->insert($data);
 
             $max_fcm_users = 1000;
-            $users_num     = $this->customer_session->count_all_users($dealer_id); // ALL USERS COUNT
+            $users_num     = $this->customer_session->count_all_users($dealer_id, $level); // ALL USERS COUNT
             
             $users_queue   = floor($users_num/$max_fcm_users);
 
-            for ($i=0; $i <= $users_queue; $i++) { 
-                
+            for ($i=0; $i <= $users_queue; $i++) 
+            {     
                 $fcm_ids   = Array();
                 $offset    = $i * $max_fcm_users;
                 $limit     = $max_fcm_users;
-                $users     = $this->customer_session->get_all_fcm_users($offset, $limit, $dealer_id); // ALL USER SELECTED
+                $users     = $this->customer_session->get_all_fcm_users($offset, $limit, $dealer_id, $level); // ALL USER SELECTED
 
                 foreach ($users as $user) {
                     array_push($fcm_ids, $user->cus_fcm_id);
@@ -56,6 +58,8 @@ class pushnotif extends Admin_Controller {
                     $this->push_notification($fcm_ids, $title, $message, $notification_id);
                 }
             }
+
+            // var_dump($fcm_ids);die;
 
             $msg = 'success sending your push notification';
             $this->session->set_flashdata('alert', array('type' => 'success', 'msg' => $msg));
@@ -71,6 +75,49 @@ class pushnotif extends Admin_Controller {
              ->set('dealers', $dealers)
              ->set('dealer', $dealer)
     		 ->build('pushnotif');
+    }
+
+    public function delete($id)
+    {
+        $delete = $this->notification->set_soft_deletes(TRUE);
+        $delete = $this->notification->delete($id);
+
+        redirect(site_url('announcements/pushnotif'), 'refresh');
+    }
+
+    public function datatables()
+    {
+        $list = $this->notification->get_datatables();
+        // echo $this->db->last_query();die;
+        $data = array();
+        $no   = $_POST['start'];
+
+        foreach ($list as $l) {
+            $no++;
+            $row   = array();
+            $row[] = $no;
+            $row[] = $l->notif_title;
+            $row[] = $l->notif_remark;
+            $row[] = $l->type;
+            $row[] = $l->created_on;
+
+            $btn   = '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('announcements/pushnotif/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i>
+                      </a>';
+
+            $row[]  = $btn;
+
+            $data[] = $row;
+        }
+ 
+        $output = array(
+            "draw"              => $_POST['draw'],
+            "recordsTotal"      => $this->notification->count_all(),
+            "recordsFiltered"   => $this->notification->count_filtered(),
+            "data"              => $data,
+        );
+        //output to json format
+        echo json_encode($output);
     }
 
     private function push_notification($gcm_ids, $title, $msg, $notification_id)

@@ -293,10 +293,15 @@
                             <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape' || $this->session->userdata('user')->role == 'dealer_spv') { ?>
                                 
                                 <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                                <li>
-                                    <a href="<?php echo site_url('reporting'); ?>" class="waves-effect">
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
                                         <i class="zmdi zmdi-assignment"></i><span> Reporting </span> 
+                                        <span class="menu-arrow"></span>
                                     </a>
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('reporting'); ?>">Excel</a></li>
+                                        <li><a href="<?php echo site_url('reporting/graph'); ?>">Graph</a></li>
+                                    </ul>
                                 </li>
 
                                 <li>
@@ -317,7 +322,6 @@
                                         <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
                                     </ul>
                                 </li>   
-                                <?php if($this->session->userdata('user')->role == 'dekape') { ?>
 
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
@@ -327,11 +331,10 @@
 
                                     <ul class="list-unstyled">
                                         <li><a href="<?php echo site_url('announcements/pushnotif'); ?>">Push Notification</a></li>
-                                        <li><a href="javascript:;">Email Blast</a></li>
+                                        <!-- <li><a href="javascript:;">Email Blast</a></li> -->
                                         <!-- <li><a href="<?php echo site_url('announcements/email'); ?>">Email Blast</a></li> -->
                                     </ul>
                                 </li>   
-                                <?php } ?>
 
                                 <li class="text-muted menu-title">Transaction</li>
 
