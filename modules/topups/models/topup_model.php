@@ -70,6 +70,7 @@ class topup_model extends MY_Model {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
         $dealer = $this->input->get('dealer');
+        $status = $this->input->get('status');
 
         if(!empty($from) && !empty($to))
         {
@@ -80,6 +81,11 @@ class topup_model extends MY_Model {
         if($dealer) 
         {
             $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($status) 
+        {
+            $this->db->where($this->table.'.status', $status);
         }
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
@@ -122,6 +128,7 @@ class topup_model extends MY_Model {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
         $dealer = $this->input->get('dealer');
+        $status = $this->input->get('status');
 
         if(!empty($from) && !empty($to))
         {
@@ -132,6 +139,11 @@ class topup_model extends MY_Model {
         if($dealer) 
         {
             $this->db->where($this->table.'.dealer_id', $dealer);
+        }
+
+        if($status) 
+        {
+            $this->db->where($this->table.'.status', $status);
         }
 
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') 

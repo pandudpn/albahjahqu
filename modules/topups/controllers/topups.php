@@ -27,6 +27,7 @@ class topups extends Admin_Controller {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
         $dealer = $this->input->get('dealer');
+        $status = $this->input->get('status');
 
         $dealers = $this->dealer->order_by('name', 'asc');
         $dealers = $this->dealer->find_all_by(array('deleted' => '0'));
@@ -39,6 +40,7 @@ class topups extends Admin_Controller {
             ->set('to', $to)
             ->set('dealer', $dealer)
             ->set('dealers', $dealers)
+            ->set('status', $status)
             ->set('total_sum', $total_sum)
     		->build('index');
     }
