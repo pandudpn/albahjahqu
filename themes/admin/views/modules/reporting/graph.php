@@ -25,14 +25,14 @@
             <div class="row">
             	<div class="col-12">
                     <div class="row">
-                    	<div class="col-6">
+                    	<div class="col-4">
                     		<div class="form-group">
                     			<div class="col-12">
 		                    		<select name="option" id="option" class="form-control">
 		                    			<!-- <option value="">Choose Option</option> -->
 		                    			<option value="daily">Daily</option>
 		                    			<option value="weekly">Weekly</option>
-		                    			<option value="Monthly">Monthly</option>
+		                    			<option value="monthly">Monthly</option>
 		                    		</select>
 	                    		</div>
                     		</div>
@@ -171,6 +171,6 @@
 		var to 			= $("#to").val();
 		var option 		= $("#option").val();
 
-		chart(from, to);
+		chart(from, to, option);
 	}
 </script>
