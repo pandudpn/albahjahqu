@@ -50,7 +50,7 @@
                         <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                         <a href="<?php echo site_url('topups/user'); ?>" class="btn btn-success"><i class="fa fa-upload"></i> Simulate VA Callback / Topup Manual</a>
                     <?php } ?>
-                        <a href="<?php echo site_url('topups/download?from='.$from.'&to='.$to); ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                        <a href="<?php echo site_url('topups/download?from='.$from.'&to='.$to.'&status='.$status); ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
                     </div>
                 </div>
             </form>
