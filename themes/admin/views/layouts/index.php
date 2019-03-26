@@ -710,7 +710,7 @@
                         console.log(isChrome);
                         if (isChrome) { return "chrome"; } 
                         else { 
-                          alert("Please use Google Chrome before using This Site."); 
+                          // alert("Please use Google Chrome before using This Site."); 
                           return "other"; 
                         }
                     }
@@ -725,7 +725,7 @@
                     document.addEventListener('DOMContentLoaded', function () {
                         if (!Notification) 
                         {
-                            alert('Browser tidak mendukung notifikasi. Silahkan coba google chrome.'); 
+                            // alert('Browser tidak mendukung notifikasi. Silahkan coba google chrome.'); 
                             return;
                         }
 
