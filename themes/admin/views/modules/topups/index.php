@@ -25,6 +25,14 @@
                     <div class="col-12">Filter : </div>
                     <div class="col-2"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
                     <div class="col-2"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
+                    <div class="col-2">
+                        <select class="form-control" name="status" style="height: 40.74px;">
+                            <option value="">Choose Status</option>
+                            <option value="dispute" <?php if($status == 'dispute') { echo "selected"; } ?>>Dispute / Pending</option>
+                            <option value="approved" <?php if($status == 'approved') { echo "selected"; } ?>>Approved</option>
+                            <option value="rejected" <?php if($status == 'rejected') { echo "selected"; } ?>>Rejected</option>
+                        </select>
+                    </div>
                     <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                     <div class="col-2">
                     	<select class="form-control" name="dealer" style="height: 40.74px;">
@@ -36,7 +44,9 @@
                     </div>
                     <?php } ?>
                     <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('topups'); ?>" class="btn btn-secondary">Reset</a></div>
-                    <div class="col-4 pull-right text-right">
+                </div>
+                <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
+                    <div class="col-12">
                         <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                         <a href="<?php echo site_url('topups/user'); ?>" class="btn btn-success"><i class="fa fa-upload"></i> Simulate VA Callback / Topup Manual</a>
                     <?php } ?>
@@ -154,7 +164,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('topups/datatables?from='.$from.'&to='.$to.'&dealer='.$dealer)?>",
+                "url": "<?php echo site_url('topups/datatables?from='.$from.'&to='.$to.'&dealer='.$dealer.'&status='.$status)?>",
                 "type": "POST"
             },
 
