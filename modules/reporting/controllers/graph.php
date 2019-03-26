@@ -20,7 +20,8 @@ class graph extends Admin_Controller {
     public function revenue()
     {
         $from   = $this->input->get('from');
-        $to 	= $this->input->get('to');
+        $to     = $this->input->get('to');
+        $option = $this->input->get('option');
 
         if(empty($from))
         {
@@ -32,14 +33,30 @@ class graph extends Admin_Controller {
         	$to = date('Y-m-d');
         }
 
+        if($option == 'daily')
+        {
+            $label = ', LEFT(created_on, 10) as label';
+            $group = 'date';
+        }
+        else if($option == 'weekly')
+        {
+            $label = ', WEEK(created_on) as label';
+            $group = 'label';
+        }
+        else if($option == 'monthly')
+        {
+            $label = ', MONTH(created_on) as label';
+            $group = 'label';
+        }
+
         $query = $this->db->query("
-        	SELECT SUM(dekape_fee) as revenue, LEFT(created_on, 10) as date
+        	SELECT SUM(dekape_fee) as revenue, LEFT(created_on, 10) as date ".$label."
         	FROM `transactions` 
         	WHERE (status = 'payment' OR status = 'approved') 
         	AND status_provider = '00'
         	AND (created_on >= '".$from." 00:00' AND created_on <= '".$to." 23:59')
-        	GROUP BY date
-        	ORDER BY date ASC
+        	GROUP BY ".$group."
+        	ORDER BY ".$group." ASC
         ")->result();
 
         $cols = array(
@@ -60,11 +77,24 @@ class graph extends Admin_Controller {
         $rows 	= array();
         $total 	= 0;
 
-        foreach ($query as $key => $v) {
+        foreach ($query as $key => $v) 
+        {
             $value   = array();
-            $value[] = array('v' => date('j M, y', strtotime( $v->date )));
-            $value[] = array('v' => intval($v->revenue));
 
+            if($option == 'daily')
+            {
+                $value[] = array('v' => date('j M, y', strtotime( $v->date )));
+            }
+            else if($option == 'weekly')
+            {
+                $value[] = array('v' => 'Week '.($v->label + 1).', '.date('Y', strtotime( $v->date )));
+            }
+            else if($option == 'monthly')
+            {
+                $value[] = array('v' => date('M', strtotime( $v->date )).', '.date('y', strtotime( $v->date )));
+            }
+
+            $value[] = array('v' => intval($v->revenue));
             $rows[]  = array('c' => $value); 
             $total 	 = $total + intval($v->revenue);
         }
