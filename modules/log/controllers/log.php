@@ -71,6 +71,8 @@ class log extends Admin_Controller {
 
     public function get_data($collection=null, $offset=0)
     {
+        header('Access-Control-Allow-Origin: *');  
+        
         $trx_code = $this->input->post('trx_code');
     	$remarks  = $this->input->post('remarks');
 
