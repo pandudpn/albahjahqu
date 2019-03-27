@@ -71,12 +71,21 @@ class log extends Admin_Controller {
 
     public function get_data($collection=null, $offset=0)
     {
-    	$trx_code = $this->input->post('trx_code');
+        $trx_code = $this->input->post('trx_code');
+    	$remarks  = $this->input->post('remarks');
 
     	if(!empty($trx_code))
-    		$log_trx  = $this->mongo_db->where(array('reference'=>$trx_code))->order_by(array('created_on'=>'DESC'))->get($collection);
+    	{
+            $log_trx  = $this->mongo_db->where(array('reference'=>$trx_code))->order_by(array('created_on'=>'DESC'))->get($collection);
+        }
+        else if(!empty($trx_code))
+        {
+            $log_trx  = $this->mongo_db->where(array('remarks' => '/'.$remarks.'/'))->order_by(array('created_on'=>'DESC'))->get($collection);
+        }
     	else
+        {
     		$log_trx  = $this->mongo_db->order_by(array('created_on'=>'DESC'))->limit(20)->offset($offset)->get($collection);
+        }
 
     	$this->rest->set_data($log_trx);
     	$this->rest->render();
