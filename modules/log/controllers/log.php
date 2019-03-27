@@ -78,7 +78,7 @@ class log extends Admin_Controller {
     	{
             $log_trx  = $this->mongo_db->where(array('reference'=>$trx_code))->order_by(array('created_on'=>'DESC'))->get($collection);
         }
-        else if(!empty($remarks))
+        else if(!empty($phone))
         {
             $log_trx  = $this->mongo_db->where(array('payload.transaction.msisdn' => $phone))->order_by(array('created_on'=>'DESC'))->get($collection);
         }
