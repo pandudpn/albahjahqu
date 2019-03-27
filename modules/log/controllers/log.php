@@ -80,7 +80,7 @@ class log extends Admin_Controller {
         }
         else if(!empty($remarks))
         {
-            $log_trx  = $this->mongo_db->like('remarks', $remarks, 'i', true, true)->order_by(array('created_on'=>'DESC'))->get($collection);
+            $log_trx  = $this->mongo_db->like('remarks', $remarks, 'i', true, true)->get($collection);
         }
     	else
         {
