@@ -71,10 +71,8 @@ class log extends Admin_Controller {
 
     public function get_data($collection=null, $offset=0)
     {
-        header('Access-Control-Allow-Origin: *');  
-        
         $trx_code = $this->input->post('trx_code');
-    	$remarks  = $this->input->post('remarks');
+    	$phone  = $this->input->post('remarks');
 
     	if(!empty($trx_code))
     	{
@@ -82,7 +80,7 @@ class log extends Admin_Controller {
         }
         else if(!empty($remarks))
         {
-            $log_trx  = $this->mongo_db->like('remarks', $remarks, 'im', FALSE, TRUE)->get($collection);
+            $log_trx  = $this->mongo_db->where(array('payload.transaction.msisdn' => $phone))->order_by(array('created_on'=>'DESC'))->get($collection);
         }
     	else
         {
