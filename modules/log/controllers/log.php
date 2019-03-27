@@ -71,6 +71,7 @@ class log extends Admin_Controller {
 
     public function get_data($collection=null, $offset=0)
     {
+        error_reporting(E_ALL);
         $trx_code = $this->input->post('trx_code');
     	$remarks  = $this->input->post('remarks');
 
@@ -80,7 +81,7 @@ class log extends Admin_Controller {
         }
         else if(!empty($remarks))
         {
-            $log_trx  = $this->mongo_db->like('remarks', $remarks, 'i', true, true)->get($collection);
+            $log_trx  = $this->mongo_db->like('remarks', $remarks, 'i', true, true)->order_by(array('created_on'=>'DESC'))->get($collection);
         }
     	else
         {
