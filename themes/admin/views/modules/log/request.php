@@ -26,9 +26,9 @@
                             <option value="voucher_request">Voucher</option>
                         </select>
                     </div>
-                    <!-- <div class="col-3">
-                    	<input type="text" class="form-control" name="trx_code" id="trx_code" placeholder="Transaction Code">
-                    </div> -->
+                    <div class="col-3">
+                    	<input type="text" class="form-control" name="remarks" id="remarks" placeholder="Remarks">
+                    </div>
                     <div class="col-2">
                     	<a href="javascript:;" class="btn btn-primary" onclick="showdata()"><i class="fa fa-search"></i> Go</a> 
                     	<a href="<?php echo site_url('log/request'); ?>" class="btn btn-secondary">Reset</a></div>
@@ -60,7 +60,7 @@
 		$("#body-table").html('loading... ')
 
 		var service 	= $("#service").val()
-		var trx_code 	= $("#trx_code").val()
+		var remarks 	= $("#remarks").val()
 
 		if(service == '')
 		{
@@ -68,7 +68,7 @@
 			return false
 		}
 
-		$.post("https://admin.okbabe.id/log/get_data/"+ service, { trx_code: trx_code})
+		$.post("https://admin.okbabe.id/log/get_data/"+ service, { remarks: remarks})
 		 .done(function(data){
 			var data = data.data
 			var num  = data.length
