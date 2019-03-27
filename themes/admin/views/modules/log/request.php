@@ -68,7 +68,7 @@
 			return false
 		}
 
-		$.post("https://admin.okbabe.id/log/get_data/"+ service, { remarks: remarks})
+		$.post("https://admin.okbabe.id/log/get_data/"+ service, { remarks: remarks} )
 		 .done(function(data){
 			var data = data.data
 			var num  = data.length
