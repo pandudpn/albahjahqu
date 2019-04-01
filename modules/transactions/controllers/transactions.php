@@ -74,7 +74,7 @@ class transactions extends Admin_Controller {
             'user_phone'        => $this->session->userdata('user')->phone,
             'user_dealer_id'    => $this->session->userdata('user')->dealer_id,
             'user_dealer_name'  => $this->dealer->find($this->session->userdata('user')->dealer_id)->name,
-            'remarks'           => 'Change status from '.$transaction->status.' to '.$status
+            'remarks'           => 'Change status from '.$transaction->status.' ('.$transaction->status_level.': '.$transaction->status_provider.') to '.$status. ': reason => '.$reason
         );
 
         if($status_reapproved == 'reapproved')
@@ -461,7 +461,7 @@ class transactions extends Admin_Controller {
                         <button type="button" class="btn btn-info dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Action <span class="caret"></span></button>
                         <div class="dropdown-menu">';
 
-            if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0))
+            if(($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops') && ($l->provider != 'TSL' || $l->by > 0) || ($l->provider == 'TSL' && $l->prepaid == '02') )
             {
                 // $btn .= '-';
             }
@@ -471,7 +471,7 @@ class transactions extends Admin_Controller {
 
                 if($l->status == 'rejected' || $l->status_provider == '5') 
                 {
-                    $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')">reapprove</a>';
+                    // $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')">reapprove</a>';
                 }
 
                 if($l->status == 'approved') 
@@ -493,7 +493,7 @@ class transactions extends Admin_Controller {
                     }
                     else
                     {
-                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')">approve</a>';
+                        // $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')">approve</a>';
                     }
                 }
                 else
@@ -504,8 +504,11 @@ class transactions extends Admin_Controller {
                     }
                     else
                     {
-                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" >approve</a>';
-
+                        if($l->status != 'payment')
+                        {
+                            $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/approved/'.$l->id).'\')" >approve</a>';
+                        }
+                        
                         $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')">reject</a>';
                     }
                 }

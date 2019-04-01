@@ -41,6 +41,7 @@ class transaction_model extends MY_Model {
         $this->db->select('('.$this->table.'.service_denom * 1000) as service_denom', false);
         $this->db->select("IFNULL(".$this->table_code.".remarks, 'Produk Migrasi') as remarks", false);
         $this->db->select($this->table_code.'.provider');
+        $this->db->select($this->table_code.'.prepaid');
         $this->db->select($this->table_code.'.by');
         $this->db->select($this->table_box.'.slot');
         $this->db->select($this->table_box.'.denom');

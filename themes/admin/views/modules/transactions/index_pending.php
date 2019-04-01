@@ -183,6 +183,36 @@
     </div>
 </div>
 
+
+<!-- Modal Alert Reject-->
+<div class="modal fade bs-example-modal-sm" id="modal-alert-reject" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mySmallModalLabel">Reject Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="" id="form-reject">
+                    <div class="form-group row">
+                        <label class="col-2 col-form-label">Reason</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text" value="" name="reason">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Yes</button>
+                <a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>
+            </div>
+            
+                </form>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#datatable').DataTable({ 
@@ -244,5 +274,11 @@
     {
         $("#confirm-check").attr('href', url)
         $("#modal-alert-check").modal('show')
+    }
+
+    function alert_reject(url)
+    {
+        $("#form-reject").attr('action', url)
+        $("#modal-alert-reject").modal('show')
     }
 </script>
