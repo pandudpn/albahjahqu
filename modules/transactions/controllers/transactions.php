@@ -79,6 +79,7 @@ class transactions extends Admin_Controller {
 
         if($status_reapproved == 'reapproved')
         {
+            die;
             $data_log['remarks'] = 'Change status from rejected to reapproved';
         }
 
