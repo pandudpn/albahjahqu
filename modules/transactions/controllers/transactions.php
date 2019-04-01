@@ -64,6 +64,7 @@ class transactions extends Admin_Controller {
 
         $transaction  = $this->transaction->find($id);
         $service_code = $this->ref_service_code->find($transaction->service_id);
+        $reason  = $this->input->post('reason');
 
         $data_log = array(
             'transaction_id'    => $transaction->id, 
@@ -74,7 +75,8 @@ class transactions extends Admin_Controller {
             'user_phone'        => $this->session->userdata('user')->phone,
             'user_dealer_id'    => $this->session->userdata('user')->dealer_id,
             'user_dealer_name'  => $this->dealer->find($this->session->userdata('user')->dealer_id)->name,
-            'remarks'           => 'Change status from '.$transaction->status.' ('.$transaction->status_level.': '.$transaction->status_provider.') to '.$status
+            'remarks'           => 'Change status from '.$transaction->status.' ('.$transaction->status_level.': '.$transaction->status_provider.') to '.$status,
+            'reason'            => $reason
         );
 
         if($status_reapproved == 'reapproved')
