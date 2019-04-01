@@ -74,7 +74,7 @@ class transactions extends Admin_Controller {
             'user_phone'        => $this->session->userdata('user')->phone,
             'user_dealer_id'    => $this->session->userdata('user')->dealer_id,
             'user_dealer_name'  => $this->dealer->find($this->session->userdata('user')->dealer_id)->name,
-            'remarks'           => 'Change status from '.$transaction->status.' ('.$transaction->status_level.': '.$transaction->status_provider.') to '.$status. ': reason => '.$reason
+            'remarks'           => 'Change status from '.$transaction->status.' ('.$transaction->status_level.': '.$transaction->status_provider.') to '.$status
         );
 
         if($status_reapproved == 'reapproved')
