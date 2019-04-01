@@ -142,6 +142,7 @@ class pending extends Admin_Controller {
     {
         $transaction  = $this->transaction->find($id);
         $service_code = $this->ref_service_code->find($transaction->service_id);
+        $reason  = $this->input->post('reason');
 
         $data_log = array(
             'transaction_id'    => $transaction->id, 
@@ -152,7 +153,7 @@ class pending extends Admin_Controller {
             'user_phone'        => $this->session->userdata('user')->phone,
             'user_dealer_id'    => $this->session->userdata('user')->dealer_id,
             'user_dealer_name'  => $this->dealer->find($this->session->userdata('user')->dealer_id)->name,
-            'remarks'           => 'Change status from '.$transaction->status.' to '.$status
+            'remarks'           => 'Change status from '.$transaction->status.' ('.$transaction->status_level.': '.$transaction->status_provider.') to '.$status. ': reason => '.$reason
         );
 
         $this->transaction_log->insert($data_log);
@@ -408,7 +409,7 @@ class pending extends Admin_Controller {
                     else
                     {
                         $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/pending/changestatus/approved/'.$l->id).'\')" >approve</a>';
-                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" >reject</a>';
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/pending/changestatus/rejected/'.$l->id).'\')" >reject</a>';
 
                         if($l->biller_id == '7') //NARINDO
                         {
