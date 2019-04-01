@@ -50,7 +50,12 @@ class graph extends Admin_Controller {
         }
 
         $query = $this->db->query("
-        	SELECT SUM(dekape_fee) as revenue ".$label.", YEAR(created_on) as year
+        	SELECT 
+                SUM(CASE
+                    WHEN dealer_id = 1 THEN (dealer_fee + dekape_fee)
+                    ELSE dekape_fee
+                END) as revenue
+            ".$label.", YEAR(created_on) as year
         	FROM `transactions` 
         	WHERE (status = 'payment' OR status = 'approved') 
         	AND status_provider = '00'
@@ -58,6 +63,7 @@ class graph extends Admin_Controller {
         	GROUP BY ".$group.", year
         	ORDER BY ".$group." ASC
         ")->result();
+        // echo $this->db->last_query();die;
 
         $cols = array(
             array(
@@ -125,7 +131,12 @@ class graph extends Admin_Controller {
         }
 
         $query = $this->db->query("
-        	SELECT SUM(dekape_fee) as revenue, stats_title
+        	SELECT 
+                SUM(CASE
+                    WHEN dealer_id = 1 THEN (dealer_fee + dekape_fee)
+                    ELSE dekape_fee
+                END) as revenue,
+            stats_title
         	FROM `transactions` 
         	WHERE (status = 'payment' OR status = 'approved') 
         	AND status_provider = '00'
