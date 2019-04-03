@@ -77,7 +77,7 @@ class reporting_model extends MY_Model {
 
     	if($this->input->post('type') == 'omzet')
     	{
-    		$sum_trx = 'IFNULL(SUM(base_price + dealer_fee), 0)';
+    		$sum_trx = 'IFNULL(SUM(base_price + dekape_fee), 0)';
     	}
     	else if($this->input->post('type') == 'revenue')
     	{

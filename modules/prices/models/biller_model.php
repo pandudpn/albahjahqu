@@ -138,7 +138,7 @@ class biller_model extends MY_Model {
         date_default_timezone_set("Asia/Jakarta");
         $filename  = "export_".date('Y-m-d H:i:s').".csv";
 
-        $delimiter = ",";
+        $delimiter = "|";
         $newline   = "\r\n";
         $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
 
