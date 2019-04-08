@@ -63,6 +63,7 @@ class dealers extends Admin_Controller {
         $id       = $this->input->post('id');
 
         $name     = $this->input->post('name');
+        $legal_name     = $this->input->post('legal_name');
         $address  = $this->input->post('address');
         $city     = $this->input->post('city');
         $province = $this->input->post('province');
@@ -81,6 +82,7 @@ class dealers extends Admin_Controller {
 
         $data = array(
                 'name'     => $name,
+                'legal_name'     => $legal_name,
                 'address'  => $address,
                 'city'     => $city,
                 'zipcode'  => $zipcode,
