@@ -9,6 +9,7 @@ class dealers extends Admin_Controller {
         $this->load->model('references/geo_cities_model', 'city');
         $this->load->model('references/geo_provinces_model', 'province');
         $this->load->model('references/ref_service_providers_model', 'service_provider');
+        $this->load->model('user/eva_corporate_model', 'corporate');
 
         $this->load->helper('text');
 
@@ -103,6 +104,16 @@ class dealers extends Admin_Controller {
             $data['eva'] = 'D'.$leftPad.str_replace(' ', '', strtoupper($name));
             
             $insert = $this->dealer->insert($data);
+
+            $data_eva = array(
+                'account_no'        => $data['eva'], 
+                'account_role'      => 'dealer', 
+                'account_user'      => $insert, 
+                'account_holder'    => $name
+            );
+
+            $insert_eva = $this->corporate->insert($data_eva);
+
             redirect(site_url('dealers'), 'refresh');
         }else{
             $update = $this->dealer->update($id, $data);
