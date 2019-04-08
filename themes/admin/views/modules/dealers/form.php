@@ -33,6 +33,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Legal Name</label>
+                            <div class="col-7">
+                                <input class="form-control" type="text" name="legal_name" value="<?php echo $data->legal_name; ?>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Province</label>
                             <div class="col-7">
                                 <select class="form-control select2" name="province" id="province">
