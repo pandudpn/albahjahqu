@@ -88,7 +88,7 @@ class clustermaps extends Admin_Controller {
         $city_id     	= $this->input->post('city_id');
         $district_id 	= $this->input->post('district_id');
         $dealer 		= $this->dealer->find($dealer_id);
-        $dealer_cluster = $this->dealer_cluster->find($dealer_id);
+        $dealer_cluster = $this->dealer_cluster->find($cluster_id);
         $geo_city 		= $this->geo_city->find($city_id);
         $geo_district 	= $this->geo_district->find($district_id);
 
