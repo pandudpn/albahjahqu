@@ -115,6 +115,7 @@ class denom extends Admin_Controller {
         $user_fee    = $this->input->post('user_fee');
         $description = $this->input->post('description');
         $quota       = $this->input->post('quota');
+        $promo       = $this->input->post('promo');
         $status      = $this->input->post('status');
 
         $data = array(
@@ -132,6 +133,7 @@ class denom extends Admin_Controller {
                 'user_fee'    => $user_fee,
                 'description' => $description,
                 'quota'       => $quota,
+                'promo'       => $promo,
                 'status'      => $status
             );
 

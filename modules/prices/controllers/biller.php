@@ -76,6 +76,7 @@ class biller extends Admin_Controller {
         $biller_fee    = $this->input->post('biller_fee');
         $user_fee      = $this->input->post('user_fee');
         $user_cashback = $this->input->post('user_cashback');
+        $promo         = $this->input->post('promo');
 
         $serv = $this->service_code->find($service_id);
         $service_code = $serv->service.$serv->value.$serv->provider.$serv->prepaid.$serv->type;
@@ -90,7 +91,8 @@ class biller extends Admin_Controller {
                 'dekape_fee'    => $dekape_fee,
                 'dealer_fee'    => $dealer_fee,
                 'partner_fee'   => $partner_fee,
-                'user_cashback' => $user_cashback
+                'user_cashback' => $user_cashback,
+                'promo'       => $promo
                 // 'user_fee'      => $user_fee
             );
         
