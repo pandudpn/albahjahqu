@@ -94,6 +94,15 @@
                                 <input class="form-control" type="text" name="user_cashback" value="<?php echo $biller->user_cashback; ?>" required>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Promo?</label>
+                            <div class="col-9">
+                                <select class="form-control" name="promo">
+                                    <option <?php if($biller->promo == 'yes'){ echo 'selected'; } ?> value='yes'>Yes</option>
+                                    <option <?php if($biller->promo == 'no'){ echo 'selected'; } ?> value='no'>No</option>
+                                </select>
+                            </div>
+                        </div>
                         <!-- <div class="form-group row">
                             <label for="" class="col-3 col-form-label">User Fee</label>
                             <div class="col-7">
