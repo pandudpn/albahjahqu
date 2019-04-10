@@ -81,7 +81,11 @@ class transactions extends Admin_Controller {
 
         if($status_reapproved == 'reapproved')
         {
-            die;
+            if($this->session->userdata('user')->role != 'dekape')
+            {
+                die;
+            }
+            
             $data_log['remarks'] = 'Change status from rejected to reapproved';
         }
 
