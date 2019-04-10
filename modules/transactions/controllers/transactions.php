@@ -474,7 +474,10 @@ class transactions extends Admin_Controller {
 
                 if($l->status == 'rejected' || $l->status_provider == '5') 
                 {
-                    // $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')">reapprove</a>';
+                    if($this->session->userdata('user')->role == 'dekape')
+                    {
+                        $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_approve(\''.site_url('transactions/changestatus/reapproved/'.$l->id).'\')">reapprove</a>';
+                    }
                 }
 
                 if($l->status == 'approved') 
