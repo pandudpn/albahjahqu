@@ -167,7 +167,7 @@ class denom_model extends MY_Model {
     {
         $this->db->select($this->table.'.id');
         $this->db->select($this->table_provider.'.name as provider_name', false);
-        $this->db->select("REPLACE(".$this->table.".description, ',', ' ')", false);
+        $this->db->select("REPLACE(".$this->table.".description, ',', ' ') as description", false);
         $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
         $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
         $this->db->select($this->table.'.type', false);
