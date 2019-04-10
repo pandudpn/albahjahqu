@@ -239,6 +239,7 @@ class denom extends Admin_Controller {
             $row[] = $l->description;
             $row[] = $l->quota;
             $row[] = $l->category;
+            $row[] = $l->supplier_code;
             $row[] = $l->dealer_name;
             $row[] = $l->biller_code;
             $row[] = $l->type;

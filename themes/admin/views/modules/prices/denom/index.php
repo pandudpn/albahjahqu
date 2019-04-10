@@ -91,6 +91,7 @@
                     <th>Description</th>
                     <th>Quota</th>
                     <th>Category</th>
+                    <th>Supplier Code</th>
                     <th>Dealer</th>
                     <th>Biller</th>
                     <th>Type</th>
@@ -150,6 +151,10 @@
             "columnDefs": [
                 { 
                 "targets": [ 0 ], //first column / numbering column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 5 ], //last column / new item column
                 "orderable": false, //set not orderable
                 },
                 { 

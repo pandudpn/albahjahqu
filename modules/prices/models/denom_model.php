@@ -13,7 +13,7 @@ class denom_model extends MY_Model {
     protected $soft_deletes     = true;
 
     protected $column_order  = array(null, 'ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.quota', 'prepaid_denom_prices.category','prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'prepaid_denom_prices.type', 'ref_denoms.value'); //set column field database for datatable orderable
-    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.quota', 'prepaid_denom_prices.category', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'ref_denoms.value'); //set column field database for datatable searchable 
+    protected $column_search = array('ref_service_providers.name', 'prepaid_denom_prices.description', 'prepaid_denom_prices.quota', 'prepaid_denom_prices.category', 'prepaid_denom_prices.base_price', 'prepaid_denom_prices.dealer_name', 'prepaid_denom_prices.biller_code', 'ref_denoms.value', 'ref_denoms.supplier_code'); //set column field database for datatable searchable 
     protected $order 		 = array('prepaid_denom_prices.id' => 'asc'); // default order 
 
     public function __construct()
@@ -31,6 +31,7 @@ class denom_model extends MY_Model {
         $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
         $this->db->select($this->table.'.type', false);
         $this->db->select($this->table_denom.'.value as denom', false);
+        $this->db->select($this->table_denom.'.supplier_code', false);
         $this->db->select('quota, category, prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee, status', false);
         $this->db->from($this->table);
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
@@ -172,7 +173,7 @@ class denom_model extends MY_Model {
         $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
         $this->db->select($this->table.'.type', false);
         $this->db->select('REPLACE('.$this->table.'.quota, TRIM(","), " ") as quota', false);
-        $this->db->select('category, prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
+        $this->db->select('category, supplier_code, prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
         $this->db->from($this->table);
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
      
