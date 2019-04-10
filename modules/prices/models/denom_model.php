@@ -171,7 +171,8 @@ class denom_model extends MY_Model {
         $this->db->select("IFNULL(".$this->table.".dealer_name, '-') as dealer_name", false);
         $this->db->select("IFNULL(".$this->table.".biller_code, '-') as biller_code", false);
         $this->db->select($this->table.'.type', false);
-        $this->db->select('quota, category, prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
+        $this->db->select("REPLACE(".$this->table.".quota, ',', ' ') as quota", false);
+        $this->db->select('category, prepaid_denom_prices.base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee', false);
         $this->db->from($this->table);
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table.'.operator', 'left');
      
