@@ -198,7 +198,7 @@ class transaction_model extends MY_Model {
     {
         $this->db->select($this->table.'.created_on');
         $this->db->select($this->table.'.trx_code');
-        $this->db->select("REPLACE(IFNULL(".$this->table_code.".remarks, 'Produk Migrasi'), ',', ' ') as product", false);
+        $this->db->select("REPLACE(IFNULL(".$this->table_code.".remarks, 'Produk Migrasi'), TRIM(','), ' ') as product", false);
         $this->db->select($this->table.'.location_type as location_type');
         $this->db->select($this->table_box.'.slot');
         $this->db->select($this->table_box.'.denom');
