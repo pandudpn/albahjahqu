@@ -98,8 +98,8 @@
                             <label for="" class="col-3 col-form-label">Promo?</label>
                             <div class="col-9">
                                 <select class="form-control" name="promo">
-                                    <option <?php if($biller->promo == 'yes'){ echo 'selected'; } ?> value='yes'>Yes</option>
                                     <option <?php if($biller->promo == 'no'){ echo 'selected'; } ?> value='no'>No</option>
+                                    <option <?php if($biller->promo == 'yes'){ echo 'selected'; } ?> value='yes'>Yes</option>
                                 </select>
                             </div>
                         </div>
