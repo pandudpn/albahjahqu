@@ -124,6 +124,20 @@ class Sms extends Front_Controller {
 	    	return (object) array( 'code' => 9, 'status' => 'error', 'message' => 'error' ); 
 	    }
     } 
+
+    public function send_main_api_sms(){
+        require_once APPPATH.'third_party/Mainapi.php';
+        
+        $phone 		='085295703112';
+        $message 	='TEST Mainapi.net di admin';
+        //ZvYR5mcrKWcRRrKeC909Wmresjoa:d4Ti1aDjwAq6rHWsVxM0nG36Xcsa
+        $mainAPI = new Mainapi();
+        $mainAPI->setClient_id("ZvYR5mcrKWcRRrKeC909Wmresjoa");
+        $mainAPI->setSecret_id("d4Ti1aDjwAq6rHWsVxM0nG36Xcsa");
+        
+        $res = $mainAPI->SendSMS($phone, $message);
+        var_dump($res);
+    }
 }
 
 ?>
