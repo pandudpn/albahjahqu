@@ -126,6 +126,7 @@ class Sms extends Front_Controller {
     } 
 
     public function send_main_api_sms(){
+    	error_reporting(E_ALL);
         require_once APPPATH.'third_party/Mainapi.php';
         
         $phone 		='085295703112';
