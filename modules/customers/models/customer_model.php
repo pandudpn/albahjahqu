@@ -112,8 +112,9 @@ class customer_model extends MY_Model {
 
     public function download()
     {
-        $this->db->select('name, phone, email, level, outlet_number, outlet_name, dealer_name, account_status, kyc_status, referral_code, (SELECT created_on FROM transactions WHERE cus_id = customers.id AND status <> \'inquiry\' ORDER BY id DESC LIMIT 1) as last_transaction, created_on as date_registered', false);
+        $this->db->select('customers.name, phone, email, level, outlet_number, outlet_name, customers.dealer_name, dealer_clusters.name as cluster_name, account_status, kyc_status, referral_code, (SELECT created_on FROM transactions WHERE cus_id = customers.id AND status <> \'inquiry\' ORDER BY id DESC LIMIT 1) as last_transaction, customers.created_on as date_registered', false);
         $this->db->from($this->table);
+        $this->db->join('dealer_clusters', 'dealer_clusters.id = customers.cluster');
         $this->db->where($this->table.'.deleted', '0');
 
         $from   = $this->input->get('from');
