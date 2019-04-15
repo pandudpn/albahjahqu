@@ -25,6 +25,13 @@ class advice extends Api_Controller {
         $transaction        = $this->transaction->find_by(array('trx_code' => $trx_code)); 
         $ref_service_code   = $this->ref_service_code->find($transaction->service_id);
 
+        if($transaction->status_provider == '00')
+        {
+            $this->rest->set_error('transaksi ini sudah di update.');
+            $this->rest->render();
+            die;
+        }
+
         if(!$transaction)
         {
             $this->rest->set_error('transaction not found');
