@@ -74,7 +74,7 @@ class pending extends Admin_Controller {
         $msisdn         = $transaction->destination_no;
         $product        = $ref_service_code->biller_code;
         $sign           = strtoupper(sha1($reqid.$msisdn.$product.$userid.$password));
-        $mid            = '';
+        $mid            = 'dekape';
         $trx_code       = $transaction->trx_code;
 
         $params = array(
@@ -111,6 +111,7 @@ class pending extends Admin_Controller {
         curl_close($ch);  
         
         $response = json_decode($output);
+        var_dump($response);die;
 
         if($response->status == '1')
         {
