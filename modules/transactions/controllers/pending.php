@@ -111,7 +111,7 @@ class pending extends Admin_Controller {
         curl_close($ch);  
         
         $response = json_decode($output);
-        var_dump($response);die;
+        // var_dump($response);die;
 
         if($response->status == '1')
         {
@@ -119,6 +119,11 @@ class pending extends Admin_Controller {
             die;
         }
         else if($response->status == '0')
+        {
+            redirect(site_url('transactions/pending/changestatus/rejected/'.$id), 'refresh');
+            die;
+        }
+        else if($response->status == '13')
         {
             redirect(site_url('transactions/pending/changestatus/rejected/'.$id), 'refresh');
             die;
