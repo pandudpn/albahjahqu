@@ -49,6 +49,21 @@ class kyc_model extends MY_Model {
 
         $this->db->where($this->table.'.deleted', '0');
 
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+        $status = $this->input->get('status');
+
+        if(!empty($status))
+        {
+            $this->db->where($this->table.'.decision', $status);
+        }
+
+        if(!empty($from) && !empty($to))
+        {
+            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
+            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
+
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where('customers.dealer_id', $this->session->userdata('user')->dealer_id);
@@ -101,6 +116,48 @@ class kyc_model extends MY_Model {
         }
 
         return $this->db->get()->row();
+    }
+
+    public function download()
+    {
+        $this->db->select("customer_kycs.id, customer_kycs.cus_name, customer_kycs.cus_phone, customer_kycs.cus_ktp, customer_kycs.cus_mother, customer_kycs.cus_job, customer_kycs.ktp_image, customer_kycs.selfie_image, customer_kycs.decision, REPLACE(REPLACE(customer_kycs.remarks, '\r', ''), '\n', '') as remarks, customer_kycs.created_on, customer_kycs.modified_on", false);
+        $this->db->from($this->table);
+        $this->db->join('customers', 'customers.id = customer_kycs.cus_id');
+
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+        $status = $this->input->get('status');
+
+        if(!empty($status))
+        {
+            $this->db->where($this->table.'.decision', $status);
+        }
+
+        if(!empty($from) && !empty($to))
+        {
+            $this->db->where($this->table.'.created_on >=', $from.' 00:00:01');
+            $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
+
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
+        {
+            $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
+        }
+
+        $result = $this->db->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i:s').".csv";
+
+        $delimiter = "|";
+        $newline   = "\r\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
     }
 
 }

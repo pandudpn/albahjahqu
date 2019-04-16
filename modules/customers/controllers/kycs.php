@@ -18,8 +18,20 @@ class kycs extends Admin_Controller {
 
     public function index()
     {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+        $status = $this->input->get('status');
+
     	$this->template->set('alert', $this->session->flashdata('alert'))
+                        ->set('from', $from)
+                        ->set('to', $to)
+                        ->set('status', $status)
     					->build('kycs/index');
+    }
+
+    public function download()
+    {
+        $this->kyc->download();
     }
 
     public function edit($id)

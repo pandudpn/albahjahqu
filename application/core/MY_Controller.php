@@ -170,6 +170,18 @@ class Admin_Controller extends Base_Controller{
         $this->load->model('customers/kyc_model', 'kyc');
         $this->load->model('transactions/transaction_model', 'transaction');
 
+        if($this->session->userdata('user')->role == 'kyc')
+        {
+            if (strpos(current_url(), 'kyc') == false) 
+            {
+                if(strpos(current_url(), 'user') == false)
+                {
+                    redirect(site_url('customers/kycs'), 'refresh');
+                    die;
+                }
+            }
+        }
+
         $unread = $this->customer_support->unread()->unread;
 
         if($unread > 0)
