@@ -27,7 +27,14 @@ class login extends Admin_Controller {
     			$this->session->set_userdata('admin_logged_in', true);
     			$this->session->set_userdata('user', $user);
 
-    			redirect(site_url(), 'refresh');
+                if($user->role == 'kyc')
+                {
+                    redirect(site_url('customers/kycs'), 'refresh');
+                }
+                else
+                {
+                    redirect(site_url(), 'refresh');
+                }
     		}
     		else
     		{
