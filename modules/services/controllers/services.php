@@ -72,14 +72,14 @@ class services extends Admin_Controller {
         $remarks     = $this->input->post('remarks');
         $status      = $this->input->post('status');
         
-        if($value >= 1000000)
-        {
-            $value = substr($value, 0, 4);
-        }
-        else
-        {
-            $value = '0'.substr($value, 0, 3);
-        }
+        // if($value >= 1000000)
+        // {
+        //     $value = substr($value, 0, 4);
+        // }
+        // else
+        // {
+        //     $value = '0'.substr($value, 0, 3);
+        // }
 
         $data = array(
             'service'     => $service,
