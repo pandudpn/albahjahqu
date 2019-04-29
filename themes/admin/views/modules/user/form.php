@@ -75,6 +75,20 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Apps</label>
+                            <div class="col-7">
+                                <select name="app_id" class="form-control">
+                                    <?php foreach ($apps as $key => $a) { ?>
+                                        <option value="<?php echo $a->package_name; ?>" 
+                                            <?php if($data->app_id == $a->package_name) { echo "selected"; } else { echo ""; }  ?>>
+                                            <?php echo $a->name; ?>        
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
                         
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
                         <a href="<?php echo site_url('user/admin'); ?>" class="btn btn-danger waves-effect waves-light">
