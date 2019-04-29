@@ -56,7 +56,8 @@ class articles extends Admin_Controller {
         $for_dealer     = $this->input->post('for_dealer');
         $title     		= $this->input->post('title');
         $content     	= $this->input->post('content');
-        $status     	= $this->input->post('status');
+        $status         = $this->input->post('status');
+        $app_id     	= $this->session->userdata('user')->app_id;
         $headlines  	= character_limiter(strip_tags($this->input->post('content')), 50);
 
         $data = array(
@@ -64,7 +65,8 @@ class articles extends Admin_Controller {
             'title'      => $title,
             'content'    => $content,
             'status'     => $status,
-            'headlines'  => $headlines
+            'headlines'  => $headlines,
+            'app_id'     => $app_id
         );
 
         if(!empty($for_dealer))
