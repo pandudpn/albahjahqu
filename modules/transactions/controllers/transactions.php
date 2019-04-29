@@ -527,6 +527,11 @@ class transactions extends Admin_Controller {
             $btn .= '</div>
                     </div>';
 
+            if($this->session->userdata('user')->app_id != 'com.dekape.okbabe')
+            {
+                $btn = '-';
+            }
+
             $row[] = $btn;
             $row[] = (($l->status == 'payment' || $l->status == 'approved') ? '<span class="badge badge-pill badge-success">'.$l->status.'</span>' : '<span class="badge badge-pill badge-danger">'.$l->status.'</span>');
             $row[] = $l->created_on;

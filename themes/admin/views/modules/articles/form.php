@@ -28,6 +28,7 @@
                     
                     <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
+                        <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Type</label>
                             <div class="col-9">
@@ -38,6 +39,9 @@
                                 </select>
                             </div>
                         </div>
+                        <?php } else { ?>
+                            <input type="hidden" name="for" value="dealer">
+                        <?php } ?>
 
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Dealer name</label>

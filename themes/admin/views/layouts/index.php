@@ -206,6 +206,7 @@
 
                                 <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
 
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                 
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
@@ -218,6 +219,7 @@
                                         <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
                                     </ul>
                                 </li>  
+                                <?php } ?>
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
                                         <i class="zmdi zmdi-notifications-active"></i><span> Announcements</span> 
@@ -237,6 +239,7 @@
                                         <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
                                     </a>
                                 </li>
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                 <li>
                                     <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-shopping-basket"></i><span> Pending Trx <?php echo $pending; ?></span> 
@@ -257,6 +260,7 @@
                                         <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
                                     </a>
                                 </li>
+                                <?php } ?>
                                 <li class="text-muted menu-title">Users</li>
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
@@ -268,6 +272,7 @@
                                         <li><a href="<?php echo site_url('customers'); ?>">Profile</a></li>
                                     </ul>
                                 </li>
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                 <li>
                                     <a href="<?php echo site_url('referrals'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-tag-more"></i><span> Referral Codes </span> 
@@ -279,6 +284,7 @@
                                         <i class="zmdi zmdi-store"></i><span> Outlets </span> 
                                     </a>
                                 </li>
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                 <li class="text-muted menu-title">Modem Pool</li>
                                 <li>
                                     <a href="<?php echo site_url('dealers/boxes'); ?>" class="waves-effect">
@@ -295,6 +301,8 @@
                                         <i class="zmdi zmdi-alert-octagon"></i><span> Alert Settings </span> 
                                     </a>
                                 </li>
+                                <?php } ?>
+                                <?php } ?>
 
                                 <?php } ?>
 
@@ -319,6 +327,7 @@
                                     </li>
                                     <?php } ?>
 
+                                    <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                     <li class="has_sub">
                                         <a href="javascript:void(0);" class="waves-effect">
                                             <i class="zmdi zmdi-email-open"></i><span> Complaints <?php echo $unread; ?></span> 
@@ -330,6 +339,7 @@
                                             <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
                                         </ul>
                                     </li>   
+                                    <?php } ?>
 
                                     <li class="has_sub">
                                         <a href="javascript:void(0);" class="waves-effect">
@@ -351,6 +361,7 @@
                                             <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
                                         </a>
                                     </li>
+                                    <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                     <li>
                                         <a href="<?php echo site_url('transactions/pending'); ?>" class="waves-effect">
                                             <i class="zmdi zmdi-shopping-basket"></i><span> Pending Trx <?php echo $pending; ?></span> 
@@ -373,6 +384,7 @@
                                             <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
                                         </a>
                                     </li>
+                                    <?php } ?> 
 
                                     <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape') { ?>
 
@@ -422,12 +434,13 @@
                                             <li><a href="<?php echo site_url('customers/kycs'); ?>">KYC <?php echo $waiting; ?></a></li>
                                         </ul>
                                     </li>
-
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                     <li>
                                         <a href="<?php echo site_url('referrals'); ?>" class="waves-effect">
                                             <i class="zmdi zmdi-tag-more"></i><span> Referral Codes </span> 
                                         </a>
                                     </li>
+                                <?php } ?>
                                 <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                     <li>
                                         <a href="<?php echo site_url('dealers'); ?>" class="waves-effect">
@@ -450,7 +463,7 @@
                                 <?php } ?>
 
                                 <?php if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dekape'  || $this->session->userdata('user')->role == 'dealer_spv') { ?>
-
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                     <li class="text-muted menu-title">Outlet</li>
 
                                     <li>
@@ -458,7 +471,8 @@
                                             <i class="zmdi zmdi-store"></i><span> Outlets </span> 
                                         </a>
                                     </li>
-
+                                <?php } ?>
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                     <li class="text-muted menu-title">Modem Pool</li>
 
                                     <li>
@@ -466,6 +480,7 @@
                                             <i class="zmdi zmdi-store"></i><span> Dealer Boxes </span> 
                                         </a>
                                     </li>
+                                <?php } ?>
                                 <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                     <li>
                                         <a href="<?php echo site_url('dealers/usages'); ?>" class="waves-effect">
@@ -473,6 +488,7 @@
                                         </a>
                                     </li>
                                 <?php } ?>
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                     <li>
                                         <a href="<?php echo site_url('dealers/boxes/alert'); ?>" class="waves-effect">
                                             <i class="zmdi zmdi-alert-octagon"></i><span> Alert Settings </span> 
@@ -491,6 +507,7 @@
                                             <i class="zmdi zmdi-map"></i><span> Cluster Maps </span> 
                                         </a>
                                     </li>
+                                <?php } ?>
                                     <?php if($this->session->userdata('user')->role == 'dekape') { ?>
                                         <li class="text-muted menu-title">Management</li>
 

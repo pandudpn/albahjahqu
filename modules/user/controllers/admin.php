@@ -7,6 +7,7 @@ class admin extends Admin_Controller {
         parent::__construct();
         $this->load->model('user/user_admin_model', 'user_admin');
         $this->load->model('dealers/dealer_model', 'dealer');
+        $this->load->model('user/app_model', 'app');
 
         $this->check_login();
     }
@@ -23,11 +24,13 @@ class admin extends Admin_Controller {
     public function add()
     {
         $dealers = $this->dealer->find_all_by(array('deleted' => '0'));
+        $apps = $this->app->find_all_by(array('deleted' => '0'));
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('title', 'Add User Admin')
             ->set('dealers', $dealers)
+            ->set('apps', $apps)
             ->build('form');
     }
 
@@ -38,12 +41,14 @@ class admin extends Admin_Controller {
         if($is_exist){
             $user_admin = $is_exist;
             $dealers    = $this->dealer->find_all_by(array('deleted' => '0'));
+            $apps = $this->app->find_all_by(array('deleted' => '0'));
 
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
                 ->set('title', 'Edit User admin')
                 ->set('data', $user_admin)
                 ->set('dealers', $dealers)
+                ->set('apps', $apps)
                 ->build('form');
         }
     }
@@ -57,12 +62,14 @@ class admin extends Admin_Controller {
         $phone      = $this->input->post('phone');
         $role       = $this->input->post('role');
         $dealer_id  = $this->input->post('dealer_id');
+        $app_id  = $this->input->post('app_id');
 
         $data = array(
             'name'      => $name,
             'email'     => $email,
             'phone'     => $phone,
             'role'      => $role,
+            'app_id'    => $app_id,
             'account_user' => 0
         );
 
