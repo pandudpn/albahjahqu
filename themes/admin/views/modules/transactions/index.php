@@ -26,9 +26,22 @@
                     <div class="col-2"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
                     <div class="col-2"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
                     <div class="col-2"><input type="text" name="outlet" class="form-control" placeholder="Outlet Number" value="<?php echo $outlet; ?>"></div>
-                    <div class="col-2">
+                    <div class="col-1">
+                        <select class="form-control" name="type" style="height: 40.74px;">
+                            <option value="">Type</option>
+                            <option value="REG" <?php if($type == 'REG') { echo 'selected'; } ?>>REG (Reguler)</option>
+                            <option value="DAT" <?php if($type == 'DAT') { echo 'selected'; } ?>>DAT (Data)</option>
+                            <option value="PKD" <?php if($type == 'PKD') { echo 'selected'; } ?>>PKD (Paket Data)</option>
+                            <option value="PKT" <?php if($type == 'PKT') { echo 'selected'; } ?>>PKT (Paket Telepon)</option>
+                            <option value="BLK" <?php if($type == 'BLK') { echo 'selected'; } ?>>BLK (Bulk)</option>
+                            <option value="DLK" <?php if($type == 'DLK') { echo 'selected'; } ?>>DLK (Data Bulk)</option>
+                            <option value="TLK" <?php if($type == 'TLK') { echo 'selected'; } ?>>TLK (Telepon Bulk)</option>
+                            <option value="NAP" <?php if($type == 'NAP') { echo 'selected'; } ?>>NAP (Other/Non Aplicable)</option>
+                        </select>
+                    </div>
+                    <div class="col-1">
                         <select class="form-control" name="status" style="height: 40.74px;">
-                            <option value="">Choose Status</option>
+                            <option value="">Status</option>
                             <option value="success" <?php if($status == 'success') { echo 'selected'; } ?>>Success</option>
                             <option value="failed" <?php if($status == 'failed') { echo 'selected'; } ?>>Failed</option>
                         </select>
@@ -211,7 +224,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('transactions/datatables?from='.$from.'&to='.$to.'&status='.$status.'&outlet='.$outlet)?>",
+                "url": "<?php echo site_url('transactions/datatables?from='.$from.'&to='.$to.'&status='.$status.'&outlet='.$outlet.'&type='.$type)?>",
                 "type": "POST"
             },
 
