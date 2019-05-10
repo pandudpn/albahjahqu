@@ -114,6 +114,13 @@ class transaction_model extends MY_Model {
             $this->db->where($this->table.'.service_id IS NOT NULL');
         }
 
+        $type     = $this->input->get('type');
+
+        if(!empty($type))
+        {
+            $this->db->where($this->table_code.'.type', $type);
+        }
+
         if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
