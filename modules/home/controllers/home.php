@@ -10,7 +10,7 @@ class home extends Admin_Controller {
 
         $this->check_login();
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv') 
+        if(!empty($this->session->userdata('user')->dealer_id)) 
         {
             $this->where_dealer = ' AND dealer_id = '.$this->session->userdata('user')->dealer_id;
         }

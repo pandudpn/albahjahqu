@@ -12,4 +12,10 @@ class Notifications extends Front_Controller {
     	$pending = $this->transaction->pending()->pending;
     	echo $pending;
     }
+
+    public function pending_topup()
+    {
+        $dispute_topup = $this->transaction->dispute_topup()->dispute_topup;
+        echo $dispute_topup;
+    }
 }

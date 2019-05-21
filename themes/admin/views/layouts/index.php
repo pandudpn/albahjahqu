@@ -203,8 +203,21 @@
                                         <i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> 
                                     </a>
                                 </li>
+                            <?php if($this->session->userdata('user')->role == 'viewer') { ?>
+                                <li>
+                                    <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
+                                    </a>
+                                </li>
 
-                                <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
+                                <li>
+                                    <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-upload"></i><span> Topups </span> 
+                                    </a>
+                                </li>
+                            <?php } ?> 
+
+                                <?php if($this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv' || $this->session->userdata('user')->role == 'dealer') { ?>
 
                                 <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                 
@@ -216,9 +229,9 @@
 
                                     <ul class="list-unstyled">
                                         <li><a href="<?php echo site_url('complaints/report'); ?>">Report <?php echo $unread; ?></a></li>
-                                        <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
+                                        <!-- <li><a href="<?php echo site_url('complaints/help'); ?>">Help <?php echo $open_status; ?></a></li> -->
                                     </ul>
-                                </li>  
+                                </li>
                                 <?php } ?>
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
@@ -250,11 +263,22 @@
                                         <i class="zmdi zmdi-repeat"></i><span> Transfers Balance </span> 
                                     </a>
                                 </li>
+
                                 <li>
                                         <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
                                             <i class="zmdi zmdi-upload"></i><span> Topups </span> 
                                         </a>
                                     </li>
+
+                                
+                                <li>
+                                        <a href="<?php echo site_url('topups/pickup'); ?>" class="waves-effect">
+                                            <i class="zmdi zmdi-upload"></i><span> Topups Pickup</span> 
+                                        </a>
+                                    </li>
+                                <li>
+                                
+                                
                                 <li>
                                     <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
@@ -336,7 +360,7 @@
 
                                         <ul class="list-unstyled">
                                             <li><a href="<?php echo site_url('complaints/report'); ?>">Report <?php echo $unread; ?></a></li>
-                                            <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
+                                            <!-- <li><a href="<?php echo site_url('complaints/help'); ?>">Help <?php echo $open_status; ?></a></li> -->
                                         </ul>
                                     </li>   
                                     <?php } ?>
@@ -379,6 +403,12 @@
                                         </a>
                                     </li>
                                     <?php } ?> 
+                                    <li>
+                                            <a href="<?php echo site_url('topups/pickup'); ?>" class="waves-effect">
+                                                <i class="zmdi zmdi-truck"></i><span> Topups Pickup</span> 
+                                            </a>
+                                        </li>
+                                    <li>
                                     <li>
                                         <a href="<?php echo site_url('transactions/logs'); ?>" class="waves-effect">
                                             <i class="zmdi zmdi-calendar-note"></i><span> Transaction Logs </span> 
@@ -784,6 +814,29 @@
                         }
                     }
 
+                    function notifyTopup(count_notif) 
+                    {
+                        if (Notification.permission !== "granted")
+                        {   
+                            Notification.requestPermission(); 
+                        }
+                        else 
+                        {
+                            var notification = new Notification('Alert! OKBABE+', {
+                                icon: '<?php echo $this->template->get_theme_path();?>assets/images/logo_okbabe_purple.png',
+                                image: '<?php echo $this->template->get_theme_path();?>assets/images/logo_okbabe_purple.png',
+                                body: "Saat ini ada "+count_notif+" Topup PENDING. Cek sekarang",
+                            });
+
+                            notification.onclick = function () {
+                                window.location.href = "<?php echo site_url('topups'); ?>";      
+                            };
+
+                            var audio = new Audio('<?php echo $this->template->get_theme_path();?>assets/sound/notification.mp3');
+                            audio.play();
+                        }
+                    }
+
                     $(document).ready(function(){
                         
                         setInterval(function(){ 
@@ -797,6 +850,20 @@
                                 }
 
                              });
+
+                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+
+                             $.post('<?php echo site_url('transactions/notifications/pending_topup'); ?>')
+                             .done(function(data){
+                                var count_notif = parseInt(data);
+                                if(count_notif > 0)
+                                {
+                                    notifyTopup(count_notif)
+                                }
+
+                             });
+
+                             <?php } ?>
 
                         }, 60000)
                     });

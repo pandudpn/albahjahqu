@@ -1,19 +1,15 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class topup_model extends MY_Model {
+class topup_pickup_model extends MY_Model {
 
-    protected $table            = 'transactions';
-    protected $table_customer   = 'customers';
-    protected $table_dealer     = 'dealers';
-    protected $table_service    = 'ref_service_codes';
-    protected $table_proof      = 'topup_proofs';
+    protected $table            = 'pickup_topups';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
 
-    protected $column_order  = array(null, 'customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image','transactions.created_on'); //set column field database for datatable orderable
-    protected $column_search = array('customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image', 'transactions.created_on', 'transactions.status'); //set column field database for datatable searchable 
-    protected $order 		 = array('transactions.id' => 'desc'); // default order 
+    protected $column_order  = array(null, 'customer_name', 'customer_phone', 'customer_email', 'lat', 'lng', 'dealer_name', 'amount', 'status', 'created_on'); //set column field database for datatable orderable
+    protected $column_search = array('customer_name', 'customer_phone', 'customer_email', 'lat', 'lng', 'dealer_name', 'amount', 'status'); //set column field database for datatable searchable 
+    protected $order 		 = array('status' => 'asc', 'id' => 'desc'); // default order 
 
     public function __construct()
     {
@@ -23,20 +19,7 @@ class topup_model extends MY_Model {
     public function _get_datatables_query()
     {
         $this->db->select('*');
-        $this->db->select($this->table.'.id as id');
-        $this->db->select($this->table.'.trx_code as trx_code');
-        $this->db->select($this->table.'.created_on as created_on');
-        $this->db->select($this->table_customer.'.name as customer_name');
-        $this->db->select($this->table_customer.'.phone as customer_phone');
-        $this->db->select($this->table_customer.'.email as customer_email');
-        $this->db->select($this->table_dealer.'.name as dealer_name');
-        $this->db->select($this->table.'.remarks as note');
-        $this->db->select($this->table_proof.'.image as image');
         $this->db->from($this->table);
-        $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
-        $this->db->join($this->table_dealer, $this->table_dealer.'.id = '.$this->table.'.dealer_id', 'left');
-        $this->db->join($this->table_service, $this->table_service.'.id = '.$this->table.'.service_id', 'left');
-        $this->db->join($this->table_proof, $this->table_proof.'.trx_code = '.$this->table.'.trx_code', 'left');
         
         $i = 0;
      
@@ -63,9 +46,6 @@ class topup_model extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', '0');
-        $this->db->where('LEFT('.$this->table.'.service_code, 3) = ', 'TOP');
-        $this->db->where($this->table.'.status <>', 'inquiry');
-        // $this->db->where($this->table.'.status <>', 'approved');
 
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
@@ -151,10 +131,6 @@ class topup_model extends MY_Model {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
 
-        $this->db->where('LEFT('.$this->table.'.service_code, 3) = ', 'TOP');
-        $this->db->where($this->table.'.status <>', 'inquiry');
-        // $this->db->where($this->table.'.status <>', 'approved');
-
         return $this->db->count_all_results();
     }
 
@@ -183,10 +159,6 @@ class topup_model extends MY_Model {
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }
-
-        $this->db->where('LEFT('.$this->table.'.service_code, 3) = ', 'TOP');
-        $this->db->where($this->table.'.status <>', 'inquiry');
-        // $this->db->where($this->table.'.status <>', 'approved');
 
         return $this->db->get()->row();
     }
