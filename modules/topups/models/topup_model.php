@@ -12,7 +12,7 @@ class topup_model extends MY_Model {
     protected $set_created   	= true;
 
     protected $column_order  = array(null, 'customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image','transactions.created_on'); //set column field database for datatable orderable
-    protected $column_search = array('customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image', 'transactions.created_on'); //set column field database for datatable searchable 
+    protected $column_search = array('customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image', 'transactions.created_on', 'transactions.status'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.id' => 'desc'); // default order 
 
     public function __construct()
@@ -88,7 +88,7 @@ class topup_model extends MY_Model {
             $this->db->where($this->table.'.status', $status);
         }
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
+        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv' || $this->session->userdata('user')->role == 'viewer')
         {
             $this->db->where($this->table.'.dealer_id', $this->session->userdata('user')->dealer_id);
         }

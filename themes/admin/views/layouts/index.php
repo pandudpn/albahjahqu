@@ -797,6 +797,29 @@
                         }
                     }
 
+                    function notifyTopup(count_notif) 
+                    {
+                        if (Notification.permission !== "granted")
+                        {   
+                            Notification.requestPermission(); 
+                        }
+                        else 
+                        {
+                            var notification = new Notification('Alert! OKBABE+', {
+                                icon: '<?php echo $this->template->get_theme_path();?>assets/images/logo_okbabe_purple.png',
+                                image: '<?php echo $this->template->get_theme_path();?>assets/images/logo_okbabe_purple.png',
+                                body: "Saat ini ada "+count_notif+" Topup PENDING. Cek sekarang",
+                            });
+
+                            notification.onclick = function () {
+                                window.location.href = "<?php echo site_url('topups'); ?>";      
+                            };
+
+                            var audio = new Audio('<?php echo $this->template->get_theme_path();?>assets/sound/notification.mp3');
+                            audio.play();
+                        }
+                    }
+
                     $(document).ready(function(){
                         
                         setInterval(function(){ 
@@ -810,6 +833,20 @@
                                 }
 
                              });
+
+                             <?php if($this->session->userdata('user')->role == 'dekape') { ?>
+
+                             $.post('<?php echo site_url('transactions/notifications/pending_topup'); ?>')
+                             .done(function(data){
+                                var count_notif = parseInt(data);
+                                if(count_notif > 0)
+                                {
+                                    notifyTopup(count_notif)
+                                }
+
+                             });
+
+                             <?php } ?>
 
                         }, 60000)
                     });
