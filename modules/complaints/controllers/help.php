@@ -5,6 +5,7 @@ class help extends Admin_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('complaints/customer_support_model', 'customer_support');
+        $this->load->model('complaints/customer_support_help_model', 'customer_support_help');
         $this->load->model('customers/customer_model', 'customer');
 
         $this->load->helper('text');
@@ -40,7 +41,7 @@ class help extends Admin_Controller {
 
     public function datatables()
     {
-        $list = $this->customer_support->get_datatables('help');
+        $list = $this->customer_support_help->get_datatables('help');
         $data = array();
         $no   = $_POST['start'];
 

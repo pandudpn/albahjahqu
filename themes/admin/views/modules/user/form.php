@@ -57,6 +57,7 @@
                                     <option value="dealer_spv" <?php if($data->role == 'dealer_spv') { echo "selected"; } ?>>Dealer Supervisor</option>
                                     <option value="dealer_ops" <?php if($data->role == 'dealer_ops') { echo "selected"; } ?>>Dealer Operational</option>
                                     <option value="kyc" <?php if($data->role == 'kyc') { echo "selected"; } ?>>Operator KYC</option>
+                                    <option value="viewer" <?php if($data->role == 'viewer') { echo "selected"; } ?>>Viewer (Trx & Topup)</option>
                                 </select>
                             </div>
                         </div>

@@ -529,7 +529,7 @@ class transactions extends Admin_Controller {
             $btn .= '</div>
                     </div>';
 
-            if($this->session->userdata('user')->app_id != 'com.dekape.okbabe')
+            if($this->session->userdata('user')->app_id != 'com.dekape.okbabe' || $this->session->userdata('user')->role == 'viewer')
             {
                 $btn = '-';
             }

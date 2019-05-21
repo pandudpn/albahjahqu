@@ -167,6 +167,7 @@ class Admin_Controller extends Base_Controller{
     public function __construct() {
         parent::__construct();
         $this->load->model('complaints/customer_support_model', 'customer_support');
+        $this->load->model('complaints/customer_support_help_model', 'customer_support_help');
         $this->load->model('customers/kyc_model', 'kyc');
         $this->load->model('transactions/transaction_model', 'transaction');
 
@@ -183,6 +184,7 @@ class Admin_Controller extends Base_Controller{
         }
 
         $unread = $this->customer_support->unread()->unread;
+        $unread_count = $unread;
 
         if($unread > 0)
         {
@@ -215,17 +217,6 @@ class Admin_Controller extends Base_Controller{
             $pending = '';
         }
 
-        $pending = $this->transaction->pending()->pending;
-
-        if($pending > 0)
-        {
-            $pending = '<span class="label label-pill label-primary float-right">'.$pending.'</span>';
-        }
-        else
-        {
-            $pending = '';
-        }
-
         $dispute_topup = $this->transaction->dispute_topup()->dispute_topup;
 
         if($dispute_topup > 0)
@@ -237,7 +228,30 @@ class Admin_Controller extends Base_Controller{
             $dispute_topup = '';
         }
 
+        $open_status = $this->customer_support_help->open_status()->open_status;
+        $open_status_count = $open_status;
+
+        if($open_status > 0)
+        {
+            $open_status = '<span class="label label-pill label-primary float-right">'.$open_status.'</span>';
+        }
+        else
+        {
+            $open_status = '';
+        }
+
         // var_dump($pending);die;
+
+        $total_complaint = $open_status_count + $unread_count;
+
+        if($total_complaint > 0)
+        {
+            $total_complaint = '<span class="label label-pill label-primary float-right">'.$total_complaint.'</span>';
+        }
+        else
+        {
+            $total_complaint = '';
+        }
 
         $this->template->set_layout('index');
         $this->template->set_theme('admin');
@@ -245,6 +259,8 @@ class Admin_Controller extends Base_Controller{
         $this->template->set('waiting', $waiting);
         $this->template->set('pending', $pending);
         $this->template->set('dispute_topup', $dispute_topup);
+        $this->template->set('open_status', $open_status);
+        $this->template->set('total_complaint', $total_complaint);
     }
 
     public function check_login(){

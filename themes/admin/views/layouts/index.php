@@ -203,8 +203,21 @@
                                         <i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> 
                                     </a>
                                 </li>
+                            <?php if($this->session->userdata('user')->role == 'viewer') { ?>
+                                <li>
+                                    <a href="<?php echo site_url('transactions'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-shopping-cart"></i><span> Transactions </span> 
+                                    </a>
+                                </li>
 
-                                <?php if($this->session->userdata('user')->role == 'dealer_ops') { ?>
+                                <li>
+                                    <a href="<?php echo site_url('topups'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-upload"></i><span> Topups </span> 
+                                    </a>
+                                </li>
+                            <?php } ?> 
+
+                                <?php if($this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv' || $this->session->userdata('user')->role == 'dealer') { ?>
 
                                 <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                 
@@ -216,9 +229,9 @@
 
                                     <ul class="list-unstyled">
                                         <li><a href="<?php echo site_url('complaints/report'); ?>">Report <?php echo $unread; ?></a></li>
-                                        <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
+                                        <!-- <li><a href="<?php echo site_url('complaints/help'); ?>">Help <?php echo $open_status; ?></a></li> -->
                                     </ul>
-                                </li>  
+                                </li>
                                 <?php } ?>
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
@@ -336,7 +349,7 @@
 
                                         <ul class="list-unstyled">
                                             <li><a href="<?php echo site_url('complaints/report'); ?>">Report <?php echo $unread; ?></a></li>
-                                            <li><a href="<?php echo site_url('complaints/help'); ?>">Help</a></li>
+                                            <!-- <li><a href="<?php echo site_url('complaints/help'); ?>">Help <?php echo $open_status; ?></a></li> -->
                                         </ul>
                                     </li>   
                                     <?php } ?>
