@@ -217,7 +217,7 @@
                                 </li>
                             <?php } ?> 
 
-                                <?php if($this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv' || $this->session->userdata('user')->role == 'dealer') { ?>
+                                <?php if($this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv') { ?>
 
                                 <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
                                 
