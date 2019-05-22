@@ -535,7 +535,25 @@ class transactions extends Admin_Controller {
             }
 
             $row[] = $btn;
-            $row[] = (($l->status == 'payment' || $l->status == 'approved') ? '<span class="badge badge-pill badge-success">'.$l->status.'</span>' : '<span class="badge badge-pill badge-danger">'.$l->status.'</span>');
+
+            if($l->status == 'payment')
+            {
+                $status = '<span class="btn btn-pill btn-success" style="font-size: medium; border-radius: 15px 15px 15px 15px;">'.$l->status.'</span>';
+            }else if($l->status == 'reversal')
+            {
+                $status = '<span class="btn btn-pill btn-danger" style="font-size: medium; border-radius: 15px 15px 15px 15px;">'.$l->status.'</span>';
+            }else if($l->status == 'approved')
+            {
+                $status = '<span class="btn btn-pill btn-primary" style="font-size: medium; border-radius: 15px 15px 15px 15px;">'.$l->status.'</span>';
+            }else if($l->status == 'rejected')
+            {
+                $status = '<span class="btn btn-pill btn-warning" style="font-size: medium; border-radius: 15px 15px 15px 15px;">'.$l->status.'</span>';
+            }else if($l->status == 'dispute')
+            {
+                $status = '<span class="btn btn-pill btn-secondary" style="font-size: medium; border-radius: 15px 15px 15px 15px;">'.$l->status.'</span>';
+            }
+
+            $row[] = $status;
             $row[] = $l->created_on;
             $row[] = $l->cus_phone;
             $row[] = $l->destination_no;
