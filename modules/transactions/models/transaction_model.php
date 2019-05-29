@@ -132,6 +132,8 @@ class transaction_model extends MY_Model {
             $this->db->where($this->table.'.created_on >= DATE_ADD(NOW(), INTERVAL -1 WEEK)');
         }
          
+	$this->db->not_like('ref_service_codes.remarks','Top Up');
+
         if(isset($_POST['order'])) // here order processing
         {
             $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -310,6 +312,7 @@ class transaction_model extends MY_Model {
         }
 
         $this->db->where("(status_provider = '68' OR status_provider = '82' OR status_provider = '96')");
+	$this->db->not_like('transactions.remarks','TOPUP');
         return $this->db->get()->row();
     }
 
