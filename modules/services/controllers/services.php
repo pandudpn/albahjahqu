@@ -97,13 +97,31 @@ class services extends Admin_Controller {
             $data['by'] = $by;
         }
         
-        if(!$id){
+	if(!$id){
+            if(!empty($biller_code)){
+                $code = $this->service->find_by(array('biller_code'=>trim($biller_code)));
+                if(!empty($code)){
+                    $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => 'Service dengan biller code tersebut telah terdaftar.'));
+                } else {
+                    $insert = $this->service->insert($data);
+                }
+                redirect(site_url('services'), 'refresh');
+            } else {
+                $insert = $this->service->insert($data);
+                redirect(site_url('services'), 'refresh');
+            }
+        }else{
+            $update = $this->service->update($id, $data);
+            redirect(site_url('services'), 'refresh');
+        }
+
+        /*if(!$id){
             $insert = $this->service->insert($data);
             redirect(site_url('services'), 'refresh');
         }else{
             $update = $this->service->update($id, $data);
             redirect(site_url('services'), 'refresh');
-        }
+        }*/
     }
 
     public function delete($id)

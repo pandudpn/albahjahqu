@@ -11,7 +11,7 @@ class denoms_model extends MY_Model {
     protected $soft_deletes     = true;
 
     protected $column_order  = array(null, 'ref_service_providers.name'); //set column field database for datatable orderable
-    protected $column_search = array('ref_service_providers.name', 'billers.name'); //set column field database for datatable searchable 
+    protected $column_search = array('ref_service_providers.name','billers.name','ref_denoms.supplier_code'); //set column field database for datatable searchable 
     protected $order 		 = array('ref_denoms.id' => 'asc'); // default order 
 
     public function __construct()
