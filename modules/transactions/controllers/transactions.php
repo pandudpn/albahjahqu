@@ -557,6 +557,7 @@ class transactions extends Admin_Controller {
             $row[] = $l->created_on;
             $row[] = $l->cus_phone;
             $row[] = $l->destination_no;
+            $row[] = $l->destination_meter;
             $row[] = $l->remarks;
             $row[] = (empty($l->slot) ? ' - ' : $l->slot) .' / '. (empty($l->denom) ? ' - ' : $l->denom.'K');
             $row[] = (empty($l->ref_code) ? ' - ' : $l->ref_code) .' / '. (empty($l->token_code) ? ' - ' : $l->token_code);

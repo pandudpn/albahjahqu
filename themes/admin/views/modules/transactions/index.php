@@ -61,6 +61,7 @@
                     <th>Time</th>
                     <th>User</th>
                     <th>Destination Number</th>
+                    <th>Destination Meter</th>
                     <th>Product</th>
                     <th>Slot / Denom</th>
                     <th>SN / Token</th>
@@ -80,6 +81,7 @@
                     <th>Time</th>
                     <th>User</th>
                     <th>Destination Number</th>
+                    <th>Destination Meter</th>
                     <th>Product</th>
                     <th>Slot / Denom</th>
                     <th>SN / Token</th>

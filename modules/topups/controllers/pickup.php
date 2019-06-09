@@ -62,10 +62,10 @@ class Pickup extends Admin_Controller {
             $no++;
             $row   = array();
             $row[] = $no;
+            $row[] = '<a href="https://www.google.com/maps?q='.$l->lat.','.$l->lng.'" class="btn btn-info btn-sm" target="_blank"><i class="fa fa-map-marker"></i></a>';
             $row[] = $l->customer_name;
             $row[] = $l->customer_phone;
             $row[] = $l->customer_email;
-            $row[] = $l->lat.', '.$l->lng;
             $row[] = $l->dealer_name;
             $row[] = 'Rp. '.number_format($l->amount);
             $row[] = $l->status;
@@ -79,10 +79,9 @@ class Pickup extends Admin_Controller {
             //             <i class="fa fa-trash"></i>
             //           </a>';
 
-            
             if($l->status == 'open')
             {
-            	$btn =  '<a href="'.site_url('topups/pickup/approve/'.$l->id).'" class="btn btn-success btn-sm" title="">
+            	$btn .=  '<a href="'.site_url('topups/pickup/approve/'.$l->id).'" class="btn btn-success btn-sm" title="">
 	            		 <i class="fa fa-check"></i>
 	            		 </a>';
 

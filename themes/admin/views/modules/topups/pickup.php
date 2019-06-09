@@ -51,10 +51,10 @@
                 <thead>
                 <tr>
                     <th>No</th>
+                    <th></th>
                     <th>Name</th>
                     <th>Phone</th>
                     <th>Email</th>
-                    <th>Coordinate</th>
                     <th>Dealer</th>
                     <th>Amount</th>
                     <th>Status</th>
@@ -87,7 +87,7 @@
             //Set column definition initialisation properties.
             "columnDefs": [
                 { 
-                "targets": [ 0 ], //first column / numbering column
+                "targets": [ 0,1,9 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 }
             ],

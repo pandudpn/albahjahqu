@@ -14,8 +14,8 @@ class transaction_model extends MY_Model {
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
 
-    protected $column_order  = array(null, null, 'transactions.created_on', 'trx_code', 'ref_service_codes.remarks', 'location_type','dealer_box_stock_usages.slot','biller_name', 'ref_code', 'cus_phone', 'destination_no', 'destination_no','service_denom', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status'); //set column field database for datatable orderable
-    protected $column_search = array('trx_code', 'ref_service_codes.remarks', 'location_type', 'dealer_box_stock_usages.slot', 'billers.name', 'ref_code', 'customers.phone', 'destination_no', 'destination_no', 'service_denom', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status', 'transactions.created_on'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, null, 'transactions.created_on', 'trx_code', 'ref_service_codes.remarks', 'location_type','dealer_box_stock_usages.slot','biller_name', 'ref_code', 'cus_phone', 'destination_no', 'destination_meter','service_denom', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status'); //set column field database for datatable orderable
+    protected $column_search = array('trx_code', 'ref_service_codes.remarks', 'location_type', 'dealer_box_stock_usages.slot', 'billers.name', 'ref_code', 'customers.phone', 'destination_no', 'destination_meter', 'service_denom', 'selling_price', 'base_price', 'dealer_fee', 'biller_fee', 'dekape_fee', 'partner_fee', 'user_fee', 'user_cashback', 'transactions.status', 'transactions.created_on'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.created_on' => 'desc'); // default order 
 
     public function __construct()
@@ -25,7 +25,7 @@ class transaction_model extends MY_Model {
 
     public function _get_datatables_query($type=null)
     {
-        $this->db->select('transactions.id, ref_code, trx_code, destination_no, token_code, selling_price, transactions.status, status_provider');
+        $this->db->select('transactions.id, ref_code, trx_code, destination_no, destination_meter, token_code, selling_price, transactions.status, status_provider');
         $this->db->select($this->table.'.created_on');
         $this->db->select($this->table.'.base_price');
         $this->db->select($this->table.'.dealer_fee');
