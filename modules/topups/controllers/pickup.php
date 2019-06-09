@@ -81,7 +81,7 @@ class Pickup extends Admin_Controller {
 
             if($l->status == 'open')
             {
-            	$btn .=  '<a href="'.site_url('topups/pickup/approve/'.$l->id).'" class="btn btn-success btn-sm" title="">
+            	$btn =  '<a href="'.site_url('topups/pickup/approve/'.$l->id).'" class="btn btn-success btn-sm" title="">
 	            		 <i class="fa fa-check"></i>
 	            		 </a>';
 
