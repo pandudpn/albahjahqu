@@ -54,14 +54,19 @@
                             <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Level</label>
                                 <div class="col-7">
-                                    <select name="level" class="form-control">
-                                        <option value="">Choose Level</option>
-                                        <option value="dealer" <?php if($data->level == 'dealer') { echo 'selected'; } ?>>Dealer</option>
-                                        <option value="outlet" <?php if($data->level == 'outlet') { echo 'selected'; } ?>>Outlet</option>
-                                        <option value="staff" <?php if($data->level == 'staff') { echo 'selected'; } ?>>Staff / Karyawan</option>
-                                        <option value="agent" <?php if($data->level == 'agent') { echo 'selected'; } ?>>Agent</option>
-                                        <option value="enduser" <?php if($data->level == 'enduser') { echo 'selected'; } ?>>End User / Customer</option>
-                                    </select>
+                                    <?php if($data->level == 'dealer'){ ?>
+                                        <div class="col-7">
+                                            <input class="form-control" type="text" name="level" value="Dealer" disabled>
+                                        </div>
+                                    <?php } else { ?>
+                                        <select name="level" class="form-control">
+                                            <option value="">Choose Level</option>
+                                            <option value="outlet" <?php if($data->level == 'outlet') { echo 'selected'; } ?>>Outlet</option>
+                                            <option value="staff" <?php if($data->level == 'staff') { echo 'selected'; } ?>>Staff / Karyawan</option>
+                                            <option value="agent" <?php if($data->level == 'agent') { echo 'selected'; } ?>>Agent</option>
+                                            <option value="enduser" <?php if($data->level == 'enduser') { echo 'selected'; } ?>>End User / Customer</option>
+                                        </select>
+                                    <?php } ?>
                                 </div>
                             </div>
 
