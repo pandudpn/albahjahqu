@@ -55,9 +55,8 @@
                                 <label for="" class="col-3 col-form-label">Level</label>
                                 <div class="col-7">
                                     <?php if($data->level == 'dealer'){ ?>
-                                        <div class="col-7">
-                                            <input class="form-control" type="text" name="level" value="Dealer" disabled>
-                                        </div>
+                                        <input class="form-control" type="text"  value="Dealer" disabled>
+                                        <input type="hidden" name="level" value="dealer">
                                     <?php } else { ?>
                                         <select name="level" class="form-control">
                                             <option value="">Choose Level</option>
