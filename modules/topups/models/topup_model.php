@@ -193,6 +193,8 @@ class topup_model extends MY_Model {
 
     public function download()
     {
+        $user = $this->session->userdata('user');
+
         $this->db->select('customers.name as cus_name, customers.phone as cus_phone, dealers.name as dealer_name, base_price as topup, ref_service_codes.remarks, transactions.created_on');
         $this->db->from($this->table);
         $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
@@ -202,6 +204,9 @@ class topup_model extends MY_Model {
         $i = 0;
      
         $this->db->where($this->table.'.deleted', '0');
+        if($user->role != 'dekape' && !empty($user->dealer_id)){
+            $this->db->where('dealers.id', $user->dealer_id);
+        }
         $this->db->where('LEFT('.$this->table.'.service_code, 3) = ', 'TOP');
         $this->db->where($this->table.'.status <>', 'inquiry');
         // $this->db->where($this->table.'.status <>', 'approved');

@@ -357,6 +357,7 @@ class topups extends Admin_Controller {
 
     public function datatables()
     {
+        $user = $this->session->userdata('user');
         $list = $this->topup->get_datatables();
         $data = array();
         $no   = $_POST['start'];
@@ -391,19 +392,19 @@ class topups extends Admin_Controller {
             //             <i class="fa fa-trash"></i>
             //           </a>';
 
-            
-            if($l->status == 'dispute')
-            {
-            	$btn =  '<a href="javascript:;" id="btn-'.$l->id.'" class="btn btn-success btn-sm" onclick="approve_topup(\''.site_url('topups/approve/'.$l->trx_code).'\',\''.$l->base_price.'\')" title="">
-	            		 <i class="fa fa-check"></i>
-	            		 </a>';
+            if($user->role != 'viewer'){
+                if($l->status == 'dispute') {
+                    $btn =  '<a href="javascript:;" id="btn-'.$l->id.'" class="btn btn-success btn-sm" onclick="approve_topup(\''.site_url('topups/approve/'.$l->trx_code).'\',\''.$l->base_price.'\')" title="">
+                             <i class="fa fa-check"></i>
+                             </a>';
 
-                $btn .=  '<a href="'.site_url('topups/reject/'.$l->trx_code).'" id="btn-'.$l->id.'" class="btn btn-danger btn-sm" title="">
-                         <i class="fa fa-close"></i>
-                         </a>';
-            }
-            else 
-            {
+                    $btn .=  '<a href="'.site_url('topups/reject/'.$l->trx_code).'" id="btn-'.$l->id.'" class="btn btn-danger btn-sm" title="">
+                             <i class="fa fa-close"></i>
+                             </a>';
+                } else {
+                    $btn = $l->status;
+                }
+            } else {
                 $btn = $l->status;
             }
 

@@ -177,15 +177,7 @@
                 { 
                 "targets": [ 8 ], //first column / numbering column
                 "orderable": false, //set not orderable
-                },
-                <?php if($this->session->userdata('user')->role != 'dekape') { ?>
-
-
-                { 
-                "targets": [ 8 ], //first column / numbering column
-                "visible": false, //set not visible
                 }
-                <?php } ?>
             ],
             "scrollX": false,
             "footerCallback": function ( row, data, start, end, display ) {

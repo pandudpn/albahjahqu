@@ -122,6 +122,8 @@ class transfer_model extends MY_Model {
 
     public function download()
     {
+        $user = $this->session->userdata('user');
+
         $this->db->select('transaction_ref, account_eva');
         $this->db->select('IF(RIGHT(transaction_code, 2) = "IN", "IN", RIGHT(transaction_code, 3)) as type', false);
         $this->db->select('(debit + credit) as amount', false);
@@ -142,9 +144,9 @@ class transfer_model extends MY_Model {
             $this->db->where($this->table.'.created_on <=', $to.' 23:59:59');
         }
 
-        if($this->session->userdata('user')->role == 'dealer' || $this->session->userdata('user')->role == 'dealer_ops' || $this->session->userdata('user')->role == 'dealer_spv')
+        if($user->role != 'dekape' && !empty($user->dealer_id))
         {
-            $this->db->where('customers.account_dealer', $this->session->userdata('user')->dealer_id);
+            $this->db->where('customers.account_dealer', $user->dealer_id);
         }
 
         $result = $this->db->get();

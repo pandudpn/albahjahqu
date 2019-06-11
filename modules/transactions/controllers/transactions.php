@@ -474,7 +474,7 @@ class transactions extends Admin_Controller {
             {
                 // $btn .= '-';
             }
-            else
+            elseif ($this->session->userdata('user')->role != 'viewer' )
             {
                 $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_edit(\''.site_url('transactions/edit/'.$l->id).'\')">edit</a>';
 
@@ -524,6 +524,8 @@ class transactions extends Admin_Controller {
                         $btn .= '<a class="dropdown-item" href="javascript:void(0)" onclick="alert_reject(\''.site_url('transactions/changestatus/rejected/'.$l->id).'\')">reject</a>';
                     }
                 }
+            } else {
+                $btn = $l->status
             }
 
             $btn .= '</div>
