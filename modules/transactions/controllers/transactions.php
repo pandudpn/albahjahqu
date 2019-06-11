@@ -525,7 +525,7 @@ class transactions extends Admin_Controller {
                     }
                 }
             } else {
-                $btn = $l->status
+                $btn = $l->status;
             }
 
             $btn .= '</div>
