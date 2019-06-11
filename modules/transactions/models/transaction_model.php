@@ -206,7 +206,7 @@ class transaction_model extends MY_Model {
     public function download()
     {
         $user = $this->session->userdata('user');
-        
+
         $this->db->select($this->table.'.created_on');
         $this->db->select($this->table.'.trx_code');
         $this->db->select("REPLACE(IFNULL(".$this->table_code.".remarks, 'Produk Migrasi'), TRIM(','), ' ') as product", false);
@@ -248,7 +248,7 @@ class transaction_model extends MY_Model {
 
         if($user->role != 'dekape' && !empty($user->dealer_id))
         {
-            $this->db->where($this->table_dealer.'id', $user->dealer_id);
+            $this->db->where($this->table_dealer.'.id', $user->dealer_id);
         }
 
         $from   = $this->input->get('from');
