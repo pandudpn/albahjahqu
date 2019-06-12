@@ -26,7 +26,7 @@ class topup_model extends MY_Model {
         $this->db->select($this->table.'.id as id');
         $this->db->select($this->table.'.trx_code as trx_code');
         $this->db->select($this->table.'.created_on as created_on');
-        $this->db->select($this->table.'.modified_on as created_on');
+        $this->db->select($this->table.'.modified_on as modified_on');
         $this->db->select($this->table_customer.'.name as customer_name');
         $this->db->select($this->table_customer.'.phone as customer_phone');
         $this->db->select($this->table_customer.'.email as customer_email');
