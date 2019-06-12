@@ -12,7 +12,7 @@ class topup_model extends MY_Model {
     protected $set_created   	= true;
 
     protected $column_order  = array(null, 'customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image','transactions.created_on','transactions.modified_on'); //set column field database for datatable orderable
-    protected $column_search = array('customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image', 'transactions.created_on', 'transactions.status'); //set column field database for datatable searchable 
+    protected $column_search = array('customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image', 'transactions.created_on', 'transactions.modified_on', 'transactions.status'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.id' => 'desc'); // default order 
 
     public function __construct()
@@ -26,6 +26,7 @@ class topup_model extends MY_Model {
         $this->db->select($this->table.'.id as id');
         $this->db->select($this->table.'.trx_code as trx_code');
         $this->db->select($this->table.'.created_on as created_on');
+        $this->db->select($this->table.'.modified_on as created_on');
         $this->db->select($this->table_customer.'.name as customer_name');
         $this->db->select($this->table_customer.'.phone as customer_phone');
         $this->db->select($this->table_customer.'.email as customer_email');
