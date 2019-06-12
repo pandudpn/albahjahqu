@@ -11,7 +11,7 @@ class topup_model extends MY_Model {
     protected $date_format   	= 'datetime';
     protected $set_created   	= true;
 
-    protected $column_order  = array(null, 'customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image','transactions.created_on'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image','transactions.created_on','transactions.modified_on'); //set column field database for datatable orderable
     protected $column_search = array('customers.name', 'customers.phone', 'dealers.name', 'base_price', 'ref_service_codes.remarks', 'image', 'transactions.created_on', 'transactions.status'); //set column field database for datatable searchable 
     protected $order 		 = array('transactions.id' => 'desc'); // default order 
 

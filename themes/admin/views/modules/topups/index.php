@@ -176,7 +176,7 @@
                 "orderable": false, //set not orderable
                 },
                 { 
-                "targets": [ 8 ], //first column / numbering column
+                "targets": [ 9 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 }
             ],
