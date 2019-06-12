@@ -383,6 +383,7 @@ class topups extends Admin_Controller {
             }
 
             $row[] = $l->created_on;
+            $row[] = $l->modified_on;
 
             // $btn   = '<a href="'.site_url('menu/edit/'.$l->id).'" class="btn btn-success btn-sm">
             //             <i class="fa fa-pencil"></i>

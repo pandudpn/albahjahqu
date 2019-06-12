@@ -65,7 +65,8 @@
                     <th>Topup</th>
                     <th>Note</th>
                     <th>Image</th>
-                    <th>Time</th>
+                    <th>Time Created</th>
+                    <th>Time Updated</th>
                     <th>Action</th>
                 </tr>
                 </thead>
