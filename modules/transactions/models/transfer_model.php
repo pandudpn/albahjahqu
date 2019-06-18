@@ -120,7 +120,46 @@ class transfer_model extends MY_Model {
         return $this->db->count_all_results();
     }
 
-    public function download()
+    public function download(){
+        $user = $this->session->userdata('user');
+
+        $this->db->select('a.transaction_ref');
+        $this->db->select('(SELECT account_eva FROM '.$this->table.' WHERE transaction_ref = a.transaction_ref AND RIGHT(transaction_code,2) != "IN") AS no_pengirim', false);
+        $this->db->select('(SELECT b.account_holder FROM '.$this->table.' JOIN customers AS b ON '.$this->table.'.account_eva = b.account_no WHERE transaction_ref = a.transaction_ref AND RIGHT(transaction_code,2) != "IN") AS nama_pengirim', false);
+        $this->db->select('a.account_eva AS no_tujuan');
+        $this->db->select('b.account_holder AS nama_tujuan');
+        $this->db->select('(a.debit + a.credit) as amount');
+        $this->db->select('a.created_on');
+        $this->db->from($this->table.' AS a')->join('customers AS b', 'a.account_eva = b.account_no')->where('a.deleted',0)->where('LEFT(a.transaction_code, 3) = ', 'TRF')->where('RIGHT(a.transaction_code, 2) = ', 'IN');
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        if(!empty($from) && !empty($to)){
+            $this->db->where('a.created_on >=', $from.' 00:00:01');
+            $this->db->where('a.created_on <=', $to.' 23:59:59');
+        }
+
+        if($user->role != 'dekape' && !empty($user->dealer_id)){
+            $this->db->where('customers.account_dealer', $user->dealer_id);
+        }
+
+        $result = $this->db->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i:s').".csv";
+
+        $delimiter = "|";
+        $newline   = "\r\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
+    }
+
+    public function download_old()
     {
         $user = $this->session->userdata('user');
 
