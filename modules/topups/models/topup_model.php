@@ -196,7 +196,7 @@ class topup_model extends MY_Model {
     {
         $user = $this->session->userdata('user');
 
-        $this->db->select('customers.name as cus_name, customers.phone as cus_phone, dealers.name as dealer_name, base_price as topup, ref_service_codes.remarks, transactions.created_on, transactions.modified_on');
+        $this->db->select('customers.name as cus_name, customers.phone as cus_phone, dealers.name as dealer_name, base_price as topup, ref_service_codes.remarks, transactions.status, transactions.created_on, transactions.modified_on');
         $this->db->from($this->table);
         $this->db->join($this->table_customer, $this->table_customer.'.id = '.$this->table.'.cus_id', 'left');
         $this->db->join($this->table_dealer, $this->table_dealer.'.id = '.$this->table.'.dealer_id', 'left');
