@@ -394,7 +394,7 @@ class topups extends Admin_Controller {
             //           </a>';
 
             if($user->role != 'viewer'){
-                if($l->status == 'payment' && $l->status_level == '2' && $l->status_provider == '68') {
+                if($l->status == 'payment' && $l->status_level == '2' && ($l->status_provider == '68' || $l->status_provider == '99')) {
                     $btn =  '<a href="javascript:;" id="btn-'.$l->id.'" class="btn btn-success btn-sm" onclick="approve_topup(\''.site_url('topups/approve/'.$l->trx_code).'\',\''.$l->base_price.'\')" title="">
                              <i class="fa fa-check"></i>
                              </a>';
