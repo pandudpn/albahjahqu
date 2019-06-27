@@ -93,7 +93,7 @@ class biller extends Admin_Controller {
                 'dealer_fee'    => $dealer_fee,
                 'partner_fee'   => $partner_fee,
                 'user_cashback' => $user_cashback,
-                'promo'       => $promo
+                'promo'       => $promo,
                 'deleted'     => $status 
                 // 'user_fee'      => $user_fee
             );
