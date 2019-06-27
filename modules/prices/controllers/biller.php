@@ -77,6 +77,7 @@ class biller extends Admin_Controller {
         $user_fee      = $this->input->post('user_fee');
         $user_cashback = $this->input->post('user_cashback');
         $promo         = $this->input->post('promo');
+        $status        = $this->input->post('status');
 
         $serv = $this->service_code->find($service_id);
         $service_code = $serv->service.$serv->value.$serv->provider.$serv->prepaid.$serv->type;
@@ -93,6 +94,7 @@ class biller extends Admin_Controller {
                 'partner_fee'   => $partner_fee,
                 'user_cashback' => $user_cashback,
                 'promo'       => $promo
+                'deleted'     => $status 
                 // 'user_fee'      => $user_fee
             );
         
@@ -165,6 +167,7 @@ class biller extends Admin_Controller {
             $row[] = number_format($l->dekape_fee);
             $row[] = number_format($l->biller_fee);
             $row[] = number_format($l->user_cashback);
+            $row[] = (int) $l->deleted <= 0 ? 'active' : 'non active';
             // $row[] = number_format($l->user_fee);
 
             $btn   = '<a href="'.site_url('prices/biller/edit/'.$l->id).'?'.$_SERVER["QUERY_STRING"].'" class="btn btn-success btn-sm">

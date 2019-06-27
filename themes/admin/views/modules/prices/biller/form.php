@@ -103,6 +103,15 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Status</label>
+                            <div class="col-9">
+                                <select class="form-control" name="status">
+                                    <option <?php if((int) $biller->deleted <= 0){ echo 'selected'; } ?> value='0'>active</option>
+                                    <option <?php if((int) $biller->deleted >= 1){ echo 'selected'; } ?> value='1'>non active</option>
+                                </select>
+                            </div>
+                        </div>
                         <!-- <div class="form-group row">
                             <label for="" class="col-3 col-form-label">User Fee</label>
                             <div class="col-7">

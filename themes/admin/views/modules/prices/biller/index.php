@@ -54,6 +54,7 @@
                     <th>Dekape Fee</th>
                     <th>Biller Fee</th>
                     <th>User Cashback</th>
+                    <th>Status</th>
                     <th width="90">Action</th>
                 </tr>
                 </thead>
@@ -123,6 +124,14 @@
                 },
                 { 
                 "targets": [ 8 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 9 ], //last column / new item column
+                "orderable": false, //set not orderable
+                },
+                { 
+                "targets": [ 10 ], //last column / new item column
                 "orderable": false, //set not orderable
                 }
                 // { 
