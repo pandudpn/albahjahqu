@@ -57,7 +57,7 @@ class biller_model extends MY_Model {
             $i++;
         }
 
-        $this->db->where($this->table.'.deleted', '0');
+        //$this->db->where($this->table.'.deleted', '0');
 
         $biller     = $this->input->get('biller');
 
