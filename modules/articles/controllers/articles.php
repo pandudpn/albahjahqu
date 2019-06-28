@@ -15,6 +15,7 @@ class articles extends Admin_Controller {
 
     public function index()
     {
+        var_dump($this->article->last_id());
         $this->template
              ->set('alert', $this->session->flashdata('alert'))
     		 ->build('index');
@@ -58,16 +59,13 @@ class articles extends Admin_Controller {
         $status         = $this->input->post('status');
         $app_id         = $this->session->userdata('user')->app_id;
         $headlines      = character_limiter(strip_tags($this->input->post('content')), 50);
-        $last_id = (int) $this->article->last_id();
-        $articles_insert = array();
 
         $data = array(
             'title'      => $title,
             'content'    => $content,
             'status'     => $status,
             'headlines'  => $headlines,
-            'app_id'     => $app_id,
-            'url'        => $this->url.'/'.($last_id + 1).'/view'
+            'app_id'     => $app_id
         );
 
         if(!empty($_FILES['cover_image']['name']))
@@ -88,10 +86,13 @@ class articles extends Admin_Controller {
 
         if($for == 'all_apps'){
             $data['for'] = 'okbabe';
-            array_push($articles_insert, $data); // for article okbabe
+            $last_id = $this->article->insert($data);
+            $last_id = (int) $last_id;
+            $data['url'] = $this->url.'/'.$last_id.'/view';
+            $this->article->update($last_id, $data); // for article okbabe
 
             $dealer_apps = $this->dealer->find_all_by(array('for_app'=>1,'deleted'=>0));
-            $next_id = $last_id + 2;
+            $next_id = $last_id + 1;
             foreach ($dealer_apps as $dealer_app) {
                 $dealer_name = strtolower($dealer_app->name);
                 if(strpos($dealer_name, 'obb') === false && strpos($dealer_name, 'okbabe')){
@@ -104,6 +105,8 @@ class articles extends Admin_Controller {
                 }
                 $next_id++;
             }
+            if(count($articles_insert))
+                $this->db->insert_batch('articles',$articles_insert);
         } else if($for == 'dealer'){
             $dealer_app = $this->dealer->find_by(array('id'=>$for_dealer,'deleted'=>0));
             if(!empty($dealer_app)){
@@ -112,13 +115,16 @@ class articles extends Admin_Controller {
                 }
                 $data['for'] = 'dealer';
                 $data['for_dealer'] = $dealer_app->id;
-                array_push($articles_insert, $data);
+
+                $last_id = $this->article->insert($data);
+                $data['url'] = $this->url.'/'.$last_id.'/view';
+                $this->article->update($last_id, $data);
             }
         } else {
-            array_push($articles_insert, $data);
+            $last_id = $this->article->insert($data);
+            $data['url'] = $this->url.'/'.$last_id.'/view';
+            $this->article->update($last_id, $data);
         } 
-
-        $this->db->insert_batch('articles',$articles_insert);
         redirect(site_url('articles'), 'refresh');
     }
 
