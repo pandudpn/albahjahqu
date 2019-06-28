@@ -104,9 +104,10 @@ class articles extends Admin_Controller {
         } else if($for == 'dealer'){
             $dealer_app = $this->dealer->find_by(array('id'=>$for_dealer,'deleted'=>0));
             if(!empty($dealer_app)){
-                if((int) $dealer_apps->for_app >= 1){
+                if((int) $dealer_app->for_app >= 1){
                     $data['app_id'] = 'com.dekape.okbabe.'.str_replace(' ','',strtolower($dealer_app->name));
                 }
+                $data['for'] = 'dealer';
                 $data['for_dealer'] = $dealer_app->id;
                 array_push($articles_insert, $data);
             }
