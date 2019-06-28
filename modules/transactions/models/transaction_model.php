@@ -331,7 +331,8 @@ class transaction_model extends MY_Model {
 
         $this->db->where($this->table.'.deleted', '0');
         $this->db->where($this->table.'.status <>', 'inquiry');
-        $this->db->where($this->table.'.status', 'dispute');
+        $this->db->where($this->table.'.status', 'payment');
+        $this->db->where($this->table.'.status_level', '2');
         $this->db->where($this->table_proof.'.image IS NOT NULL');
         $this->db->where('LEFT('.$this->table.'.service_code, 3) = ', 'TOP');
 
@@ -339,8 +340,7 @@ class transaction_model extends MY_Model {
         {
             $this->db->where('transactions.dealer_id', $this->session->userdata('user')->dealer_id);
         }
-
-        $this->db->where("(status_provider = '99' OR status_provider = '00')");
+        $this->db->where("(".$this->table.".status_provider = '68' OR ".$this->table.".status_provider = '99')");
         return $this->db->get()->row();
     }
 
