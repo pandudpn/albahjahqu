@@ -27,7 +27,7 @@ class biller_model extends MY_Model {
         $this->db->select($this->table_provider.'.name as provider_name', false);
         $this->db->select($this->table_service.'.remarks', false);
         $this->db->select("IFNULL(".$this->table_biller.".name, '-') as biller_name", false);
-        $this->db->select('base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee, user_cashback, deleted', false);
+        $this->db->select('base_price, dealer_fee, dekape_fee, biller_fee, partner_fee, user_fee, user_cashback, '.$this->table.'.deleted', false);
         $this->db->from($this->table);
         $this->db->join($this->table_service, $this->table_service.'.id = '.$this->table.'.service_id', 'left');
         $this->db->join($this->table_provider, $this->table_provider.'.alias = '.$this->table_service.'.provider', 'left');
