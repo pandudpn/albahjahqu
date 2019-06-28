@@ -92,9 +92,10 @@ class articles extends Admin_Controller {
 
             $dealer_apps = $this->dealer->find_all_by(array('for_app'=>1,'deleted'=>0));
             $next_id = $last_id + 1;
+	    $articles_insert = array();
             foreach ($dealer_apps as $dealer_app) {
                 $dealer_name = strtolower($dealer_app->name);
-                if(strpos($dealer_name, 'obb') === false && strpos($dealer_name, 'okbabe')){
+                if(strpos($dealer_name, 'obb') === false && strpos($dealer_name, 'okbabe') === false){
                     $data['app_id'] = 'com.dekape.okbabe.'.str_replace(' ','',$dealer_name);
                     $data['for'] = 'dealer';
                     $data['for_dealer'] = $dealer_app->id;
