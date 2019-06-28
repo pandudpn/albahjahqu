@@ -58,7 +58,7 @@ class articles extends Admin_Controller {
         $status         = $this->input->post('status');
         $app_id         = $this->session->userdata('user')->app_id;
         $headlines      = character_limiter(strip_tags($this->input->post('content')), 50);
-        $sequence_id = (int) $this->article->last_id() + 1;
+        $last_id = (int) $this->article->last_id();
         $articles_insert = array();
 
         $data = array(
@@ -66,7 +66,8 @@ class articles extends Admin_Controller {
             'content'    => $content,
             'status'     => $status,
             'headlines'  => $headlines,
-            'app_id'     => $app_id
+            'app_id'     => $app_id,
+            'url'        => $this->url.'/'.($last_id + 1).'/view'
         );
 
         if(!empty($_FILES['cover_image']['name']))
@@ -82,7 +83,6 @@ class articles extends Admin_Controller {
             } else {
                 $file = $this->upload->data();
                 $data['cover_image'] = $file['file_name'];
-                $data['url'] = $this->url.'/'.$sequence_id.'/view';
             }
         }
 
@@ -91,15 +91,18 @@ class articles extends Admin_Controller {
             array_push($articles_insert, $data); // for article okbabe
 
             $dealer_apps = $this->dealer->find_all_by(array('for_app'=>1,'deleted'=>0));
+            $next_id = $last_id + 2;
             foreach ($dealer_apps as $dealer_app) {
                 $dealer_name = strtolower($dealer_app->name);
                 if(strpos($dealer_name, 'obb') === false && strpos($dealer_name, 'okbabe')){
                     $data['app_id'] = 'com.dekape.okbabe.'.str_replace(' ','',$dealer_name);
                     $data['for'] = 'dealer';
                     $data['for_dealer'] = $dealer_app->id;
+                    $data['url'] = $this->url.'/'.$next_id.'/view';
 
                     array_push($articles_insert, $data);
                 }
+                $next_id++;
             }
         } else if($for == 'dealer'){
             $dealer_app = $this->dealer->find_by(array('id'=>$for_dealer,'deleted'=>0));
