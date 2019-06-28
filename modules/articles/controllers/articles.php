@@ -15,7 +15,6 @@ class articles extends Admin_Controller {
 
     public function index()
     {
-        var_dump($this->article->last_id());
         $this->template
              ->set('alert', $this->session->flashdata('alert'))
     		 ->build('index');
