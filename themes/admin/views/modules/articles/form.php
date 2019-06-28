@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left"><?php echo $title; ?></h4>
+            <h4 class="page-title float-left"><?php echo $title; ?> Article</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -24,7 +24,7 @@
             
             <div class="row">
                 <div class="col-12">
-                    <form method="post" action="<?php echo site_url('articles/save'); ?>" enctype="multipart/form-data">
+                    <form method="post" action="<?php echo site_url($url_save); ?>" enctype="multipart/form-data">
                     
                     <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
@@ -36,6 +36,9 @@
                                     <option value="">Pilih Tipe Artikel</option>
                                     <option <?php if($data->for == 'okbabe'){ echo 'selected'; } ?> value='okbabe'>OKBABE</option>
                                     <option <?php if($data->for == 'dealer'){ echo 'selected'; } ?> value='dealer'>DEALER</option>
+                                    <?php if(strtolower($title) == 'add' && $this->session->userdata('user')->role =='dekape'){ ?>
+                                    <option value='all_apps'>ALL APPS</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -167,7 +170,7 @@
     {
         let type = $("#for").val();
 
-        if(type == 'okbabe')
+        if(type == 'okbabe' || type = 'all_apps')
         {
             $("#for_dealer").attr('disabled', 'disabled');
         }

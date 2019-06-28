@@ -26,7 +26,8 @@ class articles extends Admin_Controller {
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
-            ->set('title', 'Add Article')
+            ->set('title', 'Add')
+            ->set('url_save', 'articles/create')
             ->set('dealer', $dealer)
             ->build('form');
     }
@@ -41,11 +42,127 @@ class articles extends Admin_Controller {
 
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
-                ->set('title', 'Edit Article')
+                ->set('title', 'Edit')
+                ->set('url_save', 'articles/update')
                 ->set('data', $article)
                 ->set('dealer', $dealer)
                 ->build('form');
         }
+    }
+
+    public function create(){
+        $for            = $this->input->post('for');
+        $for_dealer     = $this->input->post('for_dealer');
+        $title          = $this->input->post('title');
+        $content        = $this->input->post('content');
+        $status         = $this->input->post('status');
+        $app_id         = $this->session->userdata('user')->app_id;
+        $headlines      = character_limiter(strip_tags($this->input->post('content')), 50);
+        $sequence_id = (int) $this->article->last_id() + 1;
+        $articles_insert = array();
+
+        $data = array(
+            'title'      => $title,
+            'content'    => $content,
+            'status'     => $status,
+            'headlines'  => $headlines,
+            'app_id'     => $app_id
+        );
+
+        if(!empty($_FILES['cover_image']['name']))
+        {
+            $config['upload_path']      = './data/images/';
+            $config['allowed_types']    = '*';
+            $config['max_size']         = 1024;
+            $config['encrypt_name']     = true;
+            
+            $this->load->library('upload', $config);
+            if ( ! $this->upload->do_upload('cover_image')) {
+                
+            } else {
+                $file = $this->upload->data();
+                $data['cover_image'] = $file['file_name'];
+                $data['url'] = $this->url.'/'.$sequence_id.'/view';
+            }
+        }
+
+        if($for == 'all_apps'){
+            $data['for'] = 'okbabe';
+            array_push($articles_insert, $data); // for article okbabe
+
+            $dealer_apps = $this->dealer->find_all_by(array('for_app'=>1,'deleted'=>0));
+            foreach ($dealer_apps as $dealer_app) {
+                $dealer_name = strtolower($dealer_app->name);
+                if(strpos($dealer_name, 'obb') === false && strpos($dealer_name, 'okbabe')){
+                    $data['app_id'] = 'com.dekape.okbabe.'.str_replace(' ','',$dealer_name);
+                    $data['for'] = 'dealer';
+                    $data['for_dealer'] = $dealer_app->id;
+
+                    array_push($articles_insert, $data);
+                }
+            }
+        } else if($for == 'dealer'){
+            $dealer_app = $this->dealer->find_by(array('id'=>$for_dealer,'deleted'=>0));
+            if(!empty($dealer_app)){
+                if((int) $dealer_apps->for_app >= 1){
+                    $data['app_id'] = 'com.dekape.okbabe.'.str_replace(' ','',strtolower($dealer_app->name));
+                }
+                $data['for_dealer'] = $dealer_app->id;
+                array_push($articles_insert, $data);
+            }
+        } else {
+            array_push($articles_insert, $data);
+        } 
+
+        $this->db->insert_batch('articles',$articles_insert);
+        redirect(site_url('articles'), 'refresh');
+    }
+
+    public function update(){
+        $id             = $this->input->post('id');
+        $for            = $this->input->post('for');
+        $for_dealer     = $this->input->post('for_dealer');
+        $title          = $this->input->post('title');
+        $content        = $this->input->post('content');
+        $status         = $this->input->post('status');
+        $app_id         = $this->session->userdata('user')->app_id;
+        $headlines      = character_limiter(strip_tags($this->input->post('content')), 50);
+
+        $data = array(
+            'for'        => $for,
+            'title'      => $title,
+            'content'    => $content,
+            'status'     => $status,
+            'headlines'  => $headlines,
+            'app_id'     => $app_id
+        );
+
+        if(!empty($for_dealer))
+        {
+            $data['for_dealer'] = $for_dealer;
+        }
+
+        // var_dump($_FILES);die;
+
+        if(!empty($_FILES['cover_image']['name']))
+        {
+            $config['upload_path']      = './data/images/';
+            $config['allowed_types']    = '*';
+            $config['max_size']         = 1024;
+            $config['encrypt_name']     = true;
+            
+            $this->load->library('upload', $config);
+            if ( ! $this->upload->do_upload('cover_image')) {
+                
+            } else {
+                $file = $this->upload->data();
+                $data['cover_image'] = $file['file_name'];
+            }
+        }
+        
+        $data['url'] = $this->url.'/'.$id.'/view';
+        $update = $this->article->update($id, $data);
+        redirect(site_url('articles'), 'refresh');
     }
 
     public function save()
