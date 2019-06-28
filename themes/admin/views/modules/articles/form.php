@@ -170,7 +170,7 @@
     {
         let type = $("#for").val();
 
-        if(type == 'okbabe' || type = 'all_apps')
+        if(type == 'okbabe' || type == 'all_apps')
         {
             $("#for_dealer").attr('disabled', 'disabled');
         }
