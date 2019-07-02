@@ -48,7 +48,9 @@ class kycs extends Admin_Controller {
 
             $data_kyc = array(
                 'cus_name' => $this->input->post('name'),
-                'cus_ktp'  => $this->input->post('identity')
+                'cus_ktp'  => $this->input->post('identity'),
+                'cus_dob'  => $this->input->post('dob'),
+                'cus_gender' => $this->input->post('gender')
             );
 
             $update = $this->kyc->update_where('cus_id', $id, $data_kyc);
@@ -60,6 +62,9 @@ class kycs extends Admin_Controller {
         }
 
         $data = $this->customer->find($id);
+        $kyc  = $this->kyc->find_by(array('cus_id'=>$data->id));
+        $data->dob = $kyc->cus_dob;
+        $data->gender = $kyc->cus_gender;  
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
@@ -145,6 +150,8 @@ class kycs extends Admin_Controller {
             $row[] = $l->cus_name;
             $row[] = $l->cus_phone;
             $row[] = $l->cus_ktp;
+            $row[] = $l->cus_dob;
+            $row[] = $l->cus_gender;
             $row[] = $l->cus_mother;
             $row[] = $l->cus_job;
             $row[] = '<a onclick="showimg(\''.$l->ktp_image.'\')" href="javascript:;">show image</a>';

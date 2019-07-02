@@ -46,6 +46,8 @@
                     <th>Name</th>
                     <th>Phone</th>
                     <th>KTP</th>
+                    <th width="100px">Date of Birth</th>
+                    <th>Gender</th>
                     <th>Mother</th>
                     <th>Job</th>
                     <th>KTP Image</th>

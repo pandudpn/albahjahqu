@@ -40,6 +40,24 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Date of Birth</label>
+                                <div class="col-7">
+                                    <input type="text" name="dob" class="form-control" placeholder data-mask="9999-99-99" value="<?php echo $data->dob; ?>">
+                                    <span class="font-13 text-muted">format: "yyyy-mm-dd"</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Gender</label>
+                                <div class="col-7">
+                                    <select class="form-control" name="gender">
+                                    <option <?php if($data->gender == 'L'){ echo 'selected'; } ?> value='L'>Male</option>
+                                    <option <?php if($data->gender == 'P'){ echo 'selected'; } ?> value='P'>Female</option>
+                                </select>
+                                </div>
+                            </div>
+
                             <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
                             <a href="<?php echo site_url('customers/kycs'); ?>" class="btn btn-danger waves-effect waves-light">
                              Cancel 
