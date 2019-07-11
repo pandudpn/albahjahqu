@@ -145,7 +145,25 @@ class denom extends Admin_Controller {
             $data['biller_code'] = $this->biller->find($biller_id)->code;
         }
         
-        if(!$id){
+	if(!$id){
+            $check_service = $this->denom->find_by(array('service_id'=>$service_id,'deleted'=>0));
+            $check_denom = $this->denom->find_by(array('denom_id'=>$denom,'deleted'=>0));
+
+            if(!empty($check_service) || !empty($check_denom)){
+                $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => 'Service/Denom untuk penentuan harga telah digunakan.'));
+                redirect(site_url('prices/denom/add?'.$_SERVER["QUERY_STRING"]), 'refresh');
+            } else {
+                $insert = $this->denom->insert($data);
+                $this->price_log_insert('create', 'denom', $description, $insert, $data);
+                redirect(site_url('prices/denom?'.$_SERVER["QUERY_STRING"]), 'refresh');
+            }
+        }else{
+            $update = $this->denom->update($id, $data);
+            $this->price_log_insert('edit', 'denom', $description, $id, $data);
+            redirect(site_url('prices/denom?'.$_SERVER["QUERY_STRING"]), 'refresh');
+        }
+
+        /*if(!$id){
 
             $insert = $this->denom->insert($data);
             $this->price_log_insert('create', 'denom', $description, $insert, $data);
@@ -157,7 +175,7 @@ class denom extends Admin_Controller {
             $this->price_log_insert('edit', 'denom', $description, $id, $data);
 
             redirect(site_url('prices/denom?'.$_SERVER["QUERY_STRING"]), 'refresh');
-        }
+        }*/
 
     }
 
