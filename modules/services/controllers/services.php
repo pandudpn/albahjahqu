@@ -99,9 +99,9 @@ class services extends Admin_Controller {
         
 	if(!$id){
             if(!empty($biller_code)){
-                $code = $this->service->find_by(array('biller_code'=>trim($biller_code)));
+                $code = $this->service->find_by(array('provider'=>$provider,'by'=>$by,'biller_code'=>trim($biller_code)));
                 if(!empty($code)){
-                    $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => 'Service dengan biller code tersebut telah terdaftar.'));
+                    $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => 'Service dengan biller code / provider / nama biller tersebut telah terdaftar.'));
                 } else {
                     $insert = $this->service->insert($data);
                 }
