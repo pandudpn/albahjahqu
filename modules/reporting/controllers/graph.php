@@ -75,7 +75,7 @@ class graph extends Admin_Controller {
         else if($admin->role == 'dekape' && !empty($admin->dealer_id))
             $for_dealer = 'AND dealer_id = "'.$$admin->dealer_id.'"';
 
-        $for_revenue = 'dekape_fee'
+        $for_revenue = 'dekape_fee';
         if($admin->role != 'dekape') $for_revenue = 'dealer_fee';
 
         $query = $this->db->query("
@@ -179,7 +179,7 @@ class graph extends Admin_Controller {
         else if($admin->role == 'dekape' && !empty($admin->dealer_id))
             $for_dealer = 'AND dealer_id = "'.$$admin->dealer_id.'"';
 
-        $for_revenue = 'dekape_fee'
+        $for_revenue = 'dekape_fee';
         if($admin->role != 'dekape') $for_revenue = 'dealer_fee';
         $query = $this->db->query("
         	SELECT 
