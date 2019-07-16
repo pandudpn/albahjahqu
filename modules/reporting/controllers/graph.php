@@ -70,7 +70,10 @@ class graph extends Admin_Controller {
         }
 
         $for_dealer = '';
-        if($admin->role != 'dekape' && !empty($admin->dealer_id)) $for_dealer = 'AND dealer_id = "'.$admin->dealer_id.'"';
+        if($admin->role == 'dekape' && !empty($dealer)) 
+            $for_dealer = 'AND dealer_id = "'.$dealer.'"';
+        else if($admin->role == 'dekape' && !empty($admin->dealer_id))
+            $for_dealer = 'AND dealer_id = "'.$$admin->dealer_id.'"';
         $query = $this->db->query("
         	SELECT 
                 SUM(CASE
@@ -167,7 +170,10 @@ class graph extends Admin_Controller {
         }
 
         $for_dealer = '';
-        if($admin->role != 'dekape' && !empty($admin->dealer_id)) $for_dealer = 'AND dealer_id = "'.$admin->dealer_id.'"';
+        if($admin->role == 'dekape' && !empty($dealer)) 
+            $for_dealer = 'AND dealer_id = "'.$dealer.'"';
+        else if($admin->role == 'dekape' && !empty($admin->dealer_id))
+            $for_dealer = 'AND dealer_id = "'.$$admin->dealer_id.'"';
         $query = $this->db->query("
         	SELECT 
                 SUM(CASE
