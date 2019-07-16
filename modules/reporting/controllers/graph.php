@@ -74,11 +74,15 @@ class graph extends Admin_Controller {
             $for_dealer = 'AND dealer_id = "'.$dealer.'"';
         else if($admin->role == 'dekape' && !empty($admin->dealer_id))
             $for_dealer = 'AND dealer_id = "'.$$admin->dealer_id.'"';
+
+        $for_revenue = 'dekape_fee'
+        if($admin->role != 'dekape') $for_revenue = 'dealer_fee';
+
         $query = $this->db->query("
         	SELECT 
                 SUM(CASE
                     WHEN dealer_id = 1 THEN (dealer_fee + dekape_fee)
-                    ELSE dekape_fee
+                    ELSE ".$for_revenue."
                 END) as revenue
             ".$label.", YEAR(created_on) as year
         	FROM `transactions` 
@@ -174,11 +178,14 @@ class graph extends Admin_Controller {
             $for_dealer = 'AND dealer_id = "'.$dealer.'"';
         else if($admin->role == 'dekape' && !empty($admin->dealer_id))
             $for_dealer = 'AND dealer_id = "'.$$admin->dealer_id.'"';
+
+        $for_revenue = 'dekape_fee'
+        if($admin->role != 'dekape') $for_revenue = 'dealer_fee';
         $query = $this->db->query("
         	SELECT 
                 SUM(CASE
                     WHEN dealer_id = 1 THEN (dealer_fee + dekape_fee)
-                    ELSE dekape_fee
+                    ELSE ".$for_revenue."
                 END) as revenue,
             stats_title
         	FROM `transactions` 
