@@ -11,10 +11,17 @@ class graph extends Admin_Controller {
     }
 
     public function index()
-    {
+    {  
+        $admin = $this->session->userdata('user');
+        if($admin->role == 'dekape'){
+            $dealer = $this->dealer->get_all();
+        } else {
+            $dealer = $this->dealer->find_all_by(array('id'=>$admin->dealer_id));
+        }
     	$this->template
-             ->set('alert', $this->session->flashdata('alert'))
-    		 ->build('graph');
+            ->set('dealers', $dealer)
+            ->set('alert', $this->session->flashdata('alert'))
+    		->build('graph');
     }
 
     public function revenue()
@@ -22,6 +29,19 @@ class graph extends Admin_Controller {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
         $option = $this->input->get('option');
+        $dealer = $this->input->get('revenue');
+
+        $admin = $this->session->userdata('user');
+        if($admin->role != 'dekape' && $dealer != $admin->dealer_id){
+            $json = array(
+                'cols' => array(),
+                'rows' => array(),
+                'total' => 0
+            );
+
+            header('Content-Type: application/json');
+            echo json_encode($json); exit;
+        }
 
         if(empty($from))
         {
@@ -49,6 +69,8 @@ class graph extends Admin_Controller {
             $group = 'label';
         }
 
+        $for_dealer = '';
+        if($admin->role != 'dekape' && !empty($admin->dealer_id)) $for_dealer = 'AND dealer_id = "'.$admin->dealer_id.'"';
         $query = $this->db->query("
         	SELECT 
                 SUM(CASE
@@ -58,7 +80,8 @@ class graph extends Admin_Controller {
             ".$label.", YEAR(created_on) as year
         	FROM `transactions` 
         	WHERE (status = 'payment' OR status = 'approved') 
-        	AND status_provider = '00'
+        	AND status_provider = '00' 
+            ".$for_dealer."
         	AND (created_on >= '".$from." 00:00' AND created_on <= '".$to." 23:59')
         	GROUP BY ".$group.", year
         	ORDER BY ".$group." ASC
@@ -119,6 +142,19 @@ class graph extends Admin_Controller {
     {
         $from   = $this->input->get('from');
         $to 	= $this->input->get('to');
+        $dealer = $this->input->get('revenue_product');
+
+        $admin = $this->session->userdata('user');
+        if($admin->role != 'dekape' && $dealer != $admin->dealer_id){
+            $json = array(
+                'cols' => array(),
+                'rows' => array(),
+                'total' => 0
+            );
+
+            header('Content-Type: application/json');
+            echo json_encode($json); exit;
+        }
 
         if(empty($from))
         {
@@ -130,6 +166,8 @@ class graph extends Admin_Controller {
         	$to = date('Y-m-d');
         }
 
+        $for_dealer = '';
+        if($admin->role != 'dekape' && !empty($admin->dealer_id)) $for_dealer = 'AND dealer_id = "'.$admin->dealer_id.'"';
         $query = $this->db->query("
         	SELECT 
                 SUM(CASE
@@ -139,7 +177,8 @@ class graph extends Admin_Controller {
             stats_title
         	FROM `transactions` 
         	WHERE (status = 'payment' OR status = 'approved') 
-        	AND status_provider = '00'
+        	AND status_provider = '00' 
+            ".$for_dealer."
         	AND stats_title IS NOT NULL
         	AND (created_on >= '".$from." 00:00' AND created_on <= '".$to." 23:59')
         	GROUP BY stats_title

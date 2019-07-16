@@ -72,7 +72,15 @@
 <div class="row">
     <div class="col-12">
         <div class="card-box table-responsive">
-        	<h4 class="header-title m-t-0">Revenue</h4>
+        	<h4 class="header-title m-t-0" style="display: inline-block;">Revenue &nbsp;</h4>
+        	<?php if($this->session->userdata('user')->role == 'dekape'){ ?>
+        	<select name="revenue" id="revenue" class="col-6 col-md-2 form-control" style="display: inline-block;">
+    			<option value="" selected>All</option>
+    			<?php foreach ($dealers as $dealer) { ?>
+    			<option value="<?php echo $dealer->id ?>"><?php echo $dealer->name ?></option>
+    			<?php } ?>
+    		</select>
+    		<?php } ?>
             <p class="text-muted font-13 m-b-30"> </p>
             <div id="trx-chart-revenue" style="height: 400px;"></div>
             <p class="text-muted font-13 m-b-30"> </p>
@@ -81,7 +89,16 @@
     </div>
     <div class="col-12">
         <div class="card-box table-responsive">
-        	<h4 class="header-title m-t-0">Revenue By Product</h4>
+        	<h4 class="header-title m-t-0" style="display: inline-block;">Revenue &nbsp;</h4> 
+        	<?php if($this->session->userdata('user')->role == 'dekape'){ ?>
+        	<select name="revenue_product" id="revenue-product" class="col-6 col-md-2 form-control" style="display: inline-block;">
+    			<option value="" selected>All</option>
+    			<?php foreach ($dealers as $dealer) { ?>
+    			<option value="<?php echo $dealer->id ?>"><?php echo $dealer->name ?></option>
+    			<?php } ?>
+    		</select> &nbsp; 
+    		<?php } ?>
+        	<h4 class="header-title m-t-0" style="display: inline-block;">By Product</h4>
             <p class="text-muted font-13 m-b-30"> </p>
             <div id="trx-chart-product" style="height: 400px;"></div>
             <p class="text-muted font-13 m-b-30"> </p>
@@ -98,14 +115,32 @@
         var from 		= $("#from").val();
 		var to 			= $("#to").val();
 		var option 		= $("#option").val();
+		var revenue 		= $("#revenue").val();
+		var revenue_product = $("#revenue-product").val();
 
 		google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.setOnLoadCallback(reload_chart);
+
+		$("#revenue").on('change', function(){
+			from 		= $("#from").val();
+			to 			= $("#to").val();
+			option 		= $("#option").val();
+			revenue 		= $("#revenue").val();
+			chart(from, to, option, revenue);
+		});
+
+		$("#revenue-product").on('change', function(){
+			from 		= $("#from").val();
+			to 			= $("#to").val();
+			option 		= $("#option").val();
+			revenue_product = $("#revenue-product").val();
+			chart_product(from, to, option, revenue_product);
+		});
     })
 
-    function chart(from, to, option) {
+    function chart(from, to, option, revenue) {
 		var jsonData = $.ajax({
-			url: "<?php echo site_url('reporting/graph/revenue'); ?>?from="+from+"&to="+to+"&option="+option,
+			url: "<?php echo site_url('reporting/graph/revenue'); ?>?from="+from+"&to="+to+"&option="+option+"&revenue="+revenue,
 			dataType: "json",
 			async: false
         }).responseText;
@@ -139,9 +174,11 @@
 		}
 
 		$("#total_revenue").html(rupiah);
+    }
 
-		var jsonData = $.ajax({
-			url: "<?php echo site_url('reporting/graph/revenue_product'); ?>?from="+from+"&to="+to+"&option="+option,
+    function chart_product(from, to, option, revenue_product){
+    	var jsonData = $.ajax({
+			url: "<?php echo site_url('reporting/graph/revenue_product'); ?>?from="+from+"&to="+to+"&option="+option+"&revenue_product="+revenue_product,
 			dataType: "json",
 			async: false
         }).responseText;
@@ -170,7 +207,10 @@
 		var from 		= $("#from").val();
 		var to 			= $("#to").val();
 		var option 		= $("#option").val();
+		var revenue 		= $("#revenue").val();
+		var revenue_product = $("#revenue-product").val();
 
-		chart(from, to, option);
+		chart(from, to, option, revenue);
+		chart_product(from, to, option, revenue_product);
 	}
 </script>
