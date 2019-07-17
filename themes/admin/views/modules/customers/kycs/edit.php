@@ -41,6 +41,19 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Place of Birth</label>
+                                <div class="col-7">
+                                    <select class="form-control" name="pob">
+                                    <option value='0'>Choose City</option>
+                                    <?php foreach ($cities as $key => $value) { ?>
+                                        va
+                                        <option <?php if($key == $data->pob){ echo 'selected'; } ?> value='<?php echo $key ?>'><?php echo $value ?></option>
+                                    <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="" class="col-3 col-form-label">Date of Birth</label>
                                 <div class="col-7">
                                     <input type="text" name="dob" class="form-control" placeholder data-mask="9999-99-99" value="<?php echo $data->dob; ?>">

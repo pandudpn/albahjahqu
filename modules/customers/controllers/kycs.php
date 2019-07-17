@@ -49,6 +49,7 @@ class kycs extends Admin_Controller {
             $data_kyc = array(
                 'cus_name' => $this->input->post('name'),
                 'cus_ktp'  => $this->input->post('identity'),
+                'cus_pob'  => empty($this->input->post('pob')) ? null : $this->input->post('pob'),
                 'cus_dob'  => $this->input->post('dob'),
                 'cus_gender' => $this->input->post('gender')
             );
@@ -61,14 +62,18 @@ class kycs extends Admin_Controller {
             }
         }
 
+        $this->load->helper('file');
+        $cities = read_file('./assets/json/flip_cities.json');
         $data = $this->customer->find($id);
         $kyc  = $this->kyc->find_by(array('cus_id'=>$data->id));
         $data->dob = $kyc->cus_dob;
         $data->gender = $kyc->cus_gender;  
+        $data->pob = $kyc->cus_pob;  
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('title', 'Edit KYC for '.$data->name)
+            ->set('cities', json_decode($cities))
             ->set('data', $data)
             ->build('kycs/edit');
     }
