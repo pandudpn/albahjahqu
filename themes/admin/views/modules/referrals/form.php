@@ -59,7 +59,7 @@
                             <label for="" class="col-3 col-form-label">Cluster</label>
                             <div class="col-7">
                                 <select name="cluster_id" class="form-control" id="dealer_cluster" onchange="cluster_change(this.value)" required>
-                                    <option value="">Choose Cluster</option>
+                                    <option value="0">Choose Cluster</option>
                                     <?php foreach ($dealer_clusters as $key => $dc) {
                                         if($dc->id == $data->cluster_id) { $selected = 'selected'; }else{ $selected = ''; }
                                         echo '<option value="'.$dc->id.'" '.$selected.'>'.$dc->name.'</option>';
@@ -213,7 +213,7 @@
         <?php } ?>
 
         $.ajax("<?php echo site_url('customers/lists_cluster'); ?>/"+id).done(function(data){
-            $("#dealer_cluster").html("");
+            $("#dealer_cluster").html('<option value="0">Choose Cluster</option>');
 
             for (var i = 0; i < data.length; i++) {
                 $("#dealer_cluster").append('<option value="'+data[i].id+'">'+data[i].name+'</option>');

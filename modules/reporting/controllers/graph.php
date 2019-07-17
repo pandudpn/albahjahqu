@@ -84,7 +84,7 @@ class graph extends Admin_Controller {
                     WHEN dealer_id = 1 THEN (dealer_fee + dekape_fee)
                     ELSE ".$for_revenue."
                 END) as revenue
-            ".$label.", YEAR(created_on) as year
+            ".$label.", COUNT(id) AS count,YEAR(created_on) as year
         	FROM `transactions` 
         	WHERE (status = 'payment' OR status = 'approved') 
         	AND status_provider = '00' 
@@ -92,7 +92,7 @@ class graph extends Admin_Controller {
         	AND (created_on >= '".$from." 00:00' AND created_on <= '".$to." 23:59')
         	GROUP BY ".$group.", year
         	ORDER BY ".$group." ASC
-        ")->result();
+        ")->result(); //echo json_encode($query); die;
         // echo $this->db->last_query();die;
 
         $cols = array(
@@ -130,7 +130,7 @@ class graph extends Admin_Controller {
                 $value[] = array('v' => date('M, y', strtotime( $v->year.'-'.$v->label.'-01' )));
             }
 
-            $value[] = array('v' => intval($v->revenue));
+            $value[] = array('v' => intval($v->revenue),'f' => number_format($v->revenue).' ('.$v->count.' Transaksi)');
             $rows[]  = array('c' => $value); 
             $total 	 = $total + intval($v->revenue);
         }

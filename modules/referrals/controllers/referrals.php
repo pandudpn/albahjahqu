@@ -80,7 +80,7 @@ class referrals extends Admin_Controller {
         $data = array(
             'dealer_id'    => $dealer_id,
             'dealer_name'  => $dealer_name,
-            'cluster_id'   => $cluster_id,
+            'cluster_id'   => empty($cluster_id) ? null : $cluster_id,
             'village_id'   => $village_id,
             'referral_code'  => $referral_code,
             'referral_phone' => $referral_phone
