@@ -89,6 +89,7 @@ class graph extends Admin_Controller {
         	WHERE (status = 'payment' OR status = 'approved') 
         	AND status_provider = '00' 
             ".$for_dealer."
+		AND service_code NOT LIKE '%MIG%'
         	AND (created_on >= '".$from." 00:00' AND created_on <= '".$to." 23:59')
         	GROUP BY ".$group.", year
         	ORDER BY ".$group." ASC
@@ -192,6 +193,7 @@ class graph extends Admin_Controller {
         	WHERE (status = 'payment' OR status = 'approved') 
         	AND status_provider = '00' 
             ".$for_dealer."
+		AND service_code NOT LIKE '%MIG%'
         	AND stats_title IS NOT NULL
         	AND (created_on >= '".$from." 00:00' AND created_on <= '".$to." 23:59')
         	GROUP BY stats_title

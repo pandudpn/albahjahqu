@@ -140,14 +140,21 @@ class denom extends Admin_Controller {
         if($dealership == 'dealer'){
             $data['dealer_id']   = $dealer_id;
             $data['dealer_name'] = $this->dealer->find($dealer_id)->name;
+	    $filter_service = array('dealer_id'=>$dealer_id,'service_id'=>$service_id,'deleted'=>0);
+	    $filter_denom = array('dealer_id'=>$dealer_id,'denom_id'=>$denom,'deleted'=>0);
         }else if($dealership == 'biller'){
             $data['biller_id']   = $biller_id;
             $data['biller_code'] = $this->biller->find($biller_id)->code;
+	    $filter_service = array('biller_id'=>$dealer_id,'service_id'=>$service_id,'deleted'=>0);
+            $filter_denom = array('biller_id'=>$dealer_id,'denom_id'=>$denom,'deleted'=>0);
         }
         
 	if(!$id){
-            $check_service = $this->denom->find_by(array('service_id'=>$service_id,'deleted'=>0));
-            $check_denom = $this->denom->find_by(array('denom_id'=>$denom,'deleted'=>0));
+            //$check_service = $this->denom->find_by(array('service_id'=>$service_id,'deleted'=>0));
+            //$check_denom = $this->denom->find_by(array('denom_id'=>$denom,'deleted'=>0));
+
+	    $check_service = $this->denom->find_by($filter_service);
+            $check_denom = $this->denom->find_by($filter_denom);
 
             if(!empty($check_service) || !empty($check_denom)){
                 $this->session->set_flashdata('alert', array('type' => 'danger', 'msg' => 'Service/Denom untuk penentuan harga telah digunakan.'));
