@@ -6,30 +6,25 @@ class admin extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('user/user_admin_model', 'user_admin');
-        $this->load->model('dealers/dealer_model', 'dealer');
-        $this->load->model('user/app_model', 'app');
+        $this->load->model('app/app_model', 'app');
 
         $this->check_login();
     }
 
     public function index($id=null){
 
-    	$this->template->set('alert', $this->session->flashdata('alert'))
-                        ->set('id', $id)
-                        ->set('d', $data)
-                        ->set('title', $title)
+        $this->template->set('alert', $this->session->flashdata('alert'))
+                        ->set('title', 'All User Admin')
     					->build('user_admin');
     }
 
     public function add()
     {
-        $dealers = $this->dealer->find_all_by(array('deleted' => '0'));
-        $apps = $this->app->find_all_by(array('deleted' => '0'));
+        $apps   = $this->app->find_all_by(['deleted' => 0]);
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('title', 'Add User Admin')
-            ->set('dealers', $dealers)
             ->set('apps', $apps)
             ->build('form');
     }
@@ -40,14 +35,12 @@ class admin extends Admin_Controller {
 
         if($is_exist){
             $user_admin = $is_exist;
-            $dealers    = $this->dealer->find_all_by(array('deleted' => '0'));
             $apps = $this->app->find_all_by(array('deleted' => '0'));
 
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
                 ->set('title', 'Edit User admin')
                 ->set('data', $user_admin)
-                ->set('dealers', $dealers)
                 ->set('apps', $apps)
                 ->build('form');
         }
@@ -60,27 +53,14 @@ class admin extends Admin_Controller {
         $name       = $this->input->post('name');
         $email      = strtolower($this->input->post('email'));
         $phone      = $this->input->post('phone');
-        $role       = $this->input->post('role');
-        $dealer_id  = $this->input->post('dealer_id');
-        $app_id  = $this->input->post('app_id');
+        $app_id     = $this->input->post('app_id');
 
         $data = array(
             'name'      => $name,
             'email'     => $email,
             'phone'     => $phone,
-            'role'      => $role,
-            'app_id'    => $app_id,
-            'account_user' => 0
+            'app_id'    => $app_id
         );
-
-        if(!empty($dealer_id))
-        {
-            $data['dealer_id']   = $dealer_id;
-        }
-        else
-        {
-            $data['dealer_id']   = NULL;
-        }
         
         if(!$id)
         {
@@ -145,7 +125,6 @@ class admin extends Admin_Controller {
             $row   = array();
             $row[] = $no;
             $row[] = $l->name;
-            $row[] = $l->role;
             $row[] = $l->phone;
             $row[] = $l->email;
 
@@ -169,6 +148,7 @@ class admin extends Admin_Controller {
             "recordsFiltered"   => $this->user_admin->count_filtered(),
             "data"              => $data,
         );
+
         //output to json format
         echo json_encode($output);
     }

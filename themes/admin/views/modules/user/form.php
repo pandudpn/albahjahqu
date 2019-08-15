@@ -48,35 +48,7 @@
                                 <input class="form-control" type="password" name="password">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Role</label>
-                            <div class="col-7">
-                                <select name="role" class="form-control">
-                                    <option value="dekape" <?php if($data->role == 'dekape') { echo "selected"; } ?>>Dekape</option>
-                                    <option value="dealer" <?php if($data->role == 'dealer') { echo "selected"; } ?>>Dealer</option>
-                                    <option value="dealer_spv" <?php if($data->role == 'dealer_spv') { echo "selected"; } ?>>Dealer Supervisor</option>
-                                    <option value="dealer_ops" <?php if($data->role == 'dealer_ops') { echo "selected"; } ?>>Dealer Operational</option>
-                                    <option value="kyc" <?php if($data->role == 'kyc') { echo "selected"; } ?>>Operator KYC</option>
-                                    <option value="viewer" <?php if($data->role == 'viewer') { echo "selected"; } ?>>Viewer (Trx & Topup)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Dealer (optional)</label>
-                            <div class="col-7">
-                                <select name="dealer_id" class="form-control">
-                                    <option value="">Pilih Dealer</option>
-                                    <?php foreach ($dealers as $key => $d) { ?>
-                                        <option value="<?php echo $d->id; ?>" 
-                                            <?php if($data->dealer_id == $d->id) { echo "selected"; } else { echo ""; }  ?>>
-                                            <?php echo $d->name; ?>        
-                                        </option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-
+                        
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Apps</label>
                             <div class="col-7">

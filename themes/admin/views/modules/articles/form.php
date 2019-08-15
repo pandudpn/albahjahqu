@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left"><?php echo $title; ?> Article</h4>
+            <h4 class="page-title float-left"><?php echo $title; ?></h4>
 
             <div class="clearfix"></div>
         </div>
@@ -24,58 +24,28 @@
             
             <div class="row">
                 <div class="col-12">
-                    <form method="post" action="<?php echo site_url($url_save); ?>" enctype="multipart/form-data">
-                    
-                    <input type="hidden" value="<?php echo $data->id; ?>" name="id">
-                        
-                        <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe') { ?>
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Type</label>
-                            <div class="col-9">
-                                <select class="form-control" name="for" id="for" onchange="type_change()">
-                                    <option value="">Pilih Tipe Artikel</option>
-                                    <option <?php if($data->for == 'okbabe'){ echo 'selected'; } ?> value='okbabe'>OKBABE</option>
-                                    <option <?php if($data->for == 'dealer'){ echo 'selected'; } ?> value='dealer'>DEALER</option>
-                                    <?php if(strtolower($title) == 'add' && $this->session->userdata('user')->role =='dekape'){ ?>
-                                    <option value='all_apps'>ALL APPS</option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <?php } else { ?>
-                            <input type="hidden" name="for" value="dealer">
-                        <?php } ?>
+                    <form method="post" action="<?php echo site_url('articles/save'); ?>" enctype="multipart/form-data">
+                        <input type="hidden" value="<?php echo $data->id; ?>" name="id">
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Dealer name</label>
-                            <div class="col-9">
-                                <?php if($this->session->userdata('user')->role == 'dekape') { ?>
-                                <select class="form-control select2" name="for_dealer" id="for_dealer">
-                                    <option value="">Pilih Dealer</option>
-                                    <?php foreach($dealer as $deal){
-                                        if($deal->id == $data->for_dealer){
-                                            echo "<option selected value='$deal->id'> $deal->name </option>";
+                            <label for="" class="col-3 col-form-label">Topics</label>
+                            <div class="col-7">
+                                <select name="topics[]" id="topic" class="selectpicker" multiple="multiple" data-live-search="true" title="Topics">
+                                  <?php foreach($topics AS $key){ ?>
+                                    <option value="<?= $key->id; ?>"
+                                    <?php foreach($ct AS $data){
+                                        if($data->topic_id == $key->id){
+                                            echo 'selected';
                                         }else{
-                                            echo "<option value='$deal->id'> $deal->name </option>";
+                                            null;
                                         }
                                     } ?>
+                                    ><?php echo $key->name ?></option>
+                                  <?php } ?>
                                 </select>
-                                <?php }else{ ?>
-                                    <select class="form-control select2" disabled>
-                                        <option value="">Pilih Dealer</option>
-                                        <?php foreach($dealer as $deal){
-                                            if($deal->id == $this->session->userdata('user')->dealer_id){
-                                                echo "<option selected value='$deal->id'> $deal->name </option>";
-                                            }else{
-                                                echo "<option value='$deal->id'> $deal->name </option>";
-                                            }
-                                        } ?>
-                                    </select>
-                                    <input type="hidden" name="for_dealer" value="<?php echo $this->session->userdata('user')->dealer_id; ?>">
-                                <?php } ?>
                             </div>
                         </div>
-
+                        
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Title</label>
                             <div class="col-9">
@@ -86,7 +56,7 @@
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Content</label>
                             <div class="col-9">
-                                <textarea class="form-control editor" id="editor1" name="content" rows="15"><?php echo $data->content; ?></textarea>
+                                <textarea class="form-control editor" id="editor1" name="content" rows="15"><?php echo $data->description; ?></textarea>
                             </div>
                         </div>
 
@@ -94,9 +64,9 @@
                             <label for="" class="col-3 col-form-label">Cover Image</label>
                             <div class="col-9">
                                 <?php if(!empty($data)) { ?>
-                                <img src="<?php echo site_url('data/images/'.$data->cover_image); ?>" height="200" style="margin-bottom: 5px;">
+                                <img src="<?php echo $data->image; ?>" height="200" style="margin-bottom: 5px;">
                                 <?php } ?>
-                                <input class="form-control" type="file" name="cover_image">
+                                <input class="form-control" type="file" name="image">
                             </div>
                         </div>
 
@@ -104,8 +74,8 @@
                             <label for="" class="col-3 col-form-label">Status</label>
                             <div class="col-9">
                                 <select class="form-control" name="status" id="status">
-                                    <option <?php if($data->status == 'enabled'){ echo 'selected'; } ?> value='enabled'>enabled</option>
-                                    <option <?php if($data->status == 'disabled'){ echo 'selected'; } ?> value='disabled'>disabled</option>
+                                    <option <?php if($data->status == 'no'){ echo 'selected'; } ?> value='no'>No Headline</option>
+                                    <option <?php if($data->status == 'headline'){ echo 'selected'; } ?> value='headline'>Headline</option>
                                 </select>
                             </div>
                         </div>

@@ -11,7 +11,7 @@
         <link rel="shortcut icon" href="<?php echo $this->template->get_theme_path();?>assets/images/favicon.png">
 
         <!-- App title -->
-        <title>Okbabe Admin - Login </title>
+        <title>Login </title>
 
         <!-- Bootstrap CSS -->
         <link href="<?php echo $this->template->get_theme_path();?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -24,12 +24,12 @@
 
         <style type="text/css">
             .account-pages {
-                background-color: #8d31a2;
+                background-color: #00b169;
             }
 
             .wrapper-page .card-box {
                 box-shadow: 0 0px 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
-                border: 5px solid #8d31a2;
+                border: 5px solid #00b169;
             }
         </style>
 

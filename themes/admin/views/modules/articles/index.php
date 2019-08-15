@@ -30,8 +30,8 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Type</th>
                     <th>Title</th>
+                    <th>Description</th>
                     <th>Status</th>
                     <th>Created</th>
                     <th>Action</th>

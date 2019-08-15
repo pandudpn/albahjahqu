@@ -584,6 +584,8 @@ body.fixed-left .side-menu.left {
   margin-left: 70px; }
 #wrapper.enlarged .topbar .topbar-left {
   width: 70px !important; }
+  #wrapper.enlarged .topbar .topbar-left .logo {
+    font-size: 10px; }
   #wrapper.enlarged .topbar .topbar-left .logo span {
     display: none;
     opacity: 0; }

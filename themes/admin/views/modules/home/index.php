@@ -4,65 +4,11 @@
     <div class="col-xl-12">
         <div class="page-title-box">
             <h4 class="page-title float-left">Dashboard: <?php echo date('F Y'); ?></h4>
-
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
 <!-- end row -->
-
-<div class="row">
-    <div class="col-12">
-    	<div class="card-box">
-	        <div class="row">
-	            <div class="col-sm-12 col-xs-12 col-md-12">
-	                <h4 class="header-title m-t-0">Jumlah Transaksi</h4>
-	                <p class="text-muted font-13 m-b-30"> </p>
-	                <div id="trx-chart" style="height: 400px;"></div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-	<div class="col-12">
-    	<div class="card-box">
-	        <div class="row">
-	            <div class="col-sm-12 col-xs-12 col-md-12">
-	                <h4 class="header-title m-t-0">Total Transaksi</h4>
-	                <p class="text-muted font-13 m-b-30"> </p>
-	                <div id="trx-total-chart" style="height: 400px;"></div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-	<div class="col-6">
-	    <div class="card-box">
-	    	<div class="col-sm-12 col-xs-12 col-md-12">
-            	<h4 class="header-title m-t-0">Dealer Sales</h4>
-                <p class="text-muted font-13 m-b-30"> </p>
-            	<div id="dealer-chart" style="height: 400px;"></div>
-            </div>
-	    </div>
-    </div>
-    <div class="col-6">
-	    <div class="card-box">
-	    	<div class="col-sm-12 col-xs-12 col-md-12">
-            	<h4 class="header-title m-t-0">Transaksi</h4>
-                <p class="text-muted font-13 m-b-30"> </p>
-            	<div id="topup-chart" style="height: 400px;"></div>
-            </div>
-	    </div>
-    </div>
-    <div class="col-12">
-	    <div class="card-box">
-	    	<div class="col-sm-12 col-xs-12 col-md-12">
-            	<h4 class="header-title m-t-0">Produk Sales</h4>
-                <p class="text-muted font-13 m-b-30"> </p>
-            	<div id="product-sales-chart" style="height: 450px;"></div>
-            </div>
-	    </div>
-    </div>
-</div>
-
 
 <script type="text/javascript">
 	
@@ -111,28 +57,28 @@ $(document).ready(function(){
 
     function drawtrxtotalchart() {
 
-		var jsonData = $.ajax({
-			url: "<?php echo site_url('home/trx_total_chart'); ?>",
-			dataType: "json",
-			async: false
-        }).responseText;
+			var jsonData = $.ajax({
+				url: "<?php echo site_url('home/trx_total_chart'); ?>",
+				dataType: "json",
+				async: false
+				}).responseText;
           
-      	var data = new google.visualization.DataTable(jsonData);
+			var data = new google.visualization.DataTable(jsonData);
 
-		var options = {
-		title: 'Total Transaksi',
-			vAxis: {
-			  title: ''
-			},
-			hAxis:{
-				format: 'decimal',
-			}
-		};
+			var options = {
+			title: 'Total Transaksi',
+				vAxis: {
+					title: ''
+				},
+				hAxis:{
+					format: 'decimal',
+				}
+			};
 
-		var chart = new google.visualization.ColumnChart(
-		document.getElementById('trx-total-chart'));
+			var chart = new google.visualization.ColumnChart(
+			document.getElementById('trx-total-chart'));
 
-		chart.draw(data, options);
+			chart.draw(data, options);
     }
 
     function drawdealerchart() {

@@ -18,23 +18,15 @@ class login extends Admin_Controller {
     		$data = array(
     			'email' 	=> strtolower($email),
     			'password' 	=> sha1($password.$this->config->item('password_salt'))
-    		);
+            );
 
-    		$user = $this->user->find_by($data);
+            $user = $this->user->find_by($data);
 
     		if($user)
     		{
     			$this->session->set_userdata('admin_logged_in', true);
-    			$this->session->set_userdata('user', $user);
-
-                if($user->role == 'kyc')
-                {
-                    redirect(site_url('customers/kycs'), 'refresh');
-                }
-                else
-                {
-                    redirect(site_url(), 'refresh');
-                }
+                $this->session->set_userdata('user', $user);
+                redirect(site_url(), 'refresh');
     		}
     		else
     		{
@@ -45,8 +37,7 @@ class login extends Admin_Controller {
     		}
     	}
 
-    	 $this->template->set('lists', $lists)
-    	 				->set('alert', $this->session->flashdata('alert'))
+    	 $this->template->set('alert', $this->session->flashdata('alert'))
     	 				->set_layout('barebone')
     					->build('login');
     }

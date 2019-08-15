@@ -32,7 +32,6 @@
                 <tr>
                     <th width="10%">No</th>
                     <th>Name</th>
-                    <th>Role</th>
                     <th>Phone</th>
                     <th>Email</th>
                     <th width="20%"></th>
@@ -87,7 +86,7 @@
                 "orderable": false, //set not orderable
                 },
                 { 
-                "targets": [ 3 ], //first column / numbering column
+                "targets": [ 2 ], //first column / numbering column
                 "orderable": false, //set not orderable
                 }
             ]
