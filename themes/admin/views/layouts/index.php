@@ -207,6 +207,16 @@
                                     </a>
                                 </li>
                             <?php } ?>
+                            <li class="text-muted menu-title">Report</li>
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="zmdi zmdi-file-text"></i><span> Report <?php echo $unread; ?></span> 
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="list-unstyled">
+                                    <li><a href="<?php echo site_url('reporting/zakat'); ?>">Zakat <?php echo $unread; ?></a></li>
+                                </ul>
+                            </li>
                             <li class="text-muted menu-title">Contents</li>
                             <li>
                                 <a href="<?php echo site_url('/topics'); ?>" class="waves-effect">
@@ -228,12 +238,12 @@
                                     <i class="zmdi zmdi-youtube-play"></i><span> Videos </span> 
                                 </a>
                             </li>
-                            <li class="text-muted menu-title">Management</li>
+                            <!-- <li class="text-muted menu-title">Management</li>
                             <li>
                                 <a href="<?php echo site_url('zakat'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-assignment-o"></i><span> Zakat </span> 
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                         <div class="clearfix"></div>
                     </div>
