@@ -50,27 +50,37 @@ class videos extends Admin_Controller {
     {
         $this->check_login();
         $id       		= $this->input->post('id');
+
         $app_id     	= $this->session->userdata('user')->app_id;
         $title     		= $this->input->post('title');
         $desc           = $this->input->post('desc');
-        $url            = 'https://www.youtube.com/watch?v='.$id;
+        $url            = $this->input->post('url');
         $photo          = $this->input->post('photo');
         $created        = $this->input->post('created');
+
+        $status         = $this->input->post('status');
 
         $data = array(
             'title'      => $title,
             'app_id'     => $app_id,
             'description'=> $desc,
-            'url'        => $url,
-            'thumbnail'  => $photo,
-            'created_on' => $created
+            'url_video'  => $url,
+            'image'      => $photo,
+            'created_on' => $created,
+            'type'       => 'videos',
+            'status'     => $status
         );
 
-        $check  = $this->video->get($id);
+        if($status == 'live'){
+            $check  = $this->video->find_by(['status' => 'live']);
+            
+            if($check){
+                $this->video->update($check->id, ['status' => 'no']);
+            }
+        }
 
-        if(!$check){
-            $data['id'] = $id;
-            $insert = $this->video->insert($data);   
+        if(!$id){
+            $insert = $this->video->insert($data);
         }else{
             $update = $this->video->update($id, $data);
         }
@@ -81,7 +91,7 @@ class videos extends Admin_Controller {
     public function delete($id)
     {
         $this->check_login();
-        $delete = $this->video->deleteRow($id);
+        $delete = $this->video->delete($id);
 
         redirect(site_url('videos'), 'refresh');
     }
@@ -107,7 +117,7 @@ class videos extends Admin_Controller {
             $row[] = $no;
             $row[] = "<div title='$l->title'>".word_limiter($l->title, 5)."</div>";
             $row[] = "<div title='$l->description'>".word_limiter($l->description, 5)."</div>";
-            $row[] = "<a href='$l->url'>".$l->url."</a> ".$status;
+            $row[] = "<a href='$l->url_video'>".$l->url_video."</a> ".$status;
 
             $btn   = '<a href="'.site_url('videos/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>
@@ -134,7 +144,11 @@ class videos extends Admin_Controller {
 
     
     public function data(){
-        $videoId    = substr($this->input->get('video'), (strrpos($this->input->get('video'), '=') + 1), strlen($this->input->get('video')));
+        // $strpos     = strpos($this->input->get('video'), '=') + 1;
+        $url    = parse_url($this->input->get('video'));
+        parse_str($url['query']);
+        
+        $videoId    = $v;
         
         $query  = [
             'part'      => 'snippet',

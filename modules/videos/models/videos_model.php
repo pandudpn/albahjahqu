@@ -2,12 +2,11 @@
 
 class videos_model extends MY_Model {
 
-    protected $table         = 'videos';
+    protected $table         = 'contents';
     protected $key           = 'id';
     protected $date_format   = 'datetime';
     protected $set_created   = false;
-    protected $soft_deletes  = false;
-    protected $set_modified  = false;
+    protected $soft_deletes  = true;
 
     protected $column_order  = array(null, 'title', 'created_on'); //set column field database for datatable orderable
     protected $column_search = array('title', 'created_on'); //set column field database for datatable searchable 
@@ -16,10 +15,6 @@ class videos_model extends MY_Model {
     public function __construct()
     {
         parent::__construct();
-    }
-
-    public function deleteRow($id){
-        return $this->db->delete($this->table, [$this->table.'.'.$this->key => $id]);
     }
 
     public function _get_datatables_query($app_id)
@@ -52,6 +47,8 @@ class videos_model extends MY_Model {
 
         //deleted = 0
         $this->db->where('app_id', $app_id);
+        $this->db->where('type', 'videos');
+        $this->db->where($this->table.'.deleted', 0);
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -84,6 +81,8 @@ class videos_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('app_id', $app_id);
+        $this->db->where('type', 'videos');
+        $this->db->where($this->table.'.deleted', 0);
         return $this->db->count_all_results();
     }
 

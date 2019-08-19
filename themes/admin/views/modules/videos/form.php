@@ -43,13 +43,19 @@
                     <div id="result"></div>
                     <form method="post" action="<?php echo site_url('videos/save'); ?>" enctype="multipart/form-data">
                         <input type="hidden" name="created" id="created" value="<?= $data->created_on; ?>">
-                        <input type="hidden" name="photo" id="photo" value="<?= $data->thumbnail; ?>">
-                        <div class="form-group row">
-                            <label for="" class="col-form-label col-3">Youtube ID</label>
-                            <div class="col-9">
-                                <input type="text" class="form-control" id="id" name="id" value="<?php echo $data->id; ?>" placeholder="Youtube Video ID" readonly>
+                        <input type="hidden" name="photo" id="photo" value="<?= $data->image; ?>">
+                        <input type="hidden" name="url" id="url" value="<?= $data->url_video; ?>">
+                        <input type="hidden" name="id" value="<?= $data->id; ?>">
+
+                        <?php if(!isset($data)){ ?>
+                            <input type="hidden" name="status" id="status">
+                            <div class="form-group row">
+                                <label for="" class="col-form-label col-3">Youtube ID</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="youtube" name="youtube" value="<?php echo $data->id; ?>" placeholder="Youtube Video ID" readonly>
+                                </div>
                             </div>
-                        </div>
+                        <?php } ?>
 
                         <!-- title -->
                         <div class="form-group row">
@@ -66,6 +72,19 @@
                                 <textarea name="desc" id="desc" cols="10" rows="10" class="form-control"><?php echo $data->description; ?></textarea>
                             </div>
                         </div>
+
+                        <!-- live -->
+                        <?php if(isset($data)){ ?>
+                        <div class="form-group row">
+                            <label for="live" class="col-form-label col-3">Live Broadcast</label>
+                            <div class="col-9">
+                                <select name="status" id="live" class="form-control">
+                                    <option value="no" <?php echo ($data->status == 'no') ? 'selected' : null ?>>No Live</option>
+                                    <option value="live" <?php echo ($data->status == 'live') ? 'selected' : null ?>>Live</option>
+                                </select>
+                            </div>
+                        </div>
+                        <?php } ?>
                         <button type="submit" class="btn btn-primary waves-effect waves-light mr-2" id="save" <?php (!isset($data)) ? 'disabled' : null ?>>Save</button>
                         <a href="<?= site_url('/youtube'); ?>" class="btn btn-danger waves-effect waves-light">Cancel</a>
                     </form>
@@ -96,6 +115,7 @@
                 'video': video
             },
             success: function(result){
+                console.log(result);
                 var html = '<div class="row mb-5">';
                     html += '<div class="col-3 mt-3 mx-auto">';
                     html += '<a href="https://www.youtube.com/watch?v='+result.data.items[0].id+'" target="_blank" style="color:black;">';
@@ -108,7 +128,17 @@
                     html += '</div>';
 
                 $('#result').html(html);
-                $('#id').val(result.data.items[0].id);
+
+                let status = '';
+                if(result.data.items[0].snippet.liveBroadcastContent == 'none'){
+                    status = 'no';
+                }else{
+                    status = 'live';
+                }
+
+                $('#status').val(status);
+                $('#url').val(video);
+                $('#youtube').val(result.data.items[0].id);
                 $('#title').val(result.data.items[0].snippet.title);
                 $('#desc').val(result.data.items[0].snippet.description);
                 $('#created').val(result.data.items[0].snippet.publishedAt);
