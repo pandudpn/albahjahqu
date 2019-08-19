@@ -400,12 +400,13 @@ class MY_Model extends CI_Model {
 		Return:
 			true/false
 	 */
-	public function delete($id=null)
+	public function delete($id='')
 	{
 		if ($this->_function_check($id) === FALSE)
 		{
-			return FALSE;
+			return false;
 		}
+
 	
 		if ($this->soft_deletes === TRUE)
 		{
@@ -696,7 +697,7 @@ class MY_Model extends CI_Model {
 		// Check the ID, but only if it's a non-FALSE value
 		if ($id !== FALSE)
 		{
-			if (!is_numeric($id) || $id == 0)
+			if ($id == 0)
 			{
 				$this->error = $this->lang->line('bf_model_invalid_id');
 				$this->logit('['. get_class($this) .': '. __METHOD__ .'] '. $this->lang->line('bf_model_invalid_id'));

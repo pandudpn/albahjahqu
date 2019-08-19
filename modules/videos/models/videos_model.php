@@ -2,19 +2,24 @@
 
 class videos_model extends MY_Model {
 
-    protected $table         = 'contents';
+    protected $table         = 'videos';
     protected $key           = 'id';
     protected $date_format   = 'datetime';
-    protected $set_created   = true;
-    protected $soft_deletes  = true;
+    protected $set_created   = false;
+    protected $soft_deletes  = false;
+    protected $set_modified  = false;
 
     protected $column_order  = array(null, 'title', 'created_on'); //set column field database for datatable orderable
     protected $column_search = array('title', 'created_on'); //set column field database for datatable searchable 
-    protected $order         = array('status' => 'desc', 'created_on' => 'desc'); // default order 
+    protected $order         = array('created_on' => 'desc', 'title' => 'asc'); // default order 
 
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function deleteRow($id){
+        return $this->db->delete($this->table, [$this->table.'.'.$this->key => $id]);
     }
 
     public function _get_datatables_query($app_id)
@@ -46,8 +51,6 @@ class videos_model extends MY_Model {
         }
 
         //deleted = 0
-        $this->db->where($this->table. '.deleted', '0');
-        $this->db->where('type', 'videos');
         $this->db->where('app_id', $app_id);
          
         if(isset($_POST['order'])) // here order processing
@@ -80,8 +83,6 @@ class videos_model extends MY_Model {
     public function count_all($app_id)
     {
         $this->db->from($this->table);
-        $this->db->where($this->table.'.deleted', '0');
-        $this->db->where('type', 'videos');
         $this->db->where('app_id', $app_id);
         return $this->db->count_all_results();
     }
