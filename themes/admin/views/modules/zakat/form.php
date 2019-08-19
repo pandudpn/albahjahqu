@@ -24,28 +24,18 @@
             
             <div class="row">
                 <div class="col-12">
-                    <form method="post" action="<?php echo site_url('albums/save'); ?>" enctype="multipart/form-data">
+                    <form method="post" action="<?php echo site_url('zakat/save'); ?>">
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Title</label>
+                            <label for="" class="col-3 col-form-label">Name</label>
                             <div class="col-9">
-                                <input class="form-control" type="text" name="title" value="<?php echo $data->title; ?>" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Image</label>
-                            <div class="col-9">
-                                <?php if(!empty($data)) { ?>
-                                <img src="<?php echo $data->image; ?>" height="200" style="margin-bottom: 5px;">
-                                <?php } ?>
-                                <input class="form-control" type="file" name="image">
+                                <input class="form-control" type="text" name="name" value="<?php echo $data->name; ?>" required>
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
-                        <a href="<?php echo site_url('albums'); ?>" class="btn btn-danger waves-effect waves-light">
+                        <a href="<?php echo site_url('zakat'); ?>" class="btn btn-danger waves-effect waves-light">
                              Cancel 
                         </a>
                     </form>

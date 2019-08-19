@@ -32,6 +32,7 @@ class videos extends Admin_Controller {
 
     public function edit($id)
     {
+        $this->check_login();
         $is_exist = $this->video->find($id);
 
         if($is_exist){

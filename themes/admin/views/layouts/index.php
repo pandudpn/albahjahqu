@@ -228,6 +228,12 @@
                                     <i class="zmdi zmdi-youtube-play"></i><span> Videos </span> 
                                 </a>
                             </li>
+                            <li class="text-muted menu-title">Management</li>
+                            <li>
+                                <a href="<?php echo site_url('zakat'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-assignment-o"></i><span> Zakat </span> 
+                                </a>
+                            </li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>

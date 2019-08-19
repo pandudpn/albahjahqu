@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Albums</h4>
+            <h4 class="page-title float-left">Zakat</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -12,8 +12,8 @@
 <div class="row">
     <div class="col-12">
         <div class="p-20">
-            <a href="<?php echo site_url('albums/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Add Album </button>
+            <a href="<?php echo site_url('zakat/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Add New Zakat </button>
             </a>
         </div>
         
@@ -30,9 +30,7 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Title</th>
-                    <th>Image</th>
-                    <th>Created</th>
+                    <th>Name</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -74,7 +72,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('albums/datatables')?>",
+                "url": "<?php echo site_url('zakat/datatables')?>",
                 "type": "POST"
             },
 
@@ -83,11 +81,7 @@
                 { 
                 "targets": [ 0 ], //first column / numbering column
                 "orderable": false, //set not orderable
-                },
-                { 
-                "targets": [ 2 ], //first column / numbering column
-                "orderable": false, //set not orderable
-                },
+                }
             ]
         });
     });
