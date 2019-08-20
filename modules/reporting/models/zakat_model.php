@@ -17,14 +17,26 @@ class zakat_model extends MY_Model {
     {
         parent::__construct();
     }
+
+    public function get_all($apps){
+        $eva    = $this->load->database('eva', TRUE);
+
+        $eva->select($this->tableCustomer.'.*');
+        $eva->from($this->tableCustomer);
+        $eva->where($this->tableCustomer.'.deleted', 0);
+        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
+
+        $query  = $eva->get();
+        return $query->result();
+    }
  
-    public function get_datatables()
+    public function get_datatables($apps)
     {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
 
         $eva    = $this->load->database('eva', TRUE);
-        $eva->select('IFNULL(SUM(credit), 0) AS total_credit, account_holder AS name', false);
+        $eva->select('SUM(credit) AS total_credit, account_holder AS name, account_id', false);
         $eva->from($this->table);
         $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
  
@@ -55,6 +67,7 @@ class zakat_model extends MY_Model {
         $eva->where($this->table. '.deleted', '0');
         $eva->where('SUBSTRING(transaction_code, 1, 3)=','zak');
         $eva->where('SUBSTRING(transaction_code, -2)=', 'in');
+        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
 
         if(!empty($from) && !empty($to)){
             $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
@@ -81,13 +94,13 @@ class zakat_model extends MY_Model {
         return $query->result();
     }
  
-    public function count_filtered()
+    public function count_filtered($apps)
     {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
 
         $eva    = $this->load->database('eva', TRUE);
-        $eva->select('SUM(credit) AS total_credit, account_holder AS name', false);
+        $eva->select('SUM(credit) AS total_credit, account_holder AS name, account_id', false);
         $eva->from($this->table);
         $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id');
  
@@ -118,6 +131,7 @@ class zakat_model extends MY_Model {
         $eva->where($this->table. '.deleted', '0');
         $eva->where('SUBSTRING(transaction_code, 1, 3)=','zak');
         $eva->where('SUBSTRING(transaction_code, -2)=', 'in');
+        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
 
         if($from != null && $to != null){
             $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
@@ -142,7 +156,7 @@ class zakat_model extends MY_Model {
         return $query->num_rows();
     }
  
-    public function count_all()
+    public function count_all($apps)
     {
         $eva    = $this->load->database('eva', TRUE);
         $eva->from($this->table);
@@ -150,6 +164,7 @@ class zakat_model extends MY_Model {
         $eva->where($this->table.'.deleted', '0');
         $eva->where('SUBSTRING(transaction_code, 1, 3)=','zak');
         $eva->where('SUBSTRING(transaction_code, -2)=', 'in');
+        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
         $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), '.$this->tableCustomer.'.id');
         return $eva->get()->num_rows();
     }
