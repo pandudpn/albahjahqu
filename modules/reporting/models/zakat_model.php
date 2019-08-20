@@ -24,9 +24,9 @@ class zakat_model extends MY_Model {
         $to     = $this->input->get('to');
 
         $eva    = $this->load->database('eva', TRUE);
-        $eva->select('SUM(credit) AS total_credit, account_holder AS name', false);
+        $eva->select('IFNULL(SUM(credit), 0) AS total_credit, account_holder AS name', false);
         $eva->from($this->table);
-        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id');
+        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
  
         $i = 0;
      
@@ -59,12 +59,12 @@ class zakat_model extends MY_Model {
         if(!empty($from) && !empty($to)){
             $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
             $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
+            $eva->group_by($this->tableCustomer.'.id');
         }else{
             $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
             $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
+            $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), '.$this->tableCustomer.'.id');
         }
-
-        $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), '.$this->tableCustomer.'.id');
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -122,12 +122,12 @@ class zakat_model extends MY_Model {
         if($from != null && $to != null){
             $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
             $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
+            $eva->group_by($this->tableCustomer.'.id');
         }else{
             $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
             $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
+            $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), '.$this->tableCustomer.'.id');
         }
-
-        $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), '.$this->tableCustomer.'.id');
          
         if(isset($_POST['order'])) // here order processing
         {

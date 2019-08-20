@@ -20,12 +20,12 @@ class login extends Admin_Controller {
     			'password' 	=> sha1($password.$this->config->item('password_salt'))
             );
 
-            $user = $this->user->find_by($data);
+            $user = $this->user->get_login($data);
 
     		if($user)
     		{
     			$this->session->set_userdata('admin_logged_in', true);
-                $this->session->set_userdata('user', $user);
+				$this->session->set_userdata('user', $user);
                 redirect(site_url(), 'refresh');
     		}
     		else

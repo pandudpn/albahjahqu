@@ -66,6 +66,9 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd'
+        })
         $('#datatable').DataTable({ 
             // "scrollX": true,
             "processing": true, //Feature control the processing indicator.

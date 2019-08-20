@@ -2,7 +2,8 @@
 
 class user_admin_model extends MY_Model {
 
-	protected $table         = 'admins';
+    protected $table         = 'admins';
+    protected $tableApps     = 'apps';
     protected $key           = 'id';
     protected $date_format   = 'datetime';
     protected $set_created   = true;
@@ -15,6 +16,18 @@ class user_admin_model extends MY_Model {
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function get_login($data=array()){
+        $this->db->select($this->table.'.*, '.$this->tableApps.'.name AS apps_name');
+        $this->db->from($this->table);
+        $this->db->join($this->tableApps, $this->tableApps.'.package_name = '.$this->table.'.app_id', 'left');
+
+        foreach($data AS $key => $val){
+            $this->db->where($key, $val);
+        }
+
+        return $this->db->get()->row();
     }
 
     public function _get_datatables_query()
