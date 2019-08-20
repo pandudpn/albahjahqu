@@ -7,6 +7,15 @@
             <div class="clearfix"></div>
         </div>
     </div>
+    <div class="col-12">
+	    <div class="card-box">
+	    	<div class="col-sm-12 col-xs-12 col-md-12">
+            	<h4 class="header-title m-t-0">Jumlah Transaksi</h4>
+                <p class="text-muted font-13 m-b-30"> </p>
+            	<div id="zakat-chart" style="height: 450px;"></div>
+            </div>
+	    </div>
+    </div>
 </div>
 <!-- end row -->
 
@@ -15,24 +24,12 @@
 $(document).ready(function(){
 
 	google.charts.load('current', {packages: ['corechart', 'bar']});
-	google.charts.setOnLoadCallback(drawtrxchart);
+	google.charts.setOnLoadCallback(chart_zakat);
 
-	google.charts.load('current', {packages: ['corechart', 'bar']});
-	google.charts.setOnLoadCallback(drawtrxtotalchart);
-
-	google.charts.load('current', {packages: ['corechart', 'bar']});
-	google.charts.setOnLoadCallback(drawdealerchart);
-
-	google.charts.load('current', {packages: ['corechart', 'bar']});
-	google.charts.setOnLoadCallback(drawtopupchart);
-
-	google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawproductsales);
-
-	function drawtrxchart() {
+	function chart_zakat() {
 
 		var jsonData = $.ajax({
-			url: "<?php echo site_url('home/trx_chart'); ?>",
+			url: "<?php echo site_url('home/chart_zakat'); ?>",
 			dataType: "json",
 			async: false
         }).responseText;
@@ -40,7 +37,7 @@ $(document).ready(function(){
       	var data = new google.visualization.DataTable(jsonData);
 		
 		var options = {
-		title: 'Jumlah Transaksi',
+		title: 'Jumlah Transaksi Zakat',
 			vAxis: {
 			  title: ''
 			},
@@ -50,104 +47,9 @@ $(document).ready(function(){
 		};
 
 		var chart = new google.visualization.ColumnChart(
-		document.getElementById('trx-chart'));
+		document.getElementById('zakat-chart'));
 
 		chart.draw(data, options);
-    }
-
-    function drawtrxtotalchart() {
-
-			var jsonData = $.ajax({
-				url: "<?php echo site_url('home/trx_total_chart'); ?>",
-				dataType: "json",
-				async: false
-				}).responseText;
-          
-			var data = new google.visualization.DataTable(jsonData);
-
-			var options = {
-			title: 'Total Transaksi',
-				vAxis: {
-					title: ''
-				},
-				hAxis:{
-					format: 'decimal',
-				}
-			};
-
-			var chart = new google.visualization.ColumnChart(
-			document.getElementById('trx-total-chart'));
-
-			chart.draw(data, options);
-    }
-
-    function drawdealerchart() {
-      	var jsonData = $.ajax({
-			url: "<?php echo site_url('home/dealer_chart'); ?>",
-			dataType: "json",
-			async: false
-        }).responseText;
-          
-      	var data = new google.visualization.DataTable(jsonData);
-
-      var options = {
-        title: 'Dealer Sales',
-        chartArea: {width: '50%'},
-        hAxis: {
-          title: 'Total Sales',
-          minValue: 0
-        },
-        vAxis: {
-          title: 'Dealer'
-        }
-      };
-
-      var chart = new google.visualization.BarChart(document.getElementById('dealer-chart'));
-      chart.draw(data, options);
-    }
-
-    function drawtopupchart() {
-
-		var jsonData = $.ajax({
-			url: "<?php echo site_url('home/topup_chart'); ?>",
-			dataType: "json",
-			async: false
-        }).responseText;
-          
-      	var data = new google.visualization.DataTable(jsonData);
-
-		var options = {
-		title: 'Topup dan Sales',
-			vAxis: {
-			  title: 'Topup dan Sales'
-			},
-			hAxis:{
-				format: 'decimal',
-			}
-		};
-
-		var chart = new google.visualization.ColumnChart(
-		document.getElementById('topup-chart'));
-
-		chart.draw(data, options);
-    }
-
-    function drawproductsales() {
-
-        var jsonData = $.ajax({
-			url: "<?php echo site_url('home/product_sales_chart'); ?>",
-			dataType: "json",
-			async: false
-        }).responseText;
-         
-      	var data = new google.visualization.DataTable(jsonData);
-
-        var options = {
-          title: 'Product Sales'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('product-sales-chart'));
-        chart.draw(data, options);
     }
 
 });

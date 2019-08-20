@@ -18,6 +18,38 @@ class zakat_model extends MY_Model {
         parent::__construct();
     }
 
+    public function trx_zakat($apps){
+        $eva    = $this->load->database('eva', TRUE);
+
+        $eva->select('SUM(credit) AS total_credit, account_holder AS name, account_id, '.$this->table.'.created_on', false);
+        $eva->from($this->table);
+        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
+        $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
+        $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
+        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
+        $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), DAY('.$this->table.'.created_on)');
+        $eva->order_by($this->table.'.created_on', 'asc');
+
+        $query  = $eva->get();
+        return $query->result();
+    }
+
+    public function trx_zakat_group($apps){
+        $eva    = $this->load->database('eva', TRUE);
+
+        $eva->select('SUM(credit) AS total_credit, account_holder AS name, account_id, '.$this->table.'.created_on', false);
+        $eva->from($this->table);
+        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
+        $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
+        $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
+        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
+        $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), DAY('.$this->table.'.created_on), '.$this->tableCustomer.'.id');
+        $eva->order_by($this->table.'.created_on', 'asc');
+
+        $query  = $eva->get();
+        return $query->result();
+    }
+
     public function get_all($apps){
         $eva    = $this->load->database('eva', TRUE);
 
