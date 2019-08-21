@@ -19,7 +19,7 @@ class user_admin_model extends MY_Model {
     }
 
     public function get_login($data=array()){
-        $this->db->select($this->table.'.*, '.$this->tableApps.'.name AS apps_name');
+        $this->db->select($this->table.'.*, '.$this->tableApps.'.name AS apps_name, '.$this->tableApps.'.alias_name AS alias');
         $this->db->from($this->table);
         $this->db->join($this->tableApps, $this->tableApps.'.package_name = '.$this->table.'.app_id', 'left');
 

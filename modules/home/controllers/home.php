@@ -8,7 +8,8 @@ class home extends Admin_Controller {
         $this->load->model('reporting/zakat_model', 'zakat');
         setlocale(LC_TIME, 'id_ID');
 
-        $this->apps = $this->session->userdata('user')->apps_name;
+        $this->apps_name = $this->session->userdata('user')->apps_name;
+        $this->apps      = $this->session->userdata('user')->alias;
 
         $this->check_login();
     }

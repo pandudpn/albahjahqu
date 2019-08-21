@@ -1,14 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class zakat extends Admin_Controller {
+class transactions extends Admin_Controller {
     
 	public function __construct() {
         parent::__construct();
-        $this->load->model('reporting/zakat_model', 'zakat');
+        $this->load->model('reporting/transactions_model', 'trans');
 
         $this->check_login();
-        $this->apps         = $this->session->userdata('user')->alias;
         $this->apps_name    = $this->session->userdata('user')->apps_name;
+        $this->apps         = $this->session->userdata('user')->alias;
     }
 
     public function index()
@@ -19,44 +19,37 @@ class zakat extends Admin_Controller {
              ->set('alert', $this->session->flashdata('alert'))
              ->set('from', $from)
              ->set('to', $to)
-    		 ->build('zakat');
+    		 ->build('transactions');
     }
     
     public function datatables()
     {
-        $yayasan    = $this->zakat->get_all($this->apps_name);
-        $list = $this->zakat->get_datatables($this->apps, $this->apps_name);
+        $list = $this->trans->get_datatables($this->apps, $this->apps_name);
 
-        // $this->print_array($yayasan); die;
-        // print "<pre>";
-        // print_r($list);
-        // print "</pre>"; die;
+        $query      = $list['query'];
+        $totalData  = $list['totalData'];
+        $totalFilter= $list['totalFiltered'];
         
         $data = array();
         $no   = $_POST['start'];
 
-        foreach($yayasan AS $y){
-            $cost   = 0;
+        foreach($query AS $l){
             $no++;
             $row    = array();
 
-            foreach($list AS $l){
-                if($l->account_id == $y->id){
-                    $cost   = $l->total_credit;
-                }
-            }
-
             $row[]  = $no;
-            $row[]  = $y->account_holder;
-            $row[]  = "Rp ".number_format($cost, 0, '.', '.');
+            $row[]  = $l->sender;
+            $row[]  = $l->receiver;
+            $row[]  = "Rp ".number_format($l->cost, 0, '.', '.');
+            $row[]  = date('d M, Y H:i', strtotime($l->created_on));
 
             $data[] = $row;
         }
  
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->zakat->count_all($this->apps),
-            "recordsFiltered"   => $this->zakat->count_filtered($this->apps),
+            "recordsTotal"      => $totalData,
+            "recordsFiltered"   => $totalFilter,
             "data"              => $data,
         );
         //output to json format

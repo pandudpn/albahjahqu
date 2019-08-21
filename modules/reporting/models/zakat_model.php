@@ -9,8 +9,8 @@ class zakat_model extends MY_Model {
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
-    protected $column_order  = array(null, 'customers.account_holder', 'customer_mutations.created_on'); //set column field database for datatable orderable
-    protected $column_search = array('customers.account_holder', 'customer_mutations.created_on'); //set column field database for datatable searchable 
+    protected $column_order  = array(null, 'customers.account_holder'); //set column field database for datatable orderable
+    protected $column_search = array('customers.account_holder'); //set column field database for datatable searchable 
     protected $order         = array('customers.account_holder' => 'asc'); // default order 
 
     public function __construct()
@@ -26,7 +26,9 @@ class zakat_model extends MY_Model {
         $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
         $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
         $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
-        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
+        $eva->where('SUBSTRING(transaction_code, 1, 2) = ', $apps);
+        $eva->where('SUBSTRING(transaction_code, 3, 3) = ', 'zak');
+        // $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
         $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), DAY('.$this->table.'.created_on)');
         $eva->order_by($this->table.'.created_on', 'asc');
 
@@ -50,19 +52,40 @@ class zakat_model extends MY_Model {
         return $query->result();
     }
 
-    public function get_all($apps){
+    public function get_all($apps_name){
         $eva    = $this->load->database('eva', TRUE);
 
-        $eva->select($this->tableCustomer.'.*');
-        $eva->from($this->tableCustomer);
-        $eva->where($this->tableCustomer.'.deleted', 0);
-        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
+        $sql    = "SELECT *
+                FROM customers
+                WHERE deleted = 0";
 
-        $query  = $eva->get();
+        $sql .= " AND ";
+
+        if(!empty($_POST['search']['value']))
+        {
+            $sql .= "
+                account_holder LIKE '%".$apps_name." ".$eva->escape_like_str($_POST['search']['value'])."%'
+            ";
+        }else{
+            $sql .= " account_holder LIKE '%".$apps_name."%' ";
+        }
+
+        if(isset($_POST['order'])) // here order processing
+        {
+            $sql .= " ORDER BY ".$this->column_order[$_POST['order'][0]['column']]." ".$_POST['order']['0']['dir'];
+        } 
+        else
+        {
+            $sql .= " ORDER BY account_holder ASC";
+        }
+        if($_POST['length'] != -1)
+            $sql .= " LIMIT ".$_POST['start']." ,".$_POST['length'];
+
+        $query  = $eva->query($sql);
         return $query->result();
     }
  
-    public function get_datatables($apps)
+    public function get_datatables($apps, $apps_name)
     {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
@@ -97,9 +120,10 @@ class zakat_model extends MY_Model {
 
         //deleted = 0
         $eva->where($this->table. '.deleted', '0');
-        $eva->where('SUBSTRING(transaction_code, 1, 3)=','zak');
+        $eva->where('SUBSTRING(transaction_code, 1, 2) = ', $apps);
+        $eva->where('SUBSTRING(transaction_code, 3, 3)=','zak');
         $eva->where('SUBSTRING(transaction_code, -2)=', 'in');
-        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
+        $eva->like($this->tableCustomer.'.account_holder', $apps_name, 'both');
 
         if(!empty($from) && !empty($to)){
             $eva->where($this->table.'.created_on >=', $from.' 00:00:01');

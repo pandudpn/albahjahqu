@@ -12,7 +12,7 @@
 	    	<div class="col-sm-12 col-xs-12 col-md-12">
             	<h4 class="header-title m-t-0">Jumlah Transaksi</h4>
                 <p class="text-muted font-13 m-b-30"> </p>
-            	<div id="zakat-chart" style="height: 450px;"></div>
+            	<div id="zakat-chart" style="height: 550px;"></div>
             </div>
 	    </div>
     </div>
