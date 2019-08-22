@@ -22,6 +22,11 @@
 <script type="text/javascript">
 	
 $(document).ready(function(){
+	const bulan	= ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+					'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+	var date	= new Date();
+	var month	= date.getMonth();
+	var year	= date.getFullYear();
 
 	google.charts.load('current', {packages: ['corechart', 'bar']});
 	google.charts.setOnLoadCallback(chart_zakat);
@@ -37,12 +42,15 @@ $(document).ready(function(){
       	var data = new google.visualization.DataTable(jsonData);
 		
 		var options = {
-		title: 'Jumlah Transaksi Zakat',
+		title: 'Jumlah Transaksi Zakat - ' + bulan[month] + ' ' + year,
 			vAxis: {
 			  title: ''
 			},
 			hAxis:{
 				format: 'decimal',
+			},
+			yAxis: {
+				title: ''
 			}
 		};
 

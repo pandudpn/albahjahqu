@@ -115,7 +115,8 @@
                 'video': video
             },
             success: function(result){
-                console.log(result);
+                var date = new Date(result.data.items[0].snippet.publishedAt);
+                console.log(date);
                 var html = '<div class="row mb-5">';
                     html += '<div class="col-3 mt-3 mx-auto">';
                     html += '<a href="https://www.youtube.com/watch?v='+result.data.items[0].id+'" target="_blank" style="color:black;">';
@@ -141,7 +142,7 @@
                 $('#youtube').val(result.data.items[0].id);
                 $('#title').val(result.data.items[0].snippet.title);
                 $('#desc').val(result.data.items[0].snippet.description);
-                $('#created').val(result.data.items[0].snippet.publishedAt);
+                $('#created').val(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds());
                 $('#photo').val(result.data.items[0].snippet.thumbnails.medium.url);
                 $('#save').removeAttr('disabled');
             }

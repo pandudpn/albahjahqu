@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Reporting Zakat</h4>
+            <h4 class="page-title float-left">Reporting Lembaga</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -23,8 +23,8 @@
             <form method="get" id="form">
                 <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
                     <div class="col-12">Filter : </div>
-                    <div class="col-2"><input type="text" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
-                    <div class="col-2"><input type="text" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
+                    <div class="col-2"><input type="text" name="from" id="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
+                    <div class="col-2"><input type="text" name="to" id="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
                     <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('reporting/zakat'); ?>" class="btn btn-secondary">Reset</a></div>
                 </div>
             </form>
