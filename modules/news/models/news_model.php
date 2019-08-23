@@ -1,36 +1,25 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class articles_model extends MY_Model {
+class news_model extends MY_Model {
 
     protected $table         = 'contents';
-    protected $tableCT       = 'contents_topics';
-    protected $tableTopic    = 'topics';
     protected $key           = 'id';
     protected $date_format   = 'datetime';
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
     protected $column_order  = array(null, 'title', 'name'); //set column field database for datatable orderable
-    protected $column_search = array('contents.title', 'contents.description', 'topics.name', 'contents.created_on'); //set column field database for datatable searchable 
-    protected $order         = array('contents.created_on' => 'desc'); // default order 
+    protected $column_search = array('title', 'description', 'DATE_FORMAT(created_on, "%d %M, %Y")'); //set column field database for datatable searchable 
+    protected $order         = array('created_on' => 'desc'); // default order 
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function get_by($id){
-        $this->db->select($this->table.'.*');
-        $this->db->select($this->tableCT.'.topic_id');
-        $this->db->from($this->table);
-        $this->db->join($this->tableCT, $this->tableCT.'.content_id = '.$this->table.'.id');
-        $this->db->join($this->tableTopic, $this->tableTopic.'.id = '.$this->tableCT.'.topic_id', 'left');
-        $this->db->where($this->tableCT.'.content_id', $id);
-        return $this->db->get()->result();
-    }
-
     public function _get_datatables_query($app_id)
     {
+         
         $this->db->from($this->table);
  
         $i = 0;
@@ -59,7 +48,7 @@ class articles_model extends MY_Model {
         //deleted = 0
         $this->db->where('deleted', '0');
         $this->db->where('app_id', $app_id);
-        $this->db->where('type', 'articles');
+        $this->db->where('type', 'news');
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -94,7 +83,7 @@ class articles_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('deleted', '0');
-        $this->db->where('type', 'articles');
+        $this->db->where('type', 'news');
         $this->db->where('app_id', $app_id);
         
         return $this->db->count_all_results();

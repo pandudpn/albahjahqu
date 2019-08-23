@@ -235,6 +235,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="<?php echo site_url('/news'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-comment-alert"></i><span> News </span> 
+                                </a>
+                            </li>
+                            <li>
                                 <a href="<?php echo site_url('/videos'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-youtube-play"></i><span> Videos </span> 
                                 </a>

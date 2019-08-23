@@ -24,27 +24,8 @@
             
             <div class="row">
                 <div class="col-12">
-                    <form method="post" action="<?php echo site_url('articles/save'); ?>" enctype="multipart/form-data">
+                    <form method="post" action="<?php echo site_url('news/save'); ?>" enctype="multipart/form-data">
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
-
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Topics</label>
-                            <div class="col-7">
-                                <select name="topics[]" id="topic" class="selectpicker" multiple="multiple" data-live-search="true" title="Topics">
-                                  <?php foreach($topics AS $key){ ?>
-                                    <option value="<?= $key->id; ?>"
-                                    <?php foreach($ct AS $data){
-                                        if($data->topic_id == $key->id){
-                                            echo 'selected';
-                                        }else{
-                                            null;
-                                        }
-                                    } ?>
-                                    ><?php echo $key->name ?></option>
-                                  <?php } ?>
-                                </select>
-                            </div>
-                        </div>
                         
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Title</label>
@@ -70,8 +51,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="" class="col-3 col-form-label">Status</label>
+                            <div class="col-9">
+                                <select class="form-control" name="status" id="status">
+                                    <option <?php if($data->status == 'no'){ echo 'selected'; } ?> value='no'>No Headline</option>
+                                    <option <?php if($data->status == 'headline'){ echo 'selected'; } ?> value='headline'>Headline</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
-                        <a href="<?php echo site_url('articles'); ?>" class="btn btn-danger waves-effect waves-light">
+                        <a href="<?php echo site_url('news'); ?>" class="btn btn-danger waves-effect waves-light">
                              Cancel 
                         </a>
                     </form>
@@ -83,9 +74,6 @@
 </div> 
 <script type="text/javascript">
     $(document).ready(function() {
-
-        type_change()
-        
         tinymce.init({
             selector: "#editor1",
             plugins: [
@@ -99,7 +87,7 @@
             extended_valid_elements: "+iframe[src|width|height|name|align|class]",
             automatic_uploads: true,
             image_advtab: true,
-            images_upload_url: "<?php echo site_url('articles/imgupload'); ?>",
+            images_upload_url: "<?php echo site_url('news/imgupload'); ?>",
             file_picker_types: 'image', 
             paste_data_images:true,
             relative_urls: false,
@@ -125,19 +113,4 @@
        });
 
     } );
-
-    function type_change()
-    {
-        let type = $("#for").val();
-
-        if(type == 'okbabe' || type == 'all_apps')
-        {
-            $("#for_dealer").attr('disabled', 'disabled');
-        }
-        else
-        {
-            $("#for_dealer").attr('disabled', false);
-        }
-        
-    }
 </script>

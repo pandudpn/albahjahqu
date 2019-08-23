@@ -1,12 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class articles extends Admin_Controller {
+class news extends Admin_Controller {
     
 	public function __construct() {
         parent::__construct();
-        $this->load->model('articles/articles_model', 'article');
-        $this->load->model('topics/topics_model', 'topic');
-        $this->load->model('articles/contents_topics_model', 'ct');
+        $this->load->model('news/news_model', 'news');
 
         $this->load->helper('text');
 
@@ -24,29 +22,24 @@ class articles extends Admin_Controller {
 
     public function add()
     {
-        $topics = $this->topic->find_all_by(['deleted' => 0, 'app_id' => $this->app_id]);
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
-            ->set('title', 'Add New Article')
+            ->set('title', 'Create News')
             ->set('topics', $topics)
             ->build('form');
     }
 
     public function edit($id)
     {
-        $is_exist = $this->article->find($id);
-        $ct       = $this->article->get_by($id);
-        $topic    = $this->topic->find_all_by(['deleted' => 0, 'app_id' => $this->app_id]);
+        $is_exist = $this->news->find($id);
 
         if($is_exist){
-            $article = $is_exist;
+            $news = $is_exist;
 
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
-                ->set('title', 'Edit Article')
-                ->set('topics', $topic)
-                ->set('ct', $ct)
-                ->set('data', $article)
+                ->set('title', 'Edit News')
+                ->set('data', $news)
                 ->build('form');
         }
     }
@@ -57,18 +50,20 @@ class articles extends Admin_Controller {
 
         $title     		= $this->input->post('title');
         $content     	= $this->input->post('content');
+        $status         = $this->input->post('status');
         $app_id     	= $this->session->userdata('user')->app_id;
 
         $data = array(
             'title'      => $title,
             'description'=> $content,
+            'status'     => $status,
             'app_id'     => $app_id,
-            'type'       => 'articles'
+            'type'       => 'news'
         );
 
         if(!empty($_FILES['image']['name']))
         {
-        	$config['upload_path']      = './data/images/articles/';
+        	$config['upload_path']      = './data/images/news/';
 	        $config['allowed_types']    = '*';
 	        $config['max_size']         = 1024;
 	        $config['encrypt_name']     = true;
@@ -78,40 +73,32 @@ class articles extends Admin_Controller {
 	            
 	        } else {
 	            $file = $this->upload->data();
-	            $data['image'] = site_url('data/images/articles').'/'.$file['file_name'];
+	            $data['image'] = site_url('data/images/news').'/'.$file['file_name'];
 	        }
         }
         
         if(!$id){
 
-            $insert = $this->article->insert($data);
-
-            foreach($this->input->post('topics') AS $key){
-                $in = [
-                    'content_id'    => $insert,
-                    'topic_id'      => $key
-                ];
-                $this->ct->insert($in);
-            }
+            $insert = $this->news->insert($data);
             
-            redirect(site_url('articles'), 'refresh');
+            redirect(site_url('news'), 'refresh');
         }else{
 
-            $update = $this->article->update($id, $data);
-            redirect(site_url('articles'), 'refresh');
+            $update = $this->news->update($id, $data);
+            redirect(site_url('news'), 'refresh');
         }
     }
 
     public function delete($id)
     {
-        $delete = $this->article->delete($id);
+        $delete = $this->news->delete($id);
 
-        redirect(site_url('articles'), 'refresh');
+        redirect(site_url('news'), 'refresh');
     }
 
     public function datatables()
     {
-        $list = $this->article->get_datatables($this->app_id);
+        $list = $this->news->get_datatables($this->app_id);
         
         $data = array();
         $no   = $_POST['start'];
@@ -123,13 +110,14 @@ class articles extends Admin_Controller {
             $row[] = $no;
             $row[] = $l->title;
             $row[] = word_limiter(htmlspecialchars($l->description), 20);
+            $row[] = $l->status;
             $row[] = $l->created_on;
 
-            $btn   = '<a href="'.site_url('articles/edit/'.$l->id).'" class="btn btn-success btn-sm">
+            $btn   = '<a href="'.site_url('news/edit/'.$l->id).'" class="btn btn-success btn-sm">
                         <i class="fa fa-pencil"></i>
                       </a> &nbsp;';
 
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('articles/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
+            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('news/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                       </a>';
 
@@ -140,8 +128,8 @@ class articles extends Admin_Controller {
  
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->article->count_all($this->app_id),
-            "recordsFiltered"   => $this->article->count_filtered($this->app_id),
+            "recordsTotal"      => $this->news->count_all($this->app_id),
+            "recordsFiltered"   => $this->news->count_filtered($this->app_id),
             "data"              => $data,
         );
         //output to json format
