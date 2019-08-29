@@ -250,6 +250,12 @@
                                     <i class="zmdi zmdi-assignment-o"></i><span> Zakat </span> 
                                 </a>
                             </li> -->
+                            <li class="text-muted menu-title">Islami</li>
+                            <li>
+                                <a href="<?php echo site_url('/islami/doa'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-lamp"></i><span> Doa </span> 
+                                </a>
+                            </li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>

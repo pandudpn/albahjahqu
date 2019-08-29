@@ -10,7 +10,7 @@ class articles_model extends MY_Model {
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
-    protected $column_order  = array(null, 'title', 'name'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'contents.title', 'contents.description', 'contents.created_on'); //set column field database for datatable orderable
     protected $column_search = array('contents.title', 'contents.description', 'topics.name', 'contents.created_on'); //set column field database for datatable searchable 
     protected $order         = array('contents.created_on' => 'desc'); // default order 
 

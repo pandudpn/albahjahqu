@@ -8,7 +8,7 @@ class albums_model extends MY_Model {
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
-    protected $column_order  = array(null, 'title', 'created_on'); //set column field database for datatable orderable
+    protected $column_order  = array(null,'title', null, 'created_on'); //set column field database for datatable orderable
     protected $column_search = array('title', 'created_on'); //set column field database for datatable searchable 
     protected $order         = array('created_on' => 'desc'); // default order 
 

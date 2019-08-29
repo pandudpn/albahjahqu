@@ -107,21 +107,12 @@ class news extends Admin_Controller {
             $no++;
             $row   = array();
 
-            $row[] = $no;
-            $row[] = $l->title;
-            $row[] = word_limiter(htmlspecialchars($l->description), 20);
-            $row[] = $l->status;
-            $row[] = $l->created_on;
-
-            $btn   = '<a href="'.site_url('news/edit/'.$l->id).'" class="btn btn-success btn-sm">
-                        <i class="fa fa-pencil"></i>
-                      </a> &nbsp;';
-
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('news/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </a>';
-
-            $row[]  = $btn;
+            $row['no']      = $no;
+            $row['title']   = $l->title;
+            $row['desc']    = word_limiter(htmlspecialchars($l->description), 20);
+            $row['status']  = $l->status;
+            $row['created'] = $l->created_on;
+            $row['id']      = $l->id;
 
             $data[] = $row;
         }

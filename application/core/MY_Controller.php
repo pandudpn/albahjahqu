@@ -185,9 +185,8 @@ class Admin_Controller extends Base_Controller{
     }
 
     public function print_array($array){
-        print "<pre>";
-        print_r($array);
-        print "</pre>";
+        header('Content-type: application/json');
+        echo json_encode($array); die;
     }
 
 

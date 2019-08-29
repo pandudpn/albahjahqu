@@ -82,25 +82,10 @@ class topics extends Admin_Controller {
             $no++;
             $row   = array();
 
-            if($l->status == 'enabled'){
-                $status = '<span class="badge badge-success">Enabled</span>';
-            }else{
-                $status = '<span class="badge badge-danger">Disabled</span>';
-            }
-
-            $row[] = $no;
-            $row[] = $l->name;
-            $row[] = $status;
-
-            $btn   = '<a href="'.site_url('topics/edit/'.$l->id).'" class="btn btn-success btn-sm">
-                        <i class="fa fa-pencil"></i>
-                      </a> &nbsp;';
-
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('topics/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </a>';
-
-            $row[]  = $btn;
+            $row['no']      = $no;
+            $row['name']    = $l->name;
+            $row['status']  = $l->status;
+            $row['id']      = $l->id;
 
             $data[] = $row;
         }

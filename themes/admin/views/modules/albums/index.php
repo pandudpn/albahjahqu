@@ -81,13 +81,34 @@
             //Set column definition initialisation properties.
             "columnDefs": [
                 { 
-                "targets": [ 0 ], //first column / numbering column
-                "orderable": false, //set not orderable
+                    "targets": [ 0 ], //first column / numbering column
+                    "orderable": false, //set not orderable
+                    "data": "no"
+                },
+                {
+                    "targets": [1],
+                    "data": "title"
                 },
                 { 
-                "targets": [ 2 ], //first column / numbering column
-                "orderable": false, //set not orderable
+                    "targets": [ 2 ], //third column / numbering column
+                    "orderable": false, //set not orderable
+                    "data": "image",
+                    "render": function(data, type, row, meta){
+                        return '<div style="width: 75px; height: 75px;"><img style="width: 100%; height: 100%; object-fit: contain" src="'+data+'"></div>';
+                    }
                 },
+                {
+                    "targets": [3],
+                    "data": "created"
+                },
+                {
+                    "targets": [4],
+                    "orderable": false,
+                    "data": "id",
+                    "render": function(data, type, row, meta){
+                        return '<a href="edit/'+data+'" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a> &nbsp; <a href="javascript:void(0)" onclick="alert_delete(\'delete/'+data+'\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>';
+                    }
+                }
             ]
         });
     });

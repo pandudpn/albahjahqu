@@ -108,26 +108,12 @@ class videos extends Admin_Controller {
             $no++;
             $row   = array();
 
-            if($l->status == 'live'){
-                $status = '<span class="badge badge-danger">Live Broadcast</span>';
-            }else{
-                $status = '';
-            }
-
-            $row[] = $no;
-            $row[] = "<div title='$l->title'>".word_limiter($l->title, 5)."</div>";
-            $row[] = "<div title='$l->description'>".word_limiter($l->description, 5)."</div>";
-            $row[] = "<a href='$l->url_video'>".$l->url_video."</a> ".$status;
-
-            $btn   = '<a href="'.site_url('videos/edit/'.$l->id).'" class="btn btn-success btn-sm">
-                        <i class="fa fa-pencil"></i>
-                      </a> &nbsp;';
-
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('videos/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </a>';
-
-            $row[]  = $btn;
+            $row['no']      = $no;
+            $row['title']   = $l->title;
+            $row['desc']    = $l->description;
+            $row['url']     = $l->url_video;
+            $row['status']  = $l->status;
+            $row['id']      = $l->id;
 
             $data[] = $row;
         }

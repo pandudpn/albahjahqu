@@ -66,6 +66,14 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        $.fn.dataTable.render.ellipsis = function(substring){
+            return function ( data, type, row ) {
+                return data.length > substring ?
+                    '<div title="'+data+'">'+data.substr( 0, substring ) +'…'+'</div>' :
+                    data;
+            }
+        };
+
         $('#datatable').DataTable({ 
             // "scrollX": true,
             "processing": true, //Feature control the processing indicator.
@@ -81,13 +89,39 @@
             //Set column definition initialisation properties.
             "columnDefs": [
                 { 
-                "targets": [ 0 ], //first column / numbering column
-                "orderable": false, //set not orderable
+                    "targets": [ 0 ], //first column / numbering column
+                    "orderable": false, //set not orderable
+                    "data": "no"
+                },
+                {
+                    "targets": [1],
+                    "data": "title",
+                    "render": $.fn.dataTable.render.ellipsis(30)
+                },
+                {
+                    "targets": [2],
+                    "data": "desc",
+                    "render": $.fn.dataTable.render.ellipsis(30)
+                },
+                {
+                    "targets": [3],
+                    "orderable": false,
+                    "data": {
+                        url: "url",
+                        status: "status"
+                    },
+                    "render": function(data, type, row, meta){
+                        return data.status == 'live' ? '<a href="'+ data.url +'">'+ data.url +'</a> <span class="badge badge-danger">Live Broadcast</span>' : '<a href="'+ data.url +'">'+ data.url +'</a>';
+                    }
                 },
                 { 
-                "targets": [ 3 ], //first column / numbering column
-                "orderable": false, //set not orderable
-                },
+                    "targets": [4], //first column / numbering column
+                    "orderable": false, //set not orderable
+                    "data": "id",
+                    "render": function(data, type, row, meta){
+                        return '<a href="videos/edit/'+data+'" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a> &nbsp; <a href="javascript:void(0)" onclick="alert_delete(\'videos/delete/'+data+'\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>';
+                    }
+                }
             ]
         });
     });

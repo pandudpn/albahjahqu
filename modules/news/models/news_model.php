@@ -8,7 +8,7 @@ class news_model extends MY_Model {
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
-    protected $column_order  = array(null, 'title', 'name'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'title', 'description', 'status', 'created_on'); //set column field database for datatable orderable
     protected $column_search = array('title', 'description', 'DATE_FORMAT(created_on, "%d %M, %Y")'); //set column field database for datatable searchable 
     protected $order         = array('created_on' => 'desc'); // default order 
 

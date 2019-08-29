@@ -127,18 +127,9 @@ class doa extends Admin_Controller {
             $no++;
             $row   = array();
 
-            $row[] = $no;
-            $row[] = $l->name;
-
-            $btn   = '<a href="'.site_url('islami/doa/edit/'.$l->id).'" class="btn btn-success btn-sm">
-                        <i class="fa fa-pencil"></i>
-                      </a> &nbsp;';
-
-            $btn  .= '<a href="javascript:void(0)" onclick="alert_delete(\''.site_url('islami/doa/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </a>';
-
-            $row[]  = $btn;
+            $row['no']      = $no;
+            $row['name']    = $l->name;
+            $row['id']      = $l->id;
 
             $data[] = $row;
         }

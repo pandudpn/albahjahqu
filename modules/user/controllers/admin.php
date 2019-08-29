@@ -123,21 +123,11 @@ class admin extends Admin_Controller {
         foreach ($list as $l) {
             $no++;
             $row   = array();
-            $row[] = $no;
-            $row[] = $l->name;
-            $row[] = $l->phone;
-            $row[] = $l->email;
-
-            //button edit & delete
-            $btn   = '<a href="'.site_url('user/admin/edit/'.$l->id).'" class="btn btn-success btn-sm">
-                        <i class="fa fa-pencil"></i>
-                      </a> &nbsp;';
-
-            $btn  .= '<a href="#" onclick="alert_delete(\''.site_url('user/admin/delete/'.$l->id).'\')" class="btn btn-danger btn-sm">
-                        <i class="fa fa-trash"></i>
-                      </a>';
-
-            $row[] = $btn;
+            $row['no']      = $no;
+            $row['name']    = $l->name;
+            $row['phone']   = $l->phone;
+            $row['email']   = $l->email;
+            $row['id']      = $l->id;
 
             $data[] = $row;
         }

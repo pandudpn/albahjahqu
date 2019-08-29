@@ -9,7 +9,7 @@ class user_admin_model extends MY_Model {
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
-    protected $column_order  = array(null,'name', 'email'); //set column field database for datatable orderable
+    protected $column_order  = array(null,'name', 'phone', 'email'); //set column field database for datatable orderable
     protected $column_search = array('name', 'email'); //set column field database for datatable searchable 
     protected $order 		 = array('name' => 'asc'); // default order 
 

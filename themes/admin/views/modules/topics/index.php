@@ -80,12 +80,28 @@
             //Set column definition initialisation properties.
             "columnDefs": [
                 { 
-                "targets": [ 0 ], //first column / numbering column
-                "orderable": false, //set not orderable
+                    "targets": [ 0 ], //first column / numbering column
+                    "orderable": false, //set not orderable
+                    "data": "no"
+                },
+                {
+                    "targets": [1],
+                    "data": "name"
+                },
+                {
+                    "targets": [2],
+                    "data": "status",
+                    "render": function(data, type, row, meta){
+                        return data == 'enabled' ? '<span class="badge badge-success">Enabled</span>' : '<span class="badge badge-danger">Disabled</span>';
+                    }
                 },
                 { 
-                "targets": [ 3 ], //first column / numbering column
-                "orderable": false, //set not orderable
+                    "targets": [ 3 ], //first column / numbering column
+                    "orderable": false, //set not orderable,
+                    "data": "id",
+                    "render": function(data, type, row, meta){
+                        return '<a href="topics/edit/'+data+'" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a> &nbsp; <a href="javascript:void(0)" onclick="alert_delete(\'topics/delete/'+data+'\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>';
+                    }
                 },
             ]
         });
