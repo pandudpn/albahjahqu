@@ -40,6 +40,9 @@
         <!-- App CSS -->
         <link href="<?php echo $this->template->get_theme_path();?>assets/css/style.css" rel="stylesheet" type="text/css" />
 
+        <!-- mdi icons -->
+        <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.2.95/css/materialdesignicons.min.css">
+
         <!-- Modernizr js -->
         <script src="<?php echo $this->template->get_theme_path();?>assets/js/modernizr.min.js"></script>
 
@@ -253,7 +256,12 @@
                             <li class="text-muted menu-title">Islami</li>
                             <li>
                                 <a href="<?php echo site_url('/islami/doa'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-lamp"></i><span> Doa </span> 
+                                    <i class="mdi mdi-book-open-page-variant"></i><span> Doa </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('/islami/hadits_daily'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-calendar-today"></i><span> Hadits Daily </span> 
                                 </a>
                             </li>
                         </ul>
