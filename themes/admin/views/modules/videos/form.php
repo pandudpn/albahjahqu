@@ -86,7 +86,7 @@
                         </div>
                         <?php } ?>
                         <button type="submit" class="btn btn-primary waves-effect waves-light mr-2" id="save" <?php (!isset($data)) ? 'disabled' : null ?>>Save</button>
-                        <a href="<?= site_url('/youtube'); ?>" class="btn btn-danger waves-effect waves-light">Cancel</a>
+                        <a href="<?= site_url('videos'); ?>" class="btn btn-danger waves-effect waves-light">Cancel</a>
                     </form>
                 </div>
             </div>

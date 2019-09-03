@@ -35,7 +35,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
-                        <a href="<?php echo site_url('articles'); ?>" class="btn btn-danger waves-effect waves-light">
+                        <a href="<?php echo site_url('topics'); ?>" class="btn btn-danger waves-effect waves-light">
                              Cancel 
                         </a>
                     </form>
