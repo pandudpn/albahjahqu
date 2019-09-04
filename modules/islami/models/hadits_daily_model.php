@@ -2,7 +2,7 @@
 
 class hadits_daily_model extends MY_Model {
 
-    protected $table         = 'hadist_daily';
+    protected $table         = 'hadits_daily';
     protected $key           = 'id';
     protected $date_format   = 'datetime';
     protected $set_created   = true;

@@ -58,7 +58,7 @@ class hadits_daily extends Admin_Controller {
         $image          = null;
         if(!empty($_FILES['image']['name']))
         {
-        	$config['upload_path']      = './data/images/';
+        	$config['upload_path']      = './data/images';
 	        $config['allowed_types']    = '*';
 	        $config['max_size']         = 1024;
 	        $config['encrypt_name']     = true;
