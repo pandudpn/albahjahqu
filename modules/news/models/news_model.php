@@ -17,6 +17,17 @@ class news_model extends MY_Model {
         parent::__construct();
     }
 
+    public function getheadline(){
+        $this->db->from($this->table);
+        $this->db->where('type', 'news');
+        $this->db->where('status', 'headline');
+        $this->db->order_by('created_on', 'desc');
+        
+        $query  = $this->db->get();
+
+        return $query->result();
+    }
+
     public function _get_datatables_query($app_id)
     {
          

@@ -76,6 +76,16 @@ class news extends Admin_Controller {
 	            $data['image'] = site_url('data/images/news').'/'.$file['file_name'];
 	        }
         }
+
+        $headline   = $this->checkingHeadline();
+
+        if($headline){
+            $news   = $this->news->getheadline();
+
+            $newsId = end($news);
+
+            $update = $this->news->update($newsId->id, ['status' => 'no']);
+        }
         
         if(!$id){
 
@@ -125,6 +135,16 @@ class news extends Admin_Controller {
         );
         //output to json format
         echo json_encode($output);
+    }
+
+    private function checkingHeadline(){
+        $news   = $this->news->getheadline();
+
+        if(count($news) > 4){
+            return true;
+        }
+
+        return false;
     }
 
 }
