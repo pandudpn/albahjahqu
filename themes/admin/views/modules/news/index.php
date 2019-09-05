@@ -96,7 +96,16 @@
                 },
                 {
                     "targets": [3],
-                    "data": "status"
+                    "data": "status",
+                    "render": function(data, type, row, meta){
+                        let html;
+                        if(data == 'headline'){
+                            html = '<span class="badge badge-danger p-1">Headline</span>';
+                        }else{
+                            html = '<span class="badge badge-dark p-1">No</span>';
+                        }
+                        return html;
+                    }
                 },
                 {
                     "targets": [4],
