@@ -10,7 +10,7 @@ class news_model extends MY_Model {
 
     protected $column_order  = array(null, 'title', 'description', 'status', 'created_on'); //set column field database for datatable orderable
     protected $column_search = array('title', 'description', 'DATE_FORMAT(created_on, "%d %M, %Y")'); //set column field database for datatable searchable 
-    protected $order         = array('created_on' => 'desc'); // default order 
+    protected $order         = array('status' => 'desc', 'created_on' => 'desc'); // default order 
 
     public function __construct()
     {
