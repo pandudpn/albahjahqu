@@ -9,7 +9,7 @@ class dzikir_model extends MY_Model {
     protected $soft_deletes  = true;
 
     protected $column_order  = array(null, 'title'); //set column field database for datatable orderable
-    protected $column_search = array('title', 'latin'); //set column field database for datatable searchable 
+    protected $column_search = array('title', 'content_dzikir'); //set column field database for datatable searchable 
     protected $order         = array('created_on' => 'desc'); // default order 
 
     public function __construct()
