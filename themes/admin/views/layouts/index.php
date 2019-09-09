@@ -264,6 +264,11 @@
                                     <i class="mdi mdi-calendar-today"></i><span> Hadits Daily </span> 
                                 </a>
                             </li>
+                            <li>
+                                <a href="<?php echo site_url('/islami/dzikir'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-label-heart"></i><span> Dzikir </span> 
+                                </a>
+                            </li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
