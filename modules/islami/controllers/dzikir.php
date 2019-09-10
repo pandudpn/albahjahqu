@@ -30,17 +30,15 @@ class dzikir extends Admin_Controller {
 
     public function edit($id)
     {
-        $is_exist   = $this->hadist->find($id);
-
-        // $this->print_array($ayat); die;
+        $is_exist   = $this->dzikir->find($id);
 
         if($is_exist){
-            $doa = $is_exist;
+            $dzikir = $is_exist;
 
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
                 ->set('title', 'Edit Dzikir')
-                ->set('data', $doa)
+                ->set('data', $dzikir)
                 ->build('dzikir_form');
         }
     }

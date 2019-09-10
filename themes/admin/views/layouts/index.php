@@ -210,6 +210,15 @@
                                     </a>
                                 </li>
                             <?php } ?>
+                            <!-- <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="zmdi zmdi-notifications-active"></i><span> Announcements</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="list-unstyled">
+                                    <li><a href="<?php echo site_url('announcements/pushnotif'); ?>">Push Notification</a></li>
+                                </ul>
+                            </li> -->
                             <li class="text-muted menu-title">Report</li>
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect">
@@ -267,6 +276,12 @@
                             <li>
                                 <a href="<?php echo site_url('/islami/dzikir'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-label-heart"></i><span> Dzikir </span> 
+                                </a>
+                            </li>
+                            <li class="text-muted menu-title">Managements</li>
+                            <li>
+                                <a href="<?php echo site_url('/events'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-calendar-note"></i><span> Events </span> 
                                 </a>
                             </li>
                         </ul>
