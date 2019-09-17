@@ -120,13 +120,18 @@ class school extends Admin_Controller {
             if(($l->lat != 0) && ($l->long != 0)){
                 $latlong    = $l->lat.','.$l->long;
             }
+
+            $date   = '-';
+            if($l->date != NULL){
+                $date   = date('d F Y', strtotime($l->date));
+            }
             $no++;
             $row   = array();
 
             $row['no']      = $no;
             $row['type']    = ucfirst($l->type);
             $row['name']    = $l->name;
-            $row['date']    = date('d F Y', strtotime($l->date));
+            $row['date']    = $date;
             $row['sk']      = $l->no_sk;
             $row['induk']   = $l->no_induk;
             $row['address'] = $l->address.', '.$l->village_name.', '.$l->district_name.', '.$l->city_name;
