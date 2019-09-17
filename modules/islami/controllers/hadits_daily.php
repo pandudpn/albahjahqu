@@ -114,6 +114,7 @@ class hadits_daily extends Admin_Controller {
             $row['title']   = word_limiter($l->title, 5);
             $row['arab']    = word_limiter($l->text_ar, 5);
             $row['latin']   = word_limiter($l->latin, 5);
+            $row['translate']   = word_limiter($l->translate, 5);
             $row['image']   = $l->image;
             $row['edit']    = site_url('islami/hadits_daily/edit/'.$l->id);
             $row['delete']  = site_url('islami/hadits_daily/delete/'.$l->id);

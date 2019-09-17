@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Hadits Daily</h4>
+            <h4 class="page-title float-left">Hadits Harian</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('islami/hadits_daily/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> New Hadits Daily </button>
+                <i class="zmdi zmdi-collection-plus"></i> Tambah Hadits Harian </button>
             </a>
         </div>
         
@@ -30,11 +30,12 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Title</th>
-                    <th>Text Arab</th>
+                    <th>Judul</th>
+                    <th>Teks Arab</th>
                     <th>Latin</th>
-                    <th>Image</th>
-                    <th>Action</th>
+                    <th>Terjemahan</th>
+                    <th>Foto</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -100,8 +101,13 @@
                     "data": "latin",
                     "orderable": false
                 },
+                {
+                    "targets": [4],
+                    "data": "translate",
+                    "orderable": false
+                },
                 { 
-                    "targets": [4], //third column / numbering column
+                    "targets": [5], //third column / numbering column
                     "orderable": false, //set not orderable
                     "data": "image",
                     "render": function(data, type, row, meta){
@@ -109,7 +115,7 @@
                     }
                 },
                 {
-                    "targets": [5],
+                    "targets": [6],
                     "orderable": false,
                     "data": {
                         "edit": "edit",

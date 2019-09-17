@@ -3,30 +3,19 @@
 class articles_model extends MY_Model {
 
     protected $table         = 'contents';
-    protected $tableCT       = 'contents_topics';
-    protected $tableTopic    = 'topics';
+
     protected $key           = 'id';
     protected $date_format   = 'datetime';
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
     protected $column_order  = array(null, 'contents.title', 'contents.description', 'contents.created_on'); //set column field database for datatable orderable
-    protected $column_search = array('contents.title', 'contents.description', 'topics.name', 'contents.created_on'); //set column field database for datatable searchable 
+    protected $column_search = array('contents.title', 'contents.description', 'contents.created_on'); //set column field database for datatable searchable 
     protected $order         = array('contents.created_on' => 'desc'); // default order 
 
     public function __construct()
     {
         parent::__construct();
-    }
-
-    public function get_by($id){
-        $this->db->select($this->table.'.*');
-        $this->db->select($this->tableCT.'.topic_id');
-        $this->db->from($this->table);
-        $this->db->join($this->tableCT, $this->tableCT.'.content_id = '.$this->table.'.id');
-        $this->db->join($this->tableTopic, $this->tableTopic.'.id = '.$this->tableCT.'.topic_id', 'left');
-        $this->db->where($this->tableCT.'.content_id', $id);
-        return $this->db->get()->result();
     }
 
     public function _get_datatables_query($app_id)

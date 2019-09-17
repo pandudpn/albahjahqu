@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Articles</h4>
+            <h4 class="page-title float-left">Event - event</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('events/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Add Events </button>
+                <i class="zmdi zmdi-collection-plus"></i> Tambah Kegiatan </button>
             </a>
         </div>
         
@@ -30,9 +30,9 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Title</th>
-                    <th>Message</th>
-                    <th>Date</th>
+                    <th>Judul</th>
+                    <th>Pesan</th>
+                    <th>Tanggal Kegiatan</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -71,6 +71,7 @@
             "processing": true, //Feature control the processing indicator.
             "serverSide": true, //Feature control DataTables' server-side processing mode.
             "order": [], //Initial no order.
+            "scroolX": true,
 
             // Load data for the table's content from an Ajax source
             "ajax": {

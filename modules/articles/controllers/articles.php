@@ -5,8 +5,6 @@ class articles extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('articles/articles_model', 'article');
-        $this->load->model('topics/topics_model', 'topic');
-        $this->load->model('articles/contents_topics_model', 'ct');
 
         $this->load->helper('text');
 
@@ -24,19 +22,15 @@ class articles extends Admin_Controller {
 
     public function add()
     {
-        $topics = $this->topic->find_all_by(['deleted' => 0, 'app_id' => $this->app_id]);
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('title', 'Add New Article')
-            ->set('topics', $topics)
             ->build('form');
     }
 
     public function edit($id)
     {
         $is_exist = $this->article->find($id);
-        $ct       = $this->article->get_by($id);
-        $topic    = $this->topic->find_all_by(['deleted' => 0, 'app_id' => $this->app_id]);
 
         if($is_exist){
             $article = $is_exist;
@@ -44,8 +38,6 @@ class articles extends Admin_Controller {
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
                 ->set('title', 'Edit Article')
-                ->set('topics', $topic)
-                ->set('ct', $ct)
                 ->set('data', $article)
                 ->build('form');
         }
@@ -83,23 +75,12 @@ class articles extends Admin_Controller {
         }
         
         if(!$id){
-
             $insert = $this->article->insert($data);
-
-            foreach($this->input->post('topics') AS $key){
-                $in = [
-                    'content_id'    => $insert,
-                    'topic_id'      => $key
-                ];
-                $this->ct->insert($in);
-            }
-            
-            redirect(site_url('articles'), 'refresh');
         }else{
-
             $update = $this->article->update($id, $data);
-            redirect(site_url('articles'), 'refresh');
         }
+        
+        redirect(site_url('articles'), 'refresh');
     }
 
     public function delete($id)

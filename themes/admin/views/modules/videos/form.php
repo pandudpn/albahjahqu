@@ -59,7 +59,7 @@
 
                         <!-- title -->
                         <div class="form-group row">
-                            <label for="" class="col-form-label col-3">Title</label>
+                            <label for="" class="col-form-label col-3">Judul</label>
                             <div class="col-9">
                                 <input type="text" class="form-control" id="title" name="title" value="<?php echo $data->title; ?>" placeholder="Title Video">
                             </div>
@@ -67,7 +67,7 @@
 
                         <!-- desc -->
                         <div class="form-group row">
-                            <label for="" class="col-form-label col-3">Description</label>
+                            <label for="" class="col-form-label col-3">Deskripsi</label>
                             <div class="col-9">
                                 <textarea name="desc" id="desc" cols="10" rows="10" class="form-control"><?php echo $data->description; ?></textarea>
                             </div>

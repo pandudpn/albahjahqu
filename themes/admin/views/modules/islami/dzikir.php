@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('islami/dzikir/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Add Dzikir </button>
+                <i class="zmdi zmdi-collection-plus"></i> Tambah Dzikir </button>
             </a>
         </div>
         
@@ -30,9 +30,9 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Title</th>
-                    <th>Text Dzikir</th>
-                    <th>Action</th>
+                    <th>Judul</th>
+                    <th>Teks Dzikir</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

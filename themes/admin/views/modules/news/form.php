@@ -28,21 +28,21 @@
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Title</label>
+                            <label for="" class="col-3 col-form-label">Judul</label>
                             <div class="col-9">
                                 <input class="form-control" type="text" name="title" value="<?php echo $data->title; ?>" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Content</label>
+                            <label for="" class="col-3 col-form-label">Konten</label>
                             <div class="col-9">
                                 <textarea class="form-control editor" id="editor1" name="content" rows="15"><?php echo $data->description; ?></textarea>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Cover Image</label>
+                            <label for="" class="col-3 col-form-label">Foto</label>
                             <div class="col-9">
                                 <?php if(!empty($data)) { ?>
                                 <img src="<?php echo $data->image; ?>" height="200" style="margin-bottom: 5px;">
@@ -55,15 +55,15 @@
                             <label for="" class="col-3 col-form-label">Status</label>
                             <div class="col-9">
                                 <select class="form-control" name="status" id="status">
-                                    <option <?php if($data->status == 'no'){ echo 'selected'; } ?> value='no'>No Headline</option>
+                                    <option <?php if($data->status == 'no'){ echo 'selected'; } ?> value='no'>Tidak Headline</option>
                                     <option <?php if($data->status == 'headline'){ echo 'selected'; } ?> value='headline'>Headline</option>
                                 </select>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
                         <a href="<?php echo site_url('news'); ?>" class="btn btn-danger waves-effect waves-light">
-                             Cancel 
+                            Batal 
                         </a>
                     </form>
                 </div>

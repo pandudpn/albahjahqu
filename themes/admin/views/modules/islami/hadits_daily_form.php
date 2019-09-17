@@ -28,14 +28,14 @@
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Title</label>
+                            <label for="" class="col-3 col-form-label">Judul</label>
                             <div class="col-9">
                                 <input class="form-control" type="text" name="title" value="<?php echo $data->title; ?>" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Text Arab</label>
+                            <label for="" class="col-3 col-form-label">Teks Arab</label>
                             <div class="col-9">
                                 <textarea class="form-control editor" id="editor1" name="text_ar" rows="15"><?php echo $data->text_ar; ?></textarea>
                             </div>
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Image</label>
+                            <label for="" class="col-3 col-form-label">Foto</label>
                             <div class="col-9">
                                 <?php if(!empty($data)) { ?>
                                 <img src="<?php echo $data->image; ?>" height="200" style="margin-bottom: 5px;">
@@ -65,9 +65,9 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
                         <a href="<?php echo site_url('islami/hadits_daily'); ?>" class="btn btn-danger waves-effect waves-light">
-                            Cancel 
+                            Batal 
                         </a>
                     </form>
                 </div>

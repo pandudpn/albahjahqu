@@ -196,10 +196,10 @@
                     <!--- Sidemenu -->
                     <div id="sidebar-menu">
                         <ul>
-                            <li class="text-muted menu-title">General</li>
+                            <li class="text-muted menu-title">Umum</li>
                             <li>
                                 <a href="<?php echo site_url(); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-view-dashboard"></i><span> Dashboard </span> 
+                                    <i class="zmdi zmdi-view-dashboard"></i><span> Halaman Utama </span> 
                                 </a>
                             </li>
                             <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe'){ ?>
@@ -212,14 +212,14 @@
                             <?php } ?>
                             <!-- <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="zmdi zmdi-notifications-active"></i><span> Announcements</span>
+                                    <i class="zmdi zmdi-notifications-active"></i><span> Pengumuman</span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('announcements/pushnotif'); ?>">Push Notification</a></li>
+                                    <li><a href="<?php echo site_url('announcements/pushnotif'); ?>">Kirim Notifikasi</a></li>
                                 </ul>
                             </li> -->
-                            <li class="text-muted menu-title">Report</li>
+                            <li class="text-muted menu-title">Laporan</li>
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect">
                                     <i class="zmdi zmdi-file-text"></i><span> Zakat</span> 
@@ -230,30 +230,30 @@
                                     <li><a href="<?php echo site_url('reporting/transactions'); ?>">Muzaki</a></li>
                                 </ul>
                             </li>
-                            <li class="text-muted menu-title">Contents</li>
-                            <li>
+                            <li class="text-muted menu-title">Konten</li>
+                            <!-- <li>
                                 <a href="<?php echo site_url('/topics'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-lamp"></i><span> Topics </span> 
+                                    <i class="zmdi zmdi-lamp"></i><span> Topik </span> 
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="<?php echo site_url('/albums'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-image-o"></i><span> Albums </span> 
+                                    <i class="zmdi zmdi-image-o"></i><span> Album </span> 
                                 </a>
                             </li>
                             <li>
                                 <a href="<?php echo site_url('/articles'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-border-color"></i><span> Articles </span> 
+                                    <i class="zmdi zmdi-border-color"></i><span> Artikel </span> 
                                 </a>
                             </li>
                             <li>
                                 <a href="<?php echo site_url('/news'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-comment-alert"></i><span> News </span> 
+                                    <i class="zmdi zmdi-comment-alert"></i><span> Berita </span> 
                                 </a>
                             </li>
                             <li>
                                 <a href="<?php echo site_url('/videos'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-youtube-play"></i><span> Videos </span> 
+                                    <i class="zmdi zmdi-youtube-play"></i><span> Video </span> 
                                 </a>
                             </li>
                             <!-- <li class="text-muted menu-title">Management</li>
@@ -270,18 +270,49 @@
                             </li>
                             <li>
                                 <a href="<?php echo site_url('/islami/hadits_daily'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-calendar-today"></i><span> Hadits Daily </span> 
+                                    <i class="mdi mdi-calendar-today"></i><span> Hadits Harian </span> 
                                 </a>
                             </li>
                             <li>
                                 <a href="<?php echo site_url('/islami/dzikir'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-label-heart"></i><span> Dzikir </span> 
+                                    <i class="zmdi zmdi-label-heart"></i><span> Dzikir Harian </span> 
                                 </a>
                             </li>
-                            <li class="text-muted menu-title">Managements</li>
+                            <li>
+                                <a href="<?php echo site_url('/islami/ibadah'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-islam"></i><span> Ibadah </span> 
+                                </a>
+                            </li>
+                            <li class="text-muted menu-title">Manajemen</li>
                             <li>
                                 <a href="<?php echo site_url('/events'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-calendar-note"></i><span> Events </span> 
+                                    <i class="zmdi zmdi-calendar-note"></i><span> Event </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('/streaming'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-television"></i><span> Link Streaming </span> 
+                                </a>
+                            </li>
+                            <li class="text-muted menu-title">Pendidikan</li>
+                            <li>
+                                <a href="<?php echo site_url('/school'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-domain"></i><span> Sekolah </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('/school/staff'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-accounts-list"></i><span> Staff / Guru </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('/school/students'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-account-group"></i><span> Siswa / Santri </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('/alumni'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-school"></i><span> Alumni </span> 
                                 </a>
                             </li>
                         </ul>

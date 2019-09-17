@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Albums</h4>
+            <h4 class="page-title float-left">Album</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('albums/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Add Album </button>
+                <i class="zmdi zmdi-collection-plus"></i> Tambah Album </button>
             </a>
         </div>
         
@@ -26,14 +26,14 @@
 	    		<?php echo $alert['msg']; ?>
 	    	</div>
 	    	<?php } ?> 
-            <table id="datatable" class="table table-striped table-bordered table-responsive">
+            <table id="datatable" class="table table-striped table-bordered table-responsive" style="min-width: 1500px;">
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Title</th>
-                    <th>Image</th>
-                    <th>Created</th>
-                    <th>Action</th>
+                    <th>Judul</th>
+                    <th>Foto</th>
+                    <th>Tanggal Buat</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -71,6 +71,7 @@
             "processing": true, //Feature control the processing indicator.
             "serverSide": true, //Feature control DataTables' server-side processing mode.
             "order": [], //Initial no order.
+            "scrollX": true,
 
             // Load data for the table's content from an Ajax source
             "ajax": {

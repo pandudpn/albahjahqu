@@ -28,7 +28,7 @@
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Name</label>
+                            <label for="" class="col-3 col-form-label">Judul</label>
                             <div class="col-9">
                                 <input class="form-control" type="text" name="name" value="<?php echo $data->name; ?>" required>
                             </div>
@@ -81,9 +81,9 @@
                             <!-- <div id="result"></div> -->
                         </div>
 
-                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
                         <a href="<?php echo site_url('islami/doa'); ?>" class="btn btn-danger waves-effect waves-light">
-                            Cancel 
+                            Batal 
                         </a>
                     </form>
                 </div>

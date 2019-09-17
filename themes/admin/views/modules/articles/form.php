@@ -26,42 +26,23 @@
                 <div class="col-12">
                     <form method="post" action="<?php echo site_url('articles/save'); ?>" enctype="multipart/form-data">
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
-
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Topics</label>
-                            <div class="col-7">
-                                <select name="topics[]" id="topic" class="selectpicker" multiple="multiple" data-live-search="true" title="Topics">
-                                  <?php foreach($topics AS $key){ ?>
-                                    <option value="<?= $key->id; ?>"
-                                    <?php foreach($ct AS $data){
-                                        if($data->topic_id == $key->id){
-                                            echo 'selected';
-                                        }else{
-                                            null;
-                                        }
-                                    } ?>
-                                    ><?php echo $key->name ?></option>
-                                  <?php } ?>
-                                </select>
-                            </div>
-                        </div>
                         
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Title</label>
+                            <label for="" class="col-3 col-form-label">Judul</label>
                             <div class="col-9">
                                 <input class="form-control" type="text" name="title" value="<?php echo $data->title; ?>" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Content</label>
+                            <label for="" class="col-3 col-form-label">Konten</label>
                             <div class="col-9">
                                 <textarea class="form-control editor" id="editor1" name="content" rows="15"><?php echo $data->description; ?></textarea>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Cover Image</label>
+                            <label for="" class="col-3 col-form-label">Foto</label>
                             <div class="col-9">
                                 <?php if(!empty($data)) { ?>
                                 <img src="<?php echo $data->image; ?>" height="200" style="margin-bottom: 5px;">
@@ -70,9 +51,9 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary waves-effect waves-light">Save</button>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
                         <a href="<?php echo site_url('articles'); ?>" class="btn btn-danger waves-effect waves-light">
-                             Cancel 
+                            Batal 
                         </a>
                     </form>
                 </div>
@@ -83,9 +64,6 @@
 </div> 
 <script type="text/javascript">
     $(document).ready(function() {
-
-        type_change()
-        
         tinymce.init({
             selector: "#editor1",
             plugins: [
@@ -125,19 +103,4 @@
        });
 
     } );
-
-    function type_change()
-    {
-        let type = $("#for").val();
-
-        if(type == 'okbabe' || type == 'all_apps')
-        {
-            $("#for_dealer").attr('disabled', 'disabled');
-        }
-        else
-        {
-            $("#for_dealer").attr('disabled', false);
-        }
-        
-    }
 </script>

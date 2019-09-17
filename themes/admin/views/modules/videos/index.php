@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Videos</h4>
+            <h4 class="page-title float-left">Video</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('videos/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Add Video </button>
+                <i class="zmdi zmdi-collection-plus"></i> Tambah Video </button>
             </a>
         </div>
         
@@ -30,10 +30,10 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Title</th>
-                    <th>Description</th>
+                    <th>Judul</th>
+                    <th>Deskripsi</th>
                     <th>URL Youtube</th>
-                    <th>Action</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
