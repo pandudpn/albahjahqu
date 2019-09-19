@@ -55,6 +55,8 @@
                                     <option value="sma" <?= ($data->level == 'sma') ? 'selected' : null; ?>>SMA (Sekolah Menengah Atas)</option>
                                     <option value="smk" <?= ($data->level == 'smk') ? 'selected' : null; ?>>SMK (Sekolah Menengah Kejuruan)</option>
                                     <option value="universitas" <?= ($data->level == 'universitas') ? 'selected' : null; ?>>Universitas</option>
+                                    <option value="tahfidz" <?= ($data->level == 'tahfidz') ? 'selected' : null; ?>>Tahfidz</option>
+                                    <option value="tafaquh" <?= ($data->level == 'tafaquh') ? 'selected' : null; ?>>Tafaquh</option>
                                 </select>
                             </div>
                         </div>
