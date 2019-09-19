@@ -75,6 +75,10 @@ class school extends Admin_Controller {
         $lat            = $this->input->post('lat');
         $long           = $this->input->post('long');
 
+        if($date == ''){
+            $date   = null;
+        }
+
         $data = array(
             'app_id'    => $app_id,
             'name'      => $name,
