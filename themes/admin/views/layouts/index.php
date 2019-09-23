@@ -142,6 +142,30 @@
 
                     <ul class="list-inline float-right mb-0">
 
+                        <li class="list-inline-item dropdown notification-list">
+                            <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect notif-icon" data-toggle="dropdown" href="#" role="button"
+                               aria-haspopup="false" aria-expanded="false">
+                                <i class="zmdi zmdi-notifications-none noti-icon"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-lg" aria-labelledby="Preview">
+                                <!-- item-->
+                                <div class="dropdown-item noti-title">
+                                    <h5><small><span class="badge badge-danger mr-2" id="countNotif"></span>Pemberitahuan</small></h5>
+                                </div>
+                                <div id="resultNotif"></div>
+
+                                <!-- item-->
+                                <!-- <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <div class="notify-icon bg-success"><i class="icon-bubble"></i></div>
+                                    <p class="notify-details">Robert S. Taylor commented on Admin<small class="text-muted">1min ago</small></p>
+                                </a> -->
+
+                                <!-- All-->
+                                <!-- <a href="javascript:void(0);" class="dropdown-item notify-item notify-all">
+                                    View All
+                                </a> -->
+                            </div>
+                        </li>
 
                         <li class="list-inline-item dropdown notification-list">
                             <a class="nav-link waves-effect" href="javascript:void(0);">
@@ -357,6 +381,69 @@
 
             <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.core.js"></script>
             <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.app.js"></script>
+
+            <!-- request notification -->
+            <script>
+                notif();
+
+                $(document).ready(function(){
+                    setInterval(() => {
+                        notif();
+                    }, 60000);
+                });
+
+                $(document).on('click', '.notify-item', function(){
+                    var id  = $(this).data('id');
+
+                    $.ajax({
+                        url: '<?= site_url("notifications/update"); ?>',
+                        type: 'POST',
+                        data: {
+                            id: id
+                        },
+                        cache: false,
+                        dataType: 'json',
+                        success: function(result){
+                            console.log('berhasil');
+                        }
+                    })
+                });
+
+                function notif(){
+                    var URL = '<?= site_url("notifications/data"); ?>';
+
+                    $.ajax({
+                        url: URL,
+                        type: 'GET',
+                        cache: false,
+                        dataType: 'json',
+                        success: function(result){
+                            console.log(result);
+                            if(result.status == 'success'){
+                                var html;
+                                var count;
+                                if(result.data.length > 0){
+                                    count   = result.data.length;
+                                    $('.notif-icon').append('<span class="noti-icon-badge"></span>');
+
+                                    $.map(result.data, (notif, index) => {
+                                        html = '<a href="' + notif.url + '" class="dropdown-item notify-item" data-id="' + notif.id + '">';
+                                        html += '<div class="notify-icon bg-success"><i class="icon-bubble"></i></div>';
+                                        html += '<p class="notify-details" title="' + notif.text + '">' + notif.msg + '<small class="text-muted">' + notif.created + '</small></p>';
+                                        html += '</a>';
+                                    });
+                                }else{
+                                    count = 0;
+                                    html = '<div class="text-center text-secondary">Tidak ada pemberitahuan.</div>';
+                                }
+
+                                $('#countNotif').html(count);
+                                $('#resultNotif').html(html);
+                            }
+                        }
+                    })
+                }
+            </script>
         </div>
     </body>
 </html>
