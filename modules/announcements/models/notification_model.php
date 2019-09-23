@@ -1,6 +1,6 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class notification_model extends MY_Model {
+class notification_model extends MY_Model { //notification from database transactions
 
     protected $table         = 'notifications';
     protected $tableDealer   = 'dealers';
