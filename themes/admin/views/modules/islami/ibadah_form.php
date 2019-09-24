@@ -30,7 +30,7 @@
                         <div class="form-group row">
                             <label for="" class="col-form-label col-3">Kategori Ibadah</label>
                             <div class="col-9">
-                                <select name="type" id="type" class="form-control" required="required">
+                                <select name="category" id="category" class="form-control" required="required">
                                     <option value="" selected disabled>-</option>
                                     <?php foreach($cat AS $cats){ ?>
                                     <option value="<?= $cats->id; ?>" <?= ($cats->id == $data->cat_prayer_id) ? 'selected' : null ?>><?php echo $cats->name; ?></option>

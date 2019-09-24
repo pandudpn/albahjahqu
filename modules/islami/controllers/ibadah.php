@@ -53,10 +53,12 @@ class ibadah extends Admin_Controller {
     {
         $id       		= $this->input->post('id');
 
+        $category       = $this->input->post('category');
         $title          = $this->input->post('title');
         $text           = $this->input->post('text');
 
         $data = array(
+            'cat_prayer_id' => $category,
             'title'     => $title,
             'text'      => $text
         );
