@@ -23,17 +23,18 @@
 	    	<?php } ?> 
             
             <div class="row">
-                <div class="col-6">
+                <div class="col-8">
                     <form method="post" action="<?php echo site_url('islami/ibadah/save'); ?>" enctype="multipart/form-data">
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
                         <div class="form-group row">
-                            <label for="" class="col-form-label col-3">Tipe Ibadah</label>
+                            <label for="" class="col-form-label col-3">Kategori Ibadah</label>
                             <div class="col-9">
                                 <select name="type" id="type" class="form-control" required="required">
                                     <option value="" selected disabled>-</option>
-                                    <option value="wajib" <?= ($data->type == 'wajib') ? 'selected' : null ?>>Wajib</option>
-                                    <option value="sunnah" <?= ($data->type == 'sunnah') ? 'selected' : null ?>>Sunnah</option>
+                                    <?php foreach($cat AS $cats){ ?>
+                                    <option value="<?= $cats->id; ?>" <?= ($cats->id == $data->cat_prayer_id) ? 'selected' : null ?>><?php echo $cats->name; ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -66,85 +67,42 @@
 
 <script>
     $(document).ready(function(){
-        $('#date').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true
-        });
-
-        $('#province').change(function(){
-            var prov = $(this).val();
-
-            getCities(prov);
-        });
-
-        $('#city').change(function(){
-            var city    = $(this).val();
-
-            getDistrict(city);
-        });
-
-        $('#district').change(function(){
-            var district= $(this).val();
-
-            getVillage(district);
-        });
-    });
-
-    function getCities(prov){
-        $.ajax({
-            url: '<?= site_url("school/cities"); ?>/' + prov,
-            type: 'get',
-            dataType: 'json',
-            cache: false,
-            success: function(result){
-                var html = '<option value="" selected disabled>-</option>';
-                if(result.status === 'success'){
-                    $.map(result.data, (res, index) => {
-                        html += '<option value="'+ res.id + '">' + res.name + '</option>'
-                    });
+        tinymce.init({
+            selector: "#text",
+            plugins: [
+                 "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                 "searchreplace wordcount visualblocks visualchars code fullscreen",
+                 "insertdatetime nonbreaking save table directionality",
+                 "emoticons template paste textcolor colorpicker textpattern youtube"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image responsivefilemanager youtube",
+            mobile: { theme: 'mobile' },
+            extended_valid_elements: "+iframe[src|width|height|name|align|class]",
+            automatic_uploads: true,
+            image_advtab: true,
+            images_upload_url: "<?php echo site_url('articles/imgupload'); ?>",
+            file_picker_types: 'image', 
+            paste_data_images:true,
+            relative_urls: false,
+            remove_script_host: false,
+                file_picker_callback: function(cb, value, meta) {
+                     var input = document.createElement('input');
+                     input.setAttribute('type', 'file');
+                     input.setAttribute('accept', 'image/*');
+                     input.onchange = function() {
+                        var file = this.files[0];
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = function () {
+                           var id = 'post-image-' + (new Date()).getTime();
+                           var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                           var blobInfo = blobCache.create(id, file, reader.result);
+                           blobCache.add(blobInfo);
+                           cb(blobInfo.blobUri(), { title: file.name });
+                        };
+                     };
+                     input.click();
                 }
-
-                $('#city').html(html);
-            }
         });
-    }
-
-    function getDistrict(city){
-        $.ajax({
-            url: '<?= site_url("school/districts"); ?>/' + city,
-            type: 'get',
-            dataType: 'json',
-            cache: false,
-            success: function(result){
-                console.log(result);
-                var html = '<option value="" selected disabled>-</option>';
-                if(result.status === 'success'){
-                    $.map(result.data, (res, index) => {
-                        html += '<option value="'+ res.id + '">' + res.name + '</option>'
-                    });
-                }
-
-                $('#district').html(html);
-            }
-        });
-    }
-
-    function getVillage(district){
-        $.ajax({
-            url: '<?= site_url("school/villages"); ?>/' + district,
-            type: 'get',
-            dataType: 'json',
-            cache: false,
-            success: function(result){
-                var html = '<option value="" selected disabled>-</option>';
-                if(result.status === 'success'){
-                    $.map(result.data, (res, index) => {
-                        html += '<option value="'+ res.id + '">' + res.name + '</option>'
-                    });
-                }
-
-                $('#village').html(html);
-            }
-        });
-    }
+    })
 </script>

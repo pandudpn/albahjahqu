@@ -3,25 +3,36 @@
 class ibadah_model extends MY_Model {
 
     protected $table         = 'prayer';
+    protected $tableCategory = 'prayer_category';
+
     protected $key           = 'id';
     protected $date_format   = 'datetime';
     protected $set_created   = true;
     protected $set_modified  = true;
 
-    protected $column_order  = array(null, 'title', null, 'type'); //set column field database for datatable orderable
-    protected $column_search = array('name', 'type', 'text'); //set column field database for datatable searchable 
-    protected $order         = array('type' => 'desc'); // default order 
+    protected $column_order  = array(null, 'title', null, 'prayer_category.name'); //set column field database for datatable orderable
+    protected $column_search = array('name', 'prayer_category.name', 'text'); //set column field database for datatable searchable 
+    protected $order         = array('prayer_category.name' => 'asc'); // default order 
 
     public function __construct()
     {
         parent::__construct();
     }
 
+    public function prayer_category($app){
+        $this->db->where('app_id', $app);
+        
+        $query  = $this->db->get($this->tableCategory);
+        return $query->result();
+    }
+
     public function _get_datatables_query($app)
     {
         $type   = $this->input->get('type');
 
+        $this->db->select($this->table.'.*, '.$this->tableCategory.'.name AS cat_name');
         $this->db->from($this->table);
+        $this->db->join($this->tableCategory, $this->tableCategory.'.id = '.$this->table.'.cat_prayer_id');
  
         $i = 0;
      
@@ -46,10 +57,10 @@ class ibadah_model extends MY_Model {
             $i++;
         }
 
-        $this->db->where('app_id', $app);
+        $this->db->where($this->tableCategory.'.app_id', $app);
         $this->db->where($this->table.'.deleted', 0);
         if(!empty($type)){
-            $this->db->where('type', $type);
+            $this->db->where('cat_prayer_id', $type);
         }
          
         if(isset($_POST['order'])) // here order processing
@@ -84,8 +95,9 @@ class ibadah_model extends MY_Model {
     public function count_all($app)
     {
         $this->db->from($this->table);
-        $this->db->where('app_id', $app);
-        $this->db->where('deleted', 0);
+        $this->db->join($this->tableCategory, $this->tableCategory.'.id = '.$this->table.'.cat_prayer_id');
+        $this->db->where($this->tableCategory.'.app_id', $app);
+        $this->db->where($this->table.'.deleted', 0);
         
         return $this->db->count_all_results();
     }

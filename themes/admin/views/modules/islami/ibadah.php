@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Ibadah Wajib / Sunnah</h4>
+            <h4 class="page-title float-left">Panduan Ibadah</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('islami/ibadah/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Tambah Data Ibadah </button>
+                <i class="zmdi zmdi-collection-plus"></i> Tambah Data Panduan Ibadah </button>
             </a>
         </div>
         
@@ -33,8 +33,9 @@
                     <div class="col-2">
                         <select class="form-control" name="tipe" id="tipe" style="height: 40.74px;">
                             <option value="">Semua</option>
-                            <option value="wajib">Wajib</option>
-                            <option value="sunnah">Sunnah</option>
+                            <?php foreach($cat AS $cats){ ?>
+                            <option value="<?= $cats->id; ?>"><?php echo $cats->name; ?></option>
+                            <?php } ?>
                         </select>
                     </div>
                     <div class="col-2"><button class="btn btn-primary">Cari</button> <a href="<?= site_url('islami/ibadah'); ?>" class="btn btn-secondary">Reset</a></div>
@@ -47,7 +48,7 @@
                     <th>No</th>
                     <th>Judul</th>
                     <th>Teks</th>
-                    <th>Tipe</th>
+                    <th>Kategori</th>
                     <th></th>
                 </tr>
                 </thead>

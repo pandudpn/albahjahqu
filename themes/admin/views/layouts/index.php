@@ -302,10 +302,15 @@
                                     <i class="zmdi zmdi-label-heart"></i><span> Dzikir Harian </span> 
                                 </a>
                             </li>
-                            <li>
-                                <a href="<?php echo site_url('/islami/ibadah'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-islam"></i><span> Ibadah </span> 
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="mdi mdi-islam"></i><span> Panduan Ibadah </span> 
+                                    <span class="menu-arrow"></span>
                                 </a>
+                                <ul class="list-unstyled">
+                                    <li><a href="<?php echo site_url('islami/category_ibadah'); ?>">Kategori Ibadah</a></li>
+                                    <li><a href="<?php echo site_url('islami/ibadah'); ?>">List Panduan Ibadah</a></li>
+                                </ul>
                             </li>
                             <li class="text-muted menu-title">Manajemen</li>
                             <li>
