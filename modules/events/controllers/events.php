@@ -252,9 +252,10 @@ class events extends Admin_Controller {
         $url     = 'https://fcm.googleapis.com/fcm/send';
         $message = array("title" => $title, "body" => $msg, "click_action" => 'popup');
         $fields  = array(
-            'registration_ids'  => $gcm_ids,
-            'notification'      => $message,
-            'data'              => array("notification_id" => $notification_id, "title" => $title, "message" => $msg)
+            'registration_ids'          => $gcm_ids,
+            'restricted_package_name'   => $this->app_id,
+            'notification'              => $message,
+            'data'                      => array("notification_id" => $notification_id, "title" => $title, "message" => $msg)
         );
 
         $api_key = 'AAAAf_Rr2ig:APA91bGe0MVf85hli70S__JHZMjIhZILomI9WkEv_wyLqf6K8mm2A4oHsmKGsS9UJr4CniLF518W9ECdncTtUhc-f-h8NFPRDCLU0M5nAM_bpeDxYPRk2U_OA1b8F3zUBOQHiMWmVMud';
