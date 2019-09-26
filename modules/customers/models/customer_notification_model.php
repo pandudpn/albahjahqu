@@ -1,8 +1,8 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class customer_session_model extends MY_Model {
+class customer_notification_model extends MY_Model {
 
-	protected $table         	= 'customer_notification';
+	protected $table         	= 'customer_notifications';
 	protected $table_customer   = 'customers';
     protected $key           	= 'id';
     protected $date_format   	= 'datetime';
@@ -32,7 +32,7 @@ class customer_session_model extends MY_Model {
 
     public function get_all_fcm_users($offset, $limit, $dealer_id)
     {
-        $transaction    = $this->load->database('transactions', TRUE);
+			$transaction    = $this->load->database('transactions', TRUE);
 
     	$transaction->select('customer_sessions.cus_fcm_id');
     	$transaction->from($this->table_customer);
@@ -46,9 +46,23 @@ class customer_session_model extends MY_Model {
     		$transaction->where('customers.dealer_id', $dealer_id);
     	}
 		
-		$transaction->limit($limit);
-		$transaction->offset($offset);
+			$transaction->limit($limit);
+			$transaction->offset($offset);
 
-		return $transaction->get()->result();
-    }
+			return $transaction->get()->result();
+		}
+		
+		public function insert($data=array()){
+			if(!empty($data)){
+				$transaction	= $this->load->database('transactions', TRUE);
+
+				$transaction->insert($this->table, $data);
+
+				if($transaction->affected_rows() > 0){
+					return $transaction->insert_id();
+				}
+				return false;
+			}
+			return false;
+		}
 }
