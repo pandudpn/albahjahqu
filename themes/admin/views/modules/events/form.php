@@ -82,9 +82,9 @@
 
 <script>
     $(document).ready(function(){
-        $('#date').datepicker({
-            format: 'yyyy-mm-dd',
-            autoclose: true
+        $('#date').datetimepicker({
+            format: 'Y-m-d H:i',
+            step: 30
         });
 
         tinymce.init({
@@ -139,11 +139,11 @@
             success: function(result){
                 if(result.status == 'success'){
                     var html = '<div class="row mt-3">';
-                        html += '<div class="col-1 mb-3">Tanggal</div>';
-                        html += '<div class="col-11 mb-3">Event</div>'
+                        html += '<div class="col-2 mb-3">Tanggal</div>';
+                        html += '<div class="col-10 mb-3">Event</div>'
                         $.map(result.data, (res, index) => {
-                            html += '<div class="col-1 text-center"><h5>' + res.date + '</h5></div>';
-                            html += '<div class="col-11"><span>' + res.event + '</span></div>'
+                            html += '<div class="col-2 text-center"><h5>' + res.date + '</h5></div>';
+                            html += '<div class="col-10"><span>' + res.event + '</span></div>'
                         });
                         html += '</div>';
                 }else if(result.stats == 'error'){
