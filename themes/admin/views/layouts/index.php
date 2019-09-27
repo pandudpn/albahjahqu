@@ -336,7 +336,7 @@
                                     <i class="mdi mdi-domain"></i><span> Sekolah </span> 
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="<?php echo site_url('/school/staff'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-accounts-list"></i><span> Staff / Guru </span> 
                                 </a>
@@ -350,7 +350,7 @@
                                 <a href="<?php echo site_url('/alumni'); ?>" class="waves-effect">
                                     <i class="mdi mdi-school"></i><span> Alumni </span> 
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                         <div class="clearfix"></div>
                     </div>
