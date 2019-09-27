@@ -46,38 +46,36 @@ class reminder extends Admin_Controller {
 
         $app_id         = $this->app_id;
         $title          = $this->input->post('title');
-        $message        = $this->input->post('message');
+        $quote          = $this->input->post('quote');
         $date           = $this->input->post('date');
+        $alarm          = $this->input->post('alarm');
 
         $data = array(
-            'app_id'    => $app_id,
             'title'     => $title,
-            'message'   => $message,
-            'date'      => $date
+            'quote'     => $quote,
+            'alarm'     => $alarm
         );
         
         if(!$id){
 
-            $insert = $this->event->insert($data);
+            $insert = $this->reminder->insert($data);
             
-            redirect(site_url('events'), 'refresh');
+            redirect(site_url('reminder'), 'refresh');
         }else{
 
-            $update = $this->event->update($id, $data);
-            redirect(site_url('events'), 'refresh');
+            $update = $this->reminder->update($id, $data);
+            redirect(site_url('reminder'), 'refresh');
         }
     }
 
     public function delete($id)
     {
-        $delete = $this->event->delete($id);
-
-        redirect(site_url('events'), 'refresh');
+        redirect(site_url('reminder'), 'refresh');
     }
 
     public function datatables()
     {
-        $list = $this->event->get_datatables($this->app_id);
+        $list = $this->reminder->get_datatables($this->app_id);
         
         $data = array();
         $no   = $_POST['start'];
@@ -87,19 +85,19 @@ class reminder extends Admin_Controller {
             $row   = array();
 
             $row['no']      = $no;
+            $row['name']    = $l->reminder_name;
             $row['title']   = $l->title;
-            $row['msg']     = word_limiter($l->message);
-            $row['date']    = date('j F, Y', strtotime($l->date));
-            $row['edit']    = site_url('events/edit/'.$l->id);
-            $row['delete']  = site_url('events/delete/'.$l->id);
+            $row['quote']   = $l->quote;
+            $row['alarm']   = $l->alarm;
+            $row['edit']    = site_url('reminder/edit/'.$l->id);
 
             $data[] = $row;
         }
  
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->event->count_all($this->app_id),
-            "recordsFiltered"   => $this->event->count_filtered($this->app_id),
+            "recordsTotal"      => $this->reminder->count_all($this->app_id),
+            "recordsFiltered"   => $this->reminder->count_filtered($this->app_id),
             "data"              => $data,
         );
         //output to json format

@@ -325,6 +325,11 @@
                                     <i class="mdi mdi-television"></i><span> Link Streaming </span> 
                                 </a>
                             </li>
+                            <li>
+                                <a href="<?php echo site_url('/reminder'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-alarm"></i><span> Notifikasi Pengingat </span> 
+                                </a>
+                            </li>
                             <li class="text-muted menu-title">Pendidikan</li>
                             <li>
                                 <a href="<?php echo site_url('/school'); ?>" class="waves-effect">
