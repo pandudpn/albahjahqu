@@ -76,6 +76,7 @@ class school_model extends MY_Model {
 
         //deleted = 0
         $this->db->where($this->db->database.'.'.$this->table.'.deleted', 0);
+        $this->db->where($this->db->database.'.'.$this->table.'.app_id', $app_id);
 
         if(!empty($type)){
             $this->db->where($this->db->database.'.'.$this->table.'.type', $type);
@@ -94,7 +95,7 @@ class school_model extends MY_Model {
  
     public function get_datatables($app_id)
     {
-        $this->_get_datatables_query($app_id, $where);
+        $this->_get_datatables_query($app_id);
 
         if($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
@@ -114,6 +115,7 @@ class school_model extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->where('deleted', 0);
+        $this->db->where('app_id', $app_id);
 
         if(!empty($where)){
             foreach($where AS $key => $val){
