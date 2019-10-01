@@ -14,9 +14,9 @@ class school_model extends MY_Model {
     protected $set_created      = true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'obb_comm.school.name', 'type'); //set column field database for datatable orderable
-    protected $column_search = array('obb_comm.school.name', 'type', 'address', 'no_sk', 'no_induk'); //set column field database for datatable searchable 
-    protected $order         = array('type' => 'ASC', 'obb_comm.school.name' => 'ASC'); // default order 
+    protected $column_order  = array(null, 'obb_partners.school.name', 'type'); //set column field database for datatable orderable
+    protected $column_search = array('obb_partners.school.name', 'type', 'address', 'no_sk', 'no_induk'); //set column field database for datatable searchable 
+    protected $order         = array('type' => 'ASC', 'obb_partners.school.name' => 'ASC'); // default order 
 
     public function __construct()
     {
