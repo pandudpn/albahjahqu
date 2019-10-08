@@ -11,6 +11,10 @@ class streaming extends Admin_Controller {
         $this->app_id   = $this->session->userdata('user')->app_id;
 
         $this->check_login();
+
+        if($this->session->userdata('user')->dealer_id == 41) {
+            redirect(site_url());
+        }
     }
 
     public function index()

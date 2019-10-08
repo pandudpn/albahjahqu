@@ -31,9 +31,9 @@
                 <tr>
                     <th>No</th>
                     <th>Judul</th>
-                    <th>Teks Arab</th>
-                    <th>Latin</th>
-                    <th>Terjemahan</th>
+                    <!-- <th>Teks Arab</th>
+                    <th>Latin</th> -->
+                    <th>Hadits</th>
                     <th>Foto</th>
                     <th></th>
                 </tr>
@@ -91,23 +91,23 @@
                     "targets": [1],
                     "data": "title"
                 },
+                // {
+                //     "targets": [2],
+                //     "data": "arab",
+                //     "orderable": false
+                // },
+                // {
+                //     "targets": [3],
+                //     "data": "latin",
+                //     "orderable": false
+                // },
                 {
                     "targets": [2],
-                    "data": "arab",
-                    "orderable": false
-                },
-                {
-                    "targets": [3],
-                    "data": "latin",
-                    "orderable": false
-                },
-                {
-                    "targets": [4],
                     "data": "translate",
                     "orderable": false
                 },
                 { 
-                    "targets": [5], //third column / numbering column
+                    "targets": [3], //third column / numbering column
                     "orderable": false, //set not orderable
                     "data": "image",
                     "render": function(data, type, row, meta){
@@ -115,7 +115,7 @@
                     }
                 },
                 {
-                    "targets": [6],
+                    "targets": [4],
                     "orderable": false,
                     "data": {
                         "edit": "edit",

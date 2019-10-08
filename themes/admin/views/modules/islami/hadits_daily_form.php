@@ -34,22 +34,22 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Teks Arab</label>
                             <div class="col-9">
                                 <textarea class="form-control editor" id="editor1" name="text_ar" rows="15"><?php echo $data->text_ar; ?></textarea>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="form-group row">
+                        <!-- <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Latin</label>
                             <div class="col-9">
                                 <textarea class="form-control editor" name="latin" rows="15"><?php echo $data->latin; ?></textarea>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Translate</label>
+                            <label for="" class="col-3 col-form-label">Hadits</label>
                             <div class="col-9">
                                 <textarea class="form-control editor" name="translate" rows="15"><?php echo $data->translate; ?></textarea>
                             </div>
