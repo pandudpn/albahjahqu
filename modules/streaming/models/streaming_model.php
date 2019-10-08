@@ -17,7 +17,7 @@ class streaming_model extends MY_Model {
         parent::__construct();
     }
 
-    public function _get_datatables_query()
+    public function _get_datatables_query($app)
     {
          
         $this->db->from($this->table);
@@ -47,6 +47,7 @@ class streaming_model extends MY_Model {
 
         //deleted = 0
         $this->db->where('deleted', 0);
+        $this->db->where('app_id', $app);
          
         if(isset($_POST['order'])) // here order processing
         {
@@ -59,9 +60,9 @@ class streaming_model extends MY_Model {
         }
     }
  
-    public function get_datatables()
+    public function get_datatables($app)
     {
-        $this->_get_datatables_query();
+        $this->_get_datatables_query($app);
 
         if($_POST['length'] != -1)
             $this->db->limit($_POST['length'], $_POST['start']);
@@ -70,17 +71,18 @@ class streaming_model extends MY_Model {
         return $query->result();
     }
  
-    public function count_filtered()
+    public function count_filtered($app)
     {
-        $this->_get_datatables_query();
+        $this->_get_datatables_query($app);
         $query = $this->db->get();
         return $query->num_rows();
     }
  
-    public function count_all()
+    public function count_all($app)
     {
         $this->db->from($this->table);
         $this->db->where('deleted', 0);
+        $this->db->where('app_id', $app);
         
         return $this->db->count_all_results();
     }

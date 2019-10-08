@@ -94,7 +94,7 @@ class streaming extends Admin_Controller {
 
     public function datatables()
     {
-        $list = $this->streaming->get_datatables();
+        $list = $this->streaming->get_datatables($this->app_id);
         
         $data = array();
         $no   = $_POST['start'];
@@ -115,8 +115,8 @@ class streaming extends Admin_Controller {
  
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->streaming->count_all(),
-            "recordsFiltered"   => $this->streaming->count_filtered(),
+            "recordsTotal"      => $this->streaming->count_all($this->app_id),
+            "recordsFiltered"   => $this->streaming->count_filtered($this->app_id),
             "data"              => $data,
         );
         //output to json format
