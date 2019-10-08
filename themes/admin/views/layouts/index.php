@@ -320,11 +320,13 @@
                                     <i class="zmdi zmdi-calendar-note"></i><span> Event </span> 
                                 </a>
                             </li>
-                            <li>
-                                <a href="<?php echo site_url('/streaming'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-television"></i><span> Link Streaming </span> 
-                                </a>
-                            </li>
+                            <?php if($this->session->userdata('user')->dealer_id != 41){ ?>
+                                <li>
+                                    <a href="<?php echo site_url('/streaming'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-television"></i><span> Link Streaming </span> 
+                                    </a>
+                                </li>
+                            <?php } ?>
                             <li>
                                 <a href="<?php echo site_url('/reminder'); ?>" class="waves-effect">
                                     <i class="mdi mdi-alarm"></i><span> Notifikasi Pengingat </span> 
@@ -336,21 +338,23 @@
                                     <i class="mdi mdi-domain"></i><span> Sekolah </span> 
                                 </a>
                             </li>
-                            <!-- <li>
-                                <a href="<?php echo site_url('/school/staff'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-accounts-list"></i><span> Staff / Guru </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/school/students'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-account-group"></i><span> Siswa / Santri </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/alumni'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-school"></i><span> Alumni </span> 
-                                </a>
-                            </li> -->
+                            <?php if($this->session->userdata('user') == 41){ ?>
+                                <li>
+                                    <a href="<?php echo site_url('/school/staff'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-accounts-list"></i><span> Staff / Guru </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/school/students'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-account-group"></i><span> Siswa / Santri </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/alumni'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-school"></i><span> Alumni </span> 
+                                    </a>
+                                </li>
+                            <?php } ?>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
