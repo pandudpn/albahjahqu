@@ -24,7 +24,7 @@ class hadits_daily extends Admin_Controller {
     {
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
-            ->set('title', 'New Hadits Daily')
+            ->set('title', 'Hadits Harian')
             ->build('hadits_daily_form');
     }
 
@@ -39,7 +39,7 @@ class hadits_daily extends Admin_Controller {
 
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
-                ->set('title', 'Edit Hadits Daily')
+                ->set('title', 'Ubah Hadits Harian')
                 ->set('data', $doa)
                 ->build('hadits_daily_form');
         }
@@ -55,7 +55,14 @@ class hadits_daily extends Admin_Controller {
         $latin          = $this->input->post('latin');
         $translate      = $this->input->post('translate');
 
-        $image          = null;
+        $data = array(
+            'app_id'    => $app_id,
+            'title'     => $title,
+            // 'text_ar'   => $ar,
+            // 'latin'     => $latin,
+            'translate' => $translate
+        );
+
         if(!empty($_FILES['image']['name']))
         {
         	$config['upload_path']      = './data/images';
@@ -68,20 +75,9 @@ class hadits_daily extends Admin_Controller {
 	            
 	        } else {
 	            $file   = $this->upload->data();
-	            $image  = site_url('data/images').'/'.$file['file_name'];
+	            $data['image']  = site_url('data/images').'/'.$file['file_name'];
 	        }
         }
-
-        $data = array(
-            'app_id'    => $app_id,
-            'title'     => $title,
-            'text_ar'   => $ar,
-            'latin'     => $latin,
-            'translate' => $translate,
-            'image'     => $image
-        );
-
-
         
         if(!$id){
             $insert = $this->hadist->insert($data);

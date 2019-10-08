@@ -320,11 +320,13 @@
                                     <i class="zmdi zmdi-calendar-note"></i><span> Event </span> 
                                 </a>
                             </li>
-                            <li>
-                                <a href="<?php echo site_url('/streaming'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-television"></i><span> Link Streaming </span> 
-                                </a>
-                            </li>
+                            <?php if($this->session->userdata('user')->dealer_id != 41){ ?>
+                                <li>
+                                    <a href="<?php echo site_url('/streaming'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-television"></i><span> Link Streaming </span> 
+                                    </a>
+                                </li>
+                            <?php } ?>
                             <li>
                                 <a href="<?php echo site_url('/reminder'); ?>" class="waves-effect">
                                     <i class="mdi mdi-alarm"></i><span> Notifikasi Pengingat </span> 
@@ -336,21 +338,23 @@
                                     <i class="mdi mdi-domain"></i><span> Sekolah </span> 
                                 </a>
                             </li>
-                            <!-- <li>
-                                <a href="<?php echo site_url('/school/staff'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-accounts-list"></i><span> Staff / Guru </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/school/students'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-account-group"></i><span> Siswa / Santri </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/alumni'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-school"></i><span> Alumni </span> 
-                                </a>
-                            </li> -->
+                            <?php if($this->session->userdata('user')->dealer_id == 41){ ?>
+                                <li>
+                                    <a href="<?php echo site_url('/school/staff'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-accounts-list"></i><span> Staff / Guru </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/school/students'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-account-group"></i><span> Siswa / Santri </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/alumni'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-school"></i><span> Alumni </span> 
+                                    </a>
+                                </li>
+                            <?php } ?>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -421,6 +425,12 @@
                     })
                 });
 
+                $(document).on('click', '#updateAll', function(e) {
+                    e.preventDefault();
+
+                    updateAll();
+                });
+
                 function notif(){
                     var URL = '<?= site_url("notifications/data"); ?>';
 
@@ -432,26 +442,47 @@
                         success: function(result){
                             console.log(result);
                             if(result.status == 'success'){
-                                var html;
+                                var html = "";
                                 var count;
                                 if(result.data.length > 0){
                                     count   = result.data.length;
                                     $('.notif-icon').append('<span class="noti-icon-badge"></span>');
 
                                     $.map(result.data, (notif, index) => {
-                                        html = '<a href="' + notif.url + '" class="dropdown-item notify-item" data-id="' + notif.id + '">';
+                                        html += '<a href="' + notif.url + '" class="dropdown-item notify-item" data-id="' + notif.id + '">';
                                         html += '<div class="notify-icon bg-success"><i class="icon-bubble"></i></div>';
                                         html += '<p class="notify-details" title="' + notif.text + '">' + notif.msg + '<small class="text-muted">' + notif.created + '</small></p>';
                                         html += '</a>';
                                     });
+
+                                    if(result.data.length > 1) {
+                                        html += '<div class="dropdown-divider"></div>';
+                                        html += '<a href="#" class="dropdown-item notify-item text-center" id="updateAll">';
+                                        html += '<p class="notify-details">Tandai sudah dibaca</p>';
+                                        html += '</a>';
+                                    }
                                 }else{
                                     count = 0;
                                     html = '<div class="text-center text-secondary">Tidak ada pemberitahuan.</div>';
+
+                                    $('.noti-icon-badge').remove();
                                 }
 
                                 $('#countNotif').html(count);
                                 $('#resultNotif').html(html);
                             }
+                        }
+                    })
+                }
+
+                function updateAll() {
+                    $.ajax({
+                        url: '<?php echo site_url("notifications/updateAll"); ?>',
+                        type: 'POST',
+                        cache: false,
+                        dataType: 'json',
+                        success: function(result) {
+                            notif();
                         }
                     })
                 }
