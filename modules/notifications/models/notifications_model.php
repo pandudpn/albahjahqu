@@ -26,4 +26,18 @@ class notifications_model extends MY_Model {
         $query  = $this->db->get($this->table);
         return $query->result();
     }
+
+    public function updateAll($where=array(), $data=array()) {
+        if(!empty($where)) {
+            foreach($where AS $key => $val) {
+                $this->db->where($key, $val);
+            }
+        }
+        
+        if($this->db->update($this->table, $data)){
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -23,9 +23,31 @@ class notifications extends Admin_Controller {
         $update = $this->notification->update($id, $data);
     }
 
+    public function updateAll(){
+        $where  = [
+            'app_id'    => $this->app_id,
+            'status'    => 'no',
+            'deleted'   => 0
+        ];
+
+        $data   = [
+            'status'    => 'read'
+        ];
+
+        $update = $this->notification->updateAll($where, $data);
+
+        $status = 500;
+
+        if($update) {
+            $status  = 204;
+        }
+
+        echo json_encode(['status' => $status]);
+    }
+
     public function data(){
         $notif  = $this->notification->get_all([
-            'app_id'    => 'com.dekape.okbabe.albahjah',
+            'app_id'    => $this->app_id,
             'status'    => 'no',
             'deleted'   => 0
         ]);
