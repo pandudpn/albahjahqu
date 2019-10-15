@@ -341,7 +341,7 @@
                             <?php if($this->session->userdata('user')->dealer_id == 41){ ?>
                                 <li>
                                     <a href="<?php echo site_url('/community/staff'); ?>" class="waves-effect">
-                                        <i class="zmdi zmdi-accounts-list"></i><span> Staff / Guru </span> 
+                                        <i class="zmdi zmdi-accounts-list"></i><span> Pengurus / Guru </span> 
                                     </a>
                                 </li>
                                 <li>
@@ -349,10 +349,21 @@
                                         <i class="mdi mdi-account-group"></i><span> Siswa / Santri </span> 
                                     </a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="<?php echo site_url('/community/graduate'); ?>" class="waves-effect">
                                         <i class="mdi mdi-school"></i><span> Alumni </span> 
                                     </a>
+                                </li> -->
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="mdi mdi-islam"></i><span> Penghargaan </span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('community/achievement'); ?>">Sekolah / Kantor</a></li>
+                                        <li><a href="<?php echo site_url('community/achievement_student'); ?>">Siswa / Santri</a></li>
+                                        <li><a href="<?php echo site_url('community/achievement_staff'); ?>">Pengurus / Guru</a></li>
+                                    </ul>
                                 </li>
                             <?php } ?>
                         </ul>
