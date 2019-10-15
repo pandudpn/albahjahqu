@@ -332,25 +332,25 @@
                                     <i class="mdi mdi-alarm"></i><span> Notifikasi Pengingat </span> 
                                 </a>
                             </li>
-                            <li class="text-muted menu-title">Pendidikan</li>
+                            <li class="text-muted menu-title">Manajemen</li>
                             <li>
-                                <a href="<?php echo site_url('/school'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-domain"></i><span> Sekolah </span> 
+                                <a href="<?php echo site_url('/community/units'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-domain"></i><span> Sekolah / Kantor </span> 
                                 </a>
                             </li>
                             <?php if($this->session->userdata('user')->dealer_id == 41){ ?>
                                 <li>
-                                    <a href="<?php echo site_url('/school/staff'); ?>" class="waves-effect">
+                                    <a href="<?php echo site_url('/community/staff'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-accounts-list"></i><span> Staff / Guru </span> 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo site_url('/school/students'); ?>" class="waves-effect">
+                                    <a href="<?php echo site_url('/community/students'); ?>" class="waves-effect">
                                         <i class="mdi mdi-account-group"></i><span> Siswa / Santri </span> 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo site_url('/alumni'); ?>" class="waves-effect">
+                                    <a href="<?php echo site_url('/community/graduate'); ?>" class="waves-effect">
                                         <i class="mdi mdi-school"></i><span> Alumni </span> 
                                     </a>
                                 </li>
