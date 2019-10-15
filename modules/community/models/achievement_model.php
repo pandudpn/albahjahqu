@@ -1,8 +1,8 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class staff_model extends MY_Model {
+class achievement_model extends MY_Model {
 
-    protected $table            = 'staff';
+    protected $table            = 'achievement_unit';
     protected $tableUnit        = 'units';
 
     protected $key              = 'id';
@@ -11,49 +11,18 @@ class staff_model extends MY_Model {
     protected $set_created      = true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'unit_id', 'staff.name'); //set column field database for datatable orderable
-    protected $column_search = array('units.name', 'nis', 'staff.name', 'gender', 'staff.address'); //set column field database for datatable searchable 
-    protected $order         = array('unit_id' => 'ASC', 'staff.name' => 'ASC'); // default order 
+    protected $column_order  = array(null, 'unit_id', null, 'achievement_unit.date', 'rank'); //set column field database for datatable orderable
+    protected $column_search = array('units.name', 'achievement_unit.name', 'achievement_unit.date'); //set column field database for datatable searchable 
+    protected $order         = array('date' => 'DESC', 'achievement_unit.name' => 'ASC'); // default order 
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function get_position($where=array()) {
-        $this->db->select('DISTINCT(position) AS position', FALSE);
-        $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
-        $this->db->where($this->table.'.deleted', 0);
-
-        if(!empty($where)){
-            foreach($where AS $key => $val) {
-                $this->db->where($key, $val);
-            }
-        }
-
-        $query  = $this->db->get();
-        return $query->result();
-    }
-
-    public function get_all($where=array()) {
-        $this->db->select($this->table.'.*');
-        $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
-
-        if(!empty($where)) {
-            foreach($where AS $key => $val) {
-                $this->db->where($key, $val);
-            }
-        }
-
-        $query  = $this->db->get();
-        return $query->result();
-    }
-
     public function _get_datatables_query($app_id)
     {
-        $position = $this->input->get('position');
+        $type = $this->input->get('type');
 
         $this->db->select($this->table.'.*, '.$this->tableUnit.'.name AS unit_name');
         $this->db->from($this->table);
@@ -85,10 +54,9 @@ class staff_model extends MY_Model {
         //deleted = 0
         $this->db->where($this->table.'.deleted', 0);
         $this->db->where($this->tableUnit.'.app_id', $app_id);
-        $this->db->where($this->table.'.status !=', 'no');
 
-        if(!empty($position)){
-            $this->db->where($this->table.'.position', $position);
+        if(!empty($type)){
+            $this->db->where($this->tableUnit.'.type', $type);
         }
 
          
@@ -129,7 +97,6 @@ class staff_model extends MY_Model {
         $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
         $this->db->where($this->table.'.deleted', 0);
         $this->db->where($this->tableUnit.'.app_id', $app_id);
-        $this->db->where($this->table.'.status !=', 'no');
         
         return $this->db->count_all_results();
     }

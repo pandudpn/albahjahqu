@@ -1,9 +1,10 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
 
-class staff_model extends MY_Model {
+class achievement_student_model extends MY_Model {
 
-    protected $table            = 'staff';
+    protected $table            = 'achievement_student';
     protected $tableUnit        = 'units';
+    protected $tableStudent     = 'students';
 
     protected $key              = 'id';
     protected $date_format      = 'datetime';
@@ -11,20 +12,20 @@ class staff_model extends MY_Model {
     protected $set_created      = true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'unit_id', 'staff.name'); //set column field database for datatable orderable
-    protected $column_search = array('units.name', 'nis', 'staff.name', 'gender', 'staff.address'); //set column field database for datatable searchable 
-    protected $order         = array('unit_id' => 'ASC', 'staff.name' => 'ASC'); // default order 
+    protected $column_order  = array(null, 'unit_id', 'students.name', null, 'achievement_student.date', 'rank'); //set column field database for datatable orderable
+    protected $column_search = array('units.name', 'achievement_student.name', 'student.name', 'achievement_student.date'); //set column field database for datatable searchable 
+    protected $order         = array('date' => 'DESC', 'achievement_student.name' => 'ASC'); // default order 
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function get_position($where=array()) {
-        $this->db->select('DISTINCT(position) AS position', FALSE);
-        $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
-        $this->db->where($this->table.'.deleted', 0);
+    public function get_unit($student, $where=array()) {
+        $this->db->select($this->tableUnit.'.*');
+        $this->db->from($this->tableUnit);
+        $this->db->join($this->tableStudent, $this->tableStudent.'.unit_id = '.$this->tableUnit.'.id');
+        $this->db->join($this->table, $this->table.'.student_id = '.$this->tableStudent.'.id');
 
         if(!empty($where)){
             foreach($where AS $key => $val) {
@@ -32,32 +33,21 @@ class staff_model extends MY_Model {
             }
         }
 
-        $query  = $this->db->get();
-        return $query->result();
-    }
+        $this->db->where($this->table.'.student_id', $student);
+        $this->db->where($this->table.'.deleted', 0);
 
-    public function get_all($where=array()) {
-        $this->db->select($this->table.'.*');
-        $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
-
-        if(!empty($where)) {
-            foreach($where AS $key => $val) {
-                $this->db->where($key, $val);
-            }
-        }
-
-        $query  = $this->db->get();
+        $query   = $this->db->get();
         return $query->result();
     }
 
     public function _get_datatables_query($app_id)
     {
-        $position = $this->input->get('position');
+        $type = $this->input->get('type');
 
-        $this->db->select($this->table.'.*, '.$this->tableUnit.'.name AS unit_name');
+        $this->db->select($this->table.'.*, '.$this->tableUnit.'.name AS unit_name, '.$this->tableStudent.'.name AS student_name');
         $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
+        $this->db->join($this->tableStudent, $this->tableStudent.'.id = '.$this->table.'.student_id');
+        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->tableStudent.'.unit_id');
  
         $i = 0;
      
@@ -85,10 +75,9 @@ class staff_model extends MY_Model {
         //deleted = 0
         $this->db->where($this->table.'.deleted', 0);
         $this->db->where($this->tableUnit.'.app_id', $app_id);
-        $this->db->where($this->table.'.status !=', 'no');
 
-        if(!empty($position)){
-            $this->db->where($this->table.'.position', $position);
+        if(!empty($type)){
+            $this->db->where($this->tableUnit.'.type', $type);
         }
 
          
@@ -126,10 +115,10 @@ class staff_model extends MY_Model {
     public function count_all($app_id)
     {
         $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
+        $this->db->join($this->tableStudent, $this->tableStudent.'.id = '.$this->table.'.student_id');
+        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->tableStudent.'.unit_id');
         $this->db->where($this->table.'.deleted', 0);
         $this->db->where($this->tableUnit.'.app_id', $app_id);
-        $this->db->where($this->table.'.status !=', 'no');
         
         return $this->db->count_all_results();
     }

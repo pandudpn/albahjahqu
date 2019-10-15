@@ -20,6 +20,21 @@ class student_model extends MY_Model {
         parent::__construct();
     }
 
+    public function get_all($where=array()) {
+        $this->db->select($this->table.'.*');
+        $this->db->from($this->table);
+        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
+
+        if(!empty($where)) {
+            foreach($where AS $key => $val) {
+                $this->db->where($key, $val);
+            }
+        }
+
+        $query  = $this->db->get();
+        return $query->result();
+    }
+
     public function _get_datatables_query($app_id)
     {
         $type = $this->input->get('type');
