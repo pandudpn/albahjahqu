@@ -5,6 +5,7 @@ class units extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('community/units_model', 'unit');
+        $this->load->model('community/unit_photos_model', 'unit_photo');
         $this->load->model('geo/geo_services_model', 'geo');
 
         $this->load->helper('text');
@@ -97,8 +98,61 @@ class units extends Admin_Controller {
         
         if(!$id){
             $insert = $this->unit->insert($data);
+
+            if(!empty($_FILES['image']['name'])) {
+                $number_files   = sizeof($_FILES['image']['tmp_name']);
+                $files          = $_FILES['image'];
+    
+                for($i = 0; $i < $number_files; $i++) {
+                    $_FILES['image']['name']    = $files['name'][$i];
+                    $_FILES['image']['type']    = $files['type'][$i];
+                    $_FILES['image']['tmp_name']= $files['tmp_name'][$i];
+                    $_FILES['image']['error']   = $files['error'][$i];
+                    $_FILES['image']['size']    = $files['size'][$i];
+    
+                    $config['upload_path']      = './data/images/units/';
+                    $config['allowed_types']    = 'jpg|png|gif|jpeg';
+                    $config['encrypt_name']     = true;
+    
+                    $this->load->library('upload', $config);
+    
+                    if($this->upload->do_upload('image')) {
+                        $file   = $this->upload->data();
+                        $image  = site_url('data/images/units').'/'.$file['file_name'];
+    
+                        $in     = $this->unit_photo->insert(['unit_id' => $insert, 'photo' => $image]);
+                    }
+                }
+            }
+
         }else{
             $update = $this->unit->update($id, $data);
+            
+            if(!empty($_FILES['image']['name'])) {
+                $number_files   = sizeof($_FILES['image']['tmp_name']);
+                $files          = $_FILES['image'];
+    
+                for($i = 0; $i < $number_files; $i++) {
+                    $_FILES['image']['name']    = $files['name'][$i];
+                    $_FILES['image']['type']    = $files['type'][$i];
+                    $_FILES['image']['tmp_name']= $files['tmp_name'][$i];
+                    $_FILES['image']['error']   = $files['error'][$i];
+                    $_FILES['image']['size']    = $files['size'][$i];
+    
+                    $config['upload_path']      = './data/images/units/';
+                    $config['allowed_types']    = 'jpg|png|gif|jpeg';
+                    $config['encrypt_name']     = true;
+    
+                    $this->load->library('upload', $config);
+    
+                    if($this->upload->do_upload('image')) {
+                        $file   = $this->upload->data();
+                        $image  = site_url('data/images/units').'/'.$file['file_name'];
+    
+                        $in     = $this->unit_photo->insert(['unit_id' => $id, 'photo' => $image]);
+                    }
+                }
+            }
         }
 
         redirect(site_url('community/units'), 'refresh');

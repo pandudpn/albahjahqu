@@ -148,6 +148,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group row" id="photo">
+                            <label for="foto" class="col-form-label col-3">Foto Bangunan</label>
+                            <div class="col-9">
+                                <input type="file" class="form-control" name="image[]" multiple="multiple">
+                                <small style="color: #aaa">Foto bisa lebih dari 1.</small>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
                         <a href="<?php echo site_url('community/units'); ?>" class="btn btn-danger waves-effect waves-light">
                             Batal 
