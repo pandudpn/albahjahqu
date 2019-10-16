@@ -337,6 +337,12 @@
                                     <i class="mdi mdi-alarm"></i><span> Notifikasi Pengingat </span> 
                                 </a>
                             </li>
+                            <li class="text-muted menu-title">Transaksi</li>
+                            <li>
+                                <a href="<?php echo site_url('/bills'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-credit-card-outline"></i><span> Iuran </span> 
+                                </a>
+                            </li>
                             <li class="text-muted menu-title">Manajemen Pendidikan</li>
                             <li>
                                 <a href="<?php echo site_url('/community/units'); ?>" class="waves-effect">

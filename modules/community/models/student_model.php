@@ -20,6 +20,15 @@ class student_model extends MY_Model {
         parent::__construct();
     }
 
+    public function get_by($term) {
+        $this->db->select($this->table.'.*, '.$this->tableUnit.'.name AS unit_name');
+        $this->db->from($this->table);
+        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
+        $this->db->like($this->table.'.name', $term);
+        $this->db->or_like($this->table.'.nis', $term);
+        return $this->db->get();
+    }
+
     public function get_all($where=array()) {
         $this->db->select($this->table.'.*');
         $this->db->from($this->table);

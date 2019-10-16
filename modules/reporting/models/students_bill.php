@@ -12,7 +12,7 @@ class students_bill extends MY_Model {
     protected $set_created      = true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'students.name', null, null, 'bill_due_date', 'bill_status'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'units.id', 'students.name', null, null, 'bill_due_date', 'bill_status'); //set column field database for datatable orderable
     protected $column_search = array('students.name', 'bill_type', 'bill_period_type', 'bill_period'); //set column field database for datatable searchable 
     protected $order         = array('bill_due_date' => 'ASC', 'bill_status' => 'ASC'); // default order 
 
@@ -26,7 +26,7 @@ class students_bill extends MY_Model {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
 
-        $this->db->select($this->table.'.*, '.$this->tableStudent.'.name AS student_name');
+        $this->db->select($this->table.'.*, '.$this->tableStudent.'.name AS student_name, '.$this->tableUnit.'.name AS school_name');
         $this->db->from($this->table);
         $this->db->join($this->tableStudent, $this->tableStudent.'.id = '.$this->table.'.student_id');
         $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->tableStudent.'.unit_id');
