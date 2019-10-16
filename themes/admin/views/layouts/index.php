@@ -256,6 +256,11 @@
                                     <li><a href="<?php echo site_url('reporting/transactions'); ?>">Muzaki</a></li>
                                 </ul>
                             </li>
+                            <li>
+                                <a href="<?php echo site_url('reporting/iuran'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-account-cash"></i><span> Pembayaran Iuran </span> 
+                                </a>
+                            </li>
                             <li class="text-muted menu-title">Konten</li>
                             <!-- <li>
                                 <a href="<?php echo site_url('/topics'); ?>" class="waves-effect">
