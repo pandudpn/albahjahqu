@@ -48,6 +48,7 @@ class events_model extends MY_Model {
         //deleted = 0
         $this->db->where('deleted', '0');
         $this->db->where('app_id', $app_id);
+        $this->db->where('type', 'event');
          
         if(isset($_POST['order'])) // here order processing
         {
