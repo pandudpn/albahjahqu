@@ -6,7 +6,7 @@ class units extends Admin_Controller {
         parent::__construct();
         $this->load->model('community/units_model', 'unit');
         $this->load->model('community/unit_photos_model', 'unit_photo');
-        $this->load->model('community/facilities_model', 'facilities');
+        // $this->load->model('community/facilities_model', 'facilities');
         $this->load->model('geo/geo_services_model', 'geo');
 
         $this->load->helper('text');
