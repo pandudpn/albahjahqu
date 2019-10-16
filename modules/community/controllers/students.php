@@ -78,7 +78,11 @@ class students extends Admin_Controller {
 
         
         if(!$id){
-            $image  = site_url('data/images/people/default.png');
+            if($gender == 'Laki-laki') {
+                $image  = site_url('data/images/people/default.png');
+            }elseif($gender == 'Perempuan'){
+                $image  = site_url('data/images/people/default_cw.png');
+            }
 
             if(!empty($_FILES['image']['name']))
             {

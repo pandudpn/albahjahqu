@@ -332,21 +332,21 @@
                                     <i class="mdi mdi-alarm"></i><span> Notifikasi Pengingat </span> 
                                 </a>
                             </li>
-                            <li class="text-muted menu-title">Manajemen</li>
+                            <li class="text-muted menu-title">Manajemen Pendidikan</li>
                             <li>
                                 <a href="<?php echo site_url('/community/units'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-domain"></i><span> Sekolah / Kantor </span> 
+                                    <i class="mdi mdi-domain"></i><span> Sekolah </span> 
                                 </a>
                             </li>
                             <?php if($this->session->userdata('user')->dealer_id == 41){ ?>
                                 <li>
                                     <a href="<?php echo site_url('/community/staff'); ?>" class="waves-effect">
-                                        <i class="zmdi zmdi-accounts-list"></i><span> Pengurus / Guru </span> 
+                                        <i class="zmdi zmdi-accounts-list"></i><span> Guru </span> 
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo site_url('/community/students'); ?>" class="waves-effect">
-                                        <i class="mdi mdi-account-group"></i><span> Siswa / Santri </span> 
+                                        <i class="mdi mdi-account-group"></i><span> Siswa </span> 
                                     </a>
                                 </li>
                                 <!-- <li>
@@ -356,13 +356,13 @@
                                 </li> -->
                                 <li class="has_sub">
                                     <a href="javascript:void(0);" class="waves-effect">
-                                        <i class="mdi mdi-islam"></i><span> Penghargaan </span> 
+                                        <i class="mdi mdi-trophy"></i><span> Penghargaan </span> 
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul class="list-unstyled">
-                                        <li><a href="<?php echo site_url('community/achievement'); ?>">Sekolah / Kantor</a></li>
-                                        <li><a href="<?php echo site_url('community/achievement_student'); ?>">Siswa / Santri</a></li>
-                                        <li><a href="<?php echo site_url('community/achievement_staff'); ?>">Pengurus / Guru</a></li>
+                                        <li><a href="<?php echo site_url('community/achievement'); ?>">Sekolah</a></li>
+                                        <li><a href="<?php echo site_url('community/achievement_student'); ?>">Siswa</a></li>
+                                        <li><a href="<?php echo site_url('community/achievement_staff'); ?>">Guru</a></li>
                                     </ul>
                                 </li>
                             <?php } ?>
