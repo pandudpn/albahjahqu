@@ -32,7 +32,7 @@
                             <div class="col-9">
                                 <select name="type" id="type" class="form-control" required="required">
                                     <option value="" selected disabled>-</option>
-                                    <option value="kantor" <?= ($data->type == 'kantor') ? 'selected' : null ?>>Kantor</option>
+                                    <!-- <option value="kantor" <?= ($data->type == 'kantor') ? 'selected' : null ?>>Kantor</option> -->
                                     <option value="sekolah" <?= ($data->type == 'sekolah') ? 'selected' : null ?>>Sekolah</option>
                                     <option value="pesantren" <?= ($data->type == 'pesantren') ? 'selected' : null ?>>Pondok Pesantren</option>
                                 </select>
@@ -50,7 +50,7 @@
                             <label for="" class="col-3 col-form-label">Tingkat</label>
                             <div class="col-9">
                                 <select name="level" id="level" class="form-control">
-                                    <option value="kantor" <?= ($data->level == 'kantor') ? 'selected' : null; ?>>Kantor</option>
+                                    <!-- <option value="kantor" <?= ($data->level == 'kantor') ? 'selected' : null; ?>>Kantor</option> -->
                                     <option value="paud" <?= ($data->level == 'paud') ? 'selected' : null; ?>>Pendidikan Anak Usia Dini</option>
                                     <option value="tk" <?= ($data->level == 'tk') ? 'selected' : null; ?>>TK (Taman Kanak-kanak)</option>
                                     <option value="sd" <?= ($data->level == 'sd') ? 'selected' : null; ?>>SD (Sekolah Dasar)</option>

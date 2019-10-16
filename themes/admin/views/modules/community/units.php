@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Data Sekolah / Pesantren / Kantor</h4>
+            <h4 class="page-title float-left">Data Sekolah</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('community/units/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
-                <i class="zmdi zmdi-collection-plus"></i> Tambah Sekolah / Pesantren / Kantor </button>
+                <i class="zmdi zmdi-collection-plus"></i> Tambah Sekolah </button>
             </a>
         </div>
         

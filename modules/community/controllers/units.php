@@ -6,6 +6,7 @@ class units extends Admin_Controller {
         parent::__construct();
         $this->load->model('community/units_model', 'unit');
         $this->load->model('community/unit_photos_model', 'unit_photo');
+        $this->load->model('community/facilities_model', 'facilities');
         $this->load->model('geo/geo_services_model', 'geo');
 
         $this->load->helper('text');
@@ -31,7 +32,7 @@ class units extends Admin_Controller {
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
-            ->set('title', 'Tambah Sekolah / Pesantren / Kantor Baru')
+            ->set('title', 'Tambah Data Sekolah')
             ->set('provinsi', $provinsi)
             ->build('unit_form');
     }
@@ -99,6 +100,7 @@ class units extends Admin_Controller {
         if(!$id){
             $insert = $this->unit->insert($data);
 
+            // foto bangunan
             if(!empty($_FILES['image']['name'])) {
                 $number_files   = sizeof($_FILES['image']['tmp_name']);
                 $files          = $_FILES['image'];
@@ -125,9 +127,35 @@ class units extends Admin_Controller {
                 }
             }
 
+            // fasilitas
+            // if(!empty($_FILES['facilities']['name'])) {
+            //     $faci   = $_FILES['facilities'];
+
+            //     foreach($this->input->post('faci_name') AS $key => $val) {
+            //         $_FILES['image']['name']    = $faci['name'][$key];
+            //         $_FILES['image']['type']    = $faci['type'][$key];
+            //         $_FILES['image']['tmp_name']= $faci['tmp_name'][$key];
+            //         $_FILES['image']['error']   = $faci['error'][$key];
+            //         $_FILES['image']['size']    = $faci['size'][$key];
+    
+            //         $config['upload_path']      = './data/images/facilities/';
+            //         $config['allowed_types']    = 'jpg|png|gif|jpeg';
+            //         $config['encrypt_name']     = true;
+    
+            //         $this->load->library('upload', $config);
+
+            //         if($this->upload->do_upload('image')) {
+            //             $file   = $this->upload->data();
+            //             $image  = site_url('data/images/facilities').'/'.$file['file_name'];
+    
+            //             $ins    = $this->facilities->insert(['unit_id' => $insert, 'name' => $val, 'photo' => $image]);
+            //         }
+            //     }
+            // }
+
         }else{
             $update = $this->unit->update($id, $data);
-            
+
             if(!empty($_FILES['image']['name'])) {
                 $number_files   = sizeof($_FILES['image']['tmp_name']);
                 $files          = $_FILES['image'];
