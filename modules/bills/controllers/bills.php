@@ -123,7 +123,7 @@ class bills extends Admin_Controller {
     public function autoComplete(){
         $term   = $this->input->get('term');
         if(isset($term)){
-            $query  = $this->student->get_by($term);
+            $query  = $this->student->get_by($this->app_id, $term);
 
             if($query->num_rows() > 0){
                 foreach($query->result() AS $row){
