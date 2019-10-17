@@ -349,7 +349,6 @@
                                     <i class="mdi mdi-domain"></i><span> Sekolah </span> 
                                 </a>
                             </li>
-                            <!-- <?php if($this->session->userdata('user')->dealer_id == 41){ ?> -->
                                 <li>
                                     <a href="<?php echo site_url('/community/staff'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-accounts-list"></i><span> Guru </span> 
@@ -376,7 +375,6 @@
                                         <li><a href="<?php echo site_url('community/achievement_staff'); ?>">Guru</a></li>
                                     </ul>
                                 </li>
-                            <!-- <?php } ?> -->
                         </ul>
                         <div class="clearfix"></div>
                     </div>
