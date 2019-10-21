@@ -156,6 +156,23 @@
                             </div>
                         </div>
 
+                        <div class="form-group row" id="photo">
+                            <label for="foto" class="col-form-label col-3">Fasilitas Sekolah</label>
+                            <div class="col-9" id="faci">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" id="faci_name" name="faci_name[]" placeholder="Nama Fasilitas">
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="file" class="form-control" name="faci_image[]" multiple="multiple">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-success btn-sm" id="add"><i class="mdi mdi-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
                         <a href="<?php echo site_url('community/units'); ?>" class="btn btn-danger waves-effect waves-light">
                             Batal 

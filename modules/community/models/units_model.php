@@ -23,6 +23,10 @@ class units_model extends MY_Model {
         parent::__construct();
     }
 
+    public function insert_multiple($data){
+        $this->db->insert_batch($this->table, $data);
+    }
+
     public function get_type($where=array()){
         $this->db->select('DISTINCT(type) AS type', FALSE);
         $this->db->from($this->table);

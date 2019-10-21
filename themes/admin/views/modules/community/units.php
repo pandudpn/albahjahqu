@@ -15,6 +15,9 @@
             <a href="<?php echo site_url('community/units/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
                 <i class="zmdi zmdi-collection-plus"></i> Tambah Sekolah </button>
             </a>
+            <a href="<?php echo site_url('community/units/import'); ?>"><button class="btn btn-sm btn-success waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Import dari Excel </button>
+            </a>
         </div>
         
         <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">

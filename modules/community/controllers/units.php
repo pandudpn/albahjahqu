@@ -6,7 +6,7 @@ class units extends Admin_Controller {
         parent::__construct();
         $this->load->model('community/units_model', 'unit');
         $this->load->model('community/unit_photos_model', 'unit_photo');
-        // $this->load->model('community/facilities_model', 'facilities');
+        $this->load->model('community/facilities_model', 'facilities');
         $this->load->model('geo/geo_services_model', 'geo');
 
         $this->load->helper('text');
@@ -35,6 +35,14 @@ class units extends Admin_Controller {
             ->set('title', 'Tambah Data Sekolah')
             ->set('provinsi', $provinsi)
             ->build('unit_form');
+    }
+
+    public function import()
+    {
+        $this->template
+            ->set('alert', $this->session->flashdata('alert'))
+            ->set('title', 'Import Data Sekolah')
+            ->build('unit_import');
     }
 
     public function edit($id)
@@ -181,6 +189,54 @@ class units extends Admin_Controller {
                     }
                 }
             }
+        }
+
+        redirect(site_url('community/units'), 'refresh');
+    }
+
+    public function import_save(){
+        $level  = $this->input->post('level');
+        $type   = $this->input->post('type');
+
+        $image  = '';
+        $config['upload_path']      = './data/excel/';
+        $config['allowed_types']    = 'xlsx';
+        
+        $this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('excel')) {
+            redirect(site_url('community/units/import'), 'refresh');
+        } else {
+            $file   = $this->upload->data();
+            $image  = $file['file_name'];
+        }
+
+        if($image != '') {
+            include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+            $excelreader = new PHPExcel_Reader_Excel2007();
+            $loadexcel = $excelreader->load('./data/excel/'.$image.'.xlsx');
+
+            $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
+            $data = array();
+    
+            $numrow = 1;
+
+            foreach($sheet as $row){
+                // Cek $numrow apakah lebih dari 1
+                // Artinya karena baris pertama adalah nama-nama kolom
+                // Jadi dilewat saja, tidak usah diimport
+                if($numrow > 1){
+                    // Kita push (add) array data ke variabel data
+                    array_push($data, array(
+                        'app_id'        => $this->app_id, // Insert data nis dari kolom A di excel
+                        'name'          => $row['B'], // Insert data nama dari kolom B di excel
+                        'type'          => $type, // Insert data jenis kelamin dari kolom C di excel
+                        'level'         => $level, // Insert data alamat dari kolom D di excel
+                    ));
+                }
+                $numrow++; // Tambah 1 setiap kali looping
+            }
+
+            $this->unit->insert_multiple($data);
         }
 
         redirect(site_url('community/units'), 'refresh');
