@@ -55,7 +55,7 @@ class students_bill extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', 0);
-        $this->db->where('app_id', $app_id);
+        $this->db->where($this->tableUnit.'.app_id', $app_id);
 
         if(!empty($from)) {
             $this->db->where($this->table.'.created_on >=', $from);
