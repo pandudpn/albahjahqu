@@ -105,7 +105,8 @@
                 },
                 {
                     "targets": [2],
-                    "data": "desc"
+                    "data": "desc",
+                    "orderable": false
                 },
                 {
                     "targets": [3],

@@ -196,7 +196,7 @@ class donations extends Admin_Controller {
             $row['due_date']    = date('d F Y', strtotime($l->due_date));
             $row['amount']      = number_format($l->amount, 0, '.', '.');
             $row['target']      = number_format($l->target_amount, 0, '.', '.');
-            $row['status']      = $l->status;
+            $row['status']      = $l->type;
             $row['edit']        = site_url('donations/edit/'.$l->id);
             $row['deleted']     = site_url('donations/delete/'.$l->id);
 
@@ -221,6 +221,28 @@ class donations extends Admin_Controller {
         );
         //output to json format
         echo json_encode($output);
+    }
+
+    public function imgupload()
+    {
+        $config['upload_path']      = './data/images/donations/';
+        $config['allowed_types']    = '*';
+        $config['max_size']         = 0;
+        $config['encrypt_name']     = true;
+        
+        $this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('file')) {
+            $this->output->set_header('HTTP/1.0 500 Server Error');
+            exit;
+        } else {
+            $file = $this->upload->data();
+            
+            $this->output
+                ->set_content_type('application/json', 'utf-8')
+                ->set_output(json_encode(['location' => site_url('data/images/donations/'.$file['file_name'])]))
+                ->_display();
+            exit;
+        }
     }
 
 }

@@ -57,13 +57,22 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Nominal /slot</label>
-                            <div class="col-8">
-                                <input class="form-control" type="text" id="slot_amount" name="slot_amount" value="<?php echo $data->slot_amount; ?>" placeholder="Rp 100.000" readonly>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label for="" class="col-6 col-form-label">Nominal /slot</label>
+                                    <div class="col-6">
+                                        <input class="form-control" type="text" id="slot_amount" name="slot_amount" value="<?php echo $data->slot_amount; ?>" placeholder="Rp 100.000" readonly>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-1">
-                                <small>/slot</small>
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label for="" class="col-3 col-form-label">Satuan</label>
+                                    <div class="col-6">
+                                        <input class="form-control" type="text" id="satuan" name="satuan" value="<?php echo $data->unit; ?>" placeholder="m2 atau liter" readonly>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -119,17 +128,17 @@
         tinymce.init({
             selector: "#editor1",
             plugins: [
-                 "advlist autolink lists link charmap print preview hr anchor pagebreak",
+                 "advlist autolink lists link image charmap print preview hr anchor pagebreak",
                  "searchreplace wordcount visualblocks visualchars code fullscreen",
                  "insertdatetime nonbreaking save table directionality",
-                 "emoticons template paste textcolor colorpicker textpattern"
+                 "emoticons template paste textcolor colorpicker textpattern youtube"
             ],
-            toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link responsivefilemanager",
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image responsivefilemanager",
             mobile: { theme: 'mobile' },
             extended_valid_elements: "+iframe[src|width|height|name|align|class]",
             automatic_uploads: true,
             image_advtab: true,
-            images_upload_url: "<?php echo site_url('articles/imgupload'); ?>",
+            images_upload_url: "<?php echo site_url('donations/imgupload'); ?>",
             file_picker_types: 'image', 
             paste_data_images:true,
             relative_urls: false,
@@ -161,8 +170,14 @@
 
             if(radio == "freetext") {
                 $('#slot_amount').attr('readonly', 'readonly');
+                $('#satuan').attr('readonly', 'readonly');
+                $('#slot_amount').removeAttr('required');
+                $('#satuan').removeAttr('required');
             }else if(radio == "slot") {
                 $('#slot_amount').removeAttr('readonly');
+                $('#satuan').removeAttr('readonly');
+                $('#slot_amount').attr('required', 'required');
+                $('#satuan').attr('required', 'required');
             }
         })
     });
