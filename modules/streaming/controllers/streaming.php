@@ -53,31 +53,14 @@ class streaming extends Admin_Controller {
 
         $app_id         = $this->app_id;
         $url            = $this->input->post('url');
-        $status         = $this->input->post('status');
-
-        if(strpos($url, 'rtmp') !== FALSE){
-            $type   = 'rtmp';
-        }elseif(strpos($url, 'rtsp') !== FALSE){
-            $type   = 'rtsp';
-        }elseif(strpos($url, 'http') !== FALSE){
-            if(strpos($url, 'm3u8') !== FALSE){
-                $type   = 'hls';
-            }elseif(strpos($url, '2ts') !== FALSE){
-                $type   = 'ts';
-            }else{
-                $this->session->set_flashdata('alert', ['type' => 'danger', 'msg' => 'Link Streaming salah. Link streaming harus berupa RTSP, RTMP, m3u8 atau 2ts.']);
-                redirect(site_url('streaming/add'), 'refresh');    
-            }
-        }else{
-            $this->session->set_flashdata('alert', ['type' => 'danger', 'msg' => 'Link Streaming salah. Link streaming harus berupa RTSP, RTMP, m3u8 atau 2ts.']);
-            redirect(site_url('streaming/add'), 'refresh');
-        }
+        $type           = $this->input->post('type');
+        $name           = $this->input->post('name');
 
         $data = array(
             'app_id'    => $app_id,
             'url'       => $url,
             'type'      => $type,
-            'status'    => $status
+            'name'      => $name
         );
         
         if(!$id){
@@ -108,6 +91,7 @@ class streaming extends Admin_Controller {
             $row   = array();
 
             $row['no']      = $no;
+            $row['name']    = ($l->name == NULL) ? '-' : $l->name;
             $row['url']     = $l->url;
             $row['type']    = strtoupper($l->type);
             $row['status']  = $l->status;

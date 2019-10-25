@@ -32,6 +32,7 @@
                     <th>No</th>
                     <th>Judul</th>
                     <th>Teks Dzikir</th>
+                    <th>Foto</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -97,6 +98,23 @@
                     "targets": [3],
                     "orderable": false,
                     "data": {
+                        "image": "image",
+                        "type": "type"
+                    },
+                    "render": function(data, type, row, meta) {
+                        var html;
+                        if(data.type === "txt") {
+                            html = "-";
+                        }else {
+                            html = '<a href="' + data.image + '" id="detail">Lihat Foto</a>';
+                        }
+                        return html;
+                    }
+                },
+                {
+                    "targets": [4],
+                    "orderable": false,
+                    "data": {
                         "edit": "edit",
                         "delete": "delete"
                     },
@@ -107,6 +125,38 @@
             ]
         });
     });
+
+    $(document).on('click', '#detail', function(e) {
+        e.preventDefault();
+
+        console.log(getImages($(this).attr('href')));
+        $('.modal-title').html('Foto Dzikir');
+        
+        $('.modal-footer').html('<a href="javascript:;" class="btn btn-secondary" data-dismiss="modal">Close</a>');
+        $('#modal-alert').modal('show');
+    });
+
+    function getImages(url) {
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function(result) {
+                var html = '<div class="row">'
+
+                    result.map((results) => {
+                        html += '<div class="col-12 text-center">'
+                        html += '<div style="width: 100px; height: 200px;" class="d-block mx-auto">'
+                        html += '<img src="' + results.photo + '" style="width:100%; height: 100px; object-fit: contain;"/>'
+                        html += '</div>'
+                        html += '</div>'
+                    });
+                    
+                    html += '</div>';
+
+                $('.modal-body').html(html);
+            }
+        })
+    }
 
     function alert_delete(url)
     {

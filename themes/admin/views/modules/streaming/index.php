@@ -30,6 +30,7 @@
                 <thead>
                 <tr>
                     <th>No</th>
+                    <th>Nama</th>
                     <th>Link Streaming</th>
                     <th>Tipe</th>
                     <th>Status</th>
@@ -85,17 +86,24 @@
                 },
                 {
                     "targets": [1],
-                    "data": "url",
-                    "render": function(data, type, row, meta){
-                        return "<a href='"+data+"' target='_blank'>"+data+"</a>";
-                    }
+                    "data": "name",
+                    "orderable": false
                 },
                 {
                     "targets": [2],
-                    "data": "type"
+                    "data": "url",
+                    "render": function(data, type, row, meta){
+                        return "<a href='"+data+"' target='_blank'>"+data+"</a>";
+                    },
+                    "orderable": false
                 },
                 {
                     "targets": [3],
+                    "data": "type",
+                    "orderable": false
+                },
+                {
+                    "targets": [4],
                     "data": "status",
                     "render": function(data, type, row, meta){
                         var html;
@@ -105,10 +113,11 @@
                             html = '<span class="badge badge-danger">Tidak Aktif</span>';
                         }
                         return html;
-                    }
+                    },
+                    "orderable": false
                 },
                 { 
-                    "targets": [ 4 ], //last column / numbering column
+                    "targets": [5], //last column / numbering column
                     "orderable": false, //set not orderable
                     "data": {
                         "delete": "delete",
@@ -116,7 +125,8 @@
                     },
                     "render": function(data, type, row, meta){
                         return '<a href="'+data.edit+'" class="btn btn-success btn-sm"><i class="fa fa-pencil"></i></a> &nbsp; <a href="javascript:void(0)" onclick="alert_delete(\''+data.delete+'\')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>';
-                    }
+                    },
+                    "orderable": false
                 }
             ]
         });

@@ -27,6 +27,22 @@
                     <form method="post" action="<?php echo site_url('streaming/save'); ?>" enctype="multipart/form-data">
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-3">
+                                <label for="tv">
+                                    <input class="checked" name="type" type="radio" id="tv" value="tv" checked>
+                                    TV
+                                </label>
+                            </div>
+                            <div class="col-3">
+                                <label for="radio">
+                                    <input class="checked" name="type" type="radio" id="radio" value="radio">
+                                    RADIO
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Link Streaming (url)</label>
                             <div class="col-9">
@@ -34,13 +50,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Status</label>
-                            <div class="col-9">
-                                <select name="status" id="status" class="form-control" required="required">
-                                    <option value="active" <?= ($data->status == 'active') ? 'selected' : null ?>>Aktif</option>
-                                    <option value="no" <?= ($data->status == 'no') ? 'selected' : null ?>>Tidak Aktif</option>
-                                </select>
+                        <div id="radiofield" class="d-none">
+                            <div class="form-group row">
+                                <label for="name" class="col-form-label col-3">Nama Saluran</label>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Nama Saluran">
+                                </div>
                             </div>
                         </div>
 
@@ -55,3 +70,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('.checked').change(function(e) {
+            e.preventDefault();
+
+            radio = $(this).val();
+
+            if(radio == "tv") {
+                $('#radiofield').addClass('d-none');
+            }else if(radio == "radio") {
+                $('#radiofield').removeClass('d-none');
+            }
+        })
+    })
+</script>

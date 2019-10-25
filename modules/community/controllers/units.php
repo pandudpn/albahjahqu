@@ -195,12 +195,17 @@ class units extends Admin_Controller {
     }
 
     public function import_save(){
+        include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+        
         $level  = $this->input->post('level');
         $type   = $this->input->post('type');
 
         $image  = '';
         $config['upload_path']      = './data/excel/';
         $config['allowed_types']    = 'xlsx';
+
+        // print_r($this->input->post());
+        // print_r($_FILES); die;
         
         $this->load->library('upload', $config);
         if ( ! $this->upload->do_upload('excel')) {
@@ -211,9 +216,8 @@ class units extends Admin_Controller {
         }
 
         if($image != '') {
-            include APPPATH.'third_party/PHPExcel/PHPExcel.php';
             $excelreader = new PHPExcel_Reader_Excel2007();
-            $loadexcel = $excelreader->load('./data/excel/'.$image.'.xlsx');
+            $loadexcel = $excelreader->load(site_url('data/excel/'.$image));
 
             $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
             $data = array();

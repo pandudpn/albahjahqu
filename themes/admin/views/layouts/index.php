@@ -41,8 +41,11 @@
         <!-- App CSS -->
         <link href="<?php echo $this->template->get_theme_path();?>assets/css/style.css" rel="stylesheet" type="text/css" />
 
+        <!-- dropzone -->
+        <link href="<?php echo $this->template->get_theme_path();?>assets/dropzone/dist/dropzone.css" rel="stylesheet" type="text/css" />
+
         <!-- mdi icons -->
-        <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.2.95/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.5.95/css/materialdesignicons.min.css">
 
         <!-- Modernizr js -->
         <script src="<?php echo $this->template->get_theme_path();?>assets/js/modernizr.min.js"></script>
@@ -70,6 +73,9 @@
         <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.scrollTo.min.js"></script>
         <script src="<?php echo $this->template->get_theme_path();?>assets/js/jquery.slimscroll.js"></script>
         <script src="<?php echo $this->template->get_theme_path();?>assets/plugins/switchery/switchery.min.js"></script>
+
+        <!-- dropzone -->
+        <script src="<?php echo $this->template->get_theme_path();?>assets/dropzone/dist/dropzone.js"></script>
 
 
         <!-- Required datatable js -->
@@ -285,6 +291,11 @@
                             <li>
                                 <a href="<?php echo site_url('/videos'); ?>" class="waves-effect">
                                     <i class="zmdi zmdi-youtube-play"></i><span> Video </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('/donations'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-charity"></i><span> Donasi </span> 
                                 </a>
                             </li>
                             <!-- <li class="text-muted menu-title">Management</li>
