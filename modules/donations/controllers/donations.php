@@ -95,16 +95,18 @@ class donations extends Admin_Controller {
         $target         = $this->input->post('target');
         $amount         = $this->input->post('slot_amount');
         $status         = $this->input->post('status');
+        $satuan         = $this->input->post('satuan');
 
         $data = array(
             'app_id'        => $this->app_id,
             'title'         => $title,
             'description'   => $desc,
-            'type'          => $type,
+            'nominal_type'  => $type,
             'due_date'      => $due_date,
             'slot_amount'   => $amount,
             'target_amount' => $target,
-            'status'        => $status
+            'type'          => $status,
+            'unit'          => $satuan
         );
         
         if(!$id){
