@@ -144,6 +144,32 @@ class donations extends Admin_Controller {
 
         }else{
             $update = $this->donation->update($id, $data);
+
+            if(!empty($_FILES['image']['name'])) {
+                $number_files   = sizeof($_FILES['image']['tmp_name']);
+                $files          = $_FILES['image'];
+    
+                for($i = 0; $i < $number_files; $i++) {
+                    $_FILES['image']['name']    = $files['name'][$i];
+                    $_FILES['image']['type']    = $files['type'][$i];
+                    $_FILES['image']['tmp_name']= $files['tmp_name'][$i];
+                    $_FILES['image']['error']   = $files['error'][$i];
+                    $_FILES['image']['size']    = $files['size'][$i];
+    
+                    $config['upload_path']      = './data/images/donations/';
+                    $config['allowed_types']    = 'jpg|png|gif|jpeg';
+                    $config['encrypt_name']     = true;
+    
+                    $this->load->library('upload', $config);
+    
+                    if($this->upload->do_upload('image')) {
+                        $file   = $this->upload->data();
+                        $image  = site_url('data/images/donations').'/'.$file['file_name'];
+    
+                        $in     = $this->donation_photos->insert(['donation_id' => $id, 'photo' => $image]);
+                    }
+                }
+            }
         }
 
         redirect(site_url('donations'), 'refresh');
