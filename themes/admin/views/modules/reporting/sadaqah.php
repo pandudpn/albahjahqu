@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Laporan Zakat</h4>
+            <h4 class="page-title float-left">Laporan Sadaqah</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -23,17 +23,16 @@
             <form method="get" id="form">
                 <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
                     <div class="col-12">Filter : </div>
-                    <div class="col-2"><input type="text" id="from" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
-                    <div class="col-2"><input type="text" id="to" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
-                    <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('reporting/transactions'); ?>" class="btn btn-secondary">Reset</a></div>
+                    <div class="col-2"><input type="text" name="from" id="from" class="form-control datepicker" placeholder="Dari tanggal" value="<?php echo $from; ?>"></div>
+                    <div class="col-2"><input type="text" name="to" id="to" class="form-control datepicker" placeholder="Hingga Tanggal" value="<?php echo $to; ?>"></div>
+                    <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('reporting/infaq'); ?>" class="btn btn-secondary">Reset</a></div>
                 </div>
             </form>
             <table id="datatable" class="table table-striped table-bordered table-responsive">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Pengirim</th>
-                        <th>Kepada</th>
+                        <th>Nama</th>
                         <th>Nominal</th>
                         <th>Tanggal</th>
                     </tr>
@@ -72,7 +71,7 @@
             format: 'yyyy-mm-dd',
             autoclose: true
         });
-        
+
         Data('','');
 
         $('#form').submit(function(e){
@@ -84,11 +83,10 @@
             Data(from, to);
         });
 
-
     });
 
     function Data(from, to){
-        var url = '<?= site_url("reporting/zakat/datatables"); ?>?from='+from+'&to='+to;
+        var url = '<?= site_url("reporting/sadaqah/datatables"); ?>?from='+from+'&to='+to;
         $('#datatable').DataTable({ 
             // "scrollX": true,
             "processing": true, //Feature control the processing indicator.
@@ -105,27 +103,25 @@
             //Set column definition initialisation properties.
             "columnDefs": [
                 { 
-                    "targets": [0], //first column / numbering column
-                    "orderable": false, //set not orderable
+                    "targets": [0],
+                    "orderable": false,
                     "data": "no"
                 },
                 {
                     "targets": [1],
                     "orderable": false,
-                    "data": "sender"
+                    "data": "name"
                 },
                 {
                     "targets": [2],
                     "orderable": false,
-                    "data": "receiver"
+                    "data": "amount",
+                    "render": function(data, type, row, meta) {
+                        return "Rp " + data
+                    }
                 },
                 {
                     "targets": [3],
-                    "orderable": false,
-                    "data": "cost"
-                },
-                {
-                    "targets": [4],
                     "orderable": false,
                     "data": "date"
                 }
