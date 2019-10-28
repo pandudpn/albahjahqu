@@ -252,19 +252,19 @@
                                 </ul>
                             </li> -->
                             <li class="text-muted menu-title">Laporan</li>
-                            <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="zmdi zmdi-file-text"></i><span> Zakat</span> 
-                                    <span class="menu-arrow"></span>
+                            <li>
+                                <a href="<?php echo site_url('reporting/zakat'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-file-text"></i><span> Zakat </span> 
                                 </a>
-                                <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('reporting/zakat'); ?>">Lembaga</a></li>
-                                    <li><a href="<?php echo site_url('reporting/transactions'); ?>">Muzaki</a></li>
-                                </ul>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('reporting/iuran'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-account-cash"></i><span> Pembayaran Iuran </span> 
+                                <a href="<?php echo site_url('reporting/infaq'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-account-cash"></i><span> Infaq </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('reporting/sadaqah'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-cash"></i><span> Sadaqah </span> 
                                 </a>
                             </li>
                             <li class="text-muted menu-title">Konten</li>
