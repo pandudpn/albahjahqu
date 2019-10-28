@@ -103,11 +103,17 @@ class donations extends Admin_Controller {
             'description'   => $desc,
             'nominal_type'  => $type,
             'due_date'      => $due_date,
-            'slot_amount'   => $amount,
             'target_amount' => $target,
             'type'          => $status,
-            'unit'          => $satuan
         );
+
+        if(isset($amount)) {
+            $data['slot_amount']    = $amount;
+        }
+
+        if(isset($satuan)) {
+            $data['unit']           = $satuan;
+        }
         
         if(!$id){
             $insert = $this->donation->insert($data);
