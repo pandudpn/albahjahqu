@@ -131,8 +131,10 @@
 
         var val = $(this).val();
 
+        var date = new Date(val);
+
         $.ajax({
-            url: '<?= site_url("events/getcalendar"); ?>/'+val,
+            url: '<?= site_url("events/getcalendar"); ?>/'+date.getFullYear()+'-'+date.getMonth(),
             type: 'get',
             cache: false,
             dataType: 'json',
