@@ -65,38 +65,34 @@ class dzikir extends Admin_Controller {
             'type'      => $type
         );
 
-        if(isset($content)) {
-            $data['content_dzikir']    = $content;
+        if(!empty($_FILES['pdf']['name'])) {
+            $config['upload_path']      = './data/excel/';
+	        $config['allowed_types']    = 'pdf';
+	        $config['encrypt_name']     = true;
+	        
+	        $this->load->library('upload', $config);
+	        if ( ! $this->upload->do_upload('pdf')) {
+	            
+	        } else {
+                $file   = $this->upload->data();
+                $pdfFile= './data/excel/'.$file['file_name'];
+	            $import = site_url('data/excel').'/'.$file['file_name'];
+            }
+            
+            include "./vendor/autoload.php";
+
+            $parser = new \Smalot\PdfParser\Parser();
+            $pdf    = $parser->parseFile($pdfFile);
+            
+            $data['content_dzikir'] = "<p style='text-align: justify;'>".$pdf->getText()."</p>";
+
+            unlink($import);
+        }else {
+            $data['content_dzikir'] = $content;
         }
         
         if(!$id){
             $insert = $this->dzikir->insert($data);
-
-            if(!empty($_FILES['images']['name'])) {
-                $number_files   = sizeof($_FILES['images']['tmp_name']);
-                $files          = $_FILES['images'];
-    
-                for($i = 0; $i < $number_files; $i++) {
-                    $_FILES['images']['name']    = $files['name'][$i];
-                    $_FILES['images']['type']    = $files['type'][$i];
-                    $_FILES['images']['tmp_name']= $files['tmp_name'][$i];
-                    $_FILES['images']['error']   = $files['error'][$i];
-                    $_FILES['images']['size']    = $files['size'][$i];
-    
-                    $config['upload_path']      = './data/images/dzikir/';
-                    $config['allowed_types']    = 'jpg|png|gif|jpeg';
-                    $config['encrypt_name']     = true;
-    
-                    $this->load->library('upload', $config);
-    
-                    if($this->upload->do_upload('images')) {
-                        $file   = $this->upload->data();
-                        $image  = site_url('data/images/dzikir').'/'.$file['file_name'];
-    
-                        $in     = $this->dzikir_details->insert(['dzikir_id' => $insert, 'photo' => $image]);
-                    }
-                }
-            }
         }else{
             $update = $this->dzikir->update($id, $data);
         }
@@ -128,7 +124,6 @@ class dzikir extends Admin_Controller {
             $row['edit']    = site_url('islami/dzikir/edit/'.$l->id);
             $row['delete']  = site_url('islami/dzikir/delete/'.$l->id);
             $row['type']    = $l->type;
-            $row['image']   = site_url('islami/dzikir/images/'.$l->id);
 
             $data[] = $row;
         }

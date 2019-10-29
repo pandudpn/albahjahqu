@@ -32,7 +32,6 @@
                     <th>No</th>
                     <th>Judul</th>
                     <th>Teks Dzikir</th>
-                    <th>Foto</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -96,23 +95,6 @@
                 },
                 {
                     "targets": [3],
-                    "orderable": false,
-                    "data": {
-                        "image": "image",
-                        "type": "type"
-                    },
-                    "render": function(data, type, row, meta) {
-                        var html;
-                        if(data.type === "txt") {
-                            html = "-";
-                        }else {
-                            html = '<a href="' + data.image + '" id="detail">Lihat Foto</a>';
-                        }
-                        return html;
-                    }
-                },
-                {
-                    "targets": [4],
                     "orderable": false,
                     "data": {
                         "edit": "edit",

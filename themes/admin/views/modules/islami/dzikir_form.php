@@ -43,15 +43,9 @@
                                 </label>
                             </div>
                             <div class="col-3">
-                                <label for="phot">
-                                    <input class="checked" name="type" type="radio" id="phot" value="photo">
-                                    Foto
-                                </label>
-                            </div>
-                            <div class="col-3">
-                                <label for="all">
-                                    <input class="checked" name="type" type="radio" id="all" value="all">
-                                    Teks dan Foto
+                                <label for="import">
+                                    <input class="checked" name="type" type="radio" id="import" value="import">
+                                    PDF
                                 </label>
                             </div>
                         </div>
@@ -67,9 +61,9 @@
 
                         <div id="image" class="d-none">
                             <div class="form-group row">
-                                <label for="photo" class="col-form-label col-3">Foto / Scan</label>
+                                <label for="photo" class="col-form-label col-3">File PDF</label>
                                 <div class="col-9">
-                                    <input type="file" class="form-control" name="images[]" multiple>
+                                    <input type="file" class="form-control" name="pdf">
                                 </div>
                             </div>
                         </div>
@@ -97,11 +91,8 @@
             if(radio == "txt") {
                 $('#text').removeClass('d-none');
                 $('#image').addClass('d-none');
-            }else if(radio == "photo") {
+            }else if(radio == "import") {
                 $('#text').addClass('d-none');
-                $('#image').removeClass('d-none');
-            }else if(radio == "all") {
-                $('#text').removeClass('d-none');
                 $('#image').removeClass('d-none');
             }
         })
