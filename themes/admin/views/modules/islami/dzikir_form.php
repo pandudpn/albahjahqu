@@ -24,24 +24,57 @@
             
             <div class="row">
                 <div class="col-12">
-                    <form method="post" action="<?php echo site_url('islami/dzikir/save'); ?>">
+                    <form method="post" id="form" action="<?php echo site_url('islami/dzikir/save'); ?>" enctype="multipart/form-data">
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
                         
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Judul</label>
                             <div class="col-9">
-                                <input class="form-control" type="text" name="title" value="<?php echo $data->title; ?>" required>
+                                <input class="form-control" id="title" type="text" name="title" value="<?php echo $data->title; ?>" required>
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Teks</label>
-                            <div class="col-9">
-                                <textarea class="form-control editor" id="editor1" name="content" rows="10"><?php echo $data->content_dzikir; ?></textarea>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-3">
+                                <label for="txt">
+                                    <input class="checked" name="type" type="radio" id="txt" value="txt" checked>
+                                    Teks
+                                </label>
+                            </div>
+                            <div class="col-3">
+                                <label for="phot">
+                                    <input class="checked" name="type" type="radio" id="phot" value="photo">
+                                    Foto
+                                </label>
+                            </div>
+                            <div class="col-3">
+                                <label for="all">
+                                    <input class="checked" name="type" type="radio" id="all" value="all">
+                                    Teks dan Foto
+                                </label>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
+                        <div id="text">
+                            <div class="form-group row">
+                                <label for="" class="col-3 col-form-label">Teks</label>
+                                <div class="col-9">
+                                    <textarea class="form-control editor" id="editor1" name="content" rows="10"><?php echo $data->content_dzikir; ?></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="image" class="d-none">
+                            <div class="form-group row">
+                                <label for="photo" class="col-form-label col-3">Foto / Scan</label>
+                                <div class="col-9">
+                                    <input type="file" class="form-control" name="images[]" multiple>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary waves-effect waves-light" id="Yes">Simpan</button>
                         <a href="<?php echo site_url('islami/dzikir'); ?>" class="btn btn-danger waves-effect waves-light">
                             Batal 
                         </a>
@@ -54,7 +87,24 @@
 </div>
 
 <script type="text/javascript">
+    var radio   = $('.checked:checked').val();
     $(document).ready(function() {
+        $('.checked').change(function(e) {
+            e.preventDefault();
+
+            radio = $(this).val();
+
+            if(radio == "txt") {
+                $('#text').removeClass('d-none');
+                $('#image').addClass('d-none');
+            }else if(radio == "photo") {
+                $('#text').addClass('d-none');
+                $('#image').removeClass('d-none');
+            }else if(radio == "all") {
+                $('#text').removeClass('d-none');
+                $('#image').removeClass('d-none');
+            }
+        })
         tinymce.init({
             selector: "#editor1",
             plugins: [
@@ -93,5 +143,5 @@
                 }
        });
 
-    } );
+    });
 </script>

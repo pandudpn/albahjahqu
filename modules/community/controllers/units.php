@@ -92,6 +92,7 @@ class units extends Admin_Controller {
 
         $data = array(
             'app_id'    => $app_id,
+            'partner_id'=> 3,
             'name'      => $name,
             'type'      => $type,
             'level'     => $level,

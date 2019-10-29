@@ -2,7 +2,7 @@
 
 class units_model extends MY_Model {
 
-    protected $table            = 'units';
+    protected $table            = 'partner_branches';
     protected $tableProvince    = 'geo_provinces';
     protected $tableCities      = 'geo_cities';
     protected $tableDistricts   = 'geo_districts';
