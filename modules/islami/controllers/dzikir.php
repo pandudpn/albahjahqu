@@ -66,7 +66,7 @@ class dzikir extends Admin_Controller {
         );
 
         if(!empty($_FILES['pdf']['name'])) {
-            $config['upload_path']      = './data/excel/';
+            $config['upload_path']      = './data/pdf/';
 	        $config['allowed_types']    = 'pdf';
 	        $config['encrypt_name']     = true;
 	        
@@ -75,18 +75,9 @@ class dzikir extends Admin_Controller {
 	            
 	        } else {
                 $file   = $this->upload->data();
-                $pdfFile= './data/excel/'.$file['file_name'];
-	            $import = site_url('data/excel').'/'.$file['file_name'];
+	            $data['pdf'] = site_url('data/pdf').'/'.$file['file_name'];
             }
-            
-            include "./vendor/autoload.php";
 
-            $parser = new \Smalot\PdfParser\Parser();
-            $pdf    = $parser->parseFile($pdfFile);
-            
-            $data['content_dzikir'] = "<p style='text-align: justify;'>".$pdf->getText()."</p>";
-
-            unlink($import);
         }else {
             $data['content_dzikir'] = $content;
         }
@@ -123,7 +114,8 @@ class dzikir extends Admin_Controller {
             $row['text']    = word_limiter($l->content_dzikir, 30);
             $row['edit']    = site_url('islami/dzikir/edit/'.$l->id);
             $row['delete']  = site_url('islami/dzikir/delete/'.$l->id);
-            $row['type']    = $l->type;
+            $row['pdf']     = $l->pdf;
+            $row['render']  = site_url('islami/dzikir/render/'/$l->id);
 
             $data[] = $row;
         }
