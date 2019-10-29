@@ -5,7 +5,6 @@ class dzikir extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('islami/dzikir_model', 'dzikir');
-        $this->load->model('islami/dzikir_details_model', 'dzikir_details');
 
         $this->load->helper('text');
 
@@ -44,12 +43,6 @@ class dzikir extends Admin_Controller {
         }
     }
 
-    public function images($id) {
-        $dzikir = $this->dzikir_details->find_all_by(['dzikir_id' => $id, 'deleted' => 0]);
-
-        echo json_encode($dzikir);
-    }
-
     public function save()
     {
         $id       		= $this->input->post('id');
@@ -72,7 +65,8 @@ class dzikir extends Admin_Controller {
 	        
 	        $this->load->library('upload', $config);
 	        if ( ! $this->upload->do_upload('pdf')) {
-	            
+                $this->session->set_flashdata('alert', ['msg' => 'Ekstension file tidak bisa. Hanya PDF', 'type' => 'danger']);
+                redirect(site_url('islami/dzikir/add'), 'refresh');
 	        } else {
                 $file   = $this->upload->data();
 	            $data['pdf'] = site_url('data/pdf').'/'.$file['file_name'];
@@ -115,7 +109,6 @@ class dzikir extends Admin_Controller {
             $row['edit']    = site_url('islami/dzikir/edit/'.$l->id);
             $row['delete']  = site_url('islami/dzikir/delete/'.$l->id);
             $row['pdf']     = $l->pdf;
-            $row['render']  = site_url('islami/dzikir/render/'/$l->id);
 
             $data[] = $row;
         }
