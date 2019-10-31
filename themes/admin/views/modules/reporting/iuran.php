@@ -35,8 +35,8 @@
                         <th>Siswa</th>
                         <th>Tipe Pembayaran</th>
                         <th>Periode</th>
-                        <th>Batas Waktu</th>
-                        <th>Status</th>
+                        <th>Total Bayar</th>
+                        <th>Tanggal Bayar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -125,20 +125,16 @@
                 },
                 {
                     "targets": [4],
-                    "data": "bil_date"
+                    "data": "bil_amount",
+                    "render": function(data, type, row, meta) {
+                        return "Rp "+data
+                    },
+                    "orderable": false
                 },
                 {
                     "targets": [5],
-                    "data": "status",
-                    "render": function(data, type, row, meta) {
-                        let html
-                        if(data === "unpaid"){
-                            html = '<span class="badge badge-danger">Belum Bayar</span>'
-                        }else if(data === "paid"){
-                            html = '<span class="badge badge-success">Sudah Bayar</span>'
-                        }
-                        return html
-                    }
+                    "data": "bil_date_pay",
+                    "orderable": false
                 }
             ]
         });

@@ -2,9 +2,9 @@
 
 class students_bill extends MY_Model {
 
-    protected $table            = 'student_bills';
-    protected $tableStudent     = 'students';
-    protected $tableUnit        = 'units';
+    protected $table            = 'partner_student_bills';
+    protected $tableStudent     = 'partner_students';
+    protected $tablePartner     = 'partner_branches';
 
     protected $key              = 'id';
     protected $date_format      = 'datetime';
@@ -12,9 +12,9 @@ class students_bill extends MY_Model {
     protected $set_created      = true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'units.id', 'students.name', null, null, 'bill_due_date', 'bill_status'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'units.id', 'partner_students.name', null, null, 'bill_due_date', 'bill_status'); //set column field database for datatable orderable
     protected $column_search = array('students.name', 'bill_type', 'bill_period_type', 'bill_period'); //set column field database for datatable searchable 
-    protected $order         = array('bill_due_date' => 'ASC', 'bill_status' => 'ASC'); // default order 
+    protected $order         = array('partner_student_bills.modified_on' => 'DESC'); // default order 
 
     public function __construct()
     {
@@ -26,10 +26,10 @@ class students_bill extends MY_Model {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
 
-        $this->db->select($this->table.'.*, '.$this->tableStudent.'.name AS student_name, '.$this->tableUnit.'.name AS school_name');
+        $this->db->select($this->table.'.*, '.$this->tableStudent.'.name AS student_name, '.$this->tablePartner.'.name AS school_name');
         $this->db->from($this->table);
         $this->db->join($this->tableStudent, $this->tableStudent.'.id = '.$this->table.'.student_id');
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->tableStudent.'.unit_id');
+        $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->tableStudent.'.partner_branch_id');
  
         $i = 0;
      
@@ -55,7 +55,8 @@ class students_bill extends MY_Model {
         }
 
         $this->db->where($this->table.'.deleted', 0);
-        $this->db->where($this->tableUnit.'.app_id', $app_id);
+        $this->db->where($this->tablePartner.'.app_id', $app_id);
+        $this->db->where($this->table.'.bill_status', 'paid');
 
         if(!empty($from)) {
             $this->db->where($this->table.'.created_on >=', $from);
@@ -80,8 +81,8 @@ class students_bill extends MY_Model {
     {
         $this->_get_datatables_query($app_id);
 
-        // if($_POST['length'] != -1)
-        //     $this->db->limit($_POST['length'], $_POST['start']);
+        if($_POST['length'] != -1)
+            $this->db->limit($_POST['length'], $_POST['start']);
 
         $query = $this->db->get();
 
@@ -100,9 +101,10 @@ class students_bill extends MY_Model {
     {
         $this->db->from($this->table);
         $this->db->join($this->tableStudent, $this->tableStudent.'.id = '.$this->table.'.student_id');
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->tableStudent.'.unit_id');
+        $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->tableStudent.'.partner_branch_id');
         $this->db->where($this->table.'.deleted', 0);
-        $this->db->where($this->tableUnit.'.app_id', $app_id);
+        $this->db->where($this->tablePartner.'.app_id', $app_id);
+        $this->db->where($this->table.'.bill_status', 'paid');
         
         return $this->db->count_all_results();
     }

@@ -34,8 +34,8 @@ class iuran extends Admin_Controller {
             $row['bil_period_t']= ucwords($l->bill_period_type);
             $row['bil_period']  = $l->bill_period;
             $row['bil_year']    = $l->bill_year;
-            $row['bil_date']    = date('j F, Y', strtotime($l->bill_due_date));
-            $row['status']      = $l->bill_status;
+            $row['bil_amount']  = number_format($l->bill_amount, 0, '.', '.');
+            $row['bil_date_pay']= date('d M, Y', strtotime($l->modified_on));
 
             $data[] = $row;
         }

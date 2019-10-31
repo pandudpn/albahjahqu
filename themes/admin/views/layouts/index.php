@@ -267,6 +267,11 @@
                                     <i class="mdi mdi-cash"></i><span> Sadaqah </span> 
                                 </a>
                             </li>
+                            <li>
+                                <a href="<?php echo site_url('reporting/iuran'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-cash"></i><span> Iuran </span> 
+                                </a>
+                            </li>
                             <li class="text-muted menu-title">Konten</li>
                             <!-- <li>
                                 <a href="<?php echo site_url('/topics'); ?>" class="waves-effect">
