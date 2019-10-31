@@ -89,23 +89,27 @@ class donations extends Admin_Controller {
         $id       		= $this->input->post('id');
 
         $title     		= $this->input->post('title');
-        $desc           = $this->input->post('description');
         $type           = $this->input->post('type');
+        $category       = $this->input->post('category');
+        $desc           = $this->input->post('description');
+        $nom_type       = $this->input->post('nom_type');
         $due_date       = $this->input->post('due_date');
         $target         = $this->input->post('target');
         $amount         = $this->input->post('slot_amount');
-        $status         = $this->input->post('status');
+        $headline       = $this->input->post('headline');
         $satuan         = $this->input->post('satuan');
 
         $data = array(
             'app_id'        => $this->app_id,
             'title'         => $title,
+            'type_donation' => $type,
+            'category_donation' => $category,
             'description'   => $desc,
-            'nominal_type'  => $type,
+            'nominal_type'  => $nom_type,
             'due_date'      => $due_date,
             'slot_amount'   => $amount,
             'target_amount' => $target,
-            'type'          => $status,
+            'type'          => $headline,
             'unit'          => $satuan
         );
 
@@ -138,6 +142,9 @@ class donations extends Admin_Controller {
                         $image  = site_url('data/images/donations').'/'.$file['file_name'];
     
                         $in     = $this->donation_photos->insert(['donation_id' => $insert, 'photo' => $image]);
+                    }else {
+                        $this->session->set_flashdata('alert', ['msg' => $this->upload->display_errors(), 'type' => 'danger']);
+                        redirect(site_url('donations/add'));
                     }
                 }
             }
@@ -145,29 +152,31 @@ class donations extends Admin_Controller {
         }else{
             $update = $this->donation->update($id, $data);
 
-            if(!empty($_FILES['image']['name'])) {
-                $number_files   = sizeof($_FILES['image']['tmp_name']);
-                $files          = $_FILES['image'];
-    
-                for($i = 0; $i < $number_files; $i++) {
-                    $_FILES['image']['name']    = $files['name'][$i];
-                    $_FILES['image']['type']    = $files['type'][$i];
-                    $_FILES['image']['tmp_name']= $files['tmp_name'][$i];
-                    $_FILES['image']['error']   = $files['error'][$i];
-                    $_FILES['image']['size']    = $files['size'][$i];
-    
-                    $config['upload_path']      = './data/images/donations/';
-                    $config['allowed_types']    = 'jpg|png|gif|jpeg';
-                    $config['encrypt_name']     = true;
-    
-                    $this->load->library('upload', $config);
-    
-                    if($this->upload->do_upload('image')) {
-                        $file   = $this->upload->data();
-                        $image  = site_url('data/images/donations').'/'.$file['file_name'];
-    
-                        $in     = $this->donation_photos->insert(['donation_id' => $id, 'photo' => $image]);
-                    }
+            if(isset($_FILES['image']['name'])) {
+                if($_FILES['image']['name'][0] != '') {
+                    $number_files   = sizeof($_FILES['image']['tmp_name']);
+                    $files          = $_FILES['image'];
+        
+                    for($i = 0; $i < $number_files; $i++) {
+                        $_FILES['image']['name']    = $files['name'][$i];
+                        $_FILES['image']['type']    = $files['type'][$i];
+                        $_FILES['image']['tmp_name']= $files['tmp_name'][$i];
+                        $_FILES['image']['error']   = $files['error'][$i];
+                        $_FILES['image']['size']    = $files['size'][$i];
+        
+                        $config['upload_path']      = './data/images/donations/';
+                        $config['allowed_types']    = 'jpg|png|gif|jpeg';
+                        $config['encrypt_name']     = true;
+        
+                        $this->load->library('upload', $config);
+        
+                        if($this->upload->do_upload('image')) {
+                            $file   = $this->upload->data();
+                            $image  = site_url('data/images/donations').'/'.$file['file_name'];
+        
+                            $in     = $this->donation_photos->insert(['donation_id' => $id, 'photo' => $image]);
+                        }
+                    }   
                 }
             }
         }
@@ -222,11 +231,13 @@ class donations extends Admin_Controller {
             $row['no']          = $no;
             $row['title']       = $l->title;
             $row['desc']        = word_limiter($l->description, 10);
-            $row['type']        = $type;
+            $row['nom_type']    = $type;
             $row['due_date']    = date('d F Y', strtotime($l->due_date));
             $row['amount']      = number_format($l->amount, 0, '.', '.');
             $row['target']      = number_format($l->target_amount, 0, '.', '.');
             $row['status']      = $l->type;
+            $row['type']        = $l->type_donation;
+            $row['category']    = ucfirst($l->category_donation);
             $row['edit']        = site_url('donations/edit/'.$l->id);
             $row['deleted']     = site_url('donations/delete/'.$l->id);
 

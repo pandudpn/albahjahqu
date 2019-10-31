@@ -26,6 +26,45 @@
                 <div class="col-12">
                     <form method="post" action="<?php echo site_url('donations/save'); ?>" enctype="multipart/form-data">
                         <input type="hidden" value="<?php echo $data->id; ?>" name="id">
+
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="type" class="col-form-label col-3">Tipe Donasi</label>
+                                        <div class="col-9">
+                                            <select name="type" id="type" class="form-control" required="required">
+                                                <option value="reguler" <?php echo $data->type_donation == 'reguler' ? 'selected' : null ?>>Reguler</option>
+                                                <option value="specific" <?php echo $data->type_donation == 'specific' ? 'selected' : null ?>>Spesifik</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="category" class="col-form-label col-3">Kategori Donasi</label>
+                                        <div class="col-9">
+                                            <select name="category" id="category" class="form-control" required="required">
+                                                <option value="infaq" <?php echo $data->category_donation == 'infaq' ? 'selected' : null ?>>Infaq</option>
+                                                <option value="shodaqoh" <?php echo $data->category_donation == 'shodaqoh' ? 'selected' : null ?>>Shodaqoh</option>
+                                                <option value="zakat" <?php echo $data->category_donation == 'zakat' ? 'selected' : null ?>>Zakat</option>
+                                                <option value="waqaf" <?php echo $data->category_donation == 'waqaf' ? 'selected' : null ?>>Waqaf</option>
+                                                <option value="donation" <?php echo $data->category_donation == 'donation' ? 'selected' : null ?>>Donasi</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <small style="color: #a0a0a0;">
+                                    *info <br>
+                                    Reguler (Infaq)         => 7200420092 <br>
+                                    Reguler (shadaqah)      => 7200420092 <br>
+                                    Reguler (zakat)         => 7512227777 <br>
+                                    Reguler (wakaf)         => 7512225556 <br>
+                                    Reguler (donasi)        => 7510002223 <br>
+                                    Spesifik (Infaq)        => 7722006668
+                                </small>
+                            </div>
+                        </div>
                         
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Judul</label>
@@ -42,16 +81,16 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Tipe Donasi</label>
+                            <label for="" class="col-3 col-form-label">Nominal Tipe Donasi</label>
                             <div class="col-3">
                                 <label for="txt">
-                                    <input class="checked" name="type" type="radio" id="txt" value="freetext" <?php echo isset($data) ? $data->nominal_type == 'freetext' ? 'checked' : null : 'checked' ?>>
+                                    <input class="checked" name="nom_type" type="radio" id="txt" value="freetext" <?php echo isset($data) ? $data->nominal_type == 'freetext' ? 'checked' : null : 'checked' ?>>
                                     Free Text
                                 </label>
                             </div>
                             <div class="col-3">
                                 <label for="slot">
-                                    <input class="checked" name="type" type="radio" id="slot" value="slot" <?php echo isset($data) ? $data->nominal_type == 'slot' ? 'checked' : null : null ?>>
+                                    <input class="checked" name="nom_type" type="radio" id="slot" value="slot" <?php echo isset($data) ? $data->nominal_type == 'slot' ? 'checked' : null : null ?>>
                                     Slot
                                 </label>
                             </div>
@@ -91,11 +130,11 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="" class="col-3 col-form-label">Status</label>
+                            <label for="" class="col-3 col-form-label">Headline</label>
                             <div class="col-9">
-                                <select name="status" id="status" class="form-control">
-                                    <option value="headline" <?php echo ($data->status == 'headline') ? 'selected' : null ?>>Headline</option>
-                                    <option value="list" <?php echo ($data->status == 'list') ? 'selected' : null ?>>Tidak Headline</option>
+                                <select name="headline" id="headline" class="form-control">
+                                    <option value="headline" <?php echo ($data->type == 'headline') ? 'selected' : null ?>>Ya</option>
+                                    <option value="list" <?php echo ($data->type == 'list') ? 'selected' : null ?>>Tidak</option>
                                 </select>
                             </div>
                         </div>
@@ -104,6 +143,7 @@
                             <label for="" class="col-3 col-form-label">Foto</label>
                             <div class="col-9">
                                 <input class="form-control" type="file" name="image[]" multiple <?php echo isset($data) ? null : 'required' ?>>
+                                <small class="text-gray">* foto bisa lebih dari 1</small>
                             </div>
                         </div>
 

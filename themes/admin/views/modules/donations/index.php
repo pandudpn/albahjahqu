@@ -32,7 +32,9 @@
                     <th>No</th>
                     <th>Judul</th>
                     <th>Deskripsi</th>
-                    <th>Tipe</th>
+                    <th>Tipe Donasi</th>
+                    <th>Kategori</th>
+                    <th>Tipe Bayar</th>
                     <th>Terkumpul</th>
                     <th>Target</th>
                     <th>Batas Waktu</th>
@@ -110,28 +112,47 @@
                 },
                 {
                     "targets": [3],
-                    "data": "type"
+                    "data": "type",
+                    "orderable": false,
+                    "render": function (data, type, row, meta) {
+                        var html
+                        if(data == 'specific') {
+                            html = 'Spesifik';
+                        }else {
+                            html = 'Reguler'
+                        }
+                        return html
+                    }
                 },
                 {
                     "targets": [4],
+                    "data": "category",
+                    "orderable": false
+                },
+                {
+                    "targets": [5],
+                    "data": "nom_type"
+                },
+                {
+                    "targets": [6],
                     "data": "amount",
                     "render": function(data, type, row, meta) {
                         return 'Rp '+data
                     }
                 },
                 {
-                    "targets": [5],
+                    "targets": [7],
                     "data": "target",
                     "render": function(data, type, row, meta) {
                         return 'Rp '+data
                     }
                 },
                 {
-                    "targets": [6],
+                    "targets": [8],
                     "data": "due_date"
                 },
                 {
-                    "targets": [7],
+                    "targets": [9],
                     "orderable": false,
                     "data": {
                         "tracking": "tracking",
@@ -150,7 +171,7 @@
                     }
                 },
                 { 
-                    "targets": [8], //last column / numbering column
+                    "targets": [10], //last column / numbering column
                     "orderable": false, //set not orderable
                     "data": {
                         "deleted": "deleted",

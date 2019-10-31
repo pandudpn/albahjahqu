@@ -10,7 +10,7 @@ class donations_model extends MY_Model {
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
-    protected $column_order  = array(null, 'title', null, 'nominal_type', 'amount', 'target_amount', 'due_date'); //set column field database for datatable orderable
+    protected $column_order  = array(null, 'title', null, null, null, 'nominal_type', 'amount', 'target_amount', 'due_date'); //set column field database for datatable orderable
     protected $column_search = array('title', 'nominal_type', 'amount', 'target_amount'); //set column field database for datatable searchable 
     protected $order         = array('type' => 'asc', 'due_date' => 'asc'); // default order 
 

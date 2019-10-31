@@ -17,7 +17,9 @@ class donation_photos_model extends MY_Model {
     public function delete_all($donation) {
         $this->db->where('donation_id', $donation);
 
-        $this->db->update($this->table, ['deleted' => 1]);
+        // $this->db->update($this->table, ['deleted' => 1]);
+
+        $this->db->delete($this->table);
 
         if($this->db->affected_rows() > 0 ){
             return true;
