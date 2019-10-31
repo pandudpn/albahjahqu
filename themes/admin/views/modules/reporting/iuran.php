@@ -33,7 +33,7 @@
                     <tr>
                         <th>No</th>
                         <th>Siswa</th>
-                        <th>Tipe Pembayaran</th>
+                        <th>Kode Cabang</th>
                         <th>Periode</th>
                         <th>Total Bayar</th>
                         <th>Tanggal Bayar</th>
@@ -110,13 +110,22 @@
                     "orderable": false //set not orderable
                 },
                 {
-                    "targets": [1],
-                    "data": "student"
+                    "targets": [2],
+                    "data": "branch_code",
+                    "orderable": false,
+                    "render": function(data, type, row, meta) {
+                        var html
+                        if(data == null) {
+                            html = '-'
+                        }else {
+                            html = data
+                        }
+                        return html
+                    }
                 },
                 {
-                    "targets": [2],
-                    "data": "bil_type",
-                    "orderable": false
+                    "targets": [1],
+                    "data": "student"
                 },
                 {
                     "targets": [3],

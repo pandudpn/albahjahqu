@@ -30,11 +30,12 @@ class iuran extends Admin_Controller {
 
             $row['no']          = $no;
             $row['student']     = $l->student_name;
-            $row['bil_type']    = ucwords($l->bill_type);
-            $row['bil_period_t']= ucwords($l->bill_period_type);
-            $row['bil_period']  = $l->bill_period;
-            $row['bil_year']    = $l->bill_year;
-            $row['bil_amount']  = number_format($l->bill_amount, 0, '.', '.');
+            $row['partner']     = $l->school_name;
+            $row['bil_period_t']= ucwords($l->deposit_period_type);
+            $row['bil_period']  = $l->deposit_period;
+            $row['bil_year']    = $l->deposit_year;
+            $row['bil_amount']  = number_format($l->deposit_amount, 0, '.', '.');
+            $row['branch_code'] = $l->branch_code;
             $row['bil_date_pay']= date('d M, Y', strtotime($l->modified_on));
 
             $data[] = $row;
