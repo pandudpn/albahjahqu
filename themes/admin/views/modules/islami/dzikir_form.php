@@ -43,8 +43,8 @@
                                 </label>
                             </div>
                             <div class="col-3">
-                                <label for="pdf">
-                                    <input class="checked" name="type" type="radio" id="pdf" value="pdf">
+                                <label for="import">
+                                    <input class="checked" name="type" type="radio" id="import" value="import">
                                     PDF
                                 </label>
                             </div>
@@ -91,7 +91,7 @@
             if(radio == "txt") {
                 $('#text').removeClass('d-none');
                 $('#image').addClass('d-none');
-            }else if(radio == "pdf") {
+            }else if(radio == "import") {
                 $('#text').addClass('d-none');
                 $('#image').removeClass('d-none');
             }
