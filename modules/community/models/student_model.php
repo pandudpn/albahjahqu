@@ -2,8 +2,8 @@
 
 class student_model extends MY_Model {
 
-    protected $table            = 'students';
-    protected $tableUnit        = 'units';
+    protected $table            = 'partner_students';
+    protected $tablePartner     = 'partner_branches';
 
     protected $key              = 'id';
     protected $date_format      = 'datetime';
@@ -11,9 +11,9 @@ class student_model extends MY_Model {
     protected $set_created      = true;
     protected $soft_deletes     = true;
 
-    protected $column_order  = array(null, 'unit_id', 'nis', 'students.name', 'gender'); //set column field database for datatable orderable
-    protected $column_search = array('units.name', 'nis', 'students.name', 'gender', 'students.address'); //set column field database for datatable searchable 
-    protected $order         = array('unit_id' => 'ASC', 'students.name' => 'ASC'); // default order 
+    protected $column_order  = array(null, 'partner_branch_id', 'partner_students.student_number', 'partner_students.name', 'gender'); //set column field database for datatable orderable
+    protected $column_search = array('partner_branches.name', 'partner_students.student_number', 'partner_students.name', 'gender', 'partner_students.address'); //set column field database for datatable searchable 
+    protected $order         = array('partner_branch_id' => 'ASC', 'partner_students.name' => 'ASC'); // default order 
 
     public function __construct()
     {
@@ -21,19 +21,19 @@ class student_model extends MY_Model {
     }
 
     public function get_by($app, $term) {
-        $this->db->select($this->table.'.*, '.$this->tableUnit.'.name AS unit_name');
+        $this->db->select($this->table.'.*, '.$this->tablePartner.'.name AS partner_name');
         $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
+        $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->table.'.partner_branch_id');
         $this->db->where('app_id', $app);
         $this->db->like($this->table.'.name', $term);
-        $this->db->or_like($this->table.'.nis', $term);
+        $this->db->or_like($this->table.'.student_number', $term);
         return $this->db->get();
     }
 
     public function get_all($where=array()) {
-        $this->db->select($this->table.'.*');
+        // $this->db->select($this->table.'.*');
         $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
+        // $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->table.'.partner_branch_id');
 
         if(!empty($where)) {
             foreach($where AS $key => $val) {
@@ -47,11 +47,11 @@ class student_model extends MY_Model {
 
     public function _get_datatables_query($app_id)
     {
-        $type = $this->input->get('type');
+        $type = $this->input->get('level');
 
-        $this->db->select($this->table.'.*, '.$this->tableUnit.'.name AS unit_name');
+        $this->db->select($this->table.'.*, '.$this->tablePartner.'.name AS partner_name');
         $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
+        $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->table.'.partner_branch_id');
  
         $i = 0;
      
@@ -78,11 +78,11 @@ class student_model extends MY_Model {
 
         //deleted = 0
         $this->db->where($this->table.'.deleted', 0);
-        $this->db->where($this->tableUnit.'.app_id', $app_id);
-        $this->db->where($this->table.'.status !=', 'no');
+        $this->db->where($this->tablePartner.'.app_id', $app_id);
+        $this->db->where($this->table.'.status !=', 'out');
 
         if(!empty($type)){
-            $this->db->where($this->tableUnit.'.type', $type);
+            $this->db->where($this->tablePartner.'.level', $type);
         }
 
          
@@ -120,10 +120,10 @@ class student_model extends MY_Model {
     public function count_all($app_id)
     {
         $this->db->from($this->table);
-        $this->db->join($this->tableUnit, $this->tableUnit.'.id = '.$this->table.'.unit_id');
+        $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->table.'.partner_branch_id');
         $this->db->where($this->table.'.deleted', 0);
-        $this->db->where($this->tableUnit.'.app_id', $app_id);
-        $this->db->where($this->table.'.status !=', 'no');
+        $this->db->where($this->tablePartner.'.app_id', $app_id);
+        $this->db->where($this->table.'.status !=', 'out');
         
         return $this->db->count_all_results();
     }

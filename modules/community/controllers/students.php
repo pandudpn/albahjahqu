@@ -5,7 +5,7 @@ class students extends Admin_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('community/student_model', 'student');
-        $this->load->model('community/units_model', 'unit');
+        $this->load->model('community/partner_branch_models', 'branch');
 
         $this->load->helper('text');
 
@@ -16,29 +16,30 @@ class students extends Admin_Controller {
 
     public function index()
     {
-        $unit = $this->unit->get_type(['app_id' => $this->app_id, 'type !=' => 'kantor']);
+        $branch = $this->branch->get_type(['app_id' => $this->app_id, 'type !=' => 'kantor']);
 
         $this->template
              ->set('alert', $this->session->flashdata('alert'))
-             ->set('unit', $unit)
+             ->set('branch', $branch)
     		 ->build('students');
     }
 
     public function add()
     {
-        $unit = $this->unit->get_all(['app_id' => $this->app_id, 'deleted' => 0, 'type !=' => 'kantor']);
+        $branch = $this->branch->find_all_by(['app_id' => $this->app_id, 'type !=' => 'kantor']);
+        // print_r($branch); die;
 
         $this->template
             ->set('alert', $this->session->flashdata('alert'))
             ->set('title', 'Siswa / Santi Baru')
-            ->set('unit', $unit)
+            ->set('branch', $branch)
             ->build('students_form');
     }
 
     public function edit($id)
     {
         $is_exist   = $this->student->find($id);
-        $unit       = $this->unit->get_all(['app_id' => $this->app_id, 'deleted' => 0, 'type !=' => 'kantor']);
+        $branch     = $this->branch->find_all_by(['app_id' => $this->app_id, 'type !=' => 'kantor']);
 
         if($is_exist){
             $student = $is_exist;
@@ -47,7 +48,7 @@ class students extends Admin_Controller {
                 ->set('alert', $this->session->flashdata('alert'))
                 ->set('title', 'Ubah Data Siswa / Santri - '.$student->name)
                 ->set('data', $student)
-                ->set('unit', $unit)
+                ->set('branch', $branch)
                 ->build('students_form');
         }
     }
@@ -66,21 +67,26 @@ class students extends Admin_Controller {
         $birthday       = $this->input->post('date');
 
         $data = array(
-            'unit_id'   => $unit,
-            'nis'       => $nis,
-            'name'      => $name,
-            'gender'    => $gender,
-            'address'   => $address,
-            'status'    => $status,
-            'birthplace'=> $birth,
-            'birthday'  => $birthday
+            'partner_branch_id'     => $unit,
+            'partner_id'            => 3,
+            'student_number'        => $nis,
+            'name'                  => $name,
+            'gender'                => $gender,
+            'address'               => $address,
+            'status'                => $status,
+            'birthplace'            => $birth,
+            'birthday'              => $birthday
         );
 
+        $partner_branch = $this->branch->find($unit);
+
+        $data['partner_branch_eva']     = $partner_branch->partner_branch_eva;
+        $data['partner_branch_code']    = $partner_branch->partner_branch_code;
         
         if(!$id){
-            if($gender == 'Laki-laki') {
+            if($gender == 'L') {
                 $image  = site_url('data/images/people/default.png');
-            }elseif($gender == 'Perempuan'){
+            }elseif($gender == 'P'){
                 $image  = site_url('data/images/people/default_cw.png');
             }
 
@@ -92,7 +98,8 @@ class students extends Admin_Controller {
                 
                 $this->load->library('upload', $config);
                 if ( ! $this->upload->do_upload('image')) {
-                    
+                    $this->session->set_flashdata('alert', ['msg' => $this->upload->display_errors(), 'type' => 'danger']);
+                    redirect(site_url('community/students'), 'refresh');
                 } else {
                     $file = $this->upload->data();
                     $image = site_url('data/images/people').'/'.$file['file_name'];
@@ -112,7 +119,8 @@ class students extends Admin_Controller {
                 
                 $this->load->library('upload', $config);
                 if ( ! $this->upload->do_upload('image')) {
-                    
+                    $this->session->set_flashdata('alert', ['msg' => $this->upload->display_errors(), 'type' => 'danger']);
+                    redirect(site_url('community/students'), 'refresh');
                 } else {
                     $file = $this->upload->data();
                     $image = site_url('data/images/people').'/'.$file['file_name'];
@@ -146,9 +154,9 @@ class students extends Admin_Controller {
             $row   = array();
 
             $row['no']      = $no;
-            $row['unit']    = $l->unit_name;
+            $row['partner'] = $l->partner_name;
             $row['name']    = $l->name;
-            $row['nis']     = $l->nis;
+            $row['nis']     = $l->student_number;
             $row['address'] = $l->address;
             $row['gender']  = $l->gender;
             $row['status']  = $l->status;
@@ -173,7 +181,7 @@ class students extends Admin_Controller {
         $nis    = $this->input->post('nis');
         $unit   = $this->input->post('unit');
 
-        $student    = $this->student->find_by(['deleted' => 0, 'nis' => $nis, 'unit_id' => $unit]);
+        $student    = $this->student->find_by(['deleted' => 0, 'student_number' => $nis, 'partner_branch_id' => $unit]);
 
         $status = 'success';
         $data   = '';

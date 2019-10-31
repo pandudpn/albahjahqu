@@ -116,7 +116,7 @@
                 },
                 {
                     "targets": [1],
-                    "data": "unit"
+                    "data": "partner"
                 },
                 {
                     "targets": [2],

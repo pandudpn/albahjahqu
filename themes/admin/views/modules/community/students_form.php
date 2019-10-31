@@ -45,8 +45,8 @@
                             <div class="col-9">
                                 <select name="unit" id="unit" class="form-control" required="required">
                                     <option value="" selected disabled>-</option>
-                                    <?php foreach($unit AS $units){ ?>
-                                        <option value="<?= $units->id; ?>" <?php echo ($data->unit_id == $units->id) ? 'selected' : null ?>><?php echo $units->name; ?></option>
+                                    <?php foreach($branch AS $units){ ?>
+                                        <option value="<?= $units->id; ?>" <?php echo ($data->partner_branch_id == $units->id) ? 'selected' : null ?>><?php echo $units->name; ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -55,7 +55,7 @@
                         <div class="form-group row">
                             <label for="nis" class="col-form-label col-3">Nomer Induk Siswa</label>
                             <div class="col-9">
-                                <input type="text" class="form-control" id="nis" name="nis" value="<?= $data->nis; ?>" placeholder="Nomer Induk Siswa" required="required" <?php echo isset($data) ? 'readonly' : null ?>>
+                                <input type="text" class="form-control" id="nis" name="nis" value="<?= $data->student_number; ?>" placeholder="Nomer Induk Siswa" required="required" <?php echo isset($data) ? 'readonly' : null ?>>
                                 <div id="result"></div>
                             </div>
                         </div>
@@ -81,13 +81,13 @@
                             <label for="" class="col-form-label col-3">Jenis Kelamin</label>
                             <div class="col-4">
                                 <label for="laki">
-                                    <input type="radio" name="gender" id="laki" value="Laki-laki" <?php echo ($data->gender == 'Laki-laki') ? 'checked' : 'checked' ?>>
+                                    <input type="radio" name="gender" id="laki" value="L" <?php echo ($data->gender == 'L') ? 'checked' : 'checked' ?>>
                                     Laki-laki
                                 </label>
                             </div>
                             <div class="col-4">
                                 <label for="perempuan">
-                                    <input type="radio" name="gender" id="perempuan" value="Perempuan" <?php echo ($data->gender == 'Perempuan') ? 'checked' : null ?>>
+                                    <input type="radio" name="gender" id="perempuan" value="P" <?php echo ($data->gender == 'P') ? 'checked' : null ?>>
                                     Perempuan
                                 </label>
                             </div>
