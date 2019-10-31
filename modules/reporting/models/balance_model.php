@@ -21,19 +21,13 @@ class balance_model extends MY_Model {
  
     public function get_datatables()
     {
-        // $from   = $this->input->get('from');
-        // $to     = $this->input->get('to');
+        $dbt    = 'obb_transactions';
+        $dbe    = 'obb_eva';
 
-        $eva    = $this->load->database('eva', TRUE);
-        $trans  = $this->load->database('transactions', TRUE);
-
-        $dbt    = $trans->database;
-        $dbe    = $eva->database;
-
-        $eva->select($this->table.'.*');
-        $eva->from($dbe.'.'.$this->table);
-        $eva->join($dbt.'.'.$this->table, $dbt.'.'.$this->table.'.phone = '.$dbe.'.'.$this->table.'.account_no');
-        $eva->join($dbt.'.'.$this->tablePartner, $dbt.'.'.$this->tablePartner.'.partner_branch_eva = '.$dbt.'.'.$this->table.'.phone');
+        $this->db->select($dbe.".".$this->table.".*", false);
+        $this->db->from($dbe.".".$this->table);
+        $this->db->join($dbt.".".$this->table, $dbt.".".$this->table.".phone = ".$dbe.".".$this->table.".account_no");
+        $this->db->join($dbt.".".$this->tablePartner, $dbt.".".$this->table.".phone = ".$dbt.".".$this->tablePartner.".partner_branch_eva");
  
         $i = 0;
      
@@ -44,58 +38,47 @@ class balance_model extends MY_Model {
                  
                 if($i===0) // first loop
                 {
-                    $eva->open_bracket(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-                    $eva->like_not_and($item, $_POST['search']['value']);
+                    $this->db->open_bracket(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like_not_and($item, $_POST['search']['value']);
                 }
                 else
                 {
-                    $eva->or_like($item, $_POST['search']['value']);
+                    $this->db->or_like($item, $_POST['search']['value']);
                 }
  
                 if(count($this->column_search) - 1 == $i) //last loop
-                    $eva->close_bracket(); //close bracket
+                    $this->db->close_bracket(); //close bracket
             }
             $i++;
         }
 
         //deleted = 0
-        $eva->where($dbt.'.'.$this->tablePartner.'.partner_id', 3);
-
-        // if(!empty($from) && !empty($to)){
-        //     $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
-        //     $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
-        // }else{
-        //     $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
-        //     $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
-        // }
+        $this->db->where($dbt.'.'.$this->tablePartner.'.partner_id', 3);
          
         if(isset($_POST['order'])) // here order processing
         {
-            $eva->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } 
         else if(isset($this->order))
         {
             $order = $this->order;
-            $eva->order_by(key($order), $order[key($order)]);
+            $this->db->order_by(key($order), $order[key($order)]);
         }
         if($_POST['length'] != -1)
-            $eva->limit($_POST['length'], $_POST['start']);
-        $query = $eva->get();
+            $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
         return $query->result();
     }
  
     public function count_filtered()
     {
-        $eva    = $this->load->database('eva', TRUE);
-        $trans  = $this->load->database('transactions', TRUE);
+        $dbt    = 'obb_transactions';
+        $dbe    = 'obb_eva';
 
-        $dbt    = $trans->db->database;
-        $dbe    = $eva->db->database;
-
-        $eva->select($dbe.'.'.$this->table.'.*');
-        $eva->from($dbe.'.'.$this->table);
-        $eva->join($dbt.'.'.$this->table, $dbt.'.'.$this->table.'.phone = '.$dbe.'.'.$this->table.'.account_no');
-        $eva->join($dbt.'.'.$this->tablePartner, $dbt.'.'.$this->tablePartner.'.partner_branch_eva = '.$dbt.'.'.$this->table.'.phone');
+        $this->db->select($dbe.".".$this->table.".*", false);
+        $this->db->from($dbe.".".$this->table);
+        $this->db->join($dbt.".".$this->table, $dbt.".".$this->table.".phone = ".$dbe.".".$this->table.".account_no");
+        $this->db->join($dbt.".".$this->tablePartner, $dbt.".".$this->table.".phone = ".$dbt.".".$this->tablePartner.".partner_branch_eva");
  
         $i = 0;
      
@@ -106,60 +89,50 @@ class balance_model extends MY_Model {
                  
                 if($i===0) // first loop
                 {
-                    $eva->open_bracket(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-                    $eva->like_not_and($item, $_POST['search']['value']);
+                    $this->db->open_bracket(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like_not_and($item, $_POST['search']['value']);
                 }
                 else
                 {
-                    $eva->or_like($item, $_POST['search']['value']);
+                    $this->db->or_like($item, $_POST['search']['value']);
                 }
  
                 if(count($this->column_search) - 1 == $i) //last loop
-                    $eva->close_bracket(); //close bracket
+                    $this->db->close_bracket(); //close bracket
             }
             $i++;
         }
 
         //deleted = 0
-        $eva->where($dbt.'.'.$this->tablePartner.'.partner_id', 3);
-
-        // if(!empty($from) && !empty($to)){
-        //     $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
-        //     $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
-        // }else{
-        //     $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
-        //     $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
-        // }
+        $this->db->where($dbt.'.'.$this->tablePartner.'.partner_id', 3);
          
         if(isset($_POST['order'])) // here order processing
         {
-            $eva->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } 
         else if(isset($this->order))
         {
             $order = $this->order;
-            $eva->order_by(key($order), $order[key($order)]);
+            $this->db->order_by(key($order), $order[key($order)]);
         }
-        $query = $eva->get();
+        $query = $this->db->get();
         return $query->num_rows();
     }
  
     public function count_all()
     {
-        $eva    = $this->load->database('eva', TRUE);
-        $trans  = $this->load->database('transactions', TRUE);
+        $dbt    = 'obb_transactions';
+        $dbe    = 'obb_eva';
 
-        $dbt    = $trans->db->database;
-        $dbe    = $eva->db->database;
+        $this->db->select($dbe.".".$this->table.".*", false);
+        $this->db->from($dbe.".".$this->table);
+        $this->db->join($dbt.".".$this->table, $dbt.".".$this->table.".phone = ".$dbe.".".$this->table.".account_no");
+        $this->db->join($dbt.".".$this->tablePartner, $dbt.".".$this->table.".phone = ".$dbt.".".$this->tablePartner.".partner_branch_eva");
 
-        $eva->select($dbe.'.'.$this->table.'.*');
-        $eva->from($dbe.'.'.$this->table);
-        $eva->join($dbt.'.'.$this->table, $dbt.'.'.$this->table.'.phone = '.$dbe.'.'.$this->table.'.account_no');
-        $eva->join($dbt.'.'.$this->tablePartner, $dbt.'.'.$this->tablePartner.'.partner_branch_eva = '.$dbt.'.'.$this->table.'.phone');
+        //deleted = 0
+        $this->db->where($dbt.'.'.$this->tablePartner.'.partner_id', 3);
 
-        $eva->where($dbt.'.'.$this->tablePartner.'.partner_id', 3);
-
-        return $eva->get()->num_rows();
+        return $this->db->get()->num_rows();
     }
 
 }
