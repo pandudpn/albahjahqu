@@ -57,13 +57,14 @@ class albums extends Admin_Controller {
         if(!empty($_FILES['image']['name']))
         {
         	$config['upload_path']      = './data/images/albums/';
-	        $config['allowed_types']    = '*';
+	        $config['allowed_types']    = 'jpg|jpeg|png|gif';
 	        $config['max_size']         = 1024;
 	        $config['encrypt_name']     = true;
 	        
 	        $this->load->library('upload', $config);
 	        if ( ! $this->upload->do_upload('image')) {
-	            
+                $this->session->set_flashdata('alert', ['msg' => $this->upload->display_errors(), 'type' => 'danger']);
+                redirect(site_url('albums/add'), 'refresh');
 	        } else {
 	            $file = $this->upload->data();
 	            $data['image'] = site_url('data/images/albums').'/'.$file['file_name'];

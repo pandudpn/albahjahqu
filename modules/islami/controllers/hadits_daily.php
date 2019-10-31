@@ -66,13 +66,14 @@ class hadits_daily extends Admin_Controller {
         if(!empty($_FILES['image']['name']))
         {
         	$config['upload_path']      = './data/images';
-	        $config['allowed_types']    = '*';
+	        $config['allowed_types']    = 'jpg|jpeg|png|gif';
 	        $config['max_size']         = 1024;
 	        $config['encrypt_name']     = true;
 	        
 	        $this->load->library('upload', $config);
 	        if ( ! $this->upload->do_upload('image')) {
-	            
+	            $this->session->set_flashdata('alert', ['msg' => $this->upload->display_errors(), 'type' => 'danger']);
+                redirect(site_url('islami/hadits_daily/add'), 'refresh');
 	        } else {
 	            $file   = $this->upload->data();
 	            $data['image']  = site_url('data/images').'/'.$file['file_name'];

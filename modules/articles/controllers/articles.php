@@ -67,7 +67,8 @@ class articles extends Admin_Controller {
 	        
 	        $this->load->library('upload', $config);
 	        if ( ! $this->upload->do_upload('image')) {
-	            
+                $this->session->set_flashdata('alert', ['msg' => $this->upload->display_errors(), 'type' => 'danger']);
+                redirect(site_url('articles/add'), 'refresh');
 	        } else {
 	            $file = $this->upload->data();
 	            $data['image'] = site_url('data/images/articles').'/'.$file['file_name'];

@@ -72,7 +72,8 @@ class dzikir extends Admin_Controller {
 	        
 	        $this->load->library('upload', $config);
 	        if ( ! $this->upload->do_upload('pdf')) {
-	            
+	            $this->session->set_flashdata('alert', ['msg' => $this->upload->display_errors(), 'type' => 'danger']);
+                redirect(site_url('islami/dzikir/add'), 'refresh');
 	        } else {
                 $file   = $this->upload->data();
 	            $data['pdf'] = site_url('data/pdf').'/'.$file['file_name'];
