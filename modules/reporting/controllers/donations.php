@@ -57,7 +57,7 @@ class donations extends Admin_Controller {
                 return "Januari";
                 break;
             case 2:
-                return "Febuari";
+                return "Pebuari";
                 break;
             case 3:
                 return "Maret";
@@ -84,7 +84,7 @@ class donations extends Admin_Controller {
                 return "Oktober";
                 break;
             case 11:
-                return "November";
+                return "Nopember";
                 break;
             case 12:
                 return "Desember";

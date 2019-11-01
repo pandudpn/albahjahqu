@@ -33,7 +33,7 @@
                     <tr>
                         <th>No</th>
                         <th>Siswa</th>
-                        <th>Kode Cabang</th>
+                        <th>Cabang</th>
                         <th>Periode</th>
                         <th>Total Bayar</th>
                         <th>Tanggal Bayar</th>

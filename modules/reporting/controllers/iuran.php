@@ -42,7 +42,7 @@ class iuran extends Admin_Controller {
             $row['bil_year']    = $l->deposit_year;
             $row['bil_amount']  = number_format($l->deposit_amount, 0, '.', '.');
             $row['branch_code'] = $l->branch_code;
-            $row['bil_date_pay']= date('d M, Y', strtotime($times));
+            $row['bil_date_pay']= date('j', strtotime($times)). " ".$this->bulan(date('n', strtotime($times)))." ".date('Y', strtotime($times));
 
             $data[] = $row;
         }
@@ -55,6 +55,49 @@ class iuran extends Admin_Controller {
         );
         //output to json format
         echo json_encode($output);
+    }
+
+    public function bulan($bulan) {
+        switch($bulan) {
+            case 1:
+                return "Januari";
+                break;
+            case 2:
+                return "Pebuari";
+                break;
+            case 3:
+                return "Maret";
+                break;
+            case 4:
+                return "April";
+                break;
+            case 5:
+                return "Mei";
+                break;
+            case 6:
+                return "Juni";
+                break;
+            case 7:
+                return "Juli";
+                break;
+            case 8:
+                return "Agustus";
+                break;
+            case 9:
+                return "September";
+                break;
+            case 10:
+                return "Oktober";
+                break;
+            case 11:
+                return "Nopember";
+                break;
+            case 12:
+                return "Desember";
+                break;
+            default:
+                return null;
+        }
     }
 
 }
