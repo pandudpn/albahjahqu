@@ -25,6 +25,12 @@ class iuran extends Admin_Controller {
         $no   = $_POST['start'];
 
         foreach($list AS $l){
+            if($l->modified_on == NULL) {
+                $times  = $l->created_on;
+            }else {
+                $times  = $l->modified_on;
+            }
+
             $no++;
             $row    = array();
 
@@ -36,7 +42,7 @@ class iuran extends Admin_Controller {
             $row['bil_year']    = $l->deposit_year;
             $row['bil_amount']  = number_format($l->deposit_amount, 0, '.', '.');
             $row['branch_code'] = $l->branch_code;
-            $row['bil_date_pay']= date('d M, Y', strtotime($l->modified_on));
+            $row['bil_date_pay']= date('d M, Y', strtotime($times));
 
             $data[] = $row;
         }
