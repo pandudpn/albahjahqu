@@ -20,6 +20,10 @@ class infaq extends Admin_Controller {
              ->set('to', $to)
     		 ->build('infaq');
     }
+
+    public function download(){
+        $this->infaq->download($this->alias);
+    }
     
     public function datatables()
     {

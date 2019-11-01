@@ -231,4 +231,43 @@ class sadaqah_model extends MY_Model {
         return $eva->get()->num_rows();
     }
 
+    public function download($alias)
+    {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        $eva    = $this->load->database('eva', TRUE);
+        $eva->select('account_holder AS Nama, debit AS Nominal, '.$this->table.'.created_on AS Tanggal', false);
+        $eva->from($this->table);
+        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
+
+        //deleted = 0
+        $eva->where($this->table. '.deleted', '0');
+        $eva->where('SUBSTRING(transaction_code, 1, 4) = ', $alias);
+        $eva->where('SUBSTRING(transaction_code, 5, 3)=','SDQ');
+        $eva->where('SUBSTRING(transaction_code, -3)=', 'OUT');
+
+        if(!empty($from) && !empty($to)){
+            $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
+            $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }
+         
+        $eva->order_by($this->table.'.created_on', 'desc');
+
+        $result = $eva->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i').".csv";
+
+        $delimiter = "|";
+        $newline   = "\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
+    }
+
 }

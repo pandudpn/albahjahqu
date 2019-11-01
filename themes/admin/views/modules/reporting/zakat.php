@@ -11,6 +11,12 @@
 
 <div class="row">
     <div class="col-12">
+        <div class="p-20">
+            <a href="<?php echo site_url('reporting/zakat/download'); ?>" id="excel"><button class="btn btn-sm btn-success waves-effect waves-light">
+                <i class="fa fa-file-excel-o"></i> Export ke Excel </button>
+            </a>
+        </div>
+
         <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
@@ -23,8 +29,8 @@
             <form method="get" id="form">
                 <div class="row" style="margin-bottom: 15px; margin-left: 5px;">
                     <div class="col-12">Filter : </div>
-                    <div class="col-2"><input type="text" id="from" name="from" class="form-control datepicker" placeholder="From" value="<?php echo $from; ?>"></div>
-                    <div class="col-2"><input type="text" id="to" name="to" class="form-control datepicker" placeholder="To" value="<?php echo $to; ?>"></div>
+                    <div class="col-2"><input type="text" id="from" name="from" class="form-control datepicker" placeholder="From"></div>
+                    <div class="col-2"><input type="text" id="to" name="to" class="form-control datepicker" placeholder="To"></div>
                     <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('reporting/transactions'); ?>" class="btn btn-secondary">Reset</a></div>
                 </div>
             </form>
@@ -82,6 +88,10 @@
             var to      = $('#to').val();
 
             Data(from, to);
+
+            var base_url    = '<?php echo site_url("reporting/zakat/download"); ?>';
+
+            $('#excel').attr('href', base_url+'?from='+from+'&to='+to);
         });
 
 

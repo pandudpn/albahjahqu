@@ -20,6 +20,10 @@ class sadaqah extends Admin_Controller {
              ->set('to', $to)
     		 ->build('sadaqah');
     }
+
+    public function download(){
+        $this->sadaqah->download($this->alias);
+    }
     
     public function datatables()
     {

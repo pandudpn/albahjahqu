@@ -20,6 +20,10 @@ class zakat extends Admin_Controller {
              ->set('to', $to)
     		 ->build('zakat');
     }
+
+    public function download(){
+        $this->zakat->download($this->alias);
+    }
     
     public function datatables()
     {
