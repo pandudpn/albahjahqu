@@ -61,6 +61,7 @@ class donations extends Admin_Controller {
     public function edit($id)
     {
         $is_exist = $this->donation->find($id);
+        $photos   = $this->donation_photos->find_all_by(['donation_id' => $id, 'deleted' => 0]);
 
         if($is_exist){
             $donation = $is_exist;
@@ -69,6 +70,7 @@ class donations extends Admin_Controller {
                 ->set('alert', $this->session->flashdata('alert'))
                 ->set('title', 'Ubah Data Donasi')
                 ->set('data', $donation)
+                ->set('photos', $photos)
                 ->build('form');
         }
     }
@@ -207,6 +209,12 @@ class donations extends Admin_Controller {
         $delete = $this->donation->delete($id);
 
         redirect(site_url('donations'), 'refresh');
+    }
+
+    public function delete_photo($donation, $id) {
+        $delete = $this->donation_photos->delete($id);
+
+        redirect(site_url('donations/edit/'.$donation), 'refresh');
     }
 
     public function datatables()

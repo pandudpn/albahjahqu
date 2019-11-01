@@ -139,6 +139,28 @@
                             </div>
                         </div>
 
+                        <?php if(isset($data)){ ?>
+                        <div class="row">
+                            <div class="col-3"></div>
+                            <div class="col-9">
+                                <?php foreach($photos AS $photo) { ?>
+                                    <div class="row mb-3">
+                                        <div class="col-4">
+                                            <div style="width: 200px; height: 200px;" class="d-block mx-auto">
+                                                <img src="<?php echo $photo->photo; ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                            </div>
+                                        </div>
+                                        <div class="col-1 pt-2">
+                                            <a href="<?php echo site_url('donations/delete_photo/'.$data->id.'/'.$photo->id); ?>" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <?php } ?>
+
                         <div class="form-group row">
                             <label for="" class="col-3 col-form-label">Foto</label>
                             <div class="col-9">
