@@ -42,7 +42,7 @@ class iuran extends Admin_Controller {
             $row['bil_year']    = $l->deposit_year;
             $row['bil_amount']  = number_format($l->deposit_amount, 0, '.', '.');
             $row['branch_code'] = $l->branch_code;
-            $row['bil_date_pay']= date('j', strtotime($times)). " ".$this->bulan(date('n', strtotime($times)))." ".date('Y', strtotime($times));
+            $row['bil_date_pay']= $times;
 
             $data[] = $row;
         }
