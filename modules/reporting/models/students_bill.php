@@ -27,7 +27,6 @@ class students_bill extends MY_Model {
         $to     = $this->input->get('to');
 
         $this->db->select($this->table.'.*, '.$this->tableStudent.'.name AS student_name, '.$this->tablePartner.'.name AS school_name, '.$this->tableStudent.'.partner_branch_code AS branch_code');
-        // $this->db->select('IFNULL('.$this->tableStudent.'.partner_branch_code, "-") AS branch_code');
         $this->db->from($this->table);
         $this->db->join($this->tableStudent, $this->tableStudent.'.id = '.$this->table.'.student_id');
         $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->tableStudent.'.partner_branch_id');
@@ -108,6 +107,45 @@ class students_bill extends MY_Model {
         $this->db->where($this->table.'.deposit_status', 'paid');
         
         return $this->db->count_all_results();
+    }
+
+    public function download($app_id)
+    {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        $this->db->select($this->table.'.student_number AS NIS, '.$this->tableStudent.'.name AS Nama, '.$this->tablePartner.'.name AS Sekolah, '.$this->tableStudent.'.partner_branch_code AS Kode_Cabang');
+        $this->db->select($this->table.'.deposit_amount AS Nominal, IFNULL('.$this->table.'.modified_on, '.$this->table.'.created_on) AS Tanggal_Bayar', false);
+        $this->db->from($this->table);
+        $this->db->join($this->tableStudent, $this->tableStudent.'.id = '.$this->table.'.student_id');
+        $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->tableStudent.'.partner_branch_id');
+
+        $this->db->where($this->table.'.deleted', 0);
+        $this->db->where($this->tablePartner.'.app_id', $app_id);
+        $this->db->where($this->table.'.deposit_status', 'paid');
+
+        if(!empty($from)) {
+            $this->db->where($this->table.'.created_on >=', $from);
+        }
+
+        if(!empty($to)) {
+            $this->db->where($this->table.'.created_on <=', $to);
+        }
+
+        $result = $this->db->get();
+
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+
+        date_default_timezone_set("Asia/Jakarta");
+        $filename  = "export_".date('Y-m-d H:i').".csv";
+
+        $delimiter = "|";
+        $newline   = "\n";
+        $csv_file  = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+
+        force_download($filename, $csv_file);
     }
     
 }

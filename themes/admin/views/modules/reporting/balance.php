@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Laporan Infaq</h4>
+            <h4 class="page-title float-left">Saldo</h4>
 
             <div class="clearfix"></div>
         </div>

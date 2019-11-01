@@ -16,6 +16,10 @@ class iuran extends Admin_Controller {
              ->set('alert', $this->session->flashdata('alert'))
     		 ->build('iuran');
     }
+
+    public function download(){
+        $this->iuran->download($this->app_id);
+    }
     
     public function datatables()
     {

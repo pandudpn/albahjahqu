@@ -269,7 +269,12 @@
                             </li>
                             <li>
                                 <a href="<?php echo site_url('reporting/iuran'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-cash"></i><span> Iuran </span> 
+                                    <i class="mdi mdi-credit-card"></i><span> Iuran SPP </span> 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('reporting/balance'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-wallet-outline"></i><span> Saldo </span> 
                                 </a>
                             </li>
                             <li class="text-muted menu-title">Konten</li>

@@ -10,8 +10,10 @@ class students extends Admin_Controller {
         $this->load->helper('text');
 
         $this->app_id   = $this->session->userdata('user')->app_id;
+        // $this->url      = "https://partner.okbabe.technology/";
+        $this->url      = "localhost:8080/";
 
-        $this->check_login();
+        // $this->check_login();
     }
 
     public function index()
@@ -133,6 +135,68 @@ class students extends Admin_Controller {
         }
 
         redirect(site_url('community/students'), 'refresh');
+    }
+
+    public function import(){
+        $this->load->library('Guzzle');
+        if(!empty($_FILES['file']['name']))
+        {
+            // print_r($_FILES['file']); die;
+            $config['upload_path']      = './data/excel/';
+            $config['allowed_types']    = 'csv';
+            $config['encrypt_name']     = true;
+            
+            $this->load->library('upload', $config);
+            if ( ! $this->upload->do_upload('file')) {
+                $this->session->set_flashdata('alert', ['msg' => $this->upload->display_errors(), 'type' => 'danger']);
+                redirect(site_url('community/students'), 'refresh');
+            } else {
+                $file = $this->upload->data();
+                $file_name  = $file['file_name'];
+                $image = site_url('data/excel').'/'.$file['file_name'];
+            }
+        }
+
+        $partner        = $this->input->post('partner');
+
+        $partner_branch = $this->branch->find($partner);
+
+        try {
+            $resources  = 'file/student';
+            $url        = $this->url.$resources;
+            
+            $client      = new GuzzleHttp\Client([ 
+                'base_uri'   => $this->url,
+                'Accept'     => 'application/json'
+            ]);
+            $response   = $client->post($url, [
+                'multipart' => [
+                    // 'Content-type'          => 'multipart/form-data',
+                    [
+                        'app_id'                => $this->app_id,
+                        'partner_branch_id'     => $partner,
+                        'partner_id'            => 3,
+                        'partner_branch_eva'    => $partner_branch->partner_branch_eva,
+                        'partner_branch_code'   => $partner_branch->partner_branch_code,
+                        // 'name'                  => $file_name,
+                        'student_file'          => fopen($image, 'r')
+                    ]
+                ]
+                // 'form_params'   => [
+                    
+                // ],
+                // 'headers'   => [
+                //     'Content-type'          => 'multipart/form-data'
+                // ]
+            ]);
+
+            $json       = $response->getBody();
+            echo json_encode($json);
+        } catch(GuzzleHttp\Exception\BadResponseException $e) {
+            $response = $e->getResponse();
+            $result   = $response->getBody()->getContents();
+            echo json_encode($result);
+        }
     }
 
     public function delete($id)

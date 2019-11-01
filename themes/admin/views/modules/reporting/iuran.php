@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Laporan Iuran</h4>
+            <h4 class="page-title float-left">Laporan Iuran SPP</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -11,6 +11,12 @@
 
 <div class="row">
     <div class="col-12">
+        <div class="p-20">
+            <a href="<?php echo site_url('reporting/iuran/download'); ?>" id="excel"><button class="btn btn-sm btn-success waves-effect waves-light">
+                <i class="fa fa-file-excel-o"></i> Export ke Excel </button>
+            </a>
+        </div>
+
         <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
@@ -83,6 +89,10 @@
             var to      = $('#to').val();
 
             Data(from, to);
+            
+            var base_url    = '<?php echo site_url("reporting/iuran/download"); ?>';
+
+            $('#excel').attr('href', base_url+'?from='+from+'&to='+to);
         });
 
     });
