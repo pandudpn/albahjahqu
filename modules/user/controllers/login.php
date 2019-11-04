@@ -26,7 +26,11 @@ class login extends Admin_Controller {
     		{
     			$this->session->set_userdata('admin_logged_in', true);
 				$this->session->set_userdata('user', $user);
-                redirect(site_url(), 'refresh');
+                if(strpos($email, 'tahfidz') === false) {
+					redirect(site_url(), 'refresh');
+				}else {
+					redirect(site_url('reporting/iuran'), 'refresh');
+				}
     		}
     		else
     		{

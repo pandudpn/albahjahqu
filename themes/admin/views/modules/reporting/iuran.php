@@ -13,7 +13,7 @@
     <div class="col-12">
         <div class="p-20">
             <a href="<?php echo site_url('reporting/iuran/download'); ?>" id="excel"><button class="btn btn-sm btn-success waves-effect waves-light">
-                <i class="fa fa-file-excel-o"></i> Export ke Excel </button>
+                <i class="fa fa-file-excel-o"></i> Export ke CSV </button>
             </a>
         </div>
 
@@ -39,6 +39,7 @@
                     <tr>
                         <th>No</th>
                         <th>Siswa</th>
+                        <th>NIS</th>
                         <th>Cabang</th>
                         <th>Periode</th>
                         <th>Total Bayar</th>
@@ -120,7 +121,7 @@
                     "orderable": false //set not orderable
                 },
                 {
-                    "targets": [2],
+                    "targets": [3],
                     "data": "branch_code",
                     "orderable": false,
                     "render": function(data, type, row, meta) {
@@ -138,12 +139,16 @@
                     "data": "student"
                 },
                 {
-                    "targets": [3],
+                    "targets": [2],
+                    "data": "nis"
+                },
+                {
+                    "targets": [4],
                     "data": "bil_period_t",
                     "orderable": false
                 },
                 {
-                    "targets": [4],
+                    "targets": [5],
                     "data": "bil_amount",
                     "render": function(data, type, row, meta) {
                         return "Rp "+data
@@ -151,7 +156,7 @@
                     "orderable": false
                 },
                 {
-                    "targets": [5],
+                    "targets": [6],
                     "data": "bil_date_pay",
                     "orderable": false
                 }

@@ -40,6 +40,7 @@ class iuran extends Admin_Controller {
 
             $row['no']          = $no;
             $row['student']     = $l->student_name;
+            $row['nis']         = $l->student_number;
             $row['partner']     = $l->school_name;
             $row['bil_period_t']= ucwords($l->deposit_period_type);
             $row['bil_period']  = $l->deposit_period;

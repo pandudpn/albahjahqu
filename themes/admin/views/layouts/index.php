@@ -228,19 +228,21 @@
                     <!--- Sidemenu -->
                     <div id="sidebar-menu">
                         <ul>
-                            <li class="text-muted menu-title">Umum</li>
-                            <li>
-                                <a href="<?php echo site_url(); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-view-dashboard"></i><span> Halaman Utama </span> 
-                                </a>
-                            </li>
-                            <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe'){ ?>
-                                <li class="text-muted menu-title">Menu</li>
+                            <?php if(strpos($this->session->userdata('user')->email, 'tahfidz') === false){ ?>
+                                <li class="text-muted menu-title">Umum</li>
                                 <li>
-                                    <a href="<?php echo site_url('/user/admin'); ?>" class="waves-effect">
-                                        <i class="zmdi zmdi-account-circle"></i><span> Admin </span> 
+                                    <a href="<?php echo site_url(); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-view-dashboard"></i><span> Halaman Utama </span> 
                                     </a>
                                 </li>
+                                <?php if($this->session->userdata('user')->app_id == 'com.dekape.okbabe'){ ?>
+                                    <li class="text-muted menu-title">Menu</li>
+                                    <li>
+                                        <a href="<?php echo site_url('/user/admin'); ?>" class="waves-effect">
+                                            <i class="zmdi zmdi-account-circle"></i><span> Admin </span> 
+                                        </a>
+                                    </li>
+                                <?php } ?>
                             <?php } ?>
                             <!-- <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect">
@@ -252,150 +254,154 @@
                                 </ul>
                             </li> -->
                             <li class="text-muted menu-title">Laporan</li>
-                            <li>
-                                <a href="<?php echo site_url('reporting/zakat'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-file-text"></i><span> Zakat </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('reporting/infaq'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-account-cash"></i><span> Infaq </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('reporting/sadaqah'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-cash"></i><span> Sadaqah </span> 
-                                </a>
-                            </li>
+                            <?php if(strpos($this->session->userdata('user')->email, 'tahfidz') === false){ ?>
+                                <li>
+                                    <a href="<?php echo site_url('reporting/zakat'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-file-text"></i><span> Zakat </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('reporting/infaq'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-account-cash"></i><span> Infaq </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('reporting/sadaqah'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-cash"></i><span> Sadaqah </span> 
+                                    </a>
+                                </li>
+                            <?php } ?>
                             <li>
                                 <a href="<?php echo site_url('reporting/iuran'); ?>" class="waves-effect">
                                     <i class="mdi mdi-credit-card"></i><span> Iuran SPP </span> 
                                 </a>
                             </li>
-                            <li>
-                                <a href="<?php echo site_url('reporting/balance'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-wallet-outline"></i><span> Saldo </span> 
-                                </a>
-                            </li>
-                            <li class="text-muted menu-title">Konten</li>
-                            <!-- <li>
-                                <a href="<?php echo site_url('/topics'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-lamp"></i><span> Topik </span> 
-                                </a>
-                            </li> -->
-                            <li>
-                                <a href="<?php echo site_url('/albums'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-image-o"></i><span> Album </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/articles'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-border-color"></i><span> Artikel </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/news'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-comment-alert"></i><span> Berita </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/videos'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-youtube-play"></i><span> Video </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/donations'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-charity"></i><span> Donasi </span> 
-                                </a>
-                            </li>
-                            <!-- <li class="text-muted menu-title">Management</li>
-                            <li>
-                                <a href="<?php echo site_url('zakat'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-assignment-o"></i><span> Zakat </span> 
-                                </a>
-                            </li> -->
-                            <li class="text-muted menu-title">Islami</li>
-                            <li>
-                                <a href="<?php echo site_url('/islami/doa'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-book-open-page-variant"></i><span> Doa </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/islami/hadits_daily'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-calendar-today"></i><span> Hadits Harian </span> 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?php echo site_url('/islami/dzikir'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-label-heart"></i><span> Dzikir Harian </span> 
-                                </a>
-                            </li>
-                            <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="mdi mdi-islam"></i><span> Panduan Ibadah </span> 
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('islami/category_ibadah'); ?>">Kategori Ibadah</a></li>
-                                    <li><a href="<?php echo site_url('islami/ibadah'); ?>">List Panduan Ibadah</a></li>
-                                </ul>
-                            </li>
-                            <li class="text-muted menu-title">Manajemen</li>
-                            <li>
-                                <a href="<?php echo site_url('/events'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-calendar-note"></i><span> Event </span> 
-                                </a>
-                            </li>
-                            <?php if($this->session->userdata('user')->dealer_id != 41){ ?>
+                            <?php if(strpos($this->session->userdata('user')->email, 'tahfidz') === false){ ?>
                                 <li>
-                                    <a href="<?php echo site_url('/streaming'); ?>" class="waves-effect">
-                                        <i class="mdi mdi-television"></i><span> Link Streaming </span> 
+                                    <a href="<?php echo site_url('reporting/balance'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-wallet-outline"></i><span> Saldo </span> 
                                     </a>
                                 </li>
+                                <li class="text-muted menu-title">Konten</li>
+                                <!-- <li>
+                                    <a href="<?php echo site_url('/topics'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-lamp"></i><span> Topik </span> 
+                                    </a>
+                                </li> -->
+                                <li>
+                                    <a href="<?php echo site_url('/albums'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-image-o"></i><span> Album </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/articles'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-border-color"></i><span> Artikel </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/news'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-comment-alert"></i><span> Berita </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/videos'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-youtube-play"></i><span> Video </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/donations'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-charity"></i><span> Donasi </span> 
+                                    </a>
+                                </li>
+                                <!-- <li class="text-muted menu-title">Management</li>
+                                <li>
+                                    <a href="<?php echo site_url('zakat'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-assignment-o"></i><span> Zakat </span> 
+                                    </a>
+                                </li> -->
+                                <li class="text-muted menu-title">Islami</li>
+                                <li>
+                                    <a href="<?php echo site_url('/islami/doa'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-book-open-page-variant"></i><span> Doa </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/islami/hadits_daily'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-calendar-today"></i><span> Hadits Harian </span> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo site_url('/islami/dzikir'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-label-heart"></i><span> Dzikir Harian </span> 
+                                    </a>
+                                </li>
+                                <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="mdi mdi-islam"></i><span> Panduan Ibadah </span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('islami/category_ibadah'); ?>">Kategori Ibadah</a></li>
+                                        <li><a href="<?php echo site_url('islami/ibadah'); ?>">List Panduan Ibadah</a></li>
+                                    </ul>
+                                </li>
+                                <li class="text-muted menu-title">Manajemen</li>
+                                <li>
+                                    <a href="<?php echo site_url('/events'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-calendar-note"></i><span> Event </span> 
+                                    </a>
+                                </li>
+                                <?php if($this->session->userdata('user')->dealer_id != 41){ ?>
+                                    <li>
+                                        <a href="<?php echo site_url('/streaming'); ?>" class="waves-effect">
+                                            <i class="mdi mdi-television"></i><span> Link Streaming </span> 
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <li>
+                                    <a href="<?php echo site_url('/reminder'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-alarm"></i><span> Notifikasi Pengingat </span> 
+                                    </a>
+                                </li>
+                                <li class="text-muted menu-title">Transaksi</li>
+                                <li>
+                                    <a href="<?php echo site_url('/bills'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-credit-card-outline"></i><span> Iuran </span> 
+                                    </a>
+                                </li>
+                                <li class="text-muted menu-title">Manajemen Pendidikan</li>
+                                <!-- <li>
+                                    <a href="<?php echo site_url('/community/units'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-domain"></i><span> Sekolah </span> 
+                                    </a>
+                                </li> -->
+                                <!-- <li>
+                                    <a href="<?php echo site_url('/community/staff'); ?>" class="waves-effect">
+                                        <i class="zmdi zmdi-accounts-list"></i><span> Guru </span> 
+                                    </a>
+                                </li> -->
+                                <li>
+                                    <a href="<?php echo site_url('/community/students'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-account-group"></i><span> Siswa </span> 
+                                    </a>
+                                </li>
+                                <!-- <li>
+                                    <a href="<?php echo site_url('/community/graduate'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-school"></i><span> Alumni </span> 
+                                    </a>
+                                </li> -->
+                                <!-- <li class="has_sub">
+                                    <a href="javascript:void(0);" class="waves-effect">
+                                        <i class="mdi mdi-trophy"></i><span> Penghargaan </span> 
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul class="list-unstyled">
+                                        <li><a href="<?php echo site_url('community/achievement'); ?>">Sekolah</a></li>
+                                        <li><a href="<?php echo site_url('community/achievement_student'); ?>">Siswa</a></li>
+                                        <li><a href="<?php echo site_url('community/achievement_staff'); ?>">Guru</a></li>
+                                    </ul>
+                                </li> -->
                             <?php } ?>
-                            <li>
-                                <a href="<?php echo site_url('/reminder'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-alarm"></i><span> Notifikasi Pengingat </span> 
-                                </a>
-                            </li>
-                            <li class="text-muted menu-title">Transaksi</li>
-                            <li>
-                                <a href="<?php echo site_url('/bills'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-credit-card-outline"></i><span> Iuran </span> 
-                                </a>
-                            </li>
-                            <li class="text-muted menu-title">Manajemen Pendidikan</li>
-                            <!-- <li>
-                                <a href="<?php echo site_url('/community/units'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-domain"></i><span> Sekolah </span> 
-                                </a>
-                            </li> -->
-                            <!-- <li>
-                                <a href="<?php echo site_url('/community/staff'); ?>" class="waves-effect">
-                                    <i class="zmdi zmdi-accounts-list"></i><span> Guru </span> 
-                                </a>
-                            </li> -->
-                            <li>
-                                <a href="<?php echo site_url('/community/students'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-account-group"></i><span> Siswa </span> 
-                                </a>
-                            </li>
-                            <!-- <li>
-                                <a href="<?php echo site_url('/community/graduate'); ?>" class="waves-effect">
-                                    <i class="mdi mdi-school"></i><span> Alumni </span> 
-                                </a>
-                            </li> -->
-                            <!-- <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect">
-                                    <i class="mdi mdi-trophy"></i><span> Penghargaan </span> 
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul class="list-unstyled">
-                                    <li><a href="<?php echo site_url('community/achievement'); ?>">Sekolah</a></li>
-                                    <li><a href="<?php echo site_url('community/achievement_student'); ?>">Siswa</a></li>
-                                    <li><a href="<?php echo site_url('community/achievement_staff'); ?>">Guru</a></li>
-                                </ul>
-                            </li> -->
                         </ul>
                         <div class="clearfix"></div>
                     </div>
