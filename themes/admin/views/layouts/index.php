@@ -446,7 +446,7 @@
                 $(document).ready(function(){
                     setInterval(() => {
                         notif();
-                    }, 60000);
+                    }, 30000);
                 });
 
                 $(document).on('click', '.notify-item', function(){
@@ -489,12 +489,12 @@
                                     count   = result.data.length;
                                     $('.notif-icon').append('<span class="noti-icon-badge"></span>');
 
-                                    $.map(result.data, (notif, index) => {
-                                        html += '<a href="' + notif.url + '" class="dropdown-item notify-item" data-id="' + notif.id + '">';
+                                    for(var i = 0; i <= 5; i++) {
+                                        html += '<a href="' + result.data[i].url + '" class="dropdown-item notify-item" data-id="' + result.data[i].id + '">';
                                         html += '<div class="notify-icon bg-success"><i class="icon-bubble"></i></div>';
-                                        html += '<p class="notify-details" title="' + notif.text + '">' + notif.msg + '<small class="text-muted">' + notif.created + '</small></p>';
+                                        html += '<p class="notify-details" title="' + result.data[i].text + '">' + result.data[i].msg + '<small class="text-muted">' + result.data[i].created + '</small></p>';
                                         html += '</a>';
-                                    });
+                                    }
 
                                     if(result.data.length > 1) {
                                         html += '<div class="dropdown-divider"></div>';
