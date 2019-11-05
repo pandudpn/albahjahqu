@@ -147,4 +147,26 @@ class news extends Admin_Controller {
         return false;
     }
 
+    public function imgupload()
+    {
+        $config['upload_path']      = './data/images/news/';
+        $config['allowed_types']    = '*';
+        $config['max_size']         = 0;
+        $config['encrypt_name']     = true;
+        
+        $this->load->library('upload', $config);
+        if ( ! $this->upload->do_upload('file')) {
+            $this->output->set_header('HTTP/1.0 500 Server Error');
+            exit;
+        } else {
+            $file = $this->upload->data();
+            
+            $this->output
+                ->set_content_type('application/json', 'utf-8')
+                ->set_output(json_encode(['location' => site_url('data/images/news/'.$file['file_name'])]))
+                ->_display();
+            exit;
+        }
+    }
+
 }
