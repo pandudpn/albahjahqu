@@ -1,5 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require FCPATH.'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class donations extends Admin_Controller {
     
 	public function __construct() {
@@ -23,6 +28,73 @@ class donations extends Admin_Controller {
              ->set('category', $cat)
     		 ->build('donations');
     }
+
+    public function excel() {
+        set_time_limit(0);
+        ini_set('max_execution_time', 0);
+        ini_set("memory_limit",-1);
+
+    	$spreadsheet 	= new Spreadsheet();
+		$sheet 			= $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama');
+        $sheet->setCellValue('C1', 'Donasi Ke');
+        $sheet->setCellValue('D1', 'Kategori');
+        $sheet->setCellValue('E1', 'Nominal');
+        $sheet->setCellValue('F1', 'Tanggal');
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(10);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(50);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(50);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+
+        $list 		= 2;
+        $number 	= 1;
+
+        $donation_list = $this->donations->get_data($this->app_id);
+
+        foreach ($donation_list as $don) 
+        {
+            $name   = $don->cus_name;
+            if($don->anonymous == 'yes') {
+                $name   = 'Hamba Allah';
+            }
+
+            $category   = ucfirst($don->category);
+            if($don->category == 'donation') {
+                $category   = 'Donasi';
+            }
+
+            $sheet->setCellValue('A'.$list, $number);
+            $sheet->setCellValue('B'.$list, $name);
+            $sheet->setCellValue('C'.$list, $don->donation_name);
+            $sheet->setCellValue('D'.$list, $category);
+            $sheet->setCellValue('E'.$list, $don->credit);
+            $sheet->setCellValue('F'.$list, date('Y-m-d H:i', strtotime($don->created_on)));
+
+            $list++;
+            $number++;
+        }
+
+        $spreadsheet->getActiveSheet()->freezePane('C2');
+
+        $cat    = $this->input->get('category');
+        
+        $catName    = $cat;
+        if($cat == 'donation') {
+            $catName    = 'donasi';
+        }elseif($cat == '') {
+            $catName    = 'semua';
+        }
+
+        $export 		= 'data/excel/report_donasi_kategori_'.$catName.'_'.date('Ymd').'.xlsx';
+
+		$writer 	= new Xlsx($spreadsheet);
+		$writer->save(FCPATH.$export);
+
+		redirect(site_url($export));
+    }
     
     public function datatables()
     {
@@ -40,12 +112,24 @@ class donations extends Admin_Controller {
                 $name   = $l->cus_name;
             }
 
+            if($l->category == 'infaq'){
+                $category   = 'Infaq';
+            }elseif($l->category == 'waqaf') {
+                $category   = 'Waqaf';
+            }elseif($l->category == 'zakat') {
+                $category   = 'Zakat';
+            }elseif($l->category == 'shodaqoh') {
+                $category   = 'Shodaqoh';
+            }else{
+                $category   = 'Donasi';
+            }
+
             $row    = array();
 
             $row['no']      = $no;
             $row['name']    = $name;
             $row['donation']= $l->donation_name;
-            $row['category']= $l->category;
+            $row['category']= $category;
             $row['amount']  = number_format($l->credit, 0, '.', '.');
             $row['date']    = date('j', strtotime($l->created_on)). " ". $this->bulan(date('n', strtotime($l->created_on))). ", ".date('Y', strtotime($l->created_on)). " ".date('H:i', strtotime($l->created_on));
 

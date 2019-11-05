@@ -23,7 +23,7 @@ class donations_model extends MY_Model {
         $this->db->select('DISTINCT(category_donation) AS category', FALSE);
         $this->db->where($this->table.'.app_id', $apps);
         $this->db->where($this->table.'.deleted', 0);
-        $this->db->where($this->table.'.status', 'inactive');
+        $this->db->where($this->table.'.status', 'active');
 
         $query  = $this->db->get($this->table);
         return $query->result();
@@ -64,6 +64,7 @@ class donations_model extends MY_Model {
 
         //deleted = 0
         $this->db->where($this->tableCustomer.'.deleted', 0);
+        $this->db->where($this->table.'.deleted', 0);
         $this->db->where($this->table.'.app_id', $apps);
 
         if(!empty($from) && !empty($to)){
@@ -75,7 +76,7 @@ class donations_model extends MY_Model {
         }
 
         if(!empty($cat)) {
-            $this->db->where($this->table.'.category_donation'. $cat);
+            $this->db->where($this->table.'.category_donation', $cat);
         }
          
         if(isset($_POST['order'])) // here order processing
@@ -117,6 +118,35 @@ class donations_model extends MY_Model {
         $this->db->where($this->table.'.app_id', $apps);
 
         return $this->db->count_all_results();
+    }
+
+    public function get_data($apps) {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+        $cat    = $this->input->get('category');
+
+        $this->db->select($this->tableCustomer.'.*, '.$this->table.'.title AS donation_name, '.$this->table.'.category_donation AS category');
+        $this->db->from($this->tableCustomer);
+        $this->db->join($this->table, $this->table.'.id = '.$this->tableCustomer.'.donation_id');
+
+        $this->db->where($this->tableCustomer.'.deleted', 0);
+        $this->db->where($this->table.'.deleted', 0);
+        $this->db->where($this->table.'.app_id', $apps);
+
+        if(!empty($from) && !empty($to)){
+            $this->db->where($this->tableCustomer.'.created_on >=', $from.' 00:00:01');
+            $this->db->where($this->tableCustomer.'.created_on <=', $to.' 23:59:59');
+        }else{
+            $this->db->where('year('.$this->tableCustomer.'.created_on) =', 'year(curdate())', false);
+            $this->db->where('month('.$this->tableCustomer.'.created_on) =', 'month(curdate())', false);
+        }
+
+        if(!empty($cat)) {
+            $this->db->where($this->table.'.category_donation', $cat);
+        }
+
+        $query = $this->db->get();
+        return $query->result();
     }
 
 }

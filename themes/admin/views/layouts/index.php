@@ -256,6 +256,11 @@
                             <li class="text-muted menu-title">Laporan</li>
                             <?php if(strpos($this->session->userdata('user')->email, 'tahfidz') === false){ ?>
                                 <li>
+                                    <a href="<?php echo site_url('/reporting/donations'); ?>" class="waves-effect">
+                                        <i class="mdi mdi-charity"></i><span> Donasi </span> 
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="<?php echo site_url('reporting/zakat'); ?>" class="waves-effect">
                                         <i class="zmdi zmdi-file-text"></i><span> Zakat </span> 
                                     </a>

@@ -11,6 +11,12 @@
 
 <div class="row">
     <div class="col-12">
+        <div class="p-20">
+            <a href="<?php echo site_url('reporting/donations/excel?from='.$from.'&to='.$to.'&category='); ?>" id="excel"><button class="btn btn-sm btn-success waves-effect waves-light">
+                <i class="fa fa-file-excel-o"></i> Export ke Excel </button>
+            </a>
+        </div>
+
         <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
@@ -28,8 +34,8 @@
                     <div class="col-2">
                         <select name="category" id="category" class="form-control">
                             <option value="">Semua</option>
-                            <?php foreach($cat AS $category) { ?>
-                                <option value="<?= $category->category; ?>"><?php echo ucfirst($category->category); ?></option>
+                            <?php foreach($category AS $cat) { ?>
+                                <option value="<?= $cat->category; ?>"><?php echo ($cat->category == 'donation') ? 'Donasi' : ucfirst($cat->category); ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -92,6 +98,10 @@
             var category= $('#category').val();
 
             Data(from, to, category);
+
+            var base_url    = '<?php echo site_url("reporting/donations/excel"); ?>';
+
+            $('#excel').attr('href', base_url+'?from='+from+'&to='+to+'&category='+category);
         });
 
     });
