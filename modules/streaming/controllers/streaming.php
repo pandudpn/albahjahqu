@@ -66,6 +66,7 @@ class streaming extends Admin_Controller {
         if(!$id){
             $insert = $this->streaming->insert($data);
         }else{
+            $data['status'] = $this->input->post('status');
             $update = $this->streaming->update($id, $data);
         }
 

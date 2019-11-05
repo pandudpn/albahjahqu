@@ -31,13 +31,13 @@
                             <div class="col-3"></div>
                             <div class="col-3">
                                 <label for="tv">
-                                    <input class="checked" name="type" type="radio" id="tv" value="tv" checked>
+                                    <input class="checked" name="type" type="radio" id="tv" value="tv" <?php echo isset($data) ? $data->type == 'tv' ? 'checked' : null : 'checked' ?>>
                                     TV
                                 </label>
                             </div>
                             <div class="col-3">
                                 <label for="radio">
-                                    <input class="checked" name="type" type="radio" id="radio" value="radio">
+                                    <input class="checked" name="type" type="radio" id="radio" value="radio" <?php echo isset($data) ? $data->type == 'radio' ? 'checked' : null : null ?>>
                                     RADIO
                                 </label>
                             </div>
@@ -54,10 +54,22 @@
                             <div class="form-group row">
                                 <label for="name" class="col-form-label col-3">Nama Saluran</label>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Nama Saluran">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Nama Saluran" value="<?php echo $data->name; ?>">
                                 </div>
                             </div>
                         </div>
+
+                        <?php if(isset($data)){ ?>
+                        <div class="form-group row">
+                            <label for="status" class="col-form-label col-3">Status</label>
+                            <div class="col-9">
+                                <select name="status" id="status" class="form-control">
+                                    <option value="active" <?php echo ($data->status == 'active') ? 'selected' : null ?>>Aktif</option>
+                                    <option value="no" <?php echo ($data->status == 'no') ? 'selected' : null ?>>Tidak Aktif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <?php } ?>
 
                         <button type="submit" class="btn btn-primary waves-effect waves-light">Simpan</button>
                         <a href="<?php echo site_url('streaming'); ?>" class="btn btn-danger waves-effect waves-light">
@@ -72,6 +84,14 @@
 </div>
 
 <script>
+    var check   = $('.checked:checked').val();
+
+    if(check == 'radio'){
+        $('#radiofield').removeClass('d-none');
+    }else{
+        $('#radiofield').addClass('d-none');
+    }
+    
     $(document).ready(function(){
         $('.checked').change(function(e) {
             e.preventDefault();
