@@ -8,22 +8,25 @@ class donations extends Admin_Controller {
 
         $this->check_login();
         $this->alias        = $this->session->userdata('user')->alias;
+        $this->app_id       = $this->session->userdata('user')->app_id;
     }
 
     public function index()
     {
         $from   = date('Y-m-d', strtotime('first day of this month'));
         $to     = date('Y-m-d', strtotime('last day of this month'));
+        $cat    = $this->donations->all_category($this->app_id);
         $this->template
              ->set('alert', $this->session->flashdata('alert'))
              ->set('from', $from)
              ->set('to', $to)
+             ->set('category', $cat)
     		 ->build('donations');
     }
     
     public function datatables()
     {
-        $list = $this->donations->get_datatables($this->alias);
+        $list = $this->donations->get_datatables($this->app_id);
         
         $data = array();
         $no   = $_POST['start'];
@@ -31,11 +34,19 @@ class donations extends Admin_Controller {
         foreach($list AS $l) {
             $no++;
 
+            if($l->anonymous == 'yes') {
+                $name   = 'Hamba Allah';
+            }else {
+                $name   = $l->cus_name;
+            }
+
             $row    = array();
 
             $row['no']      = $no;
-            $row['name']    = $l->name;
-            $row['amount']  = number_format($l->debit, 0, '.', '.');
+            $row['name']    = $name;
+            $row['donation']= $l->donation_name;
+            $row['category']= $l->category;
+            $row['amount']  = number_format($l->credit, 0, '.', '.');
             $row['date']    = date('j', strtotime($l->created_on)). " ". $this->bulan(date('n', strtotime($l->created_on))). ", ".date('Y', strtotime($l->created_on)). " ".date('H:i', strtotime($l->created_on));
 
             $data[] = $row;
@@ -43,8 +54,8 @@ class donations extends Admin_Controller {
  
         $output = array(
             "draw"              => $_POST['draw'],
-            "recordsTotal"      => $this->donations->count_all($this->alias),
-            "recordsFiltered"   => $this->donations->count_filtered($this->alias),
+            "recordsTotal"      => $this->donations->count_all($this->app_id),
+            "recordsFiltered"   => $this->donations->count_filtered($this->app_id),
             "data"              => $data,
         );
         //output to json format

@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Laporan Mutasi Donasi</h4>
+            <h4 class="page-title float-left">Laporan Donasi</h4>
 
             <div class="clearfix"></div>
         </div>
@@ -25,6 +25,14 @@
                     <div class="col-12">Filter : </div>
                     <div class="col-2"><input type="text" name="from" id="from" class="form-control datepicker" placeholder="Dari tanggal" value="<?php echo $from; ?>"></div>
                     <div class="col-2"><input type="text" name="to" id="to" class="form-control datepicker" placeholder="Hingga Tanggal" value="<?php echo $to; ?>"></div>
+                    <div class="col-2">
+                        <select name="category" id="category" class="form-control">
+                            <option value="">Semua</option>
+                            <?php foreach($cat AS $category) { ?>
+                                <option value="<?= $category->category; ?>"><?php echo ucfirst($category->category); ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
                     <div class="col-2"><button class="btn btn-primary">Go</button> <a href="<?php echo site_url('reporting/infaq'); ?>" class="btn btn-secondary">Reset</a></div>
                 </div>
             </form>
@@ -33,6 +41,8 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
+                        <th>Donasi Ke</th>
+                        <th>Kategori</th>
                         <th>Nominal</th>
                         <th>Tanggal</th>
                     </tr>
@@ -72,21 +82,22 @@
             autoclose: true
         });
 
-        Data('','');
+        Data('','', '');
 
         $('#form').submit(function(e){
             e.preventDefault();
 
             var from    = $('#from').val();
             var to      = $('#to').val();
+            var category= $('#category').val();
 
-            Data(from, to);
+            Data(from, to, category);
         });
 
     });
 
-    function Data(from, to){
-        var url = '<?= site_url("reporting/donations/datatables"); ?>?from='+from+'&to='+to;
+    function Data(from, to, category){
+        var url = '<?= site_url("reporting/donations/datatables"); ?>?from='+from+'&to='+to+'&category='+category;
         $('#datatable').DataTable({ 
             // "scrollX": true,
             "processing": true, //Feature control the processing indicator.
@@ -115,13 +126,23 @@
                 {
                     "targets": [2],
                     "orderable": false,
+                    "data": "donation"
+                },
+                {
+                    "targets": [3],
+                    "orderable": false,
+                    "data": "category"
+                },
+                {
+                    "targets": [4],
+                    "orderable": false,
                     "data": "amount",
                     "render": function(data, type, row, meta) {
                         return "Rp " + data
                     }
                 },
                 {
-                    "targets": [3],
+                    "targets": [5],
                     "orderable": false,
                     "data": "date"
                 }

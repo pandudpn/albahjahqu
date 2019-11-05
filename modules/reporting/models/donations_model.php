@@ -2,98 +2,42 @@
 
 class donations_model extends MY_Model {
 
-    protected $table         = 'customer_mutations';
-    protected $tableCustomer = 'customers';
+    protected $table         = 'donations';
+    protected $tableCustomer = 'donation_customers';
+
     protected $key           = 'id';
     protected $date_format   = 'datetime';
     protected $set_created   = true;
     protected $soft_deletes  = true;
 
     protected $column_order  = array(null, 'customers.account_holder'); //set column field database for datatable orderable
-    protected $column_search = array('customers.account_holder'); //set column field database for datatable searchable 
-    protected $order         = array('customer_mutations.created_on' => 'desc'); // default order 
+    protected $column_search = array('donations.title', 'donation_customers.cus_name', 'donation_customers.credit'); //set column field database for datatable searchable 
+    protected $order         = array('donation_customers.created_on' => 'desc'); // default order 
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function trx_zakat($apps){
-        $eva    = $this->load->database('eva', TRUE);
+    public function all_category($apps) {
+        $this->db->select('DISTINCT(category_donation) AS category', FALSE);
+        $this->db->where($this->table.'.app_id', $apps);
+        $this->db->where($this->table.'.deleted', 0);
+        $this->db->where($this->table.'.status', 'inactive');
 
-        $eva->select('SUM(credit) AS total_credit, account_holder AS name, account_id, '.$this->table.'.created_on', false);
-        $eva->from($this->table);
-        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
-        $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
-        $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
-        $eva->where('SUBSTRING(transaction_code, 1, 2) = ', $apps);
-        $eva->where('SUBSTRING(transaction_code, 3, 4) = ', 'dona');
-        // $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
-        $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), DAY('.$this->table.'.created_on)');
-        $eva->order_by($this->table.'.created_on', 'asc');
-
-        $query  = $eva->get();
-        return $query->result();
-    }
-
-    public function trx_zakat_group($apps){
-        $eva    = $this->load->database('eva', TRUE);
-
-        $eva->select('SUM(credit) AS total_credit, account_holder AS name, account_id, '.$this->table.'.created_on', false);
-        $eva->from($this->table);
-        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
-        $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
-        $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
-        $eva->like($this->tableCustomer.'.account_holder', $apps, 'both');
-        $eva->group_by('YEAR('.$this->table.'.created_on), MONTH('.$this->table.'.created_on), DAY('.$this->table.'.created_on), '.$this->tableCustomer.'.id');
-        $eva->order_by($this->table.'.created_on', 'asc');
-
-        $query  = $eva->get();
-        return $query->result();
-    }
-
-    public function get_all($apps_name){
-        $eva    = $this->load->database('eva', TRUE);
-
-        $sql    = "SELECT *
-                FROM customers
-                WHERE deleted = 0";
-
-        $sql .= " AND ";
-
-        if(!empty($_POST['search']['value']))
-        {
-            $sql .= "
-                account_holder LIKE '%".$apps_name." ".$eva->escape_like_str($_POST['search']['value'])."%'
-            ";
-        }else{
-            $sql .= " account_holder LIKE '%".$apps_name."%' ";
-        }
-
-        if(isset($_POST['order'])) // here order processing
-        {
-            $sql .= " ORDER BY ".$this->column_order[$_POST['order'][0]['column']]." ".$_POST['order']['0']['dir'];
-        } 
-        else
-        {
-            $sql .= " ORDER BY account_holder ASC";
-        }
-        if($_POST['length'] != -1)
-            $sql .= " LIMIT ".$_POST['start']." ,".$_POST['length'];
-
-        $query  = $eva->query($sql);
+        $query  = $this->db->get($this->table);
         return $query->result();
     }
  
-    public function get_datatables($alias)
+    public function _get_datatables($apps)
     {
         $from   = $this->input->get('from');
         $to     = $this->input->get('to');
+        $cat    = $this->input->get('category');
 
-        $eva    = $this->load->database('eva', TRUE);
-        $eva->select('debit, account_holder AS name, account_id, '.$this->table.'.created_on', false);
-        $eva->from($this->table);
-        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
+        $this->db->select($this->tableCustomer.'.*, '.$this->table.'.title AS donation_name, '.$this->table.'.category_donation AS category');
+        $this->db->from($this->tableCustomer);
+        $this->db->join($this->table, $this->table.'.id = '.$this->tableCustomer.'.donation_id');
  
         $i = 0;
      
@@ -104,131 +48,75 @@ class donations_model extends MY_Model {
                  
                 if($i===0) // first loop
                 {
-                    $eva->open_bracket(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-                    $eva->like_not_and($item, $_POST['search']['value']);
+                    $this->db->open_bracket(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like_not_and($item, $_POST['search']['value']);
                 }
                 else
                 {
-                    $eva->or_like($item, $_POST['search']['value']);
+                    $this->db->or_like($item, $_POST['search']['value']);
                 }
  
                 if(count($this->column_search) - 1 == $i) //last loop
-                    $eva->close_bracket(); //close bracket
+                    $this->db->close_bracket(); //close bracket
             }
             $i++;
         }
 
         //deleted = 0
-        $eva->where($this->table. '.deleted', '0');
-        $eva->where('SUBSTRING(transaction_code, 1, 4) = ', $alias);
-        $eva->where('SUBSTRING(transaction_code, 5, 4)=','DONA');
-        $eva->where('SUBSTRING(transaction_code, -3)=', 'OUT');
+        $this->db->where($this->tableCustomer.'.deleted', 0);
+        $this->db->where($this->table.'.app_id', $apps);
 
         if(!empty($from) && !empty($to)){
-            $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
-            $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
+            $this->db->where($this->tableCustomer.'.created_on >=', $from.' 00:00:01');
+            $this->db->where($this->tableCustomer.'.created_on <=', $to.' 23:59:59');
         }else{
-            $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
-            $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
+            $this->db->where('year('.$this->tableCustomer.'.created_on) =', 'year(curdate())', false);
+            $this->db->where('month('.$this->tableCustomer.'.created_on) =', 'month(curdate())', false);
+        }
+
+        if(!empty($cat)) {
+            $this->db->where($this->table.'.category_donation'. $cat);
         }
          
         if(isset($_POST['order'])) // here order processing
         {
-            $eva->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
         } 
         else if(isset($this->order))
         {
             $order = $this->order;
-            $eva->order_by(key($order), $order[key($order)]);
+            $this->db->order_by(key($order), $order[key($order)]);
         }
+    }
+
+    public function get_datatables($apps) {
+        $this->_get_datatables($apps);
+        
         if($_POST['length'] != -1)
-            $eva->limit($_POST['length'], $_POST['start']);
-        $query = $eva->get();
+            $this->db->limit($_POST['length'], $_POST['start']);
+
+        $query = $this->db->get();
         return $query->result();
     }
  
-    public function count_filtered($alias)
+    public function count_filtered($apps)
     {
-        $from   = $this->input->get('from');
-        $to     = $this->input->get('to');
+        $this->_get_datatables($apps);
 
-        $eva    = $this->load->database('eva', TRUE);
-        $eva->select('credit, account_holder AS name, account_id', false);
-        $eva->from($this->table);
-        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
- 
-        $i = 0;
-     
-        foreach ($this->column_search as $item) // loop column 
-        {
-            if($_POST['search']['value']) // if datatable send POST for search
-            {
-                 
-                if($i===0) // first loop
-                {
-                    $eva->open_bracket(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-                    $eva->like_not_and($item, $_POST['search']['value']);
-                }
-                else
-                {
-                    $eva->or_like($item, $_POST['search']['value']);
-                }
- 
-                if(count($this->column_search) - 1 == $i) //last loop
-                    $eva->close_bracket(); //close bracket
-            }
-            $i++;
-        }
-
-        //deleted = 0
-        $eva->where($this->table. '.deleted', '0');
-        $eva->where('SUBSTRING(transaction_code, 1, 4) = ', $alias);
-        $eva->where('SUBSTRING(transaction_code, 5, 4)=','DONA');
-        $eva->where('SUBSTRING(transaction_code, -3)=', 'OUT');
-
-        if(!empty($from) && !empty($to)){
-            $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
-            $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
-        }else{
-            $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
-            $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
-        }
-         
-        if(isset($_POST['order'])) // here order processing
-        {
-            $eva->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-        } 
-        else if(isset($this->order))
-        {
-            $order = $this->order;
-            $eva->order_by(key($order), $order[key($order)]);
-        }
-        $query = $eva->get();
+        $query = $this->db->get();
         return $query->num_rows();
     }
  
-    public function count_all($alias)
+    public function count_all($apps)
     {
-        $from   = $this->input->get('from');
-        $to     = $this->input->get('to');
+        $this->db->select($this->tableCustomer.'.*, '.$this->table.'.name AS donation_name, '.$this->table.'.category_donation AS category');
+        $this->db->from($this->tableCustomer);
+        $this->db->join($this->table, $this->table.'.id = '.$this->tableCustomer.'.donation_id');
 
-        $eva    = $this->load->database('eva', TRUE);
-        $eva->from($this->table);
-        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id');
-        $eva->where($this->table.'.deleted', '0');
-        $eva->where('SUBSTRING(transaction_code, 1, 4) = ', $alias);
-        $eva->where('SUBSTRING(transaction_code, 5, 4)=','DONA');
-        $eva->where('SUBSTRING(transaction_code, -3)=', 'OUT');
+        $this->db->where($this->tableCustomer.'.deleted', 0);
+        $this->db->where($this->table.'.app_id', $apps);
 
-        if(!empty($from) && !empty($to)){
-            $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
-            $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
-        }else{
-            $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
-            $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
-        }
-
-        return $eva->get()->num_rows();
+        return $this->db->count_all_results();
     }
 
 }
