@@ -122,4 +122,33 @@ class zakat_model extends MY_Model {
         force_download($filename, $csv_file);
     }
 
+    public function get_data($alias) {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        $eva    = $this->load->database('eva', TRUE);
+        $sql = "SELECT c.account_holder AS sender, t1.account_holder AS receiver, t1.debit AS amount, t1.created_on AS date_pay
+                FROM
+                (
+                SELECT account_holder, account_no, account_id, debit, a.created_on, a.id
+                FROM customer_mutations AS a INNER JOIN customers AS b
+                ON b.account_no = CAST(SUBSTRING(transaction_code, 8) AS unsigned)
+                WHERE substring(transaction_code, 1, 4) = '$alias' AND substring(transaction_code, 5, 3) = 'zak' AND substring(transaction_code, -3) = 'out'
+                ) AS t1
+                INNER JOIN
+                customers AS c ON c.id = t1.account_id
+        ";
+        
+        if(!empty($from) && !empty($to)){
+            $sql    .= "WHERE t1.created_on >= '$from 00:00:01'";
+            $sql    .= "AND t1.created_on <= '$to 23:59:59'";
+        }
+
+        $sql .= " ORDER BY year(t1.created_on) DESC, month(t1.created_on) DESC, day(t1.created_on) DESC, hour(t1.created_on) DESC, minute(t1.created_on) DESC, c.account_holder ASC ";
+
+        $result = $eva->query($sql);
+
+        return $result->result();
+    }
+
 }

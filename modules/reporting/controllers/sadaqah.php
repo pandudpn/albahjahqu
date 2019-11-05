@@ -1,5 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require FCPATH.'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class sadaqah extends Admin_Controller {
     
 	public function __construct() {
@@ -23,6 +28,48 @@ class sadaqah extends Admin_Controller {
 
     public function download(){
         $this->sadaqah->download($this->alias);
+    }
+
+    public function excel() {
+        set_time_limit(0);
+        ini_set('max_execution_time', 0);
+        ini_set("memory_limit",-1);
+
+    	$spreadsheet 	= new Spreadsheet();
+		$sheet 			= $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama');
+        $sheet->setCellValue('C1', 'Nominal');
+        $sheet->setCellValue('D1', 'Tanggal');
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(10);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+
+        $list 		= 2;
+        $number 	= 1;
+
+        $sadaqah_list = $this->sadaqah->get_data($this->alias);
+
+        foreach ($sadaqah_list as $sada) 
+        {
+            $sheet->setCellValue('A'.$list, $number);
+            $sheet->setCellValue('B'.$list, $sada->name);
+            $sheet->setCellValue('C'.$list, $sada->amount);
+            $sheet->setCellValue('D'.$list, date('Y-m-d H:i', strtotime($sada->created_on)));
+
+            $list++;
+            $number++;
+        }
+
+        $spreadsheet->getActiveSheet()->freezePane('C2');
+
+        $export 		= 'data/excel/report_shodaqoh_'.date('Ymd').'.xlsx';
+
+		$writer 	= new Xlsx($spreadsheet);
+		$writer->save(FCPATH.$export);
+
+		redirect(site_url($export));
     }
     
     public function datatables()

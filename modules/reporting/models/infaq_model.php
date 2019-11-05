@@ -84,6 +84,34 @@ class infaq_model extends MY_Model {
         $query  = $eva->query($sql);
         return $query->result();
     }
+
+    public function get_data($alias) {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        $eva    = $this->load->database('eva', TRUE);
+        $eva->select('debit, account_holder AS name, account_id, '.$this->table.'.created_on', false);
+        $eva->from($this->table);
+        $eva->join($this->tableCustomer, $this->tableCustomer.'.id = '.$this->table.'.account_id', 'left');
+
+        $eva->where($this->table. '.deleted', '0');
+        $eva->where('SUBSTRING(transaction_code, 1, 4) = ', $alias);
+        $eva->where('SUBSTRING(transaction_code, 5, 3)=','INF');
+        $eva->where('SUBSTRING(transaction_code, -3)=', 'OUT');
+
+        if(!empty($from) && !empty($to)){
+            $eva->where($this->table.'.created_on >=', $from.' 00:00:01');
+            $eva->where($this->table.'.created_on <=', $to.' 23:59:59');
+        }else{
+            $eva->where('year('.$this->table.'.created_on) =', 'year(curdate())', false);
+            $eva->where('month('.$this->table.'.created_on) =', 'month(curdate())', false);
+        }
+
+        $eva->order_by($this->table.'.created_on', 'desc');
+
+        $query = $eva->get();
+        return $query->result();
+    }
  
     public function get_datatables($alias)
     {

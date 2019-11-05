@@ -109,6 +109,32 @@ class students_bill extends MY_Model {
         return $this->db->count_all_results();
     }
 
+    public function get_data($app_id) {
+        $from   = $this->input->get('from');
+        $to     = $this->input->get('to');
+
+        $this->db->select($this->table.'.student_number AS nis, '.$this->tableStudent.'.name AS nama, '.$this->tablePartner.'.name AS sekolah, '.$this->tableStudent.'.partner_branch_code AS kode_cabang');
+        $this->db->select($this->table.'.deposit_amount AS nominal, IFNULL('.$this->table.'.modified_on, '.$this->table.'.created_on) AS tanggal', false);
+        $this->db->from($this->table);
+        $this->db->join($this->tableStudent, $this->tableStudent.'.id = '.$this->table.'.student_id');
+        $this->db->join($this->tablePartner, $this->tablePartner.'.id = '.$this->tableStudent.'.partner_branch_id');
+
+        $this->db->where($this->table.'.deleted', 0);
+        $this->db->where($this->tablePartner.'.app_id', $app_id);
+        $this->db->where($this->table.'.deposit_status', 'paid');
+
+        if(!empty($from)) {
+            $this->db->where($this->table.'.created_on >=', $from);
+        }
+
+        if(!empty($to)) {
+            $this->db->where($this->table.'.created_on <=', $to);
+        }
+
+        $result = $this->db->get();
+        return $result->result();
+    }
+
     public function download($app_id)
     {
         $from   = $this->input->get('from');

@@ -1,7 +1,6 @@
 {
     "require": {
         "pusher/pusher-php-server": "^3.0",
-        "phpoffice/phpspreadsheet": "^1.6",
-        "smalot/pdfparser": "*"
+        "phpoffice/phpspreadsheet": "^1.6"
     }
 }

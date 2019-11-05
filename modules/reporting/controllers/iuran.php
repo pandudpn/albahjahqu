@@ -1,5 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require FCPATH.'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class iuran extends Admin_Controller {
     
 	public function __construct() {
@@ -19,6 +24,57 @@ class iuran extends Admin_Controller {
 
     public function download(){
         $this->iuran->download($this->app_id);
+    }
+
+    public function excel() {
+        set_time_limit(0);
+        ini_set('max_execution_time', 0);
+        ini_set("memory_limit",-1);
+
+    	$spreadsheet 	= new Spreadsheet();
+		$sheet 			= $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'NIS');
+        $sheet->setCellValue('C1', 'Nama');
+        $sheet->setCellValue('D1', 'Sekolah');
+        $sheet->setCellValue('E1', 'Kode Cabang');
+        $sheet->setCellValue('F1', 'Nominal');
+        $sheet->setCellValue('G1', 'Tanggal Bayar');
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(10);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(15);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(40);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(40);
+        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(20);
+
+        $list 		= 2;
+        $number 	= 1;
+
+        $iuran_list = $this->iuran->get_data($this->app_id);
+
+        foreach ($iuran_list as $iur) 
+        {
+            $sheet->setCellValue('A'.$list, $number);
+            $sheet->setCellValue('B'.$list, $iur->nis);
+            $sheet->setCellValue('C'.$list, $iur->nama);
+            $sheet->setCellValue('D'.$list, $iur->sekolah);
+            $sheet->setCellValue('E'.$list, $iur->kode_cabang);
+            $sheet->setCellValue('F'.$list, $iur->nominal);
+            $sheet->setCellValue('G'.$list, date('Y-m-d H:i', strtotime($iur->tanggal)));
+
+            $list++;
+            $number++;
+        }
+
+        $spreadsheet->getActiveSheet()->freezePane('C2');
+
+        $export 		= 'data/excel/report_iuran_spp_'.date('Ymd').'.xlsx';
+
+		$writer 	= new Xlsx($spreadsheet);
+		$writer->save(FCPATH.$export);
+
+		redirect(site_url($export));
     }
     
     public function datatables()

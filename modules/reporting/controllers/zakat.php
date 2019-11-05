@@ -1,5 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require FCPATH.'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class zakat extends Admin_Controller {
     
 	public function __construct() {
@@ -23,6 +28,51 @@ class zakat extends Admin_Controller {
 
     public function download(){
         $this->zakat->download($this->alias);
+    }
+
+    public function excel() {
+        set_time_limit(0);
+        ini_set('max_execution_time', 0);
+        ini_set("memory_limit",-1);
+
+    	$spreadsheet 	= new Spreadsheet();
+		$sheet 			= $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Pengirim');
+        $sheet->setCellValue('C1', 'Penerima');
+        $sheet->setCellValue('D1', 'Nominal');
+        $sheet->setCellValue('E1', 'Tanggal');
+        $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(10);
+        $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(40);
+        $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(40);
+        $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+        $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+
+        $list 		= 2;
+        $number 	= 1;
+
+        $zakat_list = $this->zakat->get_data($this->alias);
+
+        foreach ($zakat_list as $zak) 
+        {
+            $sheet->setCellValue('A'.$list, $number);
+            $sheet->setCellValue('B'.$list, $zak->sender);
+            $sheet->setCellValue('C'.$list, $zak->receiver);
+            $sheet->setCellValue('D'.$list, $zak->amount);
+            $sheet->setCellValue('E'.$list, date('Y-m-d H:i', strtotime($zak->date_pay)));
+
+            $list++;
+            $number++;
+        }
+
+        $spreadsheet->getActiveSheet()->freezePane('C2');
+
+        $export 		= 'data/excel/report_zakat_'.date('Ymd').'.xlsx';
+
+		$writer 	= new Xlsx($spreadsheet);
+		$writer->save(FCPATH.$export);
+
+		redirect(site_url($export));
     }
     
     public function datatables()
