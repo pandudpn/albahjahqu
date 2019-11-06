@@ -22,6 +22,17 @@ class iuran extends Admin_Controller {
     		 ->build('iuran');
     }
 
+    public function export(){
+        $title          = "report_iuran_spp_".date('Ymd');
+        $iuran_list     = $this->iuran->get_data($this->app_id);
+
+        $this->load->view('iuran_excel', [
+            'title'     => $title,
+            'iuran'     => $iuran_list
+        ]);
+        
+    }
+
     public function download(){
         $this->iuran->download($this->app_id);
     }

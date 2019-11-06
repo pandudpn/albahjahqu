@@ -29,6 +29,21 @@ class donations extends Admin_Controller {
     		 ->build('donations');
     }
 
+    public function export(){
+        $category       = $this->input->get('category');
+        if($category == 'donation') {
+            $category   = 'donasi';
+        }
+        $title          = "report_donation_kategori_".$category."_".date('Ymd');
+        $donation_list  = $this->donations->get_data($this->app_id);
+
+        $this->load->view('donation_excel', [
+            'title'     => $title,
+            'donation'  => $donation_list
+        ]);
+        
+    }
+
     public function excel() {
         set_time_limit(0);
         ini_set('max_execution_time', 0);

@@ -26,6 +26,17 @@ class zakat extends Admin_Controller {
     		 ->build('zakat');
     }
 
+    public function export(){
+        $title          = "report_zakat_".date('Ymd');
+        $zakat_list     = $this->zakat->get_data($this->alias);
+
+        $this->load->view('zakat_excel', [
+            'title'     => $title,
+            'zakat'     => $zakat_list
+        ]);
+        
+    }
+
     public function download(){
         $this->zakat->download($this->alias);
     }

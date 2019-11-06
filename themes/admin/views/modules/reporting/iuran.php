@@ -12,7 +12,7 @@
 <div class="row">
     <div class="col-12">
         <div class="p-20">
-            <a href="<?php echo site_url('reporting/iuran/excel'); ?>" id="excel"><button class="btn btn-sm btn-success waves-effect waves-light">
+            <a href="<?php echo site_url('reporting/iuran/export'); ?>" id="excel"><button class="btn btn-sm btn-success waves-effect waves-light">
                 <i class="fa fa-file-excel-o"></i> Export ke Excel </button>
             </a>
         </div>
@@ -91,7 +91,7 @@
 
             Data(from, to);
             
-            var base_url    = '<?php echo site_url("reporting/iuran/excel"); ?>';
+            var base_url    = '<?php echo site_url("reporting/iuran/export"); ?>';
 
             $('#excel').attr('href', base_url+'?from='+from+'&to='+to);
         });

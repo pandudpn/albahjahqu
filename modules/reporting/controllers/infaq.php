@@ -30,6 +30,17 @@ class infaq extends Admin_Controller {
         $this->infaq->download($this->alias);
     }
 
+    public function export(){
+        $title          = "report_infaq_".date('Ymd');
+        $infaq_list     = $this->infaq->get_data($this->alias);
+
+        $this->load->view('infaq_excel', [
+            'title'     => $title,
+            'infaq'     => $infaq_list
+        ]);
+        
+    }
+
     public function excel() {
         set_time_limit(0);
         ini_set('max_execution_time', 0);

@@ -26,6 +26,17 @@ class sadaqah extends Admin_Controller {
     		 ->build('sadaqah');
     }
 
+    public function export(){
+        $title          = "report_shodaqoh_".date('Ymd');
+        $sadaqah_list   = $this->sadaqah->get_data($this->alias);
+
+        $this->load->view('sadaqah_excel', [
+            'title'     => $title,
+            'sadaqah'   => $sadaqah_list
+        ]);
+        
+    }
+
     public function download(){
         $this->sadaqah->download($this->alias);
     }
