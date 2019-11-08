@@ -374,39 +374,39 @@
                                         <i class="mdi mdi-credit-card-outline"></i><span> Iuran </span> 
                                     </a>
                                 </li>
-                                <li class="text-muted menu-title">Manajemen Pendidikan</li>
-                                <!-- <li>
-                                    <a href="<?php echo site_url('/community/units'); ?>" class="waves-effect">
-                                        <i class="mdi mdi-domain"></i><span> Sekolah </span> 
-                                    </a>
-                                </li> -->
-                                <!-- <li>
-                                    <a href="<?php echo site_url('/community/staff'); ?>" class="waves-effect">
-                                        <i class="zmdi zmdi-accounts-list"></i><span> Guru </span> 
-                                    </a>
-                                </li> -->
-                                <li>
-                                    <a href="<?php echo site_url('/community/students'); ?>" class="waves-effect">
-                                        <i class="mdi mdi-account-group"></i><span> Siswa </span> 
-                                    </a>
-                                </li>
-                                <!-- <li>
-                                    <a href="<?php echo site_url('/community/graduate'); ?>" class="waves-effect">
-                                        <i class="mdi mdi-school"></i><span> Alumni </span> 
-                                    </a>
-                                </li> -->
-                                <!-- <li class="has_sub">
-                                    <a href="javascript:void(0);" class="waves-effect">
-                                        <i class="mdi mdi-trophy"></i><span> Penghargaan </span> 
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul class="list-unstyled">
-                                        <li><a href="<?php echo site_url('community/achievement'); ?>">Sekolah</a></li>
-                                        <li><a href="<?php echo site_url('community/achievement_student'); ?>">Siswa</a></li>
-                                        <li><a href="<?php echo site_url('community/achievement_staff'); ?>">Guru</a></li>
-                                    </ul>
-                                </li> -->
                             <?php } ?>
+                            <li class="text-muted menu-title">Manajemen Pendidikan</li>
+                            <!-- <li>
+                                <a href="<?php echo site_url('/community/units'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-domain"></i><span> Sekolah </span> 
+                                </a>
+                            </li> -->
+                            <!-- <li>
+                                <a href="<?php echo site_url('/community/staff'); ?>" class="waves-effect">
+                                    <i class="zmdi zmdi-accounts-list"></i><span> Guru </span> 
+                                </a>
+                            </li> -->
+                            <li>
+                                <a href="<?php echo site_url('/community/students'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-account-group"></i><span> Siswa </span> 
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a href="<?php echo site_url('/community/graduate'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-school"></i><span> Alumni </span> 
+                                </a>
+                            </li> -->
+                            <!-- <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect">
+                                    <i class="mdi mdi-trophy"></i><span> Penghargaan </span> 
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul class="list-unstyled">
+                                    <li><a href="<?php echo site_url('community/achievement'); ?>">Sekolah</a></li>
+                                    <li><a href="<?php echo site_url('community/achievement_student'); ?>">Siswa</a></li>
+                                    <li><a href="<?php echo site_url('community/achievement_staff'); ?>">Guru</a></li>
+                                </ul>
+                            </li> -->
                         </ul>
                         <div class="clearfix"></div>
                     </div>
