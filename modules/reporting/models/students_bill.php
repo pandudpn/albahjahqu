@@ -14,7 +14,7 @@ class students_bill extends MY_Model {
 
     protected $column_order  = array(null, 'partner_students.name', 'partner_students.student_number', null, null, 'deposit_due_date', 'deposit_status'); //set column field database for datatable orderable
     protected $column_search = array('students.name', 'deposit_type', 'deposit_period_type', 'deposit_period'); //set column field database for datatable searchable 
-    protected $order         = array('partner_student_deposits.modified_on' => 'DESC'); // default order 
+    protected $order         = array('partner_student_deposits.created_on' => 'DESC'); // default order 
 
     public function __construct()
     {
