@@ -59,7 +59,7 @@
                             <label for="" class="col-3 col-form-label">Foto</label>
                             <div class="col-9">
                                 <?php if(!empty($data)) { ?>
-                                <img src="<?php echo $data->image; ?>" height="200" style="margin-bottom: 5px;">
+                                <img src="<?php echo site_url().'/'.$data->image; ?>" height="200" style="margin-bottom: 5px;">
                                 <?php } ?>
                                 <input class="form-control" type="file" name="image">
                             </div>

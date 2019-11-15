@@ -67,7 +67,7 @@ class albums extends Admin_Controller {
                 redirect(site_url('albums/add'), 'refresh');
 	        } else {
 	            $file = $this->upload->data();
-	            $data['image'] = site_url('data/images/albums').'/'.$file['file_name'];
+	            $data['image'] = 'data/images/albums/'.$file['file_name'];
 	        }
         }
         
@@ -103,7 +103,7 @@ class albums extends Admin_Controller {
 
             $row['no']      = $no;
             $row['title']   = $l->title;
-            $row['image']   = $l->image;
+            $row['image']   = site_url().'/'.$l->image;
             $row['created'] = $l->created_on;
             $row['id']      = $l->id;
 

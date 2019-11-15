@@ -147,7 +147,7 @@
                                     <div class="row mb-3">
                                         <div class="col-4">
                                             <div style="width: 200px; height: 200px;" class="d-block mx-auto">
-                                                <img src="<?php echo $photo->photo; ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                                <img src="<?php echo site_url().'/'.$photo->photo; ?>" style="width: 100%; height: 100%; object-fit: cover;">
                                             </div>
                                         </div>
                                         <div class="col-1 pt-2">

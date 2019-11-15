@@ -76,7 +76,7 @@ class hadits_daily extends Admin_Controller {
                 redirect(site_url('islami/hadits_daily/add'), 'refresh');
 	        } else {
 	            $file   = $this->upload->data();
-	            $data['image']  = site_url('data/images').'/'.$file['file_name'];
+	            $data['image']  = 'data/images/'.$file['file_name'];
 	        }
         }
         
@@ -112,7 +112,7 @@ class hadits_daily extends Admin_Controller {
             $row['arab']    = word_limiter($l->text_ar, 5);
             $row['latin']   = word_limiter($l->latin, 5);
             $row['translate']   = word_limiter($l->translate, 5);
-            $row['image']   = $l->image;
+            $row['image']   = site_url().'/'.$l->image;
             $row['edit']    = site_url('islami/hadits_daily/edit/'.$l->id);
             $row['delete']  = site_url('islami/hadits_daily/delete/'.$l->id);
 

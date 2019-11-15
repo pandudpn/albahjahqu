@@ -76,7 +76,7 @@ class dzikir extends Admin_Controller {
                 redirect(site_url('islami/dzikir/add'), 'refresh');
 	        } else {
                 $file   = $this->upload->data();
-	            $data['pdf'] = site_url('data/pdf').'/'.$file['file_name'];
+	            $data['pdf'] = 'data/pdf/'.$file['file_name'];
             }
 
         }else {
@@ -115,7 +115,7 @@ class dzikir extends Admin_Controller {
             $row['text']    = word_limiter($l->content_dzikir, 30);
             $row['edit']    = site_url('islami/dzikir/edit/'.$l->id);
             $row['delete']  = site_url('islami/dzikir/delete/'.$l->id);
-            $row['pdf']     = $l->pdf;
+            $row['pdf']     = site_url().'/'.$l->pdf;
             $row['render']  = site_url('islami/dzikir/render/'/$l->id);
 
             $data[] = $row;

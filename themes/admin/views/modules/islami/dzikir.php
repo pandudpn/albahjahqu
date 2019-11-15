@@ -32,6 +32,7 @@
                     <th>No</th>
                     <th>Judul</th>
                     <th>Teks Dzikir</th>
+                    <th>File PDF</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -95,6 +96,14 @@
                 },
                 {
                     "targets": [3],
+                    "orderable": false,
+                    "data": "pdf",
+                    "render": function(data, type, row, meta) {
+                        return "<a href='"+data+"' target='_blank'>"+data+"</a>"
+                    }
+                },
+                {
+                    "targets": [4],
                     "orderable": false,
                     "data": {
                         "edit": "edit",

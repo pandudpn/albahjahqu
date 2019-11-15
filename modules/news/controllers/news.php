@@ -73,7 +73,7 @@ class news extends Admin_Controller {
 	            
 	        } else {
 	            $file = $this->upload->data();
-	            $data['image'] = site_url('data/images/news').'/'.$file['file_name'];
+	            $data['image'] = 'data/images/news/'.$file['file_name'];
 	        }
         }
 
