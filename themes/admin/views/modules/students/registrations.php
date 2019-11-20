@@ -31,6 +31,7 @@
                         <th>Ibu</th>
                         <th>Alamat</th>
                         <th>Detil</th>
+                        <th>Terima</th>
                         <th width="8%"></th>
                     </tr>
                 </thead>
@@ -122,6 +123,14 @@
                 },
                 {
                     "targets": [8],
+                    "orderable": false,
+                    "data": "approve",
+                    "render": function(data, type, row, meta) {
+                        return '<a href="'+data+'" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>'
+                    }
+                },
+                {
+                    "targets": [9],
                     "orderable": false,
                     "data": {
                         "edit": "edit",

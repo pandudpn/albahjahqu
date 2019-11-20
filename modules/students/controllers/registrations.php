@@ -7,6 +7,7 @@ class registrations extends Admin_Controller {
         $this->load->model('students/students_model', 'students');
         $this->load->model('students/student_profiles_model', 'student_profiles');
         $this->load->model('students/student_documents_model', 'student_documents');
+        $this->load->model('community/partner_branch_models', 'partner_branch');
 
         $this->load->helper('text');
 
@@ -33,36 +34,96 @@ class registrations extends Admin_Controller {
     public function edit($id)
     {
         $is_exist   = $this->students->find($id);
+        $dad        = $this->student_profiles->find_by(['partner_student_id' => $id, 'role' => 'father']);
+        $mom        = $this->student_profiles->find_by(['partner_student_id' => $id, 'role' => 'mother']);
+        $address    = $this->student_profiles->find_by(['partner_student_id' => $id, 'role' => 'child']);
+        $branch     = $this->partner_branch->find_all_by(['app_id' => $this->app_id, 'type' => 'HO', 'deleted' => 0]);
 
         if($is_exist){
-            $unit = $is_exist;
+            $student = $is_exist;
 
             $this->template
                 ->set('alert', $this->session->flashdata('alert'))
                 ->set('title', 'Ubah data santri')
-                ->set('data', $unit)
+                ->set('data', $student)
+                ->set('dad', $dad)
+                ->set('mom', $mom)
+                ->set('address', $address)
+                ->set('branch', $branch)
                 ->build('registration_form');
         }
     }
 
     public function save()
     {
+        $partner        = $this->input->post('partner');
+        $partner_branch = $this->partner_branch->find_by(['id' => $partner]);
+
         $id       		= $this->input->post('id');
+        $momid          = $this->input->post('momid');
+        $dadid          = $this->input->post('dadid');
 
-        $app_id         = $this->app_id;
+        $name           = $this->input->post('name');
+        $class          = $this->input->post('class');
+        $birthplace     = $this->input->post('birthplace');
+        $birthday       = $this->input->post('birthday');
+        $city           = $this->input->post('city');
+        $district       = $this->input->post('district');
+        $village        = $this->input->post('village');
+        $address        = $this->input->post('address');
+        $rt             = $this->input->post('rt');
+        $rw             = $this->input->post('rw');
 
-        if($date == ''){
-            $date   = null;
-        }
+        // dad
+        $dadname        = $this->input->post('dadname');
+        $dadnum         = $this->input->post('dadnum');
+        $dadwork        = $this->input->post('dadwork');
+        // mom
+        $momname        = $this->input->post('momname');
+        $momnum         = $this->input->post('momnum');
+        $momwork        = $this->input->post('momwork');
 
         $data = array(
-            'app_id'    => $app_id
+            'partner_branch_id'     => $partner_branch->id,
+            'partner_branch_eva'    => $partner_branch->partner_branch_eva,
+            'partner_branch_code'   => $partner_branch->partner_branch_code,
+            'name'                  => $name,
+            'grade'                 => $class,
+            'birthplace'            => $birthplace,
+            'birthday'              => $birthday
         );
-        
-        if(!$id){
-            $insert = $this->students->insert($data);
-        }else{
-            $update = $this->students->update($id, $data);
+
+        $dataDad    = array(
+            'partner_branch_id'     => $partner_branch->id,
+            'name'                  => $dadname,
+            'phone'                 => $dadnum,
+            'work'                  => $dadwork,
+            'city'                  => $city,
+            'district'              => $district,
+            'village'               => $village,
+            'neighborhood'          => $rt,
+            'citizens'              => $rw
+        );
+
+        $dataMom    = array(
+            'partner_branch_id'     => $partner_branch->id,
+            'name'                  => $momname,
+            'phone'                 => $momnum,
+            'work'                  => $momwork,
+            'city'                  => $city,
+            'district'              => $district,
+            'village'               => $village,
+            'neighborhood'          => $rt,
+            'citizens'              => $rw
+        );
+
+        $update_student = $this->students->update($id, $data);
+        if($update_student) {
+            $update_dad = $this->student_profiles->update($dadid, $dataDad);
+            $update_mom = $this->student_profiles->update($momid, $dataMom);
+        } else {
+            $this->session->set_flashdata('alert', ['msg' => 'Terjadi kesalahan ketika merubah data. Silahkan coba beberapa saat lagi.', 'type' => 'danger']);
+            redirect(site_url('students/registrations/edit/'.$id), 'refresh');
         }
 
         redirect(site_url('students/registrations'), 'refresh');
@@ -84,6 +145,12 @@ class registrations extends Admin_Controller {
     public function delete($id)
     {
         $delete = $this->students->delete($id);
+
+        redirect(site_url('students/registrations'), 'refresh');
+    }
+
+    public function approve($id) {
+        $update = $this->students->update($id, ['status' => 'active']);
 
         redirect(site_url('students/registrations'), 'refresh');
     }
@@ -128,6 +195,7 @@ class registrations extends Admin_Controller {
             $row['details'] = site_url('students/registrations/profiles/'.$l->id);
             $row['edit']    = site_url('students/registrations/edit/'.$l->id);
             $row['delete']  = site_url('students/registrations/delete/'.$l->id);
+            $row['approve'] = site_url('students/registrations/approve/'.$l->id);
 
             $data[] = $row;
         }
