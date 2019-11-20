@@ -169,6 +169,8 @@ class Admin_Controller extends Base_Controller{
         
         $this->template->set_layout('index');
         $this->template->set_theme('admin');
+
+        $this->package  = site_url();
     }
 
     public function check_login(){
@@ -182,6 +184,12 @@ class Admin_Controller extends Base_Controller{
 
             redirect('login', 'refresh');
         }
+    }
+
+    public function url_package() {
+        $explode    = explode("/", site_url());
+
+        return $explode[3];
     }
 
     public function print_array($array){

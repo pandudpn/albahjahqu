@@ -128,7 +128,16 @@
                 },
                 {
                     "targets": [4],
-                    "data": "gender"
+                    "data": "gender",
+                    "render": function(data, type, row, meta) {
+                        var html
+                        if(data === "L") {
+                            html = "Laki-laki";
+                        }else{
+                            html = "Perempuan";
+                        }
+                        return html
+                    }
                 },
                 {
                     "targets": [6],
@@ -145,6 +154,8 @@
                             html = "<span class='badge badge-success p-1'>Aktif</span>";
                         }else if(data === 'graduate') {
                             html = "<span class='badge badge-primary p-1'>Lulus</span>";
+                        }else if(data === 'new') {
+                            html = "<span class='badge badge-info p-1'>Baru</span>";
                         }
                         return html
                     }

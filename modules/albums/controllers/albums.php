@@ -67,7 +67,7 @@ class albums extends Admin_Controller {
                 redirect(site_url('albums/add'), 'refresh');
 	        } else {
 	            $file = $this->upload->data();
-	            $data['image'] = 'data/images/albums/'.$file['file_name'];
+	            $data['image'] = $this->url_package().'/data/images/albums/'.$file['file_name'];
 	        }
         }
         

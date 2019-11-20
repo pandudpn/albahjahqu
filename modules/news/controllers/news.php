@@ -73,7 +73,7 @@ class news extends Admin_Controller {
 	            
 	        } else {
 	            $file = $this->upload->data();
-	            $data['image'] = 'data/images/news/'.$file['file_name'];
+	            $data['image'] = $this->url_package().'/data/images/news/'.$file['file_name'];
 	        }
         }
 

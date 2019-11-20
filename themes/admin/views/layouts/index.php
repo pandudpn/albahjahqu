@@ -387,6 +387,11 @@
                                 </a>
                             </li> -->
                             <li>
+                                <a href="<?php echo site_url('/students/registrations'); ?>" class="waves-effect">
+                                    <i class="mdi mdi-account-multiple-plus"></i><span> Pendaftaran Siswa </span> 
+                                </a>
+                            </li>
+                            <li>
                                 <a href="<?php echo site_url('/community/students'); ?>" class="waves-effect">
                                     <i class="mdi mdi-account-group"></i><span> Siswa </span> 
                                 </a>

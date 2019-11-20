@@ -71,7 +71,7 @@ class articles extends Admin_Controller {
                 redirect(site_url('articles/add'), 'refresh');
 	        } else {
 	            $file = $this->upload->data();
-	            $data['image'] = 'data/images/articles/'.$file['file_name'];
+	            $data['image'] = $this->url_package().'/data/images/articles/'.$file['file_name'];
 	        }
         }
         

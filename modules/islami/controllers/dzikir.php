@@ -76,7 +76,7 @@ class dzikir extends Admin_Controller {
                 redirect(site_url('islami/dzikir/add'), 'refresh');
 	        } else {
                 $file   = $this->upload->data();
-	            $data['pdf'] = 'data/pdf/'.$file['file_name'];
+	            $data['pdf'] = $this->url_package().'/data/pdf/'.$file['file_name'];
             }
 
         }else {
