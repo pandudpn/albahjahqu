@@ -141,7 +141,7 @@ class donations extends Admin_Controller {
     
                     if($this->upload->do_upload('image')) {
                         $file   = $this->upload->data();
-                        $image  = 'data/images/donations/'.$file['file_name'];
+                        $image  = $this->url_package().'/data/images/donations/'.$file['file_name'];
     
                         $in     = $this->donation_photos->insert(['donation_id' => $insert, 'photo' => $image]);
                     }else {
@@ -174,7 +174,7 @@ class donations extends Admin_Controller {
         
                         if($this->upload->do_upload('image')) {
                             $file   = $this->upload->data();
-                            $image  = 'data/images/donations/'.$file['file_name'];
+                            $image  = $this->url_package().'/data/images/donations/'.$file['file_name'];
         
                             $in     = $this->donation_photos->insert(['donation_id' => $id, 'photo' => $image]);
                         }
