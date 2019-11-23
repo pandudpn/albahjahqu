@@ -8,6 +8,7 @@ class students_model extends MY_Model {
 
     protected $key           = 'id';
     protected $date_format   = 'datetime';
+    protected $soft_deletes  = TRUE;
 
     protected $column_order  = array(null, 'name'); //set column field database for datatable orderable
     protected $column_search = array('name'); //set column field database for datatable searchable 

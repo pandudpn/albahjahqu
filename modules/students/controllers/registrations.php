@@ -150,9 +150,22 @@ class registrations extends Admin_Controller {
     }
 
     public function approve($id) {
-        $update = $this->students->update($id, ['status' => 'active']);
+        $nis    = $this->input->post('nis');
+        $update = $this->students->update($id, ['status' => 'active', 'student_number' => $nis]);
 
-        redirect(site_url('students/registrations'), 'refresh');
+        if($update) {
+            $response   = [
+                'status'    => TRUE,
+                'data'      => site_url('students/registrations')
+            ];
+        } else {
+            $response   = [
+                'status'    => FALSE,
+                'data'      => 'Terjadi kesalahan ketika mengubah data. Silahkan coba kembali.'
+            ];
+        }
+
+        echo json_encode($response);
     }
 
     public function datatables()

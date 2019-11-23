@@ -126,7 +126,7 @@
                     "orderable": false,
                     "data": "approve",
                     "render": function(data, type, row, meta) {
-                        return '<a href="'+data+'" class="btn btn-success btn-sm"><i class="fa fa-check"></i></a>'
+                        return '<a href="'+data+'" class="btn btn-success btn-sm" id="approve"><i class="fa fa-check"></i></a>'
                     }
                 },
                 {
@@ -192,6 +192,46 @@
                 $('#modal-alert').modal('show');
             }
         })
+    });
+
+    $(document).on('click', '#approve', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+
+        var html = "<div class='form-group row'>";
+            html += "<label>Nomer Induk Siswa</label>";
+            html += "<input class='form-control' name='nis' id='nis' type='text' placeholder='Masukan nomer induk siswa baru' />";
+            html += "<div id='res'></div>"
+            html += "</div>";
+
+        $('.modal-dialog').removeClass('modal-lg');
+        $('.modal-title').html('Penerimaan Siswa Baru');
+        $('.modal-body').html(html);
+        $('.modal-footer').html('<button type="button" class="btn btn-primary" data-url="'+url+'" id="simpan">Simpan</button> <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>');
+        $('#modal-alert').modal('show');
+    });
+
+    $(document).on('click', '#simpan', function(e){
+        e.preventDefault();
+
+        var nis = $('#nis').val();
+        var url = $(this).data('url');
+
+        $.ajax({
+            url: url,
+            type: 'post',
+            data: {
+                'nis': nis
+            },
+            dataType: 'json',
+            success: function(results) {
+                if(results.status) {
+                    window.location.href    = results.data
+                } else {
+                    var html    = '<small class="text text-danger">' + results.data + '</small>'
+                }
+            }
+        });
     });
 
     function alert_delete(url)
