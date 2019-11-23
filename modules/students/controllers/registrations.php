@@ -168,6 +168,26 @@ class registrations extends Admin_Controller {
         echo json_encode($response);
     }
 
+    public function check_student_number() {
+        $nis    = $this->input->post('nis');
+        $branch = $this->input->post('branch');
+
+        $check  = $this->students->find_by(['app_id' => $this->app_id, 'partner_branch_id' => $branch, 'student_number' => $nis, 'deleted' => 0]);
+
+        if($check) {
+            $response   = [
+                "status"    => TRUE,
+                "data"      => "Maaf, nomer induk siswa tersebut sudah terdaftar. Silahkan gunakan nomer yang lainnya. Terima kasih!"
+            ];
+        } else {
+            $response   = [
+                "status"    => FALSE
+            ];
+        }
+
+        echo json_encode($response);
+    }
+
     public function datatables()
     {
         $list       = $this->students->get_datatables($this->app_id);
@@ -203,6 +223,7 @@ class registrations extends Admin_Controller {
             $row['age']     = $age;
             $row['address'] = $l->address;
             $row['partner'] = $l->partner_name;
+            $row['branch']  = $l->partner_branch_id;
             $row['dad']     = $dad;
             $row['mom']     = $mom;
             $row['details'] = site_url('students/registrations/profiles/'.$l->id);
