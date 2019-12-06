@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xl-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Pendaftaraan Santri</h4>
+            <h4 class="page-title float-left"><?= $title; ?></h4>
 
             <div class="clearfix"></div>
         </div>
@@ -11,6 +11,12 @@
 
 <div class="row">
     <div class="col-12">
+        <div class="p-20">
+            <a href="<?php echo site_url('wakaf/add'); ?>"><button class="btn btn-sm btn-primary waves-effect waves-light">
+                <i class="zmdi zmdi-collection-plus"></i> Buat Wakaf Baru </button>
+            </a>
+        </div>
+
         <div class="card-box table-responsive" style="overflow-x: auto; zoom: 0.8;">
         	<?php if($alert){ ?>
 	    	<div class="alert alert-<?php echo $alert['type']; ?>">
@@ -24,14 +30,15 @@
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama</th>
-                        <th>Ponpes</th>
-                        <th>Umur</th>
-                        <th>Ayah</th>
-                        <th>Ibu</th>
-                        <th>Alamat</th>
-                        <th>Detil</th>
-                        <th>Terima</th>
+                        <th>Atas Nama</th>
+                        <th>Judul</th>
+                        <th>Jenis Wakaf</th>
+                        <th>Lokasi Wakaf</th>
+                        <th>Cabang</th>
+                        <th>Tanggal Wakaf</th>
+                        <th>Status</th>
+                        <th>Petugas</th>
+                        <th></th>
                         <th width="8%"></th>
                     </tr>
                 </thead>
@@ -74,7 +81,7 @@
 
             // Load data for the table's content from an Ajax source
             "ajax": {
-                "url": "<?php echo site_url('students/registrations/datatables')?>",
+                "url": "<?php echo site_url('wakaf/datatables')?>",
                 "type": "POST"
             },
             "columnDefs": [
@@ -86,54 +93,67 @@
                 {
                     "targets": [1],
                     "orderable": false,
-                    "data": "name"
+                    "data": "give"
                 },
                 {
                     "targets": [2],
                     "orderable": false,
-                    "data": "partner"
+                    "data": "title"
                 },
                 {
                     "targets": [3],
                     "orderable": false,
-                    "data": "age"
+                    "data": "type"
                 },
                 {
                     "targets": [4],
                     "orderable": false,
-                    "data": "dad"
+                    "data": "loc_wakaf"
                 },
                 {
                     "targets": [5],
                     "orderable": false,
-                    "data": "mom"
+                    "data": "branch"
                 },
                 {
                     "targets": [6],
                     "orderable": false,
-                    "data": "address"
+                    "data": "date"
                 },
                 {
                     "targets": [7],
-                    "orderable": false,
-                    "data": "details",
+                    "data": "status",
                     "render": function(data, type, row, meta) {
-                        return '<a href="'+data+'" class="btn btn-warning btn-sm"><i class="fa fa-eye"></i></a>'
+                        var html
+                        if(data === "request") {
+                            html = "<span class='badge badge-dark'>Pengajuan</span>"
+                        } else if(data === "process") {
+                            html = "<span class='badge badge-warning'>Sedang Proses</span>"
+                        } else if(data === "verified") {
+                            html = "<span class='badge badge-primary'>Menunggu Verifikasi</span>"
+                        } else if(data === "approve") {
+                            html = "<span class='badge badge-success'>Diterima</span>"
+                        } else if(data === "reject") {
+                            html = "<span class='badge badge-danger'>Ditolak</span>"
+                        }
+                        return html
                     }
                 },
                 {
                     "targets": [8],
                     "orderable": false,
-                    "data": {
-                        "approve": "approve",
-                        "branch": "branch"
-                    },
-                    "render": function(data, type, row, meta) {
-                        return '<a href="'+data.approve+'" class="btn btn-success btn-sm" id="approve" data-branch="'+data.branch+'"><i class="fa fa-check"></i></a>'
-                    }
+                    "data": "officer"
                 },
                 {
                     "targets": [9],
+                    "orderable": false,
+                    "data": "assign",
+                    "render": function(data, type, row, meta) {
+                        return "<a href='"+data+"' class='btn btn-primary'><i class='fa fa-fa-pencil-square-o'></i> Pilih Petugas</a>"
+                    }
+                },
+                {
+                    "targets": [10],
                     "orderable": false,
                     "data": {
                         "edit": "edit",
@@ -146,78 +166,6 @@
             ]
         });
     });
-
-    $(document).on('click', '#approve', function(e) {
-        e.preventDefault();
-        var url     = $(this).attr('href');
-        var branch  = $(this).data('branch');
-
-        var html = "<div class='form-group row'>";
-            html += "<label>Nomer Induk Siswa</label>";
-            html += "<input type='hidden' id='branch' value='"+branch+"' />";
-            html += "<input class='form-control' name='nis' id='nis' type='text' placeholder='Masukan nomer induk siswa baru' />";
-            html += "<div id='res'></div>"
-            html += "</div>";
-
-        $('.modal-dialog').removeClass('modal-lg');
-        $('.modal-title').html('Penerimaan Siswa Baru');
-        $('.modal-body').html(html);
-        $('.modal-footer').html('<button type="button" class="btn btn-primary" data-url="'+url+'" id="simpan" disabled="disabled">Simpan</button> <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>');
-        $('#modal-alert').modal('show');
-    });
-
-    $(document).on('click', '#simpan', function(e){
-        e.preventDefault();
-
-        var nis = $('#nis').val();
-        var url = $(this).data('url');
-
-        $.ajax({
-            url: url,
-            type: 'post',
-            data: {
-                'nis': nis
-            },
-            dataType: 'json',
-            success: function(results) {
-                if(results.status) {
-                    window.location.href    = results.data
-                } else {
-                    var html    = '<small class="text text-danger">' + results.data + '</small>'
-                }
-            }
-        });
-    });
-
-    $(document).on('keyup', '#nis', function(e) {
-        e.preventDefault();
-
-        var nis     = $(this).val();
-        var branch  = $('#branch').val();
-
-        console.log(branch);
-
-        $.ajax({
-            url: "<?= site_url('students/registrations/check_student_number'); ?>",
-            type: 'post',
-            data: {
-                'nis': nis,
-                'branch': branch
-            },
-            dataType: 'json',
-            success: function(result) {
-                var html = '';
-                if(result.status) {
-                    html    = '<small class="text-danger">'+result.data+'</small>';
-
-                    $('#simpan').attr('disabled', 'disabled');
-                } else {
-                    $('#simpan').removeAttr('disabled');
-                }
-                $('#res').html(html);
-            }
-        })
-    })
 
     function alert_delete(url)
     {
